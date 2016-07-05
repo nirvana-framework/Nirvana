@@ -1,12 +1,11 @@
 # Nirvana
 
-UI Glue for .NET and UI applications
+##UI Glue for .NET and UI applications
 
-Nirvana  nir·va·na  (nîr-vä′nə, nər-)
-n.
-1. 
-  -often Nirvana
-    - Buddhism A state in which the mind, enlightened as to the illusory nature of the self, transcends all suffering and attains peace.
-    - Hinduism A state in which the soul, having relinquished individual attachments and recognized its identity with Brahman, escapes samsara.
-2. 
-  -An ideal condition of rest, harmony, stability, or joy.
+**Nirvana n. nir·va·na  (nîr-vä′nə, nər-)**
+
+###1. In Buddhism, astate in which the mind, enlightened as to the illusory nature of the self, transcends all suffering and attains peace.
+
+###2 In Hinduism - a state in which the soul, having relinquished individual attachments and recognized its identity with Brahman, escapes samsara.
+
+###3 An ideal condition of rest, harmony, stability, or joy.
