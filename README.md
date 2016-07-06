@@ -14,7 +14,7 @@
 
 I am tired of writing the same boilerplate code over and over for CQRS - my latest side project is an Angular 2 app using WebAPI, and I've decided to open source and create a nuget package for everything I'm working on.  I had the idea for 6ish months to use ROslyn to create my endpoints, and when it all came together it was magical!
 
-Why Nirvana?  I thought it was fitting becuase of a few things - the harmony between UI and middle .NET layer ( and separation of concerns), the simplicity and speef for adding business features, and the happiness that I get when working with it vs. everything else I've ever used.  
+Why Nirvana?  I thought it was fitting becuase of a few things - the harmony between UI and middle .NET layer ( and separation of concerns), the simplicity and speed for adding business features, and the happiness that I get when working with it vs. everything else I've ever used.  
 
 I am open to feedback, and will accept pull requests, but until I have a better set of tests to validate changes I won't be rolling any suggestions into the system.
 
