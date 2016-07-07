@@ -55,6 +55,7 @@
     <Compile Include="CQRS\Response.cs" />
     <Compile Include="CQRS\ValidationMessage.cs" />
     <Compile Include="Mediation\ICommandHandler.cs" />
+    <Compile Include="Mediation\IMediator.cs" />
     <Compile Include="Mediation\INopHandler.cs" />
     <Compile Include="Mediation\IQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

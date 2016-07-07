@@ -12,11 +12,12 @@ using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Util.Extensions;
 
-namespace TechFu.NirVana.WebApi
+namespace TechFu.Nirvana.WebApi
 {
     public class CqrsApiGenerator
     {
         private string[] _additionalAssemblies;
+        private string[] _additionalNamespaces;
         private Func<string, object, bool> _attributeMatch;
         private Type _attributeType;
         private Type rootTypeType;
@@ -56,15 +57,15 @@ namespace TechFu.NirVana.WebApi
             return tree.GetRoot().ToFullString();
         }
 
-        public SyntaxTree BuildTree(Type controllerType, string apirootNamespace)
+        public SyntaxTree BuildTree(Type controllerType, string apiRootNamespace)
         {
             var builder = new StringBuilder();
             var codeNamespaces = new List<string>
             {
                 "System.Net.Http",
                 "System.Web.Http",
-                $"{apirootNamespace}.Controllers.Bases",
-                "TechFu.Services.Shared.Command"
+                "TechFu.Nirvana",
+                "TechFu.Nirvana.WebApi",
             };
             foreach (var kvp in ControllerNames)
             {
@@ -77,7 +78,7 @@ namespace TechFu.NirVana.WebApi
 
             var code = new StringBuilder();
             codeNamespaces.ForEach(x => { code.Append($"using {x};"); });
-            code.Append($"namespace {apirootNamespace}.Controllers{{{builder}}}");
+            code.Append($"namespace {apiRootNamespace}.Controllers{{{builder}}}");
 
             var tree = CSharpSyntaxTree.ParseText(code.ToString());
             return tree;
@@ -92,7 +93,7 @@ namespace TechFu.NirVana.WebApi
             var additionalNamespaces = new List<string>();
 
 
-            builder.Append($"public class {rootType}Controller:CommandQueryApiControllerBase{{");
+            builder.Append($"public class {rootType}Controller:TechFu.Nirvana.WebApi.CommandQueryApiControllerBase{{");
 
             foreach (var type in types)
             {
@@ -218,12 +219,13 @@ namespace TechFu.NirVana.WebApi
             return compilation;
         }
 
-        public CqrsApiGenerator Configure(NirvanaConfiguration configuration)
+        public CqrsApiGenerator Configure()
         {
-            _attributeMatch = configuration.AttributeMatchingFunction;
-            rootTypeType = configuration.RootType;
-            _attributeType = configuration.AggregateAttributeType;
-            _additionalAssemblies = configuration.AssemblyNameReferences;
+            _additionalNamespaces = NirvanaConfigSettings.Configuration.AdditionalNamespaceReferences;
+            _attributeMatch = NirvanaConfigSettings.Configuration.AttributeMatchingFunction;
+            rootTypeType = NirvanaConfigSettings.Configuration.RootType;
+            _attributeType = NirvanaConfigSettings.Configuration.AggregateAttributeType;
+            _additionalAssemblies = NirvanaConfigSettings.Configuration.AssemblyNameReferences;
             return this;
         }
     }

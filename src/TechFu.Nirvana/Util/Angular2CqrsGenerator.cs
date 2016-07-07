@@ -12,10 +12,14 @@ namespace TechFu.Nirvana.Util
 {
     public class Angular2CqrsGenerator
     {
+        private Func<string, object, bool> _attributeMatch;
         private Type _attributeType;
         private Type rootTypeType;
-        private Func<string,object,bool> _attributeMatch;
 
+        public Angular2CqrsGenerator()
+        {
+            Configure(NirvanaConfigSettings.Configuration);
+        }
 
         internal Dictionary<string, string> GetControllerNames()
         {
@@ -38,14 +42,14 @@ namespace TechFu.Nirvana.Util
                 typeof(PagedResult<>),
                 typeof(ValidationMessage),
                 typeof(PaginationQuery),
-                typeof(MessageType),
+                typeof(MessageType)
             };
 
             builder.AppendLine("import {Command,Query,PagedResult} from \"./Common\"; ");
 
             builder.AppendLine("//Common");
-            builder.AppendLine(WriteResponseType(typeof(ValidationMessage), new Stack<Type>(),true));
-            builder.AppendLine(WriteResponseType(typeof(PaginationQuery), new Stack<Type>(),true));
+            builder.AppendLine(WriteResponseType(typeof(ValidationMessage), new Stack<Type>(), true));
+            builder.AppendLine(WriteResponseType(typeof(PaginationQuery), new Stack<Type>(), true));
             builder.AppendLine(WriteResponseType(typeof(MessageType), new Stack<Type>()));
 
             foreach (var controllerName in GetControllerNames())
@@ -113,7 +117,8 @@ namespace TechFu.Nirvana.Util
             }
         }
 
-        private string WriteResponseType(Type queryResponseType, Stack<Type> subTypes, bool propertiesAsConstructorArguments=false)
+        private string WriteResponseType(Type queryResponseType, Stack<Type> subTypes,
+            bool propertiesAsConstructorArguments = false)
         {
             var builder = new StringBuilder();
             var props = queryResponseType.GetProperties();
@@ -122,7 +127,7 @@ namespace TechFu.Nirvana.Util
                 builder.Append($"export enum {queryResponseType.Name}{{");
                 var dictionary = EnumExtensions.GetAll(queryResponseType);
                 var keyList = dictionary.Keys.ToList();
-                for(var i=0;i<((ICollection) keyList).Count;i++)
+                for (var i = 0; i < ((ICollection) keyList).Count; i++)
                 {
                     var key = keyList[i];
                     builder.Append($"{dictionary[key]}={key}");
@@ -131,7 +136,6 @@ namespace TechFu.Nirvana.Util
                         builder.Append(",");
                     }
                 }
-
             }
             else
             {
@@ -143,14 +147,15 @@ namespace TechFu.Nirvana.Util
             return builder.ToString();
         }
 
-        private void WriteResponseClass(Type queryResponseType, Stack<Type> subTypes, StringBuilder builder, PropertyInfo[] props, bool propertiesAsConstructorArguments=false)
+        private void WriteResponseClass(Type queryResponseType, Stack<Type> subTypes, StringBuilder builder,
+            PropertyInfo[] props, bool propertiesAsConstructorArguments = false)
         {
             builder.Append($"export class {queryResponseType.Name}{{");
 
             if (propertiesAsConstructorArguments)
             {
                 builder.Append("constructor(");
-               var count = 0;
+                var count = 0;
                 foreach (var propertyInfo in props)
                 {
                     if (!propertyInfo.IsHiddenProperty())
@@ -175,10 +180,6 @@ namespace TechFu.Nirvana.Util
                     }
                 }
             }
-
-            
-
-
         }
 
 
@@ -189,8 +190,6 @@ namespace TechFu.Nirvana.Util
 
         private string GetTypeStriptType(Type propertyType, Stack<Type> subTypes)
         {
-            
-
             if (propertyType.IsPrimitiveType())
             {
                 return propertyType.WritePrimitiveType();
@@ -202,9 +201,9 @@ namespace TechFu.Nirvana.Util
                 AddComplexTypes(isEnumType.Arguments, subTypes);
 
                 var type = isEnumType.Arguments.First();
-                if (PropertyInfoExtensions.IsPrimitiveType((Type) type))
+                if (type.IsPrimitiveType())
                 {
-                    return $"{PropertyInfoExtensions.WritePrimitiveType((Type) type)}[]";
+                    return $"{type.WritePrimitiveType()}[]";
                 }
                 return $"{type.Name}[]";
             }
@@ -214,9 +213,9 @@ namespace TechFu.Nirvana.Util
             {
                 AddComplexTypes(pagedType.Arguments, subTypes);
                 var type = pagedType.Arguments.First();
-                if (PropertyInfoExtensions.IsPrimitiveType((Type) type))
+                if (type.IsPrimitiveType())
                 {
-                    return $"PagedResult<{PropertyInfoExtensions.WritePrimitiveType((Type) type)}>";
+                    return $"PagedResult<{type.WritePrimitiveType()}>";
                 }
                 return $"PagedResult<{pagedType.Arguments.First().Name}>";
             }
@@ -235,9 +234,6 @@ namespace TechFu.Nirvana.Util
                 }
             }
         }
-
-
-      
 
 
         private Type GetResponseType(Type queryType, Type closingType)
@@ -280,7 +276,7 @@ namespace TechFu.Nirvana.Util
             }
             //This is a typescript/ javascreipt  hack 
             //can't have class inheritance with the same constructor arguments...
-            if (count == 1 && PropertyInfoExtensions.IsString((PropertyInfo) props.First()) && !PropertyInfoExtensions.IsHiddenProperty(props.First()))
+            if (count == 1 && props.First().IsString() && !props.First().IsHiddenProperty())
             {
                 builder.Append(",public typescriptPlace: boolean");
             }
@@ -293,7 +289,7 @@ namespace TechFu.Nirvana.Util
             var temp = "";
 
             temp += $"public {propertyInfo.Name}: {GetTypeStriptType(propertyInfo.PropertyType, subTypes)}"
-            ;
+                ;
 
             if (count > 0)
             {
@@ -306,24 +302,25 @@ namespace TechFu.Nirvana.Util
 
         public Type[] ActionTypes(Type types, string rootType)
         {
-            return ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.Closes(types), typeof(Command<>),_attributeType,rootTypeType)
-                .Where(x => MatchesRootType(rootType, x))
-                .ToArray();
+            return
+                ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.Closes(types),
+                    typeof(Command<>), _attributeType, rootTypeType)
+                    .Where(x => MatchesRootType(rootType, x))
+                    .ToArray();
         }
 
-        private  bool MatchesRootType(string rootType, Type x)
+        private bool MatchesRootType(string rootType, Type x)
         {
             var customAttribute = Attribute.GetCustomAttribute(x, _attributeType);
-            return customAttribute!=null && _attributeMatch(rootType,customAttribute);
+            return customAttribute != null && _attributeMatch(rootType, customAttribute);
         }
-
 
 
         public Angular2CqrsGenerator Configure(NirvanaConfiguration configuration)
         {
-            this._attributeMatch = configuration.AttributeMatchingFunction;
-            this.rootTypeType = configuration.RootType;
-            this._attributeType = configuration.AggregateAttributeType;
+            _attributeMatch = configuration.AttributeMatchingFunction;
+            rootTypeType = configuration.RootType;
+            _attributeType = configuration.AggregateAttributeType;
             return this;
         }
     }
