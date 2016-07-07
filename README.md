@@ -19,6 +19,9 @@ Why Nirvana?  I thought it was fitting becuase of a few things - the harmony bet
 I am open to feedback, and will accept pull requests, but until I have a better set of tests to validate changes I won't be rolling any suggestions into the system.
 
 
+[Wiki What?](https://github.com/jasoncavaliere/Nirvana/wiki) - yah more coming on this later, but at least it'll show you how to peek the code in the mean time.
+
+
 Features coming:
 - SignalR integration and wireup to UI ( pending on Angular 2 RTM and signlar support)
 - Azure Queue  ( or any queue you want, but it's my preference) support for offloading and durability of work in commands
