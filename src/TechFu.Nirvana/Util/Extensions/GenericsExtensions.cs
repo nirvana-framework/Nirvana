@@ -8,36 +8,12 @@ namespace TechFu.Nirvana.Util.Extensions
 {
     public static class GenericsExtensions
     {
-        /// <summary>
-        ///     If the <see cref="target" /> value is null, returns the default value for type <see cref="TResult" />.
-        ///     Otherwise, invokes the <see cref="lambda" /> expression supplying the <see cref="target" /> as a parameter.
-        /// </summary>
-        /// <typeparam name="TResult">Type of the result to return.</typeparam>
-        /// <typeparam name="TInput">Type for the input.</typeparam>
-        /// <param name="target">Target instance for the extension method.</param>
-        /// <param name="lambda">Lambda to execute if target is not null.</param>
-        /// <returns>
-        ///     If target is null, returns default value for <see cref="TResult" />. Else, returns result of
-        ///     <see cref="lambda" />
-        /// </returns>
+      
         public static TResult IfNotNull<TInput, TResult>(this TInput target, Func<TInput, TResult> lambda)
         {
             return (object) target == null ? default(TResult) : lambda(target);
         }
 
-        /// <summary>
-        ///     If the <see cref="target" /> value is null, returns the default value provided for type <see cref="TResult" />.
-        ///     Otherwise, invokes the <see cref="lambda" /> expression supplying the <see cref="target" /> as a parameter.
-        /// </summary>
-        /// <typeparam name="TResult">Type of the result to return.</typeparam>
-        /// <typeparam name="TInput">Type for the input.</typeparam>
-        /// <param name="target">Target instance for the extension method.</param>
-        /// <param name="lambda">Lambda to execute if target is not null.</param>
-        /// <param name="defaultResult">The default result value if the target is null.</param>
-        /// <returns>
-        ///     If target is null, returns default value for <see cref="TResult" />. Else, returns result of
-        ///     <see cref="lambda" />
-        /// </returns>
         public static TResult IfNotNull<TInput, TResult>(this TInput target, Func<TInput, TResult> lambda,
             TResult defaultResult)
         {
@@ -49,13 +25,7 @@ namespace TechFu.Nirvana.Util.Extensions
             if (value.CompareTo(min) < 0) return min;
             return value.CompareTo(max) > 0 ? max : value;
         }
-
-        /// <summary>Computes the Levenshtein Edit Distance between two enumerables.</summary>
-        /// <typeparam name="T">The type of thce items in the enumerables.</typeparam>
-        /// <param name="x">The first enumerable.</param>
-        /// <param name="y">The second enumerable.</param>
-        /// <returns>The edit distance.</returns>
-        /// From: http://blogs.msdn.com/b/toub/archive/2006/05/05/590814.aspx
+        
         public static int LevenshteinDistance<T>(this IEnumerable<T> x, IEnumerable<T> y)
             where T : IEquatable<T>
         {

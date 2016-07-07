@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25402.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.WebApi.Sample", "TechFu.Nirvana.WebApi.Sample\TechFu.Nirvana.WebApi.Sample.csproj", "{C7520000-A466-4ED6-8815-481A58572E24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana", "TechFu.Nirvana\TechFu.Nirvana.csproj", "{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.NirVana.WebApi", "TechFu.NirVana.WebApi\TechFu.NirVana.WebApi.csproj", "{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{EC367F66-0717-4DD3-9C93-32A356BCBCF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{32A064C3-BA62-4410-A374-569F4590B21E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7520000-A466-4ED6-8815-481A58572E24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7520000-A466-4ED6-8815-481A58572E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7520000-A466-4ED6-8815-481A58572E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7520000-A466-4ED6-8815-481A58572E24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C7520000-A466-4ED6-8815-481A58572E24} = {EC367F66-0717-4DD3-9C93-32A356BCBCF3}
+	EndGlobalSection
+EndGlobal

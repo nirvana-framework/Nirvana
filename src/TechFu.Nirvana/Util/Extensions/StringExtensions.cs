@@ -16,12 +16,7 @@ namespace TechFu.Nirvana.Util.Extensions
         {
             return DateTime.Parse(input);
         }
-
-        public static bool IsReadOnlyInvestor(this string input)
-        {
-            return input.Contains("brendan@dirlend.com") || input.Contains("nabushaaban@aequitascapital.com");
-        }
-
+  
         public static string ToTitleCase(this string input)
         {
             return input.IfNotNull(i => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(i.ToLower()));

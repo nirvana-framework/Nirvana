@@ -7,10 +7,6 @@ namespace TechFu.Nirvana.Util.Extensions
     {
        
 
-        /// <summary>
-        ///     Determines whether the <paramref name="genericType" /> is assignable from
-        ///     <paramref name="givenType" /> taking into account generic definitions
-        /// </summary>
         public static bool IsAssignableToGenericType(this Type givenType, Type genericType)
         {
             if (givenType == null || genericType == null)
