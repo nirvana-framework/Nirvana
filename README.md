@@ -1,6 +1,6 @@
 # Nirvana
 
-##UI Glue for .NET and UI applications
+##Glue for .NET and UI applications
 
 **Nirvana n. nir·va·na  (nîr-vä′nə, nər-)**
 
