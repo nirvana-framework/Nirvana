@@ -17,7 +17,6 @@ namespace TechFu.Nirvana.WebApi
     public class CqrsApiGenerator
     {
         private string[] _additionalAssemblies;
-        private string[] _additionalNamespaces;
         private Func<string, object, bool> _attributeMatch;
         private Type _attributeType;
         private Type rootTypeType;
@@ -86,8 +85,9 @@ namespace TechFu.Nirvana.WebApi
 
         private Tuple<string, List<string>> BuildActionCode(string rootType)
         {
-            var types = ActionTypes(typeof(Query<>), rootType)
-                .Union(ActionTypes(typeof(Command<>), rootType));
+           
+
+          var types=  GetAllTypes(rootType);
 
             var builder = new StringBuilder();
             var additionalNamespaces = new List<string>();
@@ -133,6 +133,28 @@ namespace TechFu.Nirvana.WebApi
             builder.Append("}");
             additionalNamespaces.Distinct().ToList();
             return new Tuple<string, List<string>>(builder.ToString(), additionalNamespaces.Distinct().ToList());
+        }
+
+        private IEnumerable<Type> GetAllTypes(string rootType)
+        {
+
+            if (NirvanaSetup.ControllerTypes == ControllerType.CommandAndQuery)
+            {
+                return ActionTypes(typeof(Query<>), rootType)
+                .Union(ActionTypes(typeof(Command<>), rootType));
+            }
+
+
+            if (NirvanaSetup.ControllerTypes == ControllerType.Command)
+            {
+                return ActionTypes(typeof(Command<>), rootType);
+            }
+            if (NirvanaSetup.ControllerTypes == ControllerType.Query)
+            {
+                return ActionTypes(typeof(Query<>), rootType);
+            }
+            return new List<Type>();
+
         }
 
 
@@ -221,11 +243,10 @@ namespace TechFu.Nirvana.WebApi
 
         public CqrsApiGenerator Configure()
         {
-            _additionalNamespaces = NirvanaConfigSettings.Configuration.AdditionalNamespaceReferences;
-            _attributeMatch = NirvanaConfigSettings.Configuration.AttributeMatchingFunction;
-            rootTypeType = NirvanaConfigSettings.Configuration.RootType;
-            _attributeType = NirvanaConfigSettings.Configuration.AggregateAttributeType;
-            _additionalAssemblies = NirvanaConfigSettings.Configuration.AssemblyNameReferences;
+            _attributeMatch = NirvanaSetup.AttributeMatchingFunction;
+            rootTypeType = NirvanaSetup.RootType;
+            _attributeType = NirvanaSetup.AggregateAttributeType;
+            _additionalAssemblies = NirvanaSetup.AssemblyNameReferences;
             return this;
         }
     }

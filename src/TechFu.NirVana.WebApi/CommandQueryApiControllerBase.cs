@@ -17,7 +17,7 @@ namespace TechFu.Nirvana.WebApi
         protected CommandQueryApiControllerBase()
         {
             
-            Mediator = (IMediator)NirvanaConfigSettings.Configuration.GetService(typeof(IMediator));
+            Mediator = (IMediator)NirvanaSetup.GetService(typeof(IMediator));
         }
 
         protected HttpResponseMessage Command<TResult>(Command<TResult> command)

@@ -16,24 +16,20 @@ namespace TechFu.Nirvana.Mediation
     [DebuggerNonUserCode]
     public class Mediator : IMediator
     {
-        private readonly NirvanaConfiguration _nirvanaConfiguration;
+      
 
-        public Mediator(NirvanaConfiguration nirvanaConfiguration   )
-        {
-            _nirvanaConfiguration = nirvanaConfiguration;
-        }
 
         private const string HandleMethod = "Handle";
 
         public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
         {
-            var plan = new MediatorPlan<TResult>(typeof(ICommandHandler<,>), HandleMethod, command.GetType(), _nirvanaConfiguration);
+            var plan = new MediatorPlan<TResult>(typeof(ICommandHandler<,>), HandleMethod, command.GetType());
             return plan.InvokeCommand(command);
         }
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
         {
-            var plan = new MediatorPlan<TResult>(typeof(IQueryHandler<,>), HandleMethod, query.GetType(), _nirvanaConfiguration);
+            var plan = new MediatorPlan<TResult>(typeof(IQueryHandler<,>), HandleMethod, query.GetType());
             return plan.InvokeQuery(query);
         }
 
@@ -44,10 +40,10 @@ namespace TechFu.Nirvana.Mediation
             private readonly MethodInfo _handleMethod;
             private readonly Type _handlerType;
 
-            public MediatorPlan(Type handlerTypeTemplate, string handlerMethodName, Type messageType,NirvanaConfiguration configuration)
+            public MediatorPlan(Type handlerTypeTemplate, string handlerMethodName, Type messageType)
             {
                 var genericHandlerType = handlerTypeTemplate.MakeGenericType(messageType, typeof(TResult));
-                var handler = configuration.GetService(genericHandlerType);
+                var handler = NirvanaSetup.GetService(genericHandlerType);
                 var needsNewHandler = false;
 
                 _handleMethod = GetHandlerMethod(genericHandlerType, handlerMethodName, messageType);
@@ -55,7 +51,7 @@ namespace TechFu.Nirvana.Mediation
                 _getHandler = () =>
                 {
                     if (needsNewHandler)
-                        handler = configuration.GetService(genericHandlerType);
+                        handler = NirvanaSetup.GetService(genericHandlerType);
 
                     needsNewHandler = true;
 

@@ -7,15 +7,17 @@ using TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Queries;
 
 namespace TechFu.Nirvana.WebApi.Sample
 {
-    public class TestNirvanaConfig : NirvanaConfiguration
+    public class TestNirvanaConfig
     {
-        public override Type RootType => typeof(RootType);
-        public override Type AggregateAttributeType => typeof(AggregateRootAttribute);
+        public string ControllerAssemblyName => "TechFu.Nirvana.WebApi.Sample.Controllers.dll";
 
-        public override Func<string, object, bool> AttributeMatchingFunction
+        public  Type RootType => typeof(RootType);
+        public  Type AggregateAttributeType => typeof(AggregateRootAttribute);
+
+        public  Func<string, object, bool> AttributeMatchingFunction
             => (x, y) => x == ((AggregateRootAttribute) y).RootType.ToString();
 
-        public override string[] AssemblyNameReferences => new[]
+        public  string[] AssemblyNameReferences => new[]
         {
             "TechFu.Nirvana.dll",
             "TechFu.Nirvana.WebApi.dll",
@@ -23,14 +25,14 @@ namespace TechFu.Nirvana.WebApi.Sample
         };
 
         
-        public override string[] AdditionalNamespaceReferences => new[] { "TechFu.Services.Shared.Command" };
+   
 
         //Plug your IoC in here
-        public override object GetService(Type serviceType)
+        public  object GetService(Type serviceType)
         {
             if (serviceType == typeof(IMediator))
             {
-                return new Mediator(this);
+                return new Mediator();
             }
 
             if (serviceType == typeof(IQueryHandler<GetVersionQuery,string>))

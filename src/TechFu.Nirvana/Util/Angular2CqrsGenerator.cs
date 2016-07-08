@@ -18,7 +18,7 @@ namespace TechFu.Nirvana.Util
 
         public Angular2CqrsGenerator()
         {
-            Configure(NirvanaConfigSettings.Configuration);
+            Configure();
         }
 
         internal Dictionary<string, string> GetControllerNames()
@@ -316,11 +316,11 @@ namespace TechFu.Nirvana.Util
         }
 
 
-        public Angular2CqrsGenerator Configure(NirvanaConfiguration configuration)
+        public Angular2CqrsGenerator Configure()
         {
-            _attributeMatch = configuration.AttributeMatchingFunction;
-            rootTypeType = configuration.RootType;
-            _attributeType = configuration.AggregateAttributeType;
+            _attributeMatch = NirvanaSetup.AttributeMatchingFunction;
+            rootTypeType = NirvanaSetup.RootType;
+            _attributeType = NirvanaSetup.AggregateAttributeType;
             return this;
         }
     }
