@@ -1,8 +1,10 @@
 ﻿namespace TechFu.Nirvana.CQRS
 {
-    public abstract class Command<T>
+    public abstract class Command<T>:NirvanaTask
     {
+
     }
+
     public abstract class AuthorizedCommand<T>:Command<T>
     {
         public string AuthCode { get; set; }

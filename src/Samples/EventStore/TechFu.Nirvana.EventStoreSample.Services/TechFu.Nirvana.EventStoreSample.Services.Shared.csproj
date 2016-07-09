@@ -42,18 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateRootAttribute.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\GetVersionQuery.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TechFu.Nirvana\TechFu.Nirvana.csproj">
+    <ProjectReference Include="..\..\..\TechFu.Nirvana\TechFu.Nirvana.csproj">
       <Project>{6d5e2ca2-1da6-4436-ba8a-93e1d44d2576}</Project>
       <Name>TechFu.Nirvana</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TechFu.Services.Shared\TechFu.Services.Shared.csproj">
-      <Project>{4D319954-D9D1-450A-8756-A642E75CCDCF}</Project>
-      <Name>TechFu.Services.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

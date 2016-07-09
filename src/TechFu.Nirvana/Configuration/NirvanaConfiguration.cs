@@ -78,7 +78,7 @@ namespace TechFu.Nirvana.Configuration
         }
         public NirvanaConfigurationHelper ForCommandAndQuery()
         {
-            NirvanaSetup.ControllerTypes = ControllerType.Command;
+            NirvanaSetup.ControllerTypes = ControllerType.CommandAndQuery;
             return this;
         }
 
