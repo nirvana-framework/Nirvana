@@ -92,6 +92,9 @@
     <Compile Include="Util\Tine\ISystemtime.cs" />
     <Compile Include="Util\Tine\SystemTime.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="TechFu.Nirvana.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

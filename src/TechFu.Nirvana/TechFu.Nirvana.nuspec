@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>TechFu.Nirvana</id>
+    <version>0.0.1</version>
+    <authors>Jason Cavaliere</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Glue for .NET and Web applications</description>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="net461" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="net461" />
+      <frameworkAssembly assemblyName="System.Drawing" targetFramework="net461" />
+      <frameworkAssembly assemblyName="System.Numerics" targetFramework="net461" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework="net461" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net461" />
+    </frameworkAssemblies>
+  </metadata>
+ <files>
+    <file src="bin\Debug\*.dll" target="lib\net461" />
+    <file src="bin\Debug\*.pdb" target="lib\net461" />
+  </files>
+</package>
