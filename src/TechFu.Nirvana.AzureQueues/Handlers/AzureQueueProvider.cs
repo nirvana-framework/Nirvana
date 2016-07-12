@@ -86,9 +86,10 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             throw new NotImplementedException();
         }
 
-        public void Delete<T>(T message)
-        {
-        }
+//        public void Delete<T>(T message)
+//        {
+//            _queue.Clear();
+//        }
 
         public void Clear()
         {
@@ -125,7 +126,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                 {
                     if (x.Id == messageId)
                     {
-                        Delete(x);
+                        _queue.Delete(x);
                         deletedMessage = true;
                         return false;
                     }
@@ -136,6 +137,33 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                 .ForEach(ReEnqueue);
 
             return deletedMessage;
+        }
+
+        public void DoWork<T>(Func<T, bool> work, bool failOnException, bool failOnActionFailure)
+        {
+            var message = GetMessage();
+
+
+            bool result=false;
+            var typed= DeserializeMessage<Message<T>, T>(message.Text);
+            try
+            {
+
+                result = work(typed.Body);
+            }
+            catch (Exception ex)
+            {
+                if (failOnException)
+                {
+                    throw;
+                }
+            }
+
+            if (result || !failOnActionFailure)
+            {
+                Delete(message);
+            }
+
         }
 
         public AzureStorageQueue SetTime(ISystemTime systemTime)

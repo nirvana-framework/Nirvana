@@ -20,5 +20,6 @@ namespace TechFu.Nirvana.CQRS.Queue
         IList<IQueueMessage> PeekAtMessages();
         void Clear();
         bool DeleteMessage(string messageId);
+        void DoWork<T>(Func<T,bool> work, bool failOnException,bool failOnActionFailure);
     }
 }

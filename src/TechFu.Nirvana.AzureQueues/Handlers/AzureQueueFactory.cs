@@ -17,15 +17,14 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         protected Func<Type, string> GetQueueName { get; set; }
 
-        public AzureQueueFactory(ISerializer serializer, ISystemTime systemTime, ICompression compression)
+        public AzureQueueFactory(IAzureQueueConfiguration configuration,ISerializer serializer, ISystemTime systemTime, ICompression compression)
         {
             _serializer = serializer;
             _systemTime = systemTime;
             _compression = compression;
-            var connectionString = string.Empty;
             _client = new Lazy<CloudQueueClient>(() =>
             {
-                var account = CloudStorageAccount.Parse(connectionString);
+                var account = CloudStorageAccount.Parse(configuration.ConnectionString);
                 return account.CreateCloudQueueClient();
             });
             GetQueueName = x => x.Name;

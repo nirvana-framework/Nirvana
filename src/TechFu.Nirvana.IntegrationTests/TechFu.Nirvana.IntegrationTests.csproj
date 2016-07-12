@@ -65,8 +65,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureQueue\AzureQueueFactoryTests.cs" />
     <Compile Include="AzureQueue\AzureQueueProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
