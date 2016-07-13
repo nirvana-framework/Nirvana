@@ -3,7 +3,7 @@ using System.IO;
 
 namespace TechFu.Nirvana.Util.Io
 {
-    public interface ISerializerIO
+    public interface ISerializer
     {
         string Serialize(object obj);
         void SerializeToStream(object obj, TextWriter writer);

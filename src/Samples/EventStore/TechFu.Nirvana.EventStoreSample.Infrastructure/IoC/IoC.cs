@@ -45,7 +45,7 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
             
             
             x.For<IMediator>().Use<Mediator>();
-            x.For<ISerializerIO>().Singleton().Use<SerializerIo>();
+            x.For<ISerializer>().Singleton().Use<Serializer>();
         }
 
         private static string GetStringForConnection(IContext c, ConnectionType connectionType)

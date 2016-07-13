@@ -5,12 +5,12 @@ using TechFu.Nirvana.Util.Io;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.Io
 {
-    public class SerializerIo : ISerializerIO
+    public class Serializer : ISerializer
     {
         private readonly JsonSerializerSettings _settings;
         private readonly JsonSerializer _serializer;
 
-        public SerializerIo()
+        public Serializer()
         {
             _settings = JsonSerializerSettingsFactory.GetJsonSerializerSettings();
             _serializer = JsonSerializer.CreateDefault(_settings);

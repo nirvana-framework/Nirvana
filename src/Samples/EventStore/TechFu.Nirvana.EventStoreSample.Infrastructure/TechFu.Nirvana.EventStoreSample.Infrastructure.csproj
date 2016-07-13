@@ -103,7 +103,7 @@
     <Compile Include="Io\EnumerationJsonConverter.cs" />
     <Compile Include="Io\JavascriptSerializer.cs" />
     <Compile Include="Io\JsonSerializerSettingsFactory.cs" />
-    <Compile Include="Io\SerializerIo.cs" />
+    <Compile Include="Io\Serializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\SynchronizedStack.cs" />
   </ItemGroup>

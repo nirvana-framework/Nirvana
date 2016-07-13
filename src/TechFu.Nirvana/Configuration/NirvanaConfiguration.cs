@@ -23,6 +23,7 @@ namespace TechFu.Nirvana.Configuration
         public static  string[] AssemblyNameReferences { get; internal set; }
         public static ControllerType ControllerTypes { get; internal set; }
         public static Func<Type, Object> GetService { get; internal set; }
+        public static bool CommandsToQueueEndpoint { get; set; }
 
 
         public static NirvanaConfigurationHelper Configure()
@@ -69,6 +70,11 @@ namespace TechFu.Nirvana.Configuration
         public NirvanaConfigurationHelper ForCommands()
         {
             NirvanaSetup.ControllerTypes = ControllerType.Command;
+            return this;
+        }
+        public NirvanaConfigurationHelper WithQueues()
+        {
+            NirvanaSetup.CommandsToQueueEndpoint = true;
             return this;
         }
         public NirvanaConfigurationHelper ForQuery()

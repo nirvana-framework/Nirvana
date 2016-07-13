@@ -43,12 +43,10 @@
     <Compile Include="Configuration\NirvanaConfiguration.cs" />
     <Compile Include="CQRS\NirvanaTask.cs" />
     <Compile Include="CQRS\PushNotification.cs" />
-    <Compile Include="CQRS\Queue\CreateQueueCommand.cs" />
-    <Compile Include="CQRS\Queue\GetAllQueuesQuery.cs" />
-    <Compile Include="CQRS\Queue\GetQueueQuery.cs" />
-    <Compile Include="CQRS\Queue\IQueueProvider.cs" />
-    <Compile Include="CQRS\Queue\QueueCreationResponse.cs" />
-    <Compile Include="CQRS\Queue\QueueViewModel.cs" />
+    <Compile Include="CQRS\Queue\IMessage.cs" />
+    <Compile Include="CQRS\Queue\IQueue.cs" />
+    <Compile Include="CQRS\Queue\IQueueFactory.cs" />
+    <Compile Include="CQRS\Queue\IQueueMessage.cs" />
     <Compile Include="Domain\Enumeration.cs" />
     <Compile Include="CQRS\Command.cs" />
     <Compile Include="CQRS\CommandResponse.cs" />
@@ -87,7 +85,7 @@
     <Compile Include="Util\Extensions\TypeExtensions.cs" />
     <Compile Include="Util\Io\FileSystem.cs" />
     <Compile Include="Util\Io\IFileSystem.cs" />
-    <Compile Include="Util\Io\ISerializerIO.cs" />
+    <Compile Include="Util\Io\ISerializer.cs" />
     <Compile Include="Util\IStartupStep.cs" />
     <Compile Include="Util\Tine\ISystemtime.cs" />
     <Compile Include="Util\Tine\SystemTime.cs" />
