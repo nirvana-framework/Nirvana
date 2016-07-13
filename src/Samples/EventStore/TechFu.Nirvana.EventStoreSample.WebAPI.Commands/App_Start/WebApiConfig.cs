@@ -11,15 +11,12 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands
     {
         public static void Register(HttpConfiguration config)
         {
-
-
             config.Formatters.JsonFormatter.SerializerSettings =
-            new JsonSerializerSettings
-            {
-                DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind,
-            };
-
+                new JsonSerializerSettings
+                {
+                    DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                    DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
+                };
 
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
@@ -30,17 +27,16 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands
             config.MapHttpAttributeRoutes();
 
 
-
             // Map this rule first
             config.Routes.MapHttpRoute(
-                 "WithActionApi",
-                 "api/{controller}/{action}"
-             );
+                "WithActionApi",
+                "api/{controller}/{action}"
+            );
 
             config.Routes.MapHttpRoute(
                 "DefaultApi",
                 "api/{controller}/{id}",
-                new { action = "DefaultAction", id = System.Web.Http.RouteParameter.Optional }
+                new {action = "DefaultAction", id = RouteParameter.Optional}
             );
 
             //            config.Routes.MapHttpRoute(
@@ -54,11 +50,12 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands
         {
             public BrowserJsonFormatter()
             {
-                this.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
-                this.SerializerSettings.Formatting = Formatting.Indented;
+                SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+                SerializerSettings.Formatting = Formatting.Indented;
             }
 
-            public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+            public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers,
+                MediaTypeHeaderValue mediaType)
             {
                 base.SetDefaultContentHeaders(type, headers, mediaType);
                 headers.ContentType = new MediaTypeHeaderValue("application/json");

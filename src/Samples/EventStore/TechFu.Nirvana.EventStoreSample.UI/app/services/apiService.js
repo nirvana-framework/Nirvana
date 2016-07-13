@@ -20,7 +20,7 @@ var Mediator = (function () {
         this.security = security;
         this.serializer = serializer;
         this.commandEndpoint = 'https://local-commandapi.mean.software:54406/api';
-        this.queryEndpoint = 'https://local-queryapi.mean.software:54406/api/';
+        this.queryEndpoint = 'https://local-queryapi.mean.software:54406/api';
     }
     Mediator.prototype.getCommandUrl = function (command) {
         var url = this.commandEndpoint + "/" + command.endpointName;

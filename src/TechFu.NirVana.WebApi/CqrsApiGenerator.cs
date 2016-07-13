@@ -93,6 +93,7 @@ namespace TechFu.Nirvana.WebApi
             var additionalNamespaces = new List<string>();
 
 
+            builder.Append("[EnableCors(\"*\", \"*\", \"*\")]");
             builder.Append($"public class {rootType}Controller:TechFu.Nirvana.WebApi.CommandQueryApiControllerBase{{");
 
             foreach (var type in types)
