@@ -16,8 +16,6 @@ namespace TechFu.Nirvana.CQRS.Queue
 
     public class QueueMessage : IQueueMessage
     {
-        public Guid? CorrelationId { get; protected set; }
-
         public QueueMessage(Type messageType)
         {
             MessageType = messageType;

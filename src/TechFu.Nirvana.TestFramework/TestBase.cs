@@ -19,7 +19,7 @@ namespace TechFu.Nirvana.TestFramework
             Repository = Substitute.For<IRepository>();
             Mediator = Substitute.For<IMediator>();
             Task = new TTaskType();
-            SetupBuildAndRun();
+
         }
 
         public virtual void SetUpData()

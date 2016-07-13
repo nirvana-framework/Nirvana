@@ -70,25 +70,42 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
         private int MessageCount;
 
         protected TestCommand Result;
+        private readonly ICompression _compression;
+        private readonly Serializer _serializer;
+        private readonly AzureQueueConfiguration _azureQueueConfiguration;
+        private readonly SystemTime _systemTime;
 
-        public override Func<AzureQueueFactory> Build
-            =>
-            () =>
-                new AzureQueueFactory(new AzureQueueConfiguration(), new Serializer(), new SystemTime(),
-                    new Compression());
+        public AzureQueueFactoryTests()
+        {
+            _systemTime = new SystemTime();
+            _compression = new Compression();
+            _serializer = new Serializer();
+            _azureQueueConfiguration = new AzureQueueConfiguration();
+            SetupBuildAndRun();
+        }
+
+        public override Func<AzureQueueFactory> Build=>() =>new AzureQueueFactory(_azureQueueConfiguration, _serializer, _systemTime, _compression);
 
         public override void RunTest()
         {
-            var queue = Sut.GetQueue(typeof(TestCommand));
-            queue.Clear();
+            
+            AzureStorageQueue queue = Sut.GetQueue(typeof(TestCommand)) as AzureStorageQueue;
 
-            queue
-                .Send(new TestCommand {Test = "this is a test"});
-            var message = queue.GetMessage();
-            queue.Delete(message);
-            var result = queue.DeserializeMessage<Message<TestCommand>, TestCommand>(message.Text);
-            MessageCount = queue.GetMessageCount();
-            Result = result.Body;
+
+            if (queue != null)
+            {
+                queue.Clear();
+
+                queue.Send(new TestCommand {Test = "this is a test"});
+
+                var cloudMessage = queue.GetAzureMessage();
+
+                var message = cloudMessage != null ? new AzureQueueMessage(_compression, cloudMessage, typeof(TestCommand)) : null;
+                queue.Delete(cloudMessage);
+                var result = queue.DeserializeMessage<Message<TestCommand>, TestCommand>(message.Text);
+                MessageCount = queue.GetMessageCount();
+                Result = result.Body;
+            }
         }
 
         public class when_sending_to_azure_queues : AzureQueueFactoryTests

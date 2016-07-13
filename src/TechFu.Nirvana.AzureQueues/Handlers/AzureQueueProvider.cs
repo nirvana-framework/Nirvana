@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Microsoft.WindowsAzure.Storage.Queue;
 using TechFu.Core.Util.DateTimeHelpers;
@@ -23,7 +21,6 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         private ISerializer _serializer;
         private ISystemTime _systemTime;
 
-
         public AzureStorageQueue(CloudQueueClient client, Type messageType, string queueName, int? timeout = null)
         {
             _queue = client.GetQueueReference(queueName.ToLower());
@@ -39,40 +36,12 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             _client = client;
         }
 
-        public Type MessageType { get; set; }
         public TimeSpan VisibilityTimeout { get; set; }
 
-
-        public virtual T DeserializeMessage<T, U>(string input) where T : Message<U>
-        {
-            var messageContainerType = typeof(Message<>).MakeGenericType(MessageType);
-            var message = (T) _serializer.Deserialize(messageContainerType, input);
-            message.Created = message.Created;
-            message.CreatedBy = message.CreatedBy;
-            message.CorrelationId = message.CorrelationId;
-            message.Body = message.Body;
-            return message;
-        }
+        public Type MessageType { get; set; }
 
 
-        public virtual string SerializeMessage<T, U>(T message)
-            where T : Message<U>
-        {
-            return message != null ? _serializer.Serialize(message.Body) : null;
-        }
-
-        public void ReEnqueue<T>(T message)
-        {
-            Send(message);
-        }
-
-
-        public IQueueMessage GetMessage()
-        {
-            var message = _queue.GetMessage(VisibilityTimeout);
-
-            return message != null ? new AzureQueueMessage(_compression, message, MessageType) : null;
-        }
+      
 
         public int GetMessageCount()
         {
@@ -80,16 +49,6 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
             return _queue.ApproximateMessageCount ?? 0;
         }
-
-        IList<IQueueMessage> IQueue.PeekAtMessages()
-        {
-            throw new NotImplementedException();
-        }
-
-//        public void Delete<T>(T message)
-//        {
-//            _queue.Clear();
-//        }
 
         public void Clear()
         {
@@ -117,38 +76,21 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             queue.AddMessage(cloudQueueMessage);
         }
 
-        public bool DeleteMessage(string messageId)
-        {
-            var deletedMessage = false;
-
-            GetAllMessages()
-                .TakeWhile(x =>
-                {
-                    if (x.Id == messageId)
-                    {
-                        _queue.Delete(x);
-                        deletedMessage = true;
-                        return false;
-                    }
-
-                    return true;
-                })
-                .ToList()
-                .ForEach(ReEnqueue);
-
-            return deletedMessage;
-        }
-
         public void DoWork<T>(Func<T, bool> work, bool failOnException, bool failOnActionFailure)
         {
-            var message = GetMessage();
 
+            var cloudMessage = GetAzureMessage();
 
-            bool result=false;
-            var typed= DeserializeMessage<Message<T>, T>(message.Text);
+            var message  = cloudMessage != null ? new AzureQueueMessage(_compression, cloudMessage, MessageType) : null;
+            if (message == null)
+            {
+                return;
+            }
+
+            var result = false;
+            var typed = DeserializeMessage<Message<T>, T>(message.Text);
             try
             {
-
                 result = work(typed.Body);
             }
             catch (Exception ex)
@@ -161,10 +103,45 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
             if (result || !failOnActionFailure)
             {
-                Delete(message);
+                Delete(cloudMessage);
             }
-
         }
+
+        public CloudQueueMessage GetAzureMessage()
+        {
+            return _queue.GetMessage(VisibilityTimeout);
+        }
+
+
+        public virtual T DeserializeMessage<T, U>(string input) where T : Message<U>
+        {
+            var messageContainerType = typeof(Message<>).MakeGenericType(MessageType);
+            var message = (T) _serializer.Deserialize(messageContainerType, input);
+            message.Created = message.Created;
+            message.CreatedBy = message.CreatedBy;
+            message.CorrelationId = message.CorrelationId;
+            message.Body = message.Body;
+            return message;
+        }
+
+
+        public virtual string SerializeMessage<T, U>(T message)
+            where T : Message<U>
+        {
+            return message != null ? _serializer.Serialize(message.Body) : null;
+        }
+
+        public void ReEnqueue<T>(T message)
+        {
+            Send(message);
+        }
+
+        public void Delete(CloudQueueMessage message)
+        {
+            _queue.DeleteMessage(message);
+        }
+
+       
 
         public AzureStorageQueue SetTime(ISystemTime systemTime)
         {
@@ -182,24 +159,6 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         {
             _compression = compression;
             return this;
-        }
-
-        public IEnumerable<IQueueMessage> PeekAtMessages()
-        {
-            return _queue.PeekMessages(32).Select(x => new AzureQueueMessage(x, MessageType));
-        }
-
-        private IEnumerable<IQueueMessage> GetAllMessages()
-        {
-            IQueueMessage message;
-
-            do
-            {
-                message = GetMessage();
-
-                if (message != null)
-                    yield return message;
-            } while (message != null);
         }
     }
 }
