@@ -1,0 +1,15 @@
+<div class="row">
+
+    <div class="col-md-9 pull-left">
+        <h1>{{masthead.title}}</h1>
+    </div>
+    <div class="col-md-3 text-right"  [hidden]="!loggedIn()">
+        <div>
+            <h4>{{masthead.welcomeMessage}}</h4>
+            <button class="btn btn-primary" (click)="doLogOut()">{{masthead.logoutMessage}}</button>
+        </div>
+        <div class="pull-right">
+        </div>
+    </div>
+
+</div>

@@ -8,6 +8,13 @@ namespace TechFu.Nirvana.EventStoreSample.Services.Shared
         Users
     }
 
+    public class InfrastructureRoot : AggregateRootAttribute
+    {
+        public InfrastructureRoot() : base(RootType.Infrastructure)
+        {
+        }
+    }
+
     public class AggregateRootAttribute : Attribute
     {
         public AggregateRootAttribute(RootType rootType)

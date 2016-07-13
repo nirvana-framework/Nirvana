@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateRootAttribute.cs" />
+    <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\GetVersionQuery.cs" />
   </ItemGroup>

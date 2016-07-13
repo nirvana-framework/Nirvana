@@ -17,7 +17,7 @@ namespace TechFu.Nirvana.IntegrationTests
             NirvanaSetup
                 .Configure()
                 .ForCommands()
-                .WithQueues();
+                .ToQueues(QueueStrategy.AllCommands);
         }
     }
 }

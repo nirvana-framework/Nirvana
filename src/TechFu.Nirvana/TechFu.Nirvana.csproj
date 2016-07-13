@@ -41,12 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\NirvanaConfiguration.cs" />
+    <Compile Include="Configuration\NirvanaConfigurationHelper.cs" />
     <Compile Include="CQRS\NirvanaTask.cs" />
     <Compile Include="CQRS\PushNotification.cs" />
     <Compile Include="CQRS\Queue\IMessage.cs" />
     <Compile Include="CQRS\Queue\IQueue.cs" />
     <Compile Include="CQRS\Queue\IQueueFactory.cs" />
     <Compile Include="CQRS\Queue\IQueueMessage.cs" />
+    <Compile Include="CQRS\Queue\QueueRouer.cs" />
     <Compile Include="Domain\Enumeration.cs" />
     <Compile Include="CQRS\Command.cs" />
     <Compile Include="CQRS\CommandResponse.cs" />

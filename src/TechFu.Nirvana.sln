@@ -23,8 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.Services.Shared", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.Services\TechFu.Nirvana.EventStoreSample.Services.Shared.csproj", "{D6626170-C962-48B9-B0D3-275B34DD6D7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI\TechFu.Nirvana.EventStoreSample.WebAPI.csproj", "{DA980A43-C58F-4697-82D5-BD14BB209362}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.AzureQueues", "TechFu.Nirvana.AzureQueues\TechFu.Nirvana.AzureQueues.csproj", "{47E14CFF-8608-4DA3-B6C6-6FA23EFFBE89}"
@@ -34,6 +32,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.TestFramework", "TechFu.Nirvana.TestFramework\TechFu.Nirvana.TestFramework.csproj", "{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.Data", "TechFu.Nirvana.Data\TechFu.Nirvana.Data.csproj", "{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI.Commands", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Commands\TechFu.Nirvana.EventStoreSample.WebAPI.Commands.csproj", "{DA980A43-C58F-4697-82D5-BD14BB209362}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionScripts", "SolutionScripts", "{22832FCA-268F-4F25-A141-90339D031E03}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionScripts\hosts.ps1 = SolutionScripts\hosts.ps1
+		SolutionScripts\iis.ps1 = SolutionScripts\iis.ps1
+		SolutionScripts\ssl.ps1 = SolutionScripts\ssl.ps1
+		SolutionScripts\testing.ps1 = SolutionScripts\testing.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +73,6 @@ Global
 		{D6626170-C962-48B9-B0D3-275B34DD6D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6626170-C962-48B9-B0D3-275B34DD6D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6626170-C962-48B9-B0D3-275B34DD6D7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA980A43-C58F-4697-82D5-BD14BB209362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA980A43-C58F-4697-82D5-BD14BB209362}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA980A43-C58F-4697-82D5-BD14BB209362}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA980A43-C58F-4697-82D5-BD14BB209362}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47E14CFF-8608-4DA3-B6C6-6FA23EFFBE89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47E14CFF-8608-4DA3-B6C6-6FA23EFFBE89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47E14CFF-8608-4DA3-B6C6-6FA23EFFBE89}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -85,6 +89,10 @@ Global
 		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA980A43-C58F-4697-82D5-BD14BB209362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA980A43-C58F-4697-82D5-BD14BB209362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA980A43-C58F-4697-82D5-BD14BB209362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA980A43-C58F-4697-82D5-BD14BB209362}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,9 +104,9 @@ Global
 		{4742EE7C-67B1-4742-B10C-3F3545476B78} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
 		{14892A6D-5061-4F82-9E67-85333162C755} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
 		{D6626170-C962-48B9-B0D3-275B34DD6D7A} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
-		{DA980A43-C58F-4697-82D5-BD14BB209362} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
 		{47E14CFF-8608-4DA3-B6C6-6FA23EFFBE89} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
 		{C8BAE784-4FE1-4DB8-9DD1-470FB17C3A97} = {32A064C3-BA62-4410-A374-569F4590B21E}
 		{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71} = {32A064C3-BA62-4410-A374-569F4590B21E}
+		{DA980A43-C58F-4697-82D5-BD14BB209362} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
 	EndGlobalSection
 EndGlobal

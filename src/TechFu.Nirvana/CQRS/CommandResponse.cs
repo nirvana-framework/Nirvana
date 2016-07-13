@@ -43,6 +43,10 @@ namespace TechFu.Nirvana.CQRS
         {
             return BuildResponse(result, true);
         }
+        public static CommandResponse<T> Succeeded<T>(T result,string message)
+        {
+            return BuildResponse(result, true,new List<ValidationMessage> {new ValidationMessage(MessageType.Info, "",message)});
+        }
 
         public static CommandResponse<Nop> Succeeded()
         {

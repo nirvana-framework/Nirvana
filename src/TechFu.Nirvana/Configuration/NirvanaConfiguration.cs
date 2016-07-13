@@ -24,6 +24,7 @@ namespace TechFu.Nirvana.Configuration
         public static ControllerType ControllerTypes { get; internal set; }
         public static Func<Type, Object> GetService { get; internal set; }
         public static bool CommandsToQueueEndpoint { get; set; }
+        public static QueueStrategy QueueStrategy { get; set; }
 
 
         public static NirvanaConfigurationHelper Configure()
@@ -40,54 +41,12 @@ namespace TechFu.Nirvana.Configuration
         CommandAndQuery
     }
 
-    public class NirvanaConfigurationHelper
+    public enum QueueStrategy
     {
-        public NirvanaConfigurationHelper SetRootType(Type rootType)
-        {
-            NirvanaSetup.RootType = rootType;
-            return this;
-        }
-        public NirvanaConfigurationHelper SetDependencyResolver(Func<Type, Object> resolverMethod)
-        {
-            NirvanaSetup.GetService= resolverMethod;
-            return this;
-        }
-        public NirvanaConfigurationHelper SetAggregateAttributeType(Type attributeType)
-        {
-            NirvanaSetup.AggregateAttributeType= attributeType;
-            return this;
-        }
-        public NirvanaConfigurationHelper SetAttributeMatchingFunction(Func<string, object, bool> method)
-        {
-            NirvanaSetup.AttributeMatchingFunction= method;
-            return this;
-        }
-        public NirvanaConfigurationHelper SetAdditionalAssemblyNameReferences(string[] refrences)
-        {
-            NirvanaSetup.AssemblyNameReferences = refrences;
-            return this;
-        }
-        public NirvanaConfigurationHelper ForCommands()
-        {
-            NirvanaSetup.ControllerTypes = ControllerType.Command;
-            return this;
-        }
-        public NirvanaConfigurationHelper WithQueues()
-        {
-            NirvanaSetup.CommandsToQueueEndpoint = true;
-            return this;
-        }
-        public NirvanaConfigurationHelper ForQuery()
-        {
-            NirvanaSetup.ControllerTypes = ControllerType.Query;
-            return this;
-        }
-        public NirvanaConfigurationHelper ForCommandAndQuery()
-        {
-            NirvanaSetup.ControllerTypes = ControllerType.CommandAndQuery;
-            return this;
-        }
+        None=0,
+        AllCommands=1,
+        LongRunningCommands=2,
+
 
     }
-
 }

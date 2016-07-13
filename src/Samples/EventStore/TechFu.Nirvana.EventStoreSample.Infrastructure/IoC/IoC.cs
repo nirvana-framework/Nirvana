@@ -1,6 +1,9 @@
 using System.Reflection;
 using StructureMap;
 using StructureMap.Graph;
+using TechFu.Core.Util.DateTimeHelpers;
+using TechFu.Nirvana.AzureQueues.Handlers;
+using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.Mediation;
@@ -34,6 +37,7 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
                 if (assembly != null) scan.Assembly(assembly);
 
                 scan.WithDefaultConventions();
+                scan.AssemblyContainingType<ISystemTime>();
 
                 scan.ConnectImplementationsToTypesClosing(typeof(ICommandHandler<,>));
                 scan.ConnectImplementationsToTypesClosing(typeof(IQueryHandler<,>));
@@ -45,6 +49,8 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
             
             
             x.For<IMediator>().Use<Mediator>();
+            x.For<IQueueFactory>().Use<AzureQueueFactory>();
+            x.For<IAzureQueueConfiguration>().Use<AzureQueueConfiguration>();
             x.For<ISerializer>().Singleton().Use<Serializer>();
         }
 

@@ -39,10 +39,10 @@ function global:start-sample()
 	param( [switch] $Secure)
 	if($secure)
 	{
-		start-iis "TechFu.Nirvana.WebApi.Sample" "https://local-nirvanaAPI.mean.software:54404/api/Infrastructure/GetVersion"
+		start-iis "TechFu.Nirvana.WebApi.Sample" "https://local-nirvanaAPI.mean.software:54405/api/Infrastructure/GetVersion"
 	}
 	else{
-		start-iis "TechFu.Nirvana.WebApi.Sample" "http://local-nirvanaAPI.mean.software:24166/api/Infrastructure/GetVersion"
+		start-iis "TechFu.Nirvana.WebApi.Sample" "http://local-nirvanaAPI.mean.software:24167/api/Infrastructure/GetVersion"
 	}
 }
 function global:run-sample()
@@ -51,9 +51,36 @@ function global:run-sample()
 	param( [switch] $Secure)
 	if($secure)
 	{
-		start-iis "TechFu.Nirvana.WebApi.Sample" "https://local-nirvanaAPI.mean.software:54404/api/Infrastructure/GetVersion"
+		start-sample -$Secure
 	}
 	else{
-		start-iis "TechFu.Nirvana.WebApi.Sample" "http://local-nirvanaAPI.mean.software:24166/api/Infrastructure/GetVersion"
+		start-sample 
+	}
+}
+
+function global:start-es-sample()
+{
+	param( [switch] $Secure)
+	if($secure)
+	{
+		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "https://local-commandAPI.mean.software:54406/api/Infrastructure/Test"
+		start-iis "TechFu.Nirvana.EventStoreSample.UI" "https://local-eventsourcesample.mean.software:54407/index.html"
+	}
+	else{
+		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "http://local-commandAPI.mean.software:24168/api/Infrastructure/Test"
+		start-iis "TechFu.Nirvana.EventStoreSample.UI" "http://local-eventsourcesample.mean.software:24169/index.html"
+	
+	}
+}
+function global:run-es-sample()
+{
+	param( [switch] $Secure)
+	stop-iis
+	if($secure)
+	{
+		start-es-sample -Secure
+	}
+	else{
+		start-es-sample 
 	}
 }

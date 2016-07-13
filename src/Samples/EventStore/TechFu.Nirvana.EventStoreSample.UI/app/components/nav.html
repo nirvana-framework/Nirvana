@@ -1,0 +1,27 @@
+<div class="ge aom" [hidden]="!loggedIn">
+    <nav class="aot">
+        <div class="aon">
+            <button class="amy amz aoo" type="button" data-toggle="collapse" data-target="#nav-toggleable-sm">
+                <span class="ct">Toggle nav</span>
+            </button>
+            <a class="aop cn" [routerLink]="['/clients']">
+                <span class="bv act aoq"></span>
+            </a>
+        </div>
+
+        <div class="collapse and" id="nav-toggleable-sm">
+            <form class="aor">
+                <input class="form-control" type="text" placeholder="Search..." [(ngModel)]="searchTerm">
+                <button type="submit" class="fm" (click)="doSearch()">
+                    <span class="bv adn"></span>
+                </button>
+            </form>
+            <ul class="nav of nav-stacked">
+                <li *ngFor="let link of links" class="leftLink">
+                    <a  [routerLinkActive]="['active']" [routerLink]="link.route">{{link.text}}</a>
+                </li>
+            </ul>
+            <hr class="rw aky">
+        </div>
+    </nav>
+</div>

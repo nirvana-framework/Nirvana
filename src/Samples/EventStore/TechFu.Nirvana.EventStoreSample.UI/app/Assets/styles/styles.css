@@ -1,0 +1,36 @@
+.tree-indent {
+    padding-left: 10px;
+}
+
+.list-group-item {
+    background-color: transparent;
+    border: 0;
+}
+
+.rowspacer-10 {
+    padding-top: 10px;
+}
+
+.padding-small {
+    padding: 5px;
+}
+
+.modal-body .form-control{
+    background-color: transparent;
+    border-color:black;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+.card{
+    border: solid 1px #e5e5e5;
+    padding: 5px;
+    margin: 5px;
+}
+.card .close{
+    color:whitesmoke;
+}

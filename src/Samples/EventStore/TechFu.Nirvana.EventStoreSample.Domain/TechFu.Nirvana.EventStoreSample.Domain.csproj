@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handlers\GetVersionHandler.cs" />
+    <Compile Include="Handlers\Command\TestHandler.cs" />
+    <Compile Include="Handlers\Query\GetVersionHandler.cs" />
     <Compile Include="Infrastructure\IApplicationConfig.cs" />
     <Compile Include="Infrastructure\IConnectionStringService.cs" />
     <Compile Include="Infrastructure\Startup.cs" />

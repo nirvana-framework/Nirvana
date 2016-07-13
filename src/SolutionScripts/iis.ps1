@@ -4,31 +4,16 @@ function global:Configure-IIS()
 {
 	Stop-Process -ProcessName iisexpress*
 
-	#Configure-Application-IIS "TechFu.LiveOnPage.Api" "local-api.lop.mean.software" 24165 54403
-	#Configure-Application-IIS "TechFu.LiveOnPage.UI" "local-UI.lop.mean.software" 24166 54404
-	#Configure-Application-IIS "TechFu.Nirvana.WebApi.Sample" "local-nirvanaAPI.mean.software" 24167 54405
+	Configure-Application-IIS "TechFu.Nirvana.WebApi.Sample" "Samples\Simple WebApi\TechFu.Nirvana.WebApi.Sample" "local-samplenirvanaapi.mean.software" 24167 54405 
+	Configure-Application-IIS "TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "local-commandAPI.mean.software" 24168 54406
+	Configure-Application-IIS "TechFu.Nirvana.EventStoreSample.UI" "Samples\EventStore\TechFu.Nirvana.EventStoreSample.UI" "local-eventsourcesample.mean.software" 24169 54407
 }
 
-
-function global:Configure-UI-IIS()
+function global:Configure-Application-IIS([string] $application,[string]$physicalPath , [string] $siteName, [int] $httpPort, [int] $httpsPort)
 {
-	param([string] $folderName, [string] $siteName, [int] $httpPort, [int] $httpsPort)
 
-	$webFolder  = Resolve-Path ".\\$folderName"
+	$physicalPath = Resolve-Path ".\\$physicalPath"
 
-	remove-host $siteName
-	add-host "127.0.0.1" $siteName
-	add-host "::1" $siteName
-
-
-	remove-iis-applicationhost -applicationName $siteName -physicalPath $webFolder
-	add-iis-applicationhost -applicationName $siteName $httpPort $httpsPort $webFolder
-
-	Write-Host $parent
-
-}
-function global:Configure-Application-IIS([string] $application, [string] $siteName, [int] $httpPort, [int] $httpsPort, [string] $physicalPath)
-{
 	remove-iis-applicationhost $application $physicalPath
 	add-iis-applicationhost $application $siteName $httpPort $httpsPort $physicalPath
 	remove-host $siteName
