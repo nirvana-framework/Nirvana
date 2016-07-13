@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ControllerType.cs" />
     <Compile Include="Configuration\NirvanaConfiguration.cs" />
     <Compile Include="Configuration\NirvanaConfigurationHelper.cs" />
+    <Compile Include="Configuration\QueueStrategy.cs" />
+    <Compile Include="Configuration\WebMediationStrategy.cs" />
     <Compile Include="CQRS\NirvanaTask.cs" />
     <Compile Include="CQRS\PushNotification.cs" />
     <Compile Include="CQRS\Queue\IMessage.cs" />

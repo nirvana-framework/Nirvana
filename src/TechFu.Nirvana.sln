@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25402.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana", "TechFu.Nirvana\TechFu.Nirvana.csproj", "{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}"
 EndProject
@@ -42,6 +42,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionScripts", "Solution
 		SolutionScripts\ssl.ps1 = SolutionScripts\ssl.ps1
 		SolutionScripts\testing.ps1 = SolutionScripts\testing.ps1
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Endpoints", "API Endpoints", "{DCB5C9D3-8273-423F-99ED-578B0FBA90C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor\TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor.csproj", "{243C200C-6680-4649-A554-75751CA7EDAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Processors", "API Processors", "{1ECA6730-5BE1-41CE-BCA5-73AEC8506306}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.QueueCommandProcessor", "TechFu.Nirvana.EventStoreSample.QueueCommandProcessor\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor.csproj", "{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +101,14 @@ Global
 		{DA980A43-C58F-4697-82D5-BD14BB209362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA980A43-C58F-4697-82D5-BD14BB209362}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA980A43-C58F-4697-82D5-BD14BB209362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{243C200C-6680-4649-A554-75751CA7EDAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{243C200C-6680-4649-A554-75751CA7EDAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{243C200C-6680-4649-A554-75751CA7EDAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{243C200C-6680-4649-A554-75751CA7EDAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,6 +123,10 @@ Global
 		{47E14CFF-8608-4DA3-B6C6-6FA23EFFBE89} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
 		{C8BAE784-4FE1-4DB8-9DD1-470FB17C3A97} = {32A064C3-BA62-4410-A374-569F4590B21E}
 		{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71} = {32A064C3-BA62-4410-A374-569F4590B21E}
-		{DA980A43-C58F-4697-82D5-BD14BB209362} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
+		{DA980A43-C58F-4697-82D5-BD14BB209362} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
+		{DCB5C9D3-8273-423F-99ED-578B0FBA90C8} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
+		{243C200C-6680-4649-A554-75751CA7EDAD} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
+		{1ECA6730-5BE1-41CE-BCA5-73AEC8506306} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
+		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844} = {1ECA6730-5BE1-41CE-BCA5-73AEC8506306}
 	EndGlobalSection
 EndGlobal

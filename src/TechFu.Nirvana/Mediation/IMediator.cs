@@ -7,6 +7,7 @@ using TechFu.Nirvana.CQRS.Queue;
 
 namespace TechFu.Nirvana.Mediation
 {
+    public interface IWebMediator : IMediator { }
     public interface IMediator
     {
         CommandResponse<TResult> Command<TResult>(Command<TResult> command);

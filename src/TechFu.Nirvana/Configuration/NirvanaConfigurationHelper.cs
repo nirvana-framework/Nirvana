@@ -41,6 +41,14 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.CommandsToQueueEndpoint = true;
             return this;
         }
+        public NirvanaConfigurationHelper FromQueues(QueueStrategy queueStrategy,WebMediationStrategy webMediationStrategy)
+        {
+
+            NirvanaSetup.WebMediationStrategy = webMediationStrategy;
+            NirvanaSetup.QueueStrategy = queueStrategy;
+            NirvanaSetup.CommandsToQueueEndpoint = true;
+            return this;
+        }
         public NirvanaConfigurationHelper ForQuery()
         {
             NirvanaSetup.ControllerTypes = ControllerType.Query;
