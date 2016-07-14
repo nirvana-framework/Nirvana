@@ -21,11 +21,10 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         private ISerializer _serializer;
         private ISystemTime _systemTime;
 
-        public AzureStorageQueue(CloudQueueClient client, Type messageType, string queueName, int? timeout = null)
+        public AzureStorageQueue(CloudQueueClient client, string rootType, Type messageType, int? timeout = null)
         {
-            _queue = client.GetQueueReference(queueName.ToLower());
-
-            _queueName = queueName;
+            _queueName = AzureQueueController.GetQueueName(rootType,messageType);
+            _queue = client.GetQueueReference(_queueName.ToLower());
             MessageType = messageType;
             VisibilityTimeout = timeout != null
                 ? timeout > SevenDays.TotalMilliseconds

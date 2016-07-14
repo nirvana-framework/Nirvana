@@ -27,12 +27,12 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                 var account = CloudStorageAccount.Parse(configuration.ConnectionString);
                 return account.CreateCloudQueueClient();
             });
-            GetQueueName = x => x.Name;
+           
         }
 
         public virtual IQueue GetQueue(Type messageType)
         {
-            return new AzureStorageQueue(_client.Value, messageType, GetQueueName(messageType))
+            return new AzureStorageQueue(_client.Value,"test" ,messageType)
                 .SetTime(_systemTime)
                 .SetSerializer(_serializer)
                 .SetCompression(_compression);

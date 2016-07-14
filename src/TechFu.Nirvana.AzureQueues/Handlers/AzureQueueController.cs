@@ -80,7 +80,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             return QueueTypesByRoot[rootType];
         }
 
-        private string GetQueueName(string rootType, Type type)
+        public static string GetQueueName(string rootType, Type type)
         {
             return $"{rootType}_{type}";
         }
