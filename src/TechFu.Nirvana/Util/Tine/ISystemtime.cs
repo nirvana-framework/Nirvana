@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TechFu.Core.Util.DateTimeHelpers
+namespace TechFu.Nirvana.Util.Tine
 {
     public interface ISystemTime
     {

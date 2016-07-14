@@ -1,10 +1,11 @@
 ﻿using System;
+using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
 
-namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
+namespace TechFu.Nirvana.EventStoreSample.WebAPI.Queries
 {
-    public class TestNirvanaConfig
+    public class NirvanaQueueEndpointConfiguration
     {
 
         public string RootNamespace => "TechFu.Nirvana.EventStoreSample.WebAPI.Commands";
@@ -26,7 +27,7 @@ namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
             "TechFu.Nirvana.EventStoreSample.WebAPI.Commands.dll"
         };
 
-
+        public QueueStrategy QueueStrategy => QueueStrategy.AllCommands;
 
 
         public object GetService(Type serviceType) => InternalDependencyResolver.GetInstance(serviceType);

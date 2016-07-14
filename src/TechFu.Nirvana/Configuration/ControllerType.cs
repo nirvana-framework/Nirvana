@@ -4,6 +4,6 @@
     {
         Command,
         Query,
-        CommandAndQuery
+        Notification
     }
 }

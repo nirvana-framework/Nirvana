@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
-using TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor;
 
 namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
 {

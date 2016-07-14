@@ -31,7 +31,7 @@ namespace TechFu.Nirvana.Configuration
         }
         public NirvanaConfigurationHelper ForCommands()
         {
-            NirvanaSetup.ControllerTypes = ControllerType.Command;
+            NirvanaSetup.ControllerTypes =new [] { ControllerType.Command};
             return this;
         }
         public NirvanaConfigurationHelper ToQueues(QueueStrategy queueStrategy)
@@ -49,14 +49,30 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.CommandsToQueueEndpoint = true;
             return this;
         }
-        public NirvanaConfigurationHelper ForQuery()
+        public NirvanaConfigurationHelper ForQueries()
         {
-            NirvanaSetup.ControllerTypes = ControllerType.Query;
+            NirvanaSetup.ControllerTypes = new [] { ControllerType.Query};
             return this;
         }
         public NirvanaConfigurationHelper ForCommandAndQuery()
         {
-            NirvanaSetup.ControllerTypes = ControllerType.CommandAndQuery;
+            NirvanaSetup.ControllerTypes = new [] { ControllerType.Command,ControllerType.Query};
+            return this;
+        }
+        public NirvanaConfigurationHelper ForForNotifications()
+        {
+            NirvanaSetup.ControllerTypes = new [] { ControllerType.Notification};
+            return this;
+        }
+        public NirvanaConfigurationHelper ForAllTypes()
+        {
+            NirvanaSetup.ControllerTypes = new [] { ControllerType.Command, ControllerType.Query, ControllerType.Notification};
+            return this;
+        }
+
+        public NirvanaConfigurationHelper ForCqrsTypes(params ControllerType[] types)
+        {
+            NirvanaSetup.ControllerTypes = types;
             return this;
         }
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
-using TechFu.Core.Util.DateTimeHelpers;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.Util.Compression;
 using TechFu.Nirvana.Util.Io;
+using TechFu.Nirvana.Util.Tine;
 
 namespace TechFu.Nirvana.AzureQueues.Handlers
 {

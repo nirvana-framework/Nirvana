@@ -1,7 +1,6 @@
 using System.Reflection;
 using StructureMap;
 using StructureMap.Graph;
-using TechFu.Core.Util.DateTimeHelpers;
 using TechFu.Nirvana.AzureQueues.Handlers;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
@@ -9,6 +8,7 @@ using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Util;
 using TechFu.Nirvana.Util.Io;
+using TechFu.Nirvana.Util.Tine;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 {

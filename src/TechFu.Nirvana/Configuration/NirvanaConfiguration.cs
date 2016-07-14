@@ -10,7 +10,7 @@ namespace TechFu.Nirvana.Configuration
         public static Type AggregateAttributeType { get; internal set; }
         public static  Func<string, object, bool> AttributeMatchingFunction { get; internal set; }
         public static  string[] AssemblyNameReferences { get; internal set; }
-        public static ControllerType ControllerTypes { get; internal set; }
+        public static ControllerType[] ControllerTypes { get; internal set; }
         public static Func<Type, Object> GetService { get; internal set; }
 
         //Queue Configuration

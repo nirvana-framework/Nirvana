@@ -65,7 +65,7 @@ namespace TechFu.Nirvana.WebApi.Generation
                 "System.Web.Http",
                 "TechFu.Nirvana",
                 "TechFu.Nirvana.WebApi",
-                "TechFu.Nirvana.WebApi.Controllers",
+                "TechFu.Nirvana.WebApi.Controllers"
             };
             foreach (var kvp in ControllerNames)
             {
@@ -86,27 +86,17 @@ namespace TechFu.Nirvana.WebApi.Generation
 
         private Tuple<string, List<string>> BuildActionCode(string rootType)
         {
-           
-
-          var types=  GetAllTypes(rootType);
+            var types = GetAllTypes(rootType);
 
             var builder = new StringBuilder();
             var additionalNamespaces = new List<string>();
-
-
-           // builder.Append("[EnableCors(\"*\", \"*\", \"*\")]");
+            
             builder.Append($"public class {rootType}Controller:TechFu.Nirvana.WebApi.Controllers.CommandQueryApiControllerBase{{");
 
             foreach (var type in types)
             {
                 additionalNamespaces.Add(type.Namespace);
                 var name = type.Name;
-
-                //          [HttpGet]
-                //          public HttpResponseMessage GetTempFile([FromUri] GetTempFileQuery query)
-                //          {
-                //              return Query(query);
-                //          }
                 if (type.Closes(typeof(Query<>)))
                 {
                     name = name.Replace("Query", "");
@@ -115,13 +105,6 @@ namespace TechFu.Nirvana.WebApi.Generation
                     builder.Append("return Query(query);");
                     builder.Append("}");
                 }
-
-                //          [HttpPost]
-                //          public HttpResponseMessage SyncNodes([FromBody]SyncNodesCommand command)
-                //          {
-                //          return Command(command);
-                //          }
-
                 if (type.Closes(typeof(Command<>)))
                 {
                     name = name.Replace("Command", "");
@@ -139,24 +122,22 @@ namespace TechFu.Nirvana.WebApi.Generation
 
         private IEnumerable<Type> GetAllTypes(string rootType)
         {
+            var types = new List<Type>();
 
-            if (NirvanaSetup.ControllerTypes == ControllerType.CommandAndQuery)
+            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Command))
             {
-                return ActionTypes(typeof(Query<>), rootType)
-                .Union(ActionTypes(typeof(Command<>), rootType));
+                types.AddRange(ActionTypes(typeof(Command<>), rootType));
+            }
+            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Query))
+            {
+                types.AddRange(ActionTypes(typeof(Query<>), rootType));
+            }
+            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Notification))
+            {
+                types.AddRange(ActionTypes(typeof(Notification<>), rootType));
             }
 
-
-            if (NirvanaSetup.ControllerTypes == ControllerType.Command)
-            {
-                return ActionTypes(typeof(Command<>), rootType);
-            }
-            if (NirvanaSetup.ControllerTypes == ControllerType.Query)
-            {
-                return ActionTypes(typeof(Query<>), rootType);
-            }
-            return new List<Type>();
-
+            return types;
         }
 
 

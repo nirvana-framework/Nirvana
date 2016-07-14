@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25402.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana", "TechFu.Nirvana\TechFu.Nirvana.csproj", "{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}"
 EndProject
@@ -50,6 +50,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Processors", "API Processors", "{1ECA6730-5BE1-41CE-BCA5-73AEC8506306}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.QueueCommandProcessor", "TechFu.Nirvana.EventStoreSample.QueueCommandProcessor\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor.csproj", "{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI.Queries", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Queries\TechFu.Nirvana.EventStoreSample.WebAPI.Queries.csproj", "{257C1D40-6B8A-44FC-AF96-436D14DF6439}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI.Notifications", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Notifications\TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.csproj", "{1B125B71-EDF2-457F-BA20-C01F73CF467F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,6 +113,14 @@ Global
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Release|Any CPU.Build.0 = Release|Any CPU
+		{257C1D40-6B8A-44FC-AF96-436D14DF6439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{257C1D40-6B8A-44FC-AF96-436D14DF6439}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{257C1D40-6B8A-44FC-AF96-436D14DF6439}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{257C1D40-6B8A-44FC-AF96-436D14DF6439}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B125B71-EDF2-457F-BA20-C01F73CF467F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B125B71-EDF2-457F-BA20-C01F73CF467F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B125B71-EDF2-457F-BA20-C01F73CF467F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B125B71-EDF2-457F-BA20-C01F73CF467F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,5 +140,7 @@ Global
 		{243C200C-6680-4649-A554-75751CA7EDAD} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
 		{1ECA6730-5BE1-41CE-BCA5-73AEC8506306} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844} = {1ECA6730-5BE1-41CE-BCA5-73AEC8506306}
+		{257C1D40-6B8A-44FC-AF96-436D14DF6439} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
+		{1B125B71-EDF2-457F-BA20-C01F73CF467F} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
 	EndGlobalSection
 EndGlobal
