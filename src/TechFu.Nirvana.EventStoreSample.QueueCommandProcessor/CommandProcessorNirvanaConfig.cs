@@ -4,7 +4,7 @@ using TechFu.Nirvana.EventStoreSample.Services.Shared;
 
 namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
 {
-    public class TestNirvanaConfig
+    public class CommandProcessorNirvanaConfig
     {
 
         public string RootNamespace => "TechFu.Nirvana.EventStoreSample.WebAPI.Commands";

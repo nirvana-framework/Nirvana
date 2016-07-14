@@ -9,7 +9,7 @@ namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
         private static void Main(string[] args)
         {
             StructureMapAspNet.Configure(Assembly.GetExecutingAssembly());
-            var config = new TestNirvanaConfig();
+            var config = new CommandProcessorNirvanaConfig();
 
             NirvanaSetup.Configure()
                .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
