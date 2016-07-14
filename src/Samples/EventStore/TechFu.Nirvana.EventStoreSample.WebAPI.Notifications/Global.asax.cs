@@ -33,9 +33,10 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
                 .ForForNotifications()
+                .BuildConfiguration()
                 ;
 
-            new CqrsApiGenerator().Configure().LoadAssembly(config.ControllerAssemblyName,
+            new CqrsApiGenerator().LoadAssembly(config.ControllerAssemblyName,
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"), config.RootNamespace);
 
             GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),

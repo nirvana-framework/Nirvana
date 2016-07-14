@@ -32,9 +32,10 @@ namespace TechFu.Nirvana.WebApi.Sample
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
                 .ForCommandAndQuery()
+                .BuildConfiguration()
                 ;
 
-            new CqrsApiGenerator().Configure().LoadAssembly(config.ControllerAssemblyName,
+            new CqrsApiGenerator().LoadAssembly(config.ControllerAssemblyName,
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"), _rootNamespace);
 
             GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),

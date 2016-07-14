@@ -35,9 +35,10 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands
                 .SetDependencyResolver(config.GetService)
                 .ForCommands()
                 .ToQueues(config.QueueStrategy)
+                .BuildConfiguration()
                 ;
 
-            new CqrsApiGenerator().Configure().LoadAssembly(config.ControllerAssemblyName,
+            new CqrsApiGenerator().LoadAssembly(config.ControllerAssemblyName,
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"), config.RootNamespace);
 
             GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),

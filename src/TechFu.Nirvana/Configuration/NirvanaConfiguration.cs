@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TechFu.Nirvana.Configuration
 {
@@ -17,6 +18,13 @@ namespace TechFu.Nirvana.Configuration
         public static bool CommandsToQueueEndpoint { get; set; } = false;
         public static QueueStrategy QueueStrategy { get; set; } = QueueStrategy.None;
         public static WebMediationStrategy WebMediationStrategy { get; set; }
+
+
+        //Called On Configuration build
+        public static string[] RootNames { get; internal set; }
+        public static IDictionary<string,Type[]> QueryTypes{ get; internal set; }
+        public static IDictionary<string,Type[]> CommandTypes{ get; internal set; }
+        public static IDictionary<string,Type[]> UiNotificationTypes{ get; internal set; }
 
 
         public static NirvanaConfigurationHelper Configure()

@@ -11,4 +11,6 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
     {
         public string ConnectionString => ConfigurationManager.AppSettings["Nirvana.AzureQueue.ConnectionString"];
     }
+
+
 }

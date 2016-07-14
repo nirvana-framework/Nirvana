@@ -19,7 +19,8 @@ namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
                .SetDependencyResolver(config.GetService)
                .ForCommands()
                .FromQueues(QueueStrategy.AllCommands,WebMediationStrategy.ForwardAll)
-               
+
+                .BuildConfiguration()
                ;
 
 

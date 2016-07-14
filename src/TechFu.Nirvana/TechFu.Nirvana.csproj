@@ -46,12 +46,16 @@
     <Compile Include="Configuration\QueueStrategy.cs" />
     <Compile Include="Configuration\WebMediationStrategy.cs" />
     <Compile Include="CQRS\NirvanaTask.cs" />
-    <Compile Include="CQRS\Notification.cs" />
+    <Compile Include="CQRS\UINotification.cs" />
     <Compile Include="CQRS\Queue\IMessage.cs" />
     <Compile Include="CQRS\Queue\IQueue.cs" />
+    <Compile Include="CQRS\Queue\IQueueController.cs" />
     <Compile Include="CQRS\Queue\IQueueFactory.cs" />
     <Compile Include="CQRS\Queue\IQueueMessage.cs" />
+    <Compile Include="CQRS\Queue\QueueReference.cs" />
     <Compile Include="CQRS\Queue\QueueRouer.cs" />
+    <Compile Include="CQRS\Queue\QueueStatus.cs" />
+    <Compile Include="CQRS\Util\CQRSUtils.cs" />
     <Compile Include="Domain\Enumeration.cs" />
     <Compile Include="CQRS\Command.cs" />
     <Compile Include="CQRS\CommandResponse.cs" />

@@ -10,26 +10,22 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
+using TechFu.Nirvana.CQRS.Util;
 using TechFu.Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.WebApi.Generation
 {
     public class CqrsApiGenerator
     {
-        private string[] _additionalAssemblies;
-        private Func<string, object, bool> _attributeMatch;
-        private Type _attributeType;
-        private Type rootTypeType;
-
 
         private Dictionary<string, string> ControllerNames
         {
             get
             {
                 var controllers = new Dictionary<string, string>();
-                foreach (var kvp in EnumExtensions.GetAll(rootTypeType))
+                foreach (var rootName in NirvanaSetup.RootNames)
                 {
-                    controllers[kvp.Value] = $"{kvp.Value}Controller";
+                    controllers[rootName] = $"{rootName}Controller";
                 }
 
                 return controllers;
@@ -86,7 +82,7 @@ namespace TechFu.Nirvana.WebApi.Generation
 
         private Tuple<string, List<string>> BuildActionCode(string rootType)
         {
-            var types = GetAllTypes(rootType);
+            var types = CqrsUtils.GetAllTypes(rootType);
 
             var builder = new StringBuilder();
             var additionalNamespaces = new List<string>();
@@ -118,50 +114,6 @@ namespace TechFu.Nirvana.WebApi.Generation
             builder.Append("}");
             additionalNamespaces.Distinct().ToList();
             return new Tuple<string, List<string>>(builder.ToString(), additionalNamespaces.Distinct().ToList());
-        }
-
-        private IEnumerable<Type> GetAllTypes(string rootType)
-        {
-            var types = new List<Type>();
-
-            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Command))
-            {
-                types.AddRange(ActionTypes(typeof(Command<>), rootType));
-            }
-            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Query))
-            {
-                types.AddRange(ActionTypes(typeof(Query<>), rootType));
-            }
-            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Notification))
-            {
-                types.AddRange(ActionTypes(typeof(Notification<>), rootType));
-            }
-
-            return types;
-        }
-
-
-        public static Type GetQueryResultType(Type queryType)
-        {
-            Type[] genericTypeArguments;
-            return queryType.Closes(typeof(Query<>), out genericTypeArguments)
-                ? genericTypeArguments[0]
-                : null;
-        }
-
-
-        public Type[] ActionTypes(Type types, string rootType)
-        {
-            var allTypes = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.Closes(types),
-                typeof(Command<>), rootTypeType);
-            return
-                allTypes.Where(x => MatchesRootType(rootType, x)).ToArray();
-        }
-
-        private bool MatchesRootType(string rootType, Type x)
-        {
-            var customAttribute = Attribute.GetCustomAttribute(x, _attributeType);
-            return customAttribute != null && _attributeMatch(rootType, customAttribute);
         }
 
 
@@ -211,34 +163,18 @@ namespace TechFu.Nirvana.WebApi.Generation
                 .AddReferences(MetadataReference.CreateFromFile($"{folder}\\System.Web.Http.Cors.dll"))
                 .AddReferences(MetadataReference.CreateFromFile($"{folder}\\TechFu.Nirvana.dll"));
 
-            foreach (var additionalAssembly in _additionalAssemblies)
+            foreach (var additionalAssembly in NirvanaSetup.AssemblyNameReferences)
             {
                 compilation =
                     compilation.AddReferences(MetadataReference.CreateFromFile($"{folder}\\{additionalAssembly}"));
             }
 
-            compilation = compilation
-                .AddActions();
+      
 
 
             return compilation;
         }
 
-        public CqrsApiGenerator Configure()
-        {
-            _attributeMatch = NirvanaSetup.AttributeMatchingFunction;
-            rootTypeType = NirvanaSetup.RootType;
-            _attributeType = NirvanaSetup.AggregateAttributeType;
-            _additionalAssemblies = NirvanaSetup.AssemblyNameReferences;
-            return this;
-        }
-    }
-
-    public static class CompilationExtensions
-    {
-        public static CSharpCompilation AddActions(this CSharpCompilation input)
-        {
-            return input;
-        }
+       
     }
 }

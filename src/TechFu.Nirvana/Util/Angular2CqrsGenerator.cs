@@ -6,32 +6,13 @@ using System.Reflection;
 using System.Text;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
+using TechFu.Nirvana.CQRS.Util;
 using TechFu.Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.Util
 {
     public class Angular2CqrsGenerator
     {
-        private Func<string, object, bool> _attributeMatch;
-        private Type _attributeType;
-        private Type rootTypeType;
-
-        public Angular2CqrsGenerator()
-        {
-            Configure();
-        }
-
-        internal Dictionary<string, string> GetControllerNames()
-        {
-            var controllers = new Dictionary<string, string>();
-            foreach (var kvp in EnumExtensions.GetAll(rootTypeType))
-            {
-                controllers[kvp.Value] = $"{kvp.Value}Controller";
-            }
-
-            return controllers;
-        }
-
 
         public string GetV2Items()
         {
@@ -52,7 +33,7 @@ namespace TechFu.Nirvana.Util
             builder.AppendLine(WriteResponseType(typeof(PaginationQuery), new Stack<Type>(), true));
             builder.AppendLine(WriteResponseType(typeof(MessageType), new Stack<Type>()));
 
-            foreach (var controllerName in GetControllerNames())
+            foreach (var controllerName in NirvanaSetup.RootNames)
             {
                 WriteController(builder, controllerName, emitedTypes);
             }
@@ -61,29 +42,29 @@ namespace TechFu.Nirvana.Util
             return builder.ToString();
         }
 
-        private void WriteController(StringBuilder builder, KeyValuePair<string, string> controllerName,
+        private void WriteController(StringBuilder builder, string controllerName,
             List<Type> emitedTypes)
         {
-            builder.Append($"//{controllerName.Key}" + Environment.NewLine);
+            builder.Append($"//{controllerName}" + Environment.NewLine);
 
-            var queryTypes = ActionTypes(typeof(Query<>), controllerName.Key);
-            var commandTypes = ActionTypes(typeof(Command<>), controllerName.Key);
+            var queryTypes = CqrsUtils. ActionTypes(typeof(Query<>), controllerName);
+            var commandTypes = CqrsUtils.ActionTypes(typeof(Command<>), controllerName);
 
             WriteTypes(builder, controllerName, emitedTypes, queryTypes, "Query", typeof(Query<>));
             WriteTypes(builder, controllerName, emitedTypes, commandTypes, "Command", typeof(Command<>));
         }
 
-        private void WriteTypes(StringBuilder builder, KeyValuePair<string, string> controllerName,
+        private void WriteTypes(StringBuilder builder, string controllerName,
             List<Type> emitedTypes,
             Type[] queryTypes, string superType, Type closingType)
         {
             var subTypes = new Stack<Type>();
             foreach (var queryType in queryTypes)
             {
-                var responseType = GetResponseType(queryType, closingType);
+                var responseType = CqrsUtils.GetResponseType(queryType, closingType);
                 if (!emitedTypes.Contains(queryType))
                 {
-                    builder.AppendLine(GetInputType(queryType, responseType, controllerName.Key, superType, subTypes));
+                    builder.AppendLine(GetInputType(queryType, responseType, controllerName, superType, subTypes));
                     emitedTypes.Add(queryType);
                 }
                 if (!responseType.IsPrimitiveType())
@@ -236,15 +217,6 @@ namespace TechFu.Nirvana.Util
         }
 
 
-        private Type GetResponseType(Type queryType, Type closingType)
-        {
-            Type[] genericTypeArguments;
-            return queryType.Closes(closingType, out genericTypeArguments)
-                ? genericTypeArguments[0]
-                : null;
-        }
-
-
         private string GetInputType(Type queryType, Type queryResponseType, object controllerName, string superType,
             Stack<Type> subTypes)
         {
@@ -288,9 +260,7 @@ namespace TechFu.Nirvana.Util
         {
             var temp = "";
 
-            temp += $"public {propertyInfo.Name}: {GetTypeStriptType(propertyInfo.PropertyType, subTypes)}"
-                ;
-
+            temp += $"public {propertyInfo.Name}: {GetTypeStriptType(propertyInfo.PropertyType, subTypes)}";
             if (count > 0)
             {
                 temp = "," + temp;
@@ -300,28 +270,5 @@ namespace TechFu.Nirvana.Util
         }
 
 
-        public Type[] ActionTypes(Type types, string rootType)
-        {
-            return
-                ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.Closes(types),
-                    typeof(Command<>), _attributeType, rootTypeType)
-                    .Where(x => MatchesRootType(rootType, x))
-                    .ToArray();
-        }
-
-        private bool MatchesRootType(string rootType, Type x)
-        {
-            var customAttribute = Attribute.GetCustomAttribute(x, _attributeType);
-            return customAttribute != null && _attributeMatch(rootType, customAttribute);
-        }
-
-
-        public Angular2CqrsGenerator Configure()
-        {
-            _attributeMatch = NirvanaSetup.AttributeMatchingFunction;
-            rootTypeType = NirvanaSetup.RootType;
-            _attributeType = NirvanaSetup.AggregateAttributeType;
-            return this;
-        }
     }
 }

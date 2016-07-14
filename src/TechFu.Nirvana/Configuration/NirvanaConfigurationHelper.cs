@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TechFu.Nirvana.CQRS;
+using TechFu.Nirvana.CQRS.Util;
+using TechFu.Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.Configuration
 {
@@ -76,5 +81,12 @@ namespace TechFu.Nirvana.Configuration
             return this;
         }
 
+        public void BuildConfiguration()
+        {
+            NirvanaSetup.RootNames = EnumExtensions.GetAll(NirvanaSetup.RootType).SelectToArray(x => x.Value);
+            NirvanaSetup.QueryTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(Query<>),x).ToArray());
+            NirvanaSetup.CommandTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(Command<>),x).ToArray());
+            NirvanaSetup.UiNotificationTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(UINotification<>),x).ToArray());
+        }
     }
 }

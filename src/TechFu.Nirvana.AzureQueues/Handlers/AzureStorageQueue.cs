@@ -34,14 +34,18 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                 : DefaultVisibilityTimeout;
             _queue.CreateIfNotExists();
             _client = client;
+         
         }
 
         public TimeSpan VisibilityTimeout { get; set; }
 
         public Type MessageType { get; set; }
 
+        public void StartListening()
+        {
 
-      
+        }
+
 
         public int GetMessageCount()
         {
