@@ -1,11 +1,12 @@
-﻿using System.Web.Mvc;
+using System;
+using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor
+namespace TechFu.Nirvana.WebApi.Startup
 {
     public class RouteConfig
     {
-        public static void RegisterRoutes(RouteCollection routes)
+        public static void RegisterRoutes(RouteCollection routes,Action<RouteCollection> additionalConfig)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 

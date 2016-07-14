@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.WebApi
+namespace TechFu.Nirvana.WebApi.Startup
 {
     public class DynamicApiSelector : DefaultHttpControllerSelector
     {

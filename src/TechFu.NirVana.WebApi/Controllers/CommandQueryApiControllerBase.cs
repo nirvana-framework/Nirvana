@@ -7,7 +7,7 @@ using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Mediation;
 
-namespace TechFu.Nirvana.WebApi
+namespace TechFu.Nirvana.WebApi.Controllers
 {
     [EnableCors("*", "*", "*")]
     public abstract class CommandQueryApiControllerBase : ApiController

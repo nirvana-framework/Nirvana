@@ -46,7 +46,7 @@
     <Compile Include="Configuration\QueueStrategy.cs" />
     <Compile Include="Configuration\WebMediationStrategy.cs" />
     <Compile Include="CQRS\NirvanaTask.cs" />
-    <Compile Include="CQRS\PushNotification.cs" />
+    <Compile Include="CQRS\Notification.cs" />
     <Compile Include="CQRS\Queue\IMessage.cs" />
     <Compile Include="CQRS\Queue\IQueue.cs" />
     <Compile Include="CQRS\Queue\IQueueFactory.cs" />

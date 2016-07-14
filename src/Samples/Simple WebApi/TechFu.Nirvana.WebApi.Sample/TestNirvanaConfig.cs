@@ -1,5 +1,4 @@
 ﻿using System;
-using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.WebApi.Sample.DomainSpecificData;
 using TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Handlers;

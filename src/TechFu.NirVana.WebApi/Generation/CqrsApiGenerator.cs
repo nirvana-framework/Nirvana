@@ -12,7 +12,7 @@ using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.WebApi
+namespace TechFu.Nirvana.WebApi.Generation
 {
     public class CqrsApiGenerator
     {
@@ -65,6 +65,7 @@ namespace TechFu.Nirvana.WebApi
                 "System.Web.Http",
                 "TechFu.Nirvana",
                 "TechFu.Nirvana.WebApi",
+                "TechFu.Nirvana.WebApi.Controllers",
             };
             foreach (var kvp in ControllerNames)
             {
@@ -94,7 +95,7 @@ namespace TechFu.Nirvana.WebApi
 
 
            // builder.Append("[EnableCors(\"*\", \"*\", \"*\")]");
-            builder.Append($"public class {rootType}Controller:TechFu.Nirvana.WebApi.CommandQueryApiControllerBase{{");
+            builder.Append($"public class {rootType}Controller:TechFu.Nirvana.WebApi.Controllers.CommandQueryApiControllerBase{{");
 
             foreach (var type in types)
             {

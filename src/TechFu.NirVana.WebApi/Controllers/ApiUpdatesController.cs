@@ -1,12 +1,11 @@
-﻿using System.IO;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using TechFu.Nirvana.Util;
-using TechFu.Nirvana.WebApi;
 
-namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor.Controllers
+namespace TechFu.Nirvana.WebApi.Controllers
 {
     public class ApiUpdatesController : CommandQueryApiControllerBase
     {
