@@ -26,7 +26,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
                 var command = new TestCommand {Test = "test", ThrowError = true};
 
                 var queue =
-                    new AzureQueueFactory(new AzureQueueConfiguration(), new Serializer(), new SystemTime(),
+                    new AzureQueueFactory(new AzureQueueConfiguration(),new AzureQueueController(), new Serializer(), new SystemTime(),
                         new Compression()).GetQueue(command.GetType());
                 queue.Clear();
                 queue.Send(command);
@@ -48,7 +48,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
                 var command = new TestCommand { Test = "test", ThrowError = false };
 
                 var queue =
-                    new AzureQueueFactory(new AzureQueueConfiguration(), new Serializer(), new SystemTime(),
+                    new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(), new Serializer(), new SystemTime(),
                         new Compression()).GetQueue(command.GetType());
                 queue.Clear();
                 queue.Send(command);
@@ -74,9 +74,11 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
         private readonly Serializer _serializer;
         private readonly AzureQueueConfiguration _azureQueueConfiguration;
         private readonly SystemTime _systemTime;
+        private IQueueController _controller;
 
         public AzureQueueFactoryTests()
         {
+            _controller = new AzureQueueController();
             _systemTime = new SystemTime();
             _compression = new Compression();
             _serializer = new Serializer();
@@ -84,7 +86,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
             SetupBuildAndRun();
         }
 
-        public override Func<AzureQueueFactory> Build=>() =>new AzureQueueFactory(_azureQueueConfiguration, _serializer, _systemTime, _compression);
+        public override Func<AzureQueueFactory> Build=>() =>new AzureQueueFactory(_azureQueueConfiguration,_controller, _serializer, _systemTime, _compression);
 
         public override void RunTest()
         {

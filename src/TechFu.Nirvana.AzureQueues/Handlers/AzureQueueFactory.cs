@@ -12,13 +12,15 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
     {
         private readonly Lazy<CloudQueueClient> _client;
         private readonly ICompression _compression;
+        private readonly IQueueController _queueController;
         private readonly ISerializer _serializer;
         private readonly ISystemTime _systemTime;
 
         protected Func<Type, string> GetQueueName { get; set; }
 
-        public AzureQueueFactory(IAzureQueueConfiguration configuration,ISerializer serializer, ISystemTime systemTime, ICompression compression)
+        public AzureQueueFactory(IAzureQueueConfiguration configuration,IQueueController queueController,ISerializer serializer, ISystemTime systemTime, ICompression compression)
         {
+            _queueController = queueController;
             _serializer = serializer;
             _systemTime = systemTime;
             _compression = compression;
@@ -32,7 +34,8 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         public virtual IQueue GetQueue(Type messageType)
         {
-            return new AzureStorageQueue(_client.Value,"test" ,messageType)
+            var queueReference = _queueController.GetQueueReferenceFor(messageType);
+            return new AzureStorageQueue(_client.Value, queueReference.Name, messageType)
                 .SetTime(_systemTime)
                 .SetSerializer(_serializer)
                 .SetCompression(_compression);

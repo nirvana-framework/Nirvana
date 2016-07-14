@@ -51,6 +51,8 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
             x.For<IMediator>().Use<Mediator>();
             x.For<IQueueFactory>().Use<AzureQueueFactory>();
             x.For<IAzureQueueConfiguration>().Use<AzureQueueConfiguration>();
+
+            x.For<IQueueController>().Singleton().Use<AzureQueueController>();
             x.For<ISerializer>().Singleton().Use<Serializer>();
         }
 
