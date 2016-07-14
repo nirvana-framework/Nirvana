@@ -1,13 +1,21 @@
+using System;
 using System.Collections.Generic;
 
 namespace TechFu.Nirvana.CQRS.Queue
 {
     public interface IQueueController
     {
-        bool Start();
-        bool Stop();
+        bool StartAll();
+        bool StopAll();
 
-        Dictionary<string,QueueReference[]> ByRoot();
+        bool StartRoot(string rootName);
+        bool StopRoot(string rootName);
+
+        bool StartQueue(Type messageType);
+        bool StopQueue(Type messageType);
+
+        IDictionary<string, QueueReference[]> ByRoot();
+        QueueReference[] ForRootType(string rootType);
         QueueReference[] AllQueues();
 
     }

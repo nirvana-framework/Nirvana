@@ -73,6 +73,7 @@
     <Compile Include="Handlers\AzureQueueController.cs" />
     <Compile Include="Handlers\AzureQueueFactory.cs" />
     <Compile Include="Handlers\AzureQueueMessage.cs" />
+    <Compile Include="Handlers\AzureQueueReference.cs" />
     <Compile Include="Handlers\AzureStorageQueue.cs" />
     <Compile Include="Handlers\IAzureQueueConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
