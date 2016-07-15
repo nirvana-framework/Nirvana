@@ -21,9 +21,9 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                     MessageCount = 0,
                     Name = GetQueueName(x.Key,q),
                     NumberOfConsumers = 1,
-                    Status = QueueStatus.Stopped
+                    Status = QueueStatus.Stopped,
+                    SleepInMSBetweenTasks=100,
                 }).Cast<QueueReference>().ToArray());
-
         }
 
         public QueueReference[] AllQueues()
@@ -46,8 +46,12 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         public bool StopAll()
         {
             AllQueues().ForEach(x => x.StopQueue(x.Queue));
+            Console.WriteLine($"All queues shutting down");
             WaitForShutDown();
-            return AllQueues().All(x => x.Status == QueueStatus.Stopped);
+            var stopAll = AllQueues().All(x => x.Status == QueueStatus.Stopped);
+
+            Console.WriteLine($"All queues stopped");
+            return stopAll;
         }
 
         private void WaitForShutDown()

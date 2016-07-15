@@ -51,7 +51,7 @@ namespace TechFu.Nirvana.Configuration
 
             NirvanaSetup.WebMediationStrategy = webMediationStrategy;
             NirvanaSetup.QueueStrategy = queueStrategy;
-            NirvanaSetup.CommandsToQueueEndpoint = true;
+            NirvanaSetup.CommandsFromQueueEndpoint = true;
             return this;
         }
         public NirvanaConfigurationHelper ForQueries()
