@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Text;
 using Microsoft.WindowsAzure.Storage.Queue;
 using TechFu.Nirvana.CQRS.Queue;
@@ -47,8 +48,18 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         public override void GetAndExecute(int numberOfConsumers)
         {
-            var message = GetMessage();
-           var result =  DoWork(x=>HandleMessage(MessageType,x),false,true);
+            //Get DoWork
+            var handler = GetDoWorkHandler(MessageType);
+            var workFunction = GetWorkFunction();
+
+
+
+            //  var result =  DoWork(x=>HandleMessage(MessageType,x),false,true);
+        }
+
+        private object GetWorkFunction()
+        {
+            throw new NotImplementedException();
         }
 
         public override void Send<T>(T message)
@@ -73,7 +84,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         }
 
 
-        public override void DoWork(Func<Type,object, bool> work, bool failOnException, bool failOnActionFailure)
+        public override void DoWork<T>(Func<T, bool> work, bool failOnException, bool failOnActionFailure)
         {
             var cloudMessage = GetAzureMessage();
 
@@ -137,5 +148,28 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         {
             _queue.DeleteMessage(message);
         }
+
+
+        private MethodInfo GetDoWorkHandler(Type messageType)
+        {
+           return 
+               GetType().GetMethod("DoWork",
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod,
+                    null, CallingConventions.HasThis,
+                    new[] { messageType },
+                    null);
+            
+        }
+        private MethodInfo GetWorkFunction(Type messageType)
+        {
+           return 
+               GetType().GetMethod("DoWork",
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod,
+                    null, CallingConventions.HasThis,
+                    new[] { messageType },
+                    null);
+            
+        }
+
     }
 }

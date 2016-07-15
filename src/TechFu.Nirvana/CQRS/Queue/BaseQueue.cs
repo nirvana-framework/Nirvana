@@ -21,7 +21,7 @@ namespace TechFu.Nirvana.CQRS.Queue
 
         public abstract void Clear();
 
-        public abstract void DoWork(Func<Type, object, bool> work, bool failOnException = false, bool requeueOnFailure = true);
+        public abstract void DoWork<T>(Func< T, bool> work, bool failOnException = false, bool requeueOnFailure = true);
 
         public abstract void GetAndExecute(int numberOfConsumers);
 
