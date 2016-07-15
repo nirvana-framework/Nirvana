@@ -9,6 +9,7 @@ using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Util;
 using TechFu.Nirvana.Util.Io;
 using TechFu.Nirvana.Util.Tine;
+using TechFu.Nirvana.WebUtils;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 {
@@ -49,6 +50,7 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
             
             
             x.For<IMediator>().Use<Mediator>();
+            x.For<IWebMediator>().Use<WebMediator>();
             x.For<IQueueFactory>().Use<AzureQueueFactory>();
             x.For<IAzureQueueConfiguration>().Use<AzureQueueConfiguration>();
 

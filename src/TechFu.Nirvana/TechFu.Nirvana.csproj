@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
@@ -41,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ControllerType.cs" />
+    <Compile Include="Configuration\INirvanaConfiguration.cs" />
     <Compile Include="Configuration\NirvanaConfiguration.cs" />
     <Compile Include="Configuration\NirvanaConfigurationHelper.cs" />
     <Compile Include="Configuration\QueueStrategy.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="CQRS\ValidationMessage.cs" />
     <Compile Include="Mediation\ICommandHandler.cs" />
     <Compile Include="Mediation\IMediator.cs" />
+    <Compile Include="Mediation\IMediatorFactory.cs" />
     <Compile Include="Mediation\INopHandler.cs" />
     <Compile Include="Mediation\IQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

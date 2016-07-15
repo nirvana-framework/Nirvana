@@ -82,6 +82,14 @@ namespace TechFu.Nirvana.Util.Extensions
         {
             return !type.IsAbstract && type.Closes(typeof(Command<>));
         }
+        public static bool IsQuery(this Type type)
+        {
+            return !type.IsAbstract && type.Closes(typeof(Query<>));
+        }
+        public static bool IsUiNotification(this Type type)
+        {
+            return !type.IsAbstract && type.Closes(typeof(UINotification<>));
+        }
 
 
         public static Type GetCommandResultType(this Type commandType)
@@ -100,10 +108,6 @@ namespace TechFu.Nirvana.Util.Extensions
                 : null;
         }
 
-        public static bool IsQuery(this Type type)
-        {
-            return !type.IsAbstract && type.Closes(typeof(Query<>));
-        }
 
 
         public static Type GetQueryResultType(this Type queryType)

@@ -87,6 +87,8 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.QueryTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(Query<>),x).ToArray());
             NirvanaSetup.CommandTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(Command<>),x).ToArray());
             NirvanaSetup.UiNotificationTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(UINotification<>),x).ToArray());
+
+
         }
     }
 }

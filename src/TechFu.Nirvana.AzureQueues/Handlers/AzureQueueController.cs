@@ -54,7 +54,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             return stopAll;
         }
 
-        private void WaitForShutDown()
+        private void WaitForShutDown(string rootName=null)
         {
             //Do it here...
         }

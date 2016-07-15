@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25402.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana", "TechFu.Nirvana\TechFu.Nirvana.csproj", "{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}"
 EndProject
@@ -54,6 +54,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI.Queries", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Queries\TechFu.Nirvana.EventStoreSample.WebAPI.Queries.csproj", "{257C1D40-6B8A-44FC-AF96-436D14DF6439}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI.Notifications", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Notifications\TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.csproj", "{1B125B71-EDF2-457F-BA20-C01F73CF467F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.WebUtils", "TechFu.Nirvana.WebUtils\TechFu.Nirvana.WebUtils.csproj", "{BB85B7D1-9352-4192-83D3-4A5B16C5434D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +123,10 @@ Global
 		{1B125B71-EDF2-457F-BA20-C01F73CF467F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B125B71-EDF2-457F-BA20-C01F73CF467F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B125B71-EDF2-457F-BA20-C01F73CF467F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB85B7D1-9352-4192-83D3-4A5B16C5434D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB85B7D1-9352-4192-83D3-4A5B16C5434D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB85B7D1-9352-4192-83D3-4A5B16C5434D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB85B7D1-9352-4192-83D3-4A5B16C5434D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,5 +148,6 @@ Global
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844} = {1ECA6730-5BE1-41CE-BCA5-73AEC8506306}
 		{257C1D40-6B8A-44FC-AF96-436D14DF6439} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
 		{1B125B71-EDF2-457F-BA20-C01F73CF467F} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
+		{BB85B7D1-9352-4192-83D3-4A5B16C5434D} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
 	EndGlobalSection
 EndGlobal

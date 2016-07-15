@@ -26,6 +26,9 @@ namespace TechFu.Nirvana.Configuration
         public static IDictionary<string,Type[]> QueryTypes{ get; internal set; }
         public static IDictionary<string,Type[]> CommandTypes{ get; internal set; }
         public static IDictionary<string,Type[]> UiNotificationTypes{ get; internal set; }
+        
+        //TODO - replace CqrsUtils.GetRootTypeName  with this and use it that function to speed up
+        //public static IDictionary<Type, string> TypeRootNames{ get; internal set; }
 
 
         public static NirvanaConfigurationHelper Configure()

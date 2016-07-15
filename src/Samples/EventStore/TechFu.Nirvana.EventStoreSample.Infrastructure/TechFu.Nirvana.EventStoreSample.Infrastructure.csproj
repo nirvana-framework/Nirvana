@@ -116,6 +116,10 @@
       <Project>{47e14cff-8608-4da3-b6c6-6fa23effbe89}</Project>
       <Name>TechFu.Nirvana.AzureQueues</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\TechFu.Nirvana.WebUtils\TechFu.Nirvana.WebUtils.csproj">
+      <Project>{BB85B7D1-9352-4192-83D3-4A5B16C5434D}</Project>
+      <Name>TechFu.Nirvana.WebUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TechFu.Nirvana.EventStoreSample.Domain\TechFu.Nirvana.EventStoreSample.Domain.csproj">
       <Project>{4742ee7c-67b1-4742-b10c-3f3545476b78}</Project>
       <Name>TechFu.Nirvana.EventStoreSample.Domain</Name>

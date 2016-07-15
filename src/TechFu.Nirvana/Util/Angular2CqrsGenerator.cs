@@ -216,8 +216,8 @@ namespace TechFu.Nirvana.Util
             }
         }
 
-
-        private string GetInputType(Type queryType, Type queryResponseType, object controllerName, string superType,
+        //queryType, responseType, controllerName, superType, subTypes
+        private string GetInputType(Type queryType, Type queryResponseType, string controllerName, string superType,
             Stack<Type> subTypes)
         {
             var builder = new StringBuilder();
@@ -233,7 +233,7 @@ namespace TechFu.Nirvana.Util
             return builder.ToString();
         }
 
-        private void WriteConstructor(object controllerName, StringBuilder builder, PropertyInfo[] props,
+        private void WriteConstructor(string controllerName, StringBuilder builder, PropertyInfo[] props,
             string typeName, string superTypeName, Stack<Type> subTypes)
         {
             builder.Append("constructor(");
@@ -253,7 +253,9 @@ namespace TechFu.Nirvana.Util
                 builder.Append(",public typescriptPlace: boolean");
             }
 
-            builder.Append($"){{super('{controllerName}/{typeName.Replace(superTypeName, "")}')}}");
+            var endpointName = CqrsUtils.GetApiEndpint(controllerName, typeName, superTypeName);
+
+            builder.Append($"){{super('{endpointName}')}}");
         }
 
         private string WriteConstructorArgument(Stack<Type> subTypes, PropertyInfo propertyInfo, int count)

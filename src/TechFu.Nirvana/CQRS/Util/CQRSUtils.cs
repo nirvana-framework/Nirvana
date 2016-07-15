@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.Util.Extensions;
@@ -8,15 +9,16 @@ namespace TechFu.Nirvana.CQRS.Util
 {
     public class CqrsUtils
     {
-
         public static Type[] QueryTypes(string rootType)
         {
             return ActionTypes(typeof(Query<>), rootType);
         }
+
         public static Type[] CommandTypes(string rootType)
         {
             return ActionTypes(typeof(Query<>), rootType);
         }
+
         public static Type[] UiNotificationTypes(string rootType)
         {
             return ActionTypes(typeof(UINotification<>), rootType);
@@ -74,6 +76,31 @@ namespace TechFu.Nirvana.CQRS.Util
             return queryType.Closes(closingType, out genericTypeArguments)
                 ? genericTypeArguments[0]
                 : null;
+        }
+
+        public static string GetApiEndpint(string rootTypeName, string actionName, string superTypeName)
+        {
+            return $"{rootTypeName}/{actionName.Replace(superTypeName, "")}";
+        }
+
+        public static string GetApiEndpint(Type type,  string superTypeName)
+        {
+
+            return GetApiEndpint(GetRootTypeName(type), type.Name, superTypeName);
+        }
+
+        private static string GetRootTypeName(Type type)
+        {
+            //TODO - this is a bit slow, create a dictionary by type in hte configuration
+            foreach (var rootName in NirvanaSetup.RootNames)
+            {
+
+                if (MatchesRootType(rootName, type))
+                {
+                    return rootName;
+                }
+            }
+            throw new InvalidEnumArgumentException("Type does not contain aggregate attribute");
         }
     }
 }
