@@ -6,6 +6,7 @@ using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.Mediation;
+using TechFu.Nirvana.Mediation.Implementation;
 using TechFu.Nirvana.Util;
 using TechFu.Nirvana.Util.Io;
 using TechFu.Nirvana.Util.Tine;

@@ -28,7 +28,7 @@ namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
         };
 
         public QueueStrategy QueueStrategy => QueueStrategy.AllCommands;
-        public WebMediationStrategy WebMediationStrategy => WebMediationStrategy.ForwardAll;
+        public MediationStrategy MediationStrategy => MediationStrategy.ForwardToWeb;
 
 
         public object GetService(Type serviceType) => InternalDependencyResolver.GetInstance(serviceType);

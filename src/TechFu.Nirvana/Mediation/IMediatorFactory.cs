@@ -1,5 +1,6 @@
 ﻿using System;
 using TechFu.Nirvana.Configuration;
+using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.Mediation
@@ -10,9 +11,11 @@ namespace TechFu.Nirvana.Mediation
         HandleInProc
     }
 
-    internal interface IMediatorFactory
+    public interface IMediatorFactory
     {
         IMediator GetMediator(Type messageType);
+        CommandResponse<TResult> Command<TResult>(Command<TResult> command);
+        QueryResponse<TResult> Query<TResult>(Query<TResult> query);
     }
 
     public class MediatorFactory : IMediatorFactory
@@ -21,8 +24,16 @@ namespace TechFu.Nirvana.Mediation
         {
             var mediatorStrategy = GetMediatorStrategy(messageType);
             return GetMediatorByStrategy(mediatorStrategy);
+        }
 
+        public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
+        {
+            return GetMediator(command.GetType()).Command(command);
+        }
 
+        public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
+        {
+            return GetMediator(query.GetType()).Query(query);
         }
 
         private IMediator GetMediatorByStrategy(MediatorStrategy mediatorStrategy)
@@ -38,13 +49,13 @@ namespace TechFu.Nirvana.Mediation
         {
             if (messageType.IsQuery() 
                 || messageType.IsUiNotification() 
-                ||( messageType.IsCommand() && NirvanaSetup.WebMediationStrategy == WebMediationStrategy.None))
+                ||( messageType.IsCommand() && NirvanaSetup.MediationStrategy == MediationStrategy.InProcess))
             {
                 // Only commands can be offloaded currently
                 return MediatorStrategy.HandleInProc;
             }
 
-            if (NirvanaSetup.WebMediationStrategy == WebMediationStrategy.ForwardAll)
+            if (NirvanaSetup.MediationStrategy == MediationStrategy.ForwardToWeb)
             {
                 return MediatorStrategy.ForwardToWeb;
             }

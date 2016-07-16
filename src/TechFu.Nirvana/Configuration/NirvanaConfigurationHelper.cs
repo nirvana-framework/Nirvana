@@ -46,10 +46,10 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.CommandsToQueueEndpoint = true;
             return this;
         }
-        public NirvanaConfigurationHelper FromQueues(QueueStrategy queueStrategy,WebMediationStrategy webMediationStrategy)
+        public NirvanaConfigurationHelper FromQueues(QueueStrategy queueStrategy,MediationStrategy mediationStrategy)
         {
 
-            NirvanaSetup.WebMediationStrategy = webMediationStrategy;
+            NirvanaSetup.MediationStrategy = mediationStrategy;
             NirvanaSetup.QueueStrategy = queueStrategy;
             NirvanaSetup.CommandsFromQueueEndpoint = true;
             return this;

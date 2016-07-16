@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using System.Web.Http.Cors;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
@@ -12,65 +13,55 @@ namespace TechFu.Nirvana.WebApi.Controllers
     [EnableCors("*", "*", "*")]
     public abstract class CommandQueryApiControllerBase : ApiController
     {
-        public IMediator Mediator { get; set; }
+        private readonly WebApiSecurity _webApiSecurity;
+        public IMediatorFactory MediatorFactory { get; set; }
 
         protected CommandQueryApiControllerBase()
         {
-            
-            Mediator = (IMediator)NirvanaSetup.GetService(typeof(IMediator));
+            //TODO - inject properly this when I figure out how to wire up to IoC
+            _webApiSecurity = new WebApiSecurity();
+            MediatorFactory = (IMediatorFactory) NirvanaSetup.GetService(typeof(IMediatorFactory));
         }
 
         protected HttpResponseMessage Command<TResult>(Command<TResult> command)
         {
-            var response = Mediator.Command(AddAuthToCommand(command));
+            var response = MediatorFactory.Command(AddAuthToCommand(command));
             LogException(response);
             return Request.CreateResponse(GetResponseCode(response), PrepCommand(response));
         }
 
         private Command<TResult> AddAuthToCommand<TResult>(Command<TResult> command)
         {
-            var authCommand = command as AuthorizedCommand<TResult>;
-
-            if (authCommand != null)
-            {
-                authCommand.AuthCode = GetAuthCode();
-            }
+            SetAuthValues(command as IAuthorizedTask);
             return command;
-        }
-
-        private string GetAuthCode()
-        {
-            var httpControllerContext = ControllerContext;
-            if (httpControllerContext != null)
-            {
-                var authHeader = httpControllerContext.Request.Headers.Authorization;
-                return authHeader.Parameter;
-            }
-            return string.Empty;
         }
 
         private Query<TResult> AddAuthToQuery<TResult>(Query<TResult> query)
         {
-            var authorizedQuery = query as AuthorizedQuery<TResult>;
+            SetAuthValues(query as IAuthorizedTask);
+            return query;
+        }
 
+
+        private void SetAuthValues(IAuthorizedTask authorizedQuery)
+        {
             if (authorizedQuery != null)
             {
-                authorizedQuery.AuthCode = GetAuthCode();
+                authorizedQuery.AuthCode = _webApiSecurity.GetAuthCode(ControllerContext);
             }
-            return query;
         }
 
         protected HttpResponseMessage Query<TResult>(Query<TResult> query)
         {
-            var response = Mediator.Query(AddAuthToQuery(query));
+            var response = MediatorFactory.Query(AddAuthToQuery(query));
             LogException(response);
             return Request.CreateResponse(GetResponseCode(response), PrepQuery(response));
         }
-        
+
         protected HttpResponseMessage QueryForFile<TResult>(Query<TResult> query)
             where TResult : FileQueryResult
         {
-            var response = Mediator.Query(query);
+            var response = MediatorFactory.Query(query);
 
             var httpResponseMessage = Request.CreateResponse(GetResponseCode(response), response.Result.FileBytes);
 
@@ -137,6 +128,16 @@ namespace TechFu.Nirvana.WebApi.Controllers
             {
                 //Logging.Exception(response.Exception);
             }
+        }
+    }
+
+    public class WebApiSecurity
+    {
+
+        public string GetAuthCode(HttpControllerContext context)
+        {
+            var authHeader = context.Request.Headers.Authorization;
+            return authHeader.Parameter;
         }
     }
 }

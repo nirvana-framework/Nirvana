@@ -18,7 +18,7 @@ namespace TechFu.Nirvana.Configuration
         public static bool CommandsToQueueEndpoint { get; set; } = false;
         public static bool CommandsFromQueueEndpoint { get; set; } = false;
         public static QueueStrategy QueueStrategy { get; set; } = QueueStrategy.None;
-        public static WebMediationStrategy WebMediationStrategy { get; set; } = WebMediationStrategy.None;
+        public static MediationStrategy MediationStrategy { get; set; } = MediationStrategy.InProcess;
 
 
         //Called On Configuration build
