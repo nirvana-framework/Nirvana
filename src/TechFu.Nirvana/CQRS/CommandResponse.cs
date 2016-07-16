@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace TechFu.Nirvana.CQRS
 {
+    public class UiNotificationResponse : Response
+    {
+    }
+
     public class CommandResponse<TResult> : Response
     {
         public CommandResponse()

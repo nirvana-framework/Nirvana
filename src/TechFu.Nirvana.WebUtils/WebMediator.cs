@@ -54,6 +54,11 @@ namespace TechFu.Nirvana.WebUtils
 
         }
 
+        public UiNotificationResponse UiNotification<T>(UiNotification<T> notification)
+        {
+            throw new NotImplementedException();
+        }
+
         public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
         {
             try

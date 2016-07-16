@@ -23,8 +23,10 @@ namespace TechFu.Nirvana.Mediation.Implementation
             return plan.InvokeQuery(query);
         }
 
-     
-
+        public UiNotificationResponse UiNotification<T>(UiNotification<T> notification)
+        {
+            throw new NotImplementedException();
+        }
 
 
         private class MediatorPlan<TResult>

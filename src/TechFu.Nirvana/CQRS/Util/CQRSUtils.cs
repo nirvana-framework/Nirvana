@@ -21,7 +21,7 @@ namespace TechFu.Nirvana.CQRS.Util
 
         public static Type[] UiNotificationTypes(string rootType)
         {
-            return ActionTypes(typeof(UINotification<>), rootType);
+            return ActionTypes(typeof(UiNotification<>), rootType);
         }
 
         public static IEnumerable<Type> GetAllTypes(string rootType)
@@ -38,7 +38,7 @@ namespace TechFu.Nirvana.CQRS.Util
             }
             if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Notification))
             {
-                types.AddRange(ActionTypes(typeof(UINotification<>), rootType));
+                types.AddRange(ActionTypes(typeof(UiNotification<>), rootType));
             }
 
             return types;

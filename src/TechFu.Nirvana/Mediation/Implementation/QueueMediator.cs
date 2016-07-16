@@ -22,5 +22,10 @@ namespace TechFu.Nirvana.Mediation.Implementation
         {
             throw new NotImplementedException("This is purposly not implements - queries should never be put on queue");
         }
+
+        public UiNotificationResponse UiNotification<T>(UiNotification<T> notification)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TechFu.Nirvana.CQRS
 {
-    public class UINotification<T> : NirvanaTask
+    public class UiNotification<T> : NirvanaTask
     {
     }
 }
