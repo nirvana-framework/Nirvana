@@ -53,7 +53,8 @@ namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
                 .ForCommands()
-                .FromQueues(config.QueueStrategy, config.MediationStrategy)
+                .FromQueues()
+                .ToWeb()
                 .BuildConfiguration()
                 ;
 

@@ -2,7 +2,6 @@
 using System.Reflection;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.CQRS.Queue;
 
 namespace TechFu.Nirvana.Mediation.Implementation
 {
@@ -12,12 +11,10 @@ namespace TechFu.Nirvana.Mediation.Implementation
 
         public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
         {
-            if (ExecuteCommandNow(command))
-            {
+           
                 var plan = new MediatorPlan<TResult>(typeof(ICommandHandler<,>), HandleMethod, command.GetType());
                 return plan.InvokeCommand(command);
-            }
-            return OffloadCommand(command);
+            
         }
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
@@ -26,23 +23,8 @@ namespace TechFu.Nirvana.Mediation.Implementation
             return plan.InvokeQuery(query);
         }
 
-        private bool ExecuteCommandNow<TResult>(Command<TResult> command)
-        {
-            return NirvanaSetup.QueueStrategy == QueueStrategy.None
-                   ||
-                   (NirvanaSetup.QueueStrategy == QueueStrategy.LongRunningCommands &&
-                    !QueueRouer.CheckLongRunningCommand(command.GetType()));
-        }
+     
 
-        private CommandResponse<TResult> OffloadCommand<TResult>(Command<TResult> command)
-        {
-            var messageType = command.GetType();
-            var queueFactory = ((IQueueFactory)NirvanaSetup.GetService(typeof(IQueueFactory)));
-
-            var queue = queueFactory.GetQueue(messageType);
-            queue.Send(command);
-            return CommandResponse.Succeeded(default(TResult), "Work queued.");
-        }
 
 
         private class MediatorPlan<TResult>

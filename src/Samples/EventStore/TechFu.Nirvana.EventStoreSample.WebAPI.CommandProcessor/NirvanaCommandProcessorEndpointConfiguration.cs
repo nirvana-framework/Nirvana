@@ -8,8 +8,8 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor
     public class NirvanaCommandProcessorEndpointConfiguration
     {
 
-        public string RootNamespace => "TechFu.Nirvana.EventStoreSample.WebAPI.Commands";
-        public string ControllerAssemblyName => "TechFu.Nirvana.EventStoreSample.WebAPI.Commands.dll";
+        public string RootNamespace => "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor";
+        public string ControllerAssemblyName => RootNamespace + ".dll";
 
         public  Type RootType => typeof(RootType);
         public  Type AggregateAttributeType => typeof(AggregateRootAttribute);
@@ -24,10 +24,9 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor
             "TechFu.Nirvana.EventStoreSample.Domain.dll",
             "TechFu.Nirvana.EventStoreSample.Infrastructure.dll",
             "TechFu.Nirvana.EventStoreSample.Services.Shared.dll",
-            "TechFu.Nirvana.EventStoreSample.WebAPI.Commands.dll"
+            ControllerAssemblyName
         };
-
-        public QueueStrategy QueueStrategy => QueueStrategy.AllCommands;
+        
 
 
         public object GetService(Type serviceType) => InternalDependencyResolver.GetInstance(serviceType);

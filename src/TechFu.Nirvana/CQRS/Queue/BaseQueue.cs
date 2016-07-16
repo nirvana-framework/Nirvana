@@ -1,4 +1,5 @@
 ﻿using System;
+using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Util.Compression;
 using TechFu.Nirvana.Util.Io;
 using TechFu.Nirvana.Util.Tine;
@@ -9,6 +10,7 @@ namespace TechFu.Nirvana.CQRS.Queue
     {
 
 
+        protected IMediatorFactory Mediator;
         protected ICompression Compression;
         protected ISerializer Serializer;
         protected ISystemTime SystemTime;
@@ -21,7 +23,7 @@ namespace TechFu.Nirvana.CQRS.Queue
 
         public abstract void Clear();
 
-        public abstract void DoWork<T>(Func< T, bool> work, bool failOnException = false, bool requeueOnFailure = true);
+        public abstract void DoWork<T>(Func< object, bool> work, bool failOnException = false, bool requeueOnFailure = true);
 
         public abstract void GetAndExecute(int numberOfConsumers);
 
@@ -44,6 +46,11 @@ namespace TechFu.Nirvana.CQRS.Queue
         public BaseQueue<T> SetCompression(ICompression compression)
         {
             Compression = compression;
+            return this;
+        }
+        public BaseQueue<T> SetMediator(IMediatorFactory mediator)
+        {
+            Mediator= mediator;
             return this;
         }
 

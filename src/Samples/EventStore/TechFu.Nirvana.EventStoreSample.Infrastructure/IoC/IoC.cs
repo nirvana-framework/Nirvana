@@ -2,6 +2,7 @@ using System.Reflection;
 using StructureMap;
 using StructureMap.Graph;
 using TechFu.Nirvana.AzureQueues.Handlers;
+using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
@@ -54,6 +55,7 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
             x.For<IWebMediator>().Use<WebMediator>();
             x.For<IQueueFactory>().Use<AzureQueueFactory>();
             x.For<IAzureQueueConfiguration>().Use<AzureQueueConfiguration>();
+            x.For<INirvanaConfiguration>().Use<NirvanaConfiguration>();
 
             x.For<IQueueController>().Singleton().Use<AzureQueueController>();
             x.For<ISerializer>().Singleton().Use<Serializer>();

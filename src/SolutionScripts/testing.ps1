@@ -65,10 +65,12 @@ function global:start-es-sample()
 	{
 		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "https://local-commandAPI.mean.software:54406/api/Infrastructure/Test"
 		start-iis "TechFu.Nirvana.EventStoreSample.UI" "https://local-eventsourcesample.mean.software:54407/index.html"
+		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor" "https://local-commandProcessor.mean.software:54408/"
 	}
 	else{
 		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "http://local-commandAPI.mean.software:24168/api/Infrastructure/Test"
 		start-iis "TechFu.Nirvana.EventStoreSample.UI" "http://local-eventsourcesample.mean.software:24169/index.html"
+		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor" "http://local-commandProcessor.mean.software:24170/"
 	
 	}
 }

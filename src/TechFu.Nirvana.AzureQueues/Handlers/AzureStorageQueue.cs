@@ -2,12 +2,19 @@
 using System.Reflection;
 using System.Text;
 using Microsoft.WindowsAzure.Storage.Queue;
+using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.CQRS.Queue;
+using TechFu.Nirvana.CQRS.Util;
+using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.AzureQueues.Handlers
 {
     public class AzureStorageQueue : BaseQueue<CloudQueueMessage>
     {
+        private static readonly MethodInfo DoWorkmethodInfo;
+        private static readonly MethodInfo QueryMethodInfo;
+        private static readonly MethodInfo CommandMethodInfo;
+
         private readonly CloudQueueClient _client;
         private readonly CloudQueue _queue;
         private readonly string _queueName;
@@ -17,6 +24,13 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         public override Type MessageType { get; }
 
         public TimeSpan VisibilityTimeout { get; set; }
+
+        static AzureStorageQueue()
+        {
+            CommandMethodInfo = typeof(MediatorFactory).GetMethod("Command");
+            QueryMethodInfo = typeof(MediatorFactory).GetMethod("Query");
+            DoWorkmethodInfo = typeof(AzureStorageQueue).GetMethod("DoWork");
+        }
 
 
         public AzureStorageQueue(CloudQueueClient client, string rootType, Type messageType, int? timeout = null)
@@ -48,19 +62,14 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         public override void GetAndExecute(int numberOfConsumers)
         {
+            //TODO - handle more than one message at a time...
             //Get DoWork
             var handler = GetDoWorkHandler(MessageType);
-            var workFunction = GetWorkFunction();
 
-
-
-            //  var result =  DoWork(x=>HandleMessage(MessageType,x),false,true);
+            Func<object, bool> workMethod = InvokeCommand;
+            handler.Invoke(this, new object[] {workMethod, false, false});
         }
 
-        private object GetWorkFunction()
-        {
-            throw new NotImplementedException();
-        }
 
         public override void Send<T>(T message)
         {
@@ -84,7 +93,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         }
 
 
-        public override void DoWork<T>(Func<T, bool> work, bool failOnException, bool failOnActionFailure)
+        public override void DoWork<T>(Func<object, bool> work, bool failOnException, bool failOnActionFailure)
         {
             var cloudMessage = GetAzureMessage();
 
@@ -94,11 +103,11 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                 return;
             }
 
-            var result = false;
+            var success = false;
             var typed = DeserializeMessage<Message<T>, T>(message.Text);
             try
             {
-                result = work(typed.Body);
+                success = work(typed.Body);
             }
             catch (Exception ex)
             {
@@ -108,7 +117,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                 }
             }
 
-            if (result || !failOnActionFailure)
+            if (success || !failOnActionFailure)
             {
                 Delete(cloudMessage);
             }
@@ -152,24 +161,24 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         private MethodInfo GetDoWorkHandler(Type messageType)
         {
-           return 
-               GetType().GetMethod("DoWork",
-                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod,
-                    null, CallingConventions.HasThis,
-                    new[] { messageType },
-                    null);
-            
-        }
-        private MethodInfo GetWorkFunction(Type messageType)
-        {
-           return 
-               GetType().GetMethod("DoWork",
-                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod,
-                    null, CallingConventions.HasThis,
-                    new[] { messageType },
-                    null);
-            
+            return DoWorkmethodInfo.MakeGenericMethod(messageType);
         }
 
+
+        public bool InvokeCommand(object x)
+        {
+            var responseType = CqrsUtils.GetResponseType(MessageType, typeof(Command<>));
+            var method = CommandMethodInfo.MakeGenericMethod(responseType);
+            var result = method.Invoke(Mediator, new[] {x});
+            return ((Response) result).Success();
+        }
+
+        public bool InvokeQuery(object x)
+        {
+            var responseType = CqrsUtils.GetResponseType(MessageType, typeof(Query<>));
+            var method = QueryMethodInfo.MakeGenericMethod(responseType);
+            var result = method.Invoke(Mediator, new[] {x});
+            return ((Response) result).Success();
+        }
     }
 }

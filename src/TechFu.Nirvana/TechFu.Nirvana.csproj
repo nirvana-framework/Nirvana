@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Configuration\ControllerType.cs" />
     <Compile Include="Configuration\INirvanaConfiguration.cs" />
-    <Compile Include="Configuration\NirvanaConfiguration.cs" />
+    <Compile Include="Configuration\NirvanaSetup.cs" />
     <Compile Include="Configuration\NirvanaConfigurationHelper.cs" />
     <Compile Include="Configuration\QueueStrategy.cs" />
     <Compile Include="Configuration\MediationStrategy.cs" />
@@ -61,7 +61,6 @@
     <Compile Include="CQRS\Queue\IQueueFactory.cs" />
     <Compile Include="CQRS\Queue\IQueueMessage.cs" />
     <Compile Include="CQRS\Queue\QueueReference.cs" />
-    <Compile Include="CQRS\Queue\QueueRouer.cs" />
     <Compile Include="CQRS\Queue\QueueStatus.cs" />
     <Compile Include="CQRS\Util\CQRSUtils.cs" />
     <Compile Include="Domain\Enumeration.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="Mediation\IMediator.cs" />
     <Compile Include="Mediation\IMediatorFactory.cs" />
     <Compile Include="Mediation\Implementation\Mediator.cs" />
+    <Compile Include="Mediation\Implementation\QueueMediator.cs" />
     <Compile Include="Mediation\INopHandler.cs" />
     <Compile Include="Mediation\IQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

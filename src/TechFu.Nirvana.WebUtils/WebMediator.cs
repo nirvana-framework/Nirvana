@@ -4,17 +4,22 @@ using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.CQRS.Util;
 using TechFu.Nirvana.Mediation;
+using TechFu.Nirvana.Util.Io;
 
 namespace TechFu.Nirvana.WebUtils
 {
     public class WebMediator : IWebMediator
     {
+        private readonly ISerializer _serializer;
         private readonly INirvanaConfiguration _endpointConfiguration;
 
-        public WebMediator(INirvanaConfiguration endpointConfiguration)
+        public WebMediator(ISerializer serializer, INirvanaConfiguration endpointConfiguration)
         {
+            _serializer = serializer;
             _endpointConfiguration = endpointConfiguration;
         }
+
+
 
 
         public string GetQueryApiPath(Type type)
@@ -72,11 +77,14 @@ namespace TechFu.Nirvana.WebUtils
 
         private T BuildCommandResponse<T>(HttpResponseMessage httpResponseMessage)
         {
-            return default(T);
+
+            return _serializer.Deserialize<T>(httpResponseMessage.Content.ReadAsStringAsync().Result);
+
+
         }
         private T BuildQueryResponse<T>(HttpResponseMessage httpResponseMessage)
         {
-            return default(T);
+            return _serializer.Deserialize<T>(httpResponseMessage.Content.ReadAsStringAsync().Result);
         }
     }
 }

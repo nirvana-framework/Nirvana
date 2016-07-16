@@ -27,7 +27,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands
             "TechFu.Nirvana.EventStoreSample.WebAPI.Commands.dll"
         };
 
-        public QueueStrategy QueueStrategy => QueueStrategy.AllCommands;
+    
 
 
         public object GetService(Type serviceType) => InternalDependencyResolver.GetInstance(serviceType);

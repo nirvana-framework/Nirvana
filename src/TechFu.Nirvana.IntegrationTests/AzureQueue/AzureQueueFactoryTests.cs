@@ -3,6 +3,7 @@ using Should;
 using TechFu.Nirvana.AzureQueues.Handlers;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
+using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.TestFramework;
 using TechFu.Nirvana.Util.Compression;
 using TechFu.Nirvana.Util.Tine;
@@ -27,7 +28,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
                 var queue =
                     new AzureQueueFactory(new AzureQueueConfiguration(),new AzureQueueController(), new Serializer(), new SystemTime(),
-                        new Compression()).GetQueue(command.GetType());
+                        new Compression(),new MediatorFactory()).GetQueue(command.GetType());
                 queue.Clear();
                 queue.Send(command);
 
@@ -49,7 +50,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
                 var queue =
                     new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(), new Serializer(), new SystemTime(),
-                        new Compression()).GetQueue(command.GetType());
+                        new Compression(), new MediatorFactory()).GetQueue(command.GetType());
                 queue.Clear();
                 queue.Send(command);
 
@@ -75,9 +76,11 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
         private readonly AzureQueueConfiguration _azureQueueConfiguration;
         private readonly SystemTime _systemTime;
         private IQueueController _controller;
+        private IMediatorFactory _mediator;
 
         public AzureQueueFactoryTests()
         {
+            _mediator = new MediatorFactory();
             _controller = new AzureQueueController();
             _systemTime = new SystemTime();
             _compression = new Compression();
@@ -86,7 +89,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
             SetupBuildAndRun();
         }
 
-        public override Func<AzureQueueFactory> Build=>() =>new AzureQueueFactory(_azureQueueConfiguration,_controller, _serializer, _systemTime, _compression);
+        public override Func<AzureQueueFactory> Build=>() =>new AzureQueueFactory(_azureQueueConfiguration,_controller, _serializer, _systemTime, _compression,_mediator);
 
         public override void RunTest()
         {

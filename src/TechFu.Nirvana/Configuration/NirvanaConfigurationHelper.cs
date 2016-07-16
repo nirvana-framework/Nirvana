@@ -39,21 +39,41 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.ControllerTypes =new [] { ControllerType.Command};
             return this;
         }
-        public NirvanaConfigurationHelper ToQueues(QueueStrategy queueStrategy)
-        {
 
-            NirvanaSetup.QueueStrategy = queueStrategy;
-            NirvanaSetup.CommandsToQueueEndpoint = true;
+        public NirvanaConfigurationHelper HandleInProc()
+        {
+            NirvanaSetup.CommandMediationStrategy = MediationStrategy.InProcess;
+            return this;
+
+        }
+
+        public NirvanaConfigurationHelper ToQueues()
+        {
+            NirvanaSetup.CommandMediationStrategy  = MediationStrategy.ForwardToQueue;
             return this;
         }
-        public NirvanaConfigurationHelper FromQueues(QueueStrategy queueStrategy,MediationStrategy mediationStrategy)
+        public NirvanaConfigurationHelper ToLongRunningQueues()
         {
-
-            NirvanaSetup.MediationStrategy = mediationStrategy;
-            NirvanaSetup.QueueStrategy = queueStrategy;
-            NirvanaSetup.CommandsFromQueueEndpoint = true;
+            NirvanaSetup.CommandMediationStrategy  = MediationStrategy.ForwardLongRunningToQueue;
             return this;
         }
+        public NirvanaConfigurationHelper ToWeb()
+        {
+            NirvanaSetup.CommandMediationStrategy  = MediationStrategy.ForwardToWeb;
+            return this;
+        }
+        public NirvanaConfigurationHelper FromQueues()
+        {
+            NirvanaSetup.RecieverMediationStrategy = MediationStrategy.ForwardToQueue;
+            return this;
+        }
+
+        public NirvanaConfigurationHelper FromLongRunningQueues()
+        {
+            NirvanaSetup.RecieverMediationStrategy = MediationStrategy.ForwardLongRunningToQueue;
+            return this;
+        }
+
         public NirvanaConfigurationHelper ForQueries()
         {
             NirvanaSetup.ControllerTypes = new [] { ControllerType.Query};

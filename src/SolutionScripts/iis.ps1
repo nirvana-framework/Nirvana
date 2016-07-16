@@ -7,6 +7,7 @@ function global:Configure-IIS()
 	Configure-Application-IIS "TechFu.Nirvana.WebApi.Sample" "Samples\Simple WebApi\TechFu.Nirvana.WebApi.Sample" "local-samplenirvanaapi.mean.software" 24167 54405 
 	Configure-Application-IIS "TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "local-commandAPI.mean.software" 24168 54406
 	Configure-Application-IIS "TechFu.Nirvana.EventStoreSample.UI" "Samples\EventStore\TechFu.Nirvana.EventStoreSample.UI" "local-eventsourcesample.mean.software" 24169 54407
+	Configure-Application-IIS "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor" "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor" "local-commandProcessor.mean.software" 24170 54408
 }
 
 function global:Configure-Application-IIS([string] $application,[string]$physicalPath , [string] $siteName, [int] $httpPort, [int] $httpsPort)

@@ -14,11 +14,21 @@ namespace TechFu.Nirvana.Configuration
         public static ControllerType[] ControllerTypes { get; internal set; }
         public static Func<Type, Object> GetService { get; internal set; }
 
-        //Queue Configuration
-        public static bool CommandsToQueueEndpoint { get; set; } = false;
-        public static bool CommandsFromQueueEndpoint { get; set; } = false;
-        public static QueueStrategy QueueStrategy { get; set; } = QueueStrategy.None;
-        public static MediationStrategy MediationStrategy { get; set; } = MediationStrategy.InProcess;
+        //processing configuration
+        public static MediationStrategy CommandMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
+        public static MediationStrategy QueryMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
+        public static MediationStrategy UINotificationMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
+
+
+        //Configuration for task processor applications
+        public static MediationStrategy RecieverMediationStrategy { get; internal set; } = MediationStrategy.None;
+
+        //How to handle sub calls within this app 
+        // FOr instance, we get a call from a command processor via web
+        // we want to call this in proc and syncronously
+        //somewhere in the command we want to call a child command  - this may or may not be something 
+        //we want to run in proc
+        public static ChildMediationStrategy ChildMediationStrategy { get; internal  set; } = ChildMediationStrategy.Synchronous;
 
 
         //Called On Configuration build
@@ -27,7 +37,7 @@ namespace TechFu.Nirvana.Configuration
         public static IDictionary<string,Type[]> CommandTypes{ get; internal set; }
         public static IDictionary<string,Type[]> UiNotificationTypes{ get; internal set; }
         
-        //TODO - replace CqrsUtils.GetRootTypeName  with this and use it that function to speed up
+        //TODO - replace CqrsUtils.GetRootTypeName  with this and use it in that function to speed up
         //public static IDictionary<Type, string> TypeRootNames{ get; internal set; }
 
 

@@ -27,7 +27,7 @@ namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
             "TechFu.Nirvana.EventStoreSample.WebAPI.Commands.dll"
         };
 
-        public QueueStrategy QueueStrategy => QueueStrategy.AllCommands;
+
         public MediationStrategy MediationStrategy => MediationStrategy.ForwardToWeb;
 
 

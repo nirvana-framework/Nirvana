@@ -8,7 +8,8 @@ namespace TechFu.Nirvana.Mediation
     public enum MediatorStrategy
     {
         ForwardToWeb,
-        HandleInProc
+        HandleInProc,
+        ForwardToQueue,
     }
 
     public interface IMediatorFactory
@@ -16,6 +17,8 @@ namespace TechFu.Nirvana.Mediation
         IMediator GetMediator(Type messageType);
         CommandResponse<TResult> Command<TResult>(Command<TResult> command);
         QueryResponse<TResult> Query<TResult>(Query<TResult> query);
+
+
     }
 
     public class MediatorFactory : IMediatorFactory
@@ -42,6 +45,10 @@ namespace TechFu.Nirvana.Mediation
             {
                 return GetWebMediator();
             }
+            if (mediatorStrategy == MediatorStrategy.ForwardToQueue)
+            {
+                return GetQueueMediator();
+            }
             return GetInProcMediator();
         }
 
@@ -49,15 +56,23 @@ namespace TechFu.Nirvana.Mediation
         {
             if (messageType.IsQuery() 
                 || messageType.IsUiNotification() 
-                ||( messageType.IsCommand() && NirvanaSetup.MediationStrategy == MediationStrategy.InProcess))
+                ||( messageType.IsCommand() && NirvanaSetup.CommandMediationStrategy == MediationStrategy.InProcess))
             {
                 // Only commands can be offloaded currently
                 return MediatorStrategy.HandleInProc;
             }
 
-            if (NirvanaSetup.MediationStrategy == MediationStrategy.ForwardToWeb)
+            if (NirvanaSetup.CommandMediationStrategy == MediationStrategy.ForwardToWeb )
             {
                 return MediatorStrategy.ForwardToWeb;
+            }
+
+            if (
+                NirvanaSetup.CommandMediationStrategy == MediationStrategy.ForwardToQueue
+                || NirvanaSetup.CommandMediationStrategy == MediationStrategy.ForwardLongRunningToQueue
+                )
+            {
+                return MediatorStrategy.ForwardToQueue;
             }
             throw new NotImplementedException("Currently all children must be handed in proc in synchronously.");
 
@@ -70,8 +85,11 @@ namespace TechFu.Nirvana.Mediation
         {
             return (IWebMediator) NirvanaSetup.GetService(typeof(IWebMediator));
         }
-  
 
+        private IMediator GetQueueMediator()
+        {
+            return (IQueueMediator) NirvanaSetup.GetService(typeof(IQueueMediator));
+        }
         private static IMediator GetInProcMediator()
         {
             return (IMediator) NirvanaSetup.GetService(typeof(IMediator));

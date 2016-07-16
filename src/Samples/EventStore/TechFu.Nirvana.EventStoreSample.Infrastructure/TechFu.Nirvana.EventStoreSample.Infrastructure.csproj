@@ -117,7 +117,7 @@
       <Name>TechFu.Nirvana.AzureQueues</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\TechFu.Nirvana.WebUtils\TechFu.Nirvana.WebUtils.csproj">
-      <Project>{BB85B7D1-9352-4192-83D3-4A5B16C5434D}</Project>
+      <Project>{bb85b7d1-9352-4192-83d3-4a5b16c5434d}</Project>
       <Name>TechFu.Nirvana.WebUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\TechFu.Nirvana.EventStoreSample.Domain\TechFu.Nirvana.EventStoreSample.Domain.csproj">
