@@ -23,9 +23,6 @@ export class NavComponent implements OnInit {
         this._securityService.getLoginEvent().subscribe(x=>this.loggedIn = x);
         this.links = [
 
-            new NavItem('/clients', 'Customers'),
-            new NavItem('/users', 'Users'),
-            new NavItem('/myAccount', 'My Account'),
         ]
     }
 

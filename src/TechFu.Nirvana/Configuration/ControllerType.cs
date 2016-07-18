@@ -4,6 +4,6 @@
     {
         Command,
         Query,
-        Notification
+        UiNotification
     }
 }

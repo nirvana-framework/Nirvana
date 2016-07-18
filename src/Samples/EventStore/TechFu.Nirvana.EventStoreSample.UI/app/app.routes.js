@@ -1,10 +1,10 @@
 "use strict";
 var router_1 = require('@angular/router');
 var dashboard_component_1 = require("./components/pages/dashboard.component");
-var searchResultsComponent_1 = require("./components/pages/searchResultsComponent");
+var TaskComponent_1 = require("./components/pages/TaskComponent");
 var routes = [
     { path: '', component: dashboard_component_1.DashboardComponent },
-    { path: 'searchResults/:searchTerm', component: searchResultsComponent_1.SearchResultsComponent },
+    { path: 'tasks', component: TaskComponent_1.TaskComponent },
 ];
 exports.APP_ROUTER_PROVIDERS = [
     router_1.provideRouter(routes)

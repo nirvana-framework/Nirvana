@@ -6,23 +6,13 @@ namespace TechFu.Nirvana.Mediation
     {
         CommandResponse<TResult> Command<TResult>(Command<TResult> command);
         QueryResponse<TResult> Query<TResult>(Query<TResult> query);
-        UiNotificationResponse UiNotification<T>(UiNotification<T> notification);
-        
+        UIEventResponse UiNotification<T>(UiEvent<T> uiEevent);
+        InternalEventResponse InternalEvent<T>(InternalEvent<T> internalEvent);
     }
 
-    public interface IWebMediator : IMediator
-    {
-    }
+    public interface IWebMediator : IMediator{}
+    public interface ILocalMediator : IMediator{}
+    public interface IQueueMediator : IMediator{}
+    public interface IEventStoreMediator : IMediator{}
 
-    public interface ILocalMediator : IMediator
-    {
-    }
-
-    public interface IQueueMediator : IMediator
-    {
-    }
-
-    public interface IEventStoreMediator : IMediator
-    {
-    }
 }

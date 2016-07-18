@@ -9,6 +9,7 @@ namespace TechFu.Nirvana.WebUtils
     {
         Task<HttpResponseMessage> Command<T>(string requestUri, Command<T> value);
         Task<HttpResponseMessage> Query<T>(string requestUrl, Query<T> value);
+        Task<HttpResponseMessage> UiEvent<T>(string requestUrl, UiEvent<T> value);
     }
 
     public class NirvanaNirvanaHttpClient : INirvanaHttpClient, IDisposable
@@ -48,6 +49,13 @@ namespace TechFu.Nirvana.WebUtils
             response.EnsureSuccessStatusCode();
             return response;
             
+        }
+
+        public async Task<HttpResponseMessage> UiEvent<T>(string requestUri, UiEvent<T> value)
+        {
+            var response = await _httpClient.PostAsJsonAsync(requestUri, value);
+            response.EnsureSuccessStatusCode();
+            return response;
         }
 
         protected virtual void Dispose(bool disposing)

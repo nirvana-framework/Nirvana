@@ -9,6 +9,20 @@
         <server-message-list></server-message-list>
     </div>
 
+    <a [routerLink]="['/tasks']">Task PoC</a>
+
     <button class="btn btn-primary" (click)="sendCommand()">send test command</button>
     {{lastClickTime}}
+
+
+    <div class="flex-row">
+        <task class="flex"
+              [eventName]="'longTask.status'"
+              [apiUrl]="'http://localhost:9123/tasks/long'"></task>
+        <task class="flex"
+              [eventName]="'shortTask.status'"
+              [apiUrl]="'http://localhost:9123/tasks/short'"></task>
+    </div>
+
+
 </div>

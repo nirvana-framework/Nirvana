@@ -21,7 +21,7 @@ namespace TechFu.Nirvana.CQRS.Util
 
         public static Type[] UiNotificationTypes(string rootType)
         {
-            return ActionTypes(typeof(UiNotification<>), rootType);
+            return ActionTypes(typeof(UiEvent<>), rootType);
         }
 
         public static IEnumerable<Type> GetAllTypes(string rootType)
@@ -36,9 +36,9 @@ namespace TechFu.Nirvana.CQRS.Util
             {
                 types.AddRange(ActionTypes(typeof(Query<>), rootType));
             }
-            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Notification))
+            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.UiNotification))
             {
-                types.AddRange(ActionTypes(typeof(UiNotification<>), rootType));
+                types.AddRange(ActionTypes(typeof(UiEvent<>), rootType));
             }
 
             return types;
@@ -65,8 +65,13 @@ namespace TechFu.Nirvana.CQRS.Util
 
         private static bool MatchesRootType(string rootType, Type x)
         {
-            var customAttribute = Attribute.GetCustomAttribute(x, NirvanaSetup.AggregateAttributeType);
+            var customAttribute = CustomAttribute(x);
             return customAttribute != null && NirvanaSetup.AttributeMatchingFunction(rootType, customAttribute);
+        }
+
+        public static Attribute CustomAttribute(Type x)
+        {
+            return Attribute.GetCustomAttribute(x, NirvanaSetup.AggregateAttributeType);
         }
 
 

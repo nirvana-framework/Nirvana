@@ -17,7 +17,7 @@ namespace TechFu.Nirvana.Configuration
         //processing configuration
         public static MediationStrategy CommandMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
         public static MediationStrategy QueryMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
-        public static MediationStrategy UINotificationMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
+        public static MediationStrategy UiNotificationMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
 
 
         //Configuration for task processor applications

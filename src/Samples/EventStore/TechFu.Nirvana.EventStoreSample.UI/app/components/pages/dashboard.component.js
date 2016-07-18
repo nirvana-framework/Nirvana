@@ -19,15 +19,37 @@ var basePage_1 = require("./basePage");
 var errorrService_1 = require("../../services/errorrService");
 var AlertList_1 = require("../framework/AlertList");
 var Commands_1 = require("../../models/CQRS/Commands");
+var router_1 = require("@angular/router");
+var TaskComponent_1 = require("./TaskComponent");
+var channel_service_1 = require("../framework/signlar/channel.service");
+var StatusEvent = (function () {
+    function StatusEvent() {
+    }
+    return StatusEvent;
+}());
 var DashboardComponent = (function (_super) {
     __extends(DashboardComponent, _super);
-    function DashboardComponent(_securityService, errorService) {
+    function DashboardComponent(_securityService, errorService, channelService) {
         _super.call(this, _securityService, errorService, null);
+        this.channelService = channelService;
         this.lastClickTime = null;
         this.componentName = 'dashboard';
         this.registerEvents(this.errorList);
+        // Let's wire up to the signalr observables
+        //
+        this.connectionState$ = this.channelService.connectionState$
+            .map(function (state) { return channel_service_1.ConnectionState[state]; });
+        this.channelService.error$.subscribe(function (error) { console.warn(error); }, function (error) { console.error("errors$ error", error); });
+        // Wire up a handler for the starting$ observable to log the
+        //  success/fail result
+        //
+        this.channelService.starting$.subscribe(function () { console.log("signalr service has been started"); }, function () { console.warn("signalr service failed to start!"); });
     }
     DashboardComponent.prototype.ngOnInit = function () {
+        // Start the connection up!
+        //
+        console.log("Starting the channel service");
+        this.channelService.start();
     };
     DashboardComponent.prototype.ngOnDestroy = function () {
         this.disposeRegisteredEvents();
@@ -49,8 +71,9 @@ var DashboardComponent = (function (_super) {
             moduleId: module.id,
             selector: 'dashboard-component',
             templateUrl: 'dashboard.html',
+            directives: [router_1.ROUTER_DIRECTIVES, TaskComponent_1.TaskComponent]
         }), 
-        __metadata('design:paramtypes', [serverService_1.ServerService, errorrService_1.ErrorService])
+        __metadata('design:paramtypes', [serverService_1.ServerService, errorrService_1.ErrorService, channel_service_1.ChannelService])
     ], DashboardComponent);
     return DashboardComponent;
 }(basePage_1.BasePage));

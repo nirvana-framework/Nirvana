@@ -29,7 +29,8 @@ namespace TechFu.Nirvana.WebApi.Startup
             // Map this rule first
             config.Routes.MapHttpRoute(
                 "WithActionApi",
-                "api/{controller}/{action}"
+                "api/{controller}/{action}",
+                new {id=RouteParameter.Optional}
             );
 
             additionalConfig(config);

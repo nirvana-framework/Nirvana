@@ -15,11 +15,13 @@ namespace TechFu.Nirvana.Configuration
 
         //Forward Commands and UI Notifications to a queue
         public static MediationStrategy ForwardToQueue= new MediationStrategy(3, "To Queue");
+        
+        //Specify a convention for determining in process vs queued processing for long running processes
         public static MediationStrategy ForwardLongRunningToQueue= new MediationStrategy(4, "To Queue For Long Running Processes");
 
         //Forward Commands and UI Notifications to and event store
+        //When using this, the long running check is disabled - event sourcing is all or nothing
         public static MediationStrategy ForwardToEventStore= new MediationStrategy(5, "To Event Store");
-        public static MediationStrategy ForwardLongRunningToEventStore = new MediationStrategy(5, "To Event Store For Long Running Processes");
 
         public MediationStrategy(int value, string displayName) : base(value, displayName)
         {

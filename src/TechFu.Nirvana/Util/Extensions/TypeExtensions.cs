@@ -88,7 +88,7 @@ namespace TechFu.Nirvana.Util.Extensions
         }
         public static bool IsUiNotification(this Type type)
         {
-            return !type.IsAbstract && type.Closes(typeof(UiNotification<>));
+            return !type.IsAbstract && type.Closes(typeof(UiEvent<>));
         }
 
 

@@ -31,6 +31,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
                 .ForCommands()
+                .ForwardUiNotificationsToWeb()
                 .BuildConfiguration()
                 ;
 

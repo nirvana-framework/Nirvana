@@ -48,13 +48,14 @@
     <Compile Include="Configuration\QueueStrategy.cs" />
     <Compile Include="Configuration\MediationStrategy.cs" />
     <Compile Include="CQRS\AuthorizedCommand.cs" />
+    <Compile Include="CQRS\InternalEvent.cs" />
     <Compile Include="CQRS\IAuthorizedTask.cs" />
     <Compile Include="CQRS\MessageType.cs" />
     <Compile Include="CQRS\NirvanaTask.cs" />
     <Compile Include="CQRS\Nop.cs" />
     <Compile Include="CQRS\NopCommand.cs" />
     <Compile Include="CQRS\Queue\BaseQueue.cs" />
-    <Compile Include="CQRS\UINotification.cs" />
+    <Compile Include="CQRS\UIEvent.cs" />
     <Compile Include="CQRS\Queue\IMessage.cs" />
     <Compile Include="CQRS\Queue\IQueue.cs" />
     <Compile Include="CQRS\Queue\IQueueController.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="CQRS\Queue\IQueueMessage.cs" />
     <Compile Include="CQRS\Queue\QueueReference.cs" />
     <Compile Include="CQRS\Queue\QueueStatus.cs" />
+    <Compile Include="CQRS\UiNotifications\INirvanaNotificationHub.cs" />
     <Compile Include="CQRS\Util\CQRSUtils.cs" />
     <Compile Include="Domain\Enumeration.cs" />
     <Compile Include="CQRS\Command.cs" />

@@ -59,6 +59,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.WebUtils", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internal Domain", "Internal Domain", "{8DA75389-1603-415A-9EF2-3E8FD51A532A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.SignalRNotifications", "TechFu.Nirvana.SignalRNotifications\TechFu.Nirvana.SignalRNotifications.csproj", "{CC7D13ED-CC5F-48AF-A614-285888BC6E65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Console", "Samples\Notifications.Console\Notifications.Console.csproj", "{14333B8C-1A6F-40A4-B980-CE0344D7F05B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +133,14 @@ Global
 		{BB85B7D1-9352-4192-83D3-4A5B16C5434D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB85B7D1-9352-4192-83D3-4A5B16C5434D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB85B7D1-9352-4192-83D3-4A5B16C5434D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC7D13ED-CC5F-48AF-A614-285888BC6E65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC7D13ED-CC5F-48AF-A614-285888BC6E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC7D13ED-CC5F-48AF-A614-285888BC6E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC7D13ED-CC5F-48AF-A614-285888BC6E65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14333B8C-1A6F-40A4-B980-CE0344D7F05B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14333B8C-1A6F-40A4-B980-CE0344D7F05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14333B8C-1A6F-40A4-B980-CE0344D7F05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14333B8C-1A6F-40A4-B980-CE0344D7F05B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,5 +164,7 @@ Global
 		{1B125B71-EDF2-457F-BA20-C01F73CF467F} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
 		{BB85B7D1-9352-4192-83D3-4A5B16C5434D} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
 		{8DA75389-1603-415A-9EF2-3E8FD51A532A} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
+		{CC7D13ED-CC5F-48AF-A614-285888BC6E65} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
+		{14333B8C-1A6F-40A4-B980-CE0344D7F05B} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
 	EndGlobalSection
 EndGlobal

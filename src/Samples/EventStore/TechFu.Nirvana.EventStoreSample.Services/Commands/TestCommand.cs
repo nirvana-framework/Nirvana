@@ -11,10 +11,4 @@ namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Commands
     {
         public string Message { get; set; }
     }
-
-
-    public class TestNotification : UiNotification<TestNotification>
-    {
-        public string Message { get; set; }
-    }
 }

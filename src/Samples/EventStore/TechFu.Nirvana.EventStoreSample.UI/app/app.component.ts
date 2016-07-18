@@ -1,6 +1,6 @@
-import {Component, OnInit,ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {Location} from '@angular/common';
-import {ROUTER_DIRECTIVES, Router, provideRouter, RouterConfig} from '@angular/router';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {CookieService} from "angular2-cookie/core";
 
 import {HeaderComponent} from './components/header.component';
@@ -9,19 +9,19 @@ import {ServerService} from "./services/serverService";
 import {CookieWrapper} from "./services/util/cookieWrapper";
 import {ErrorService} from "./services/errorrService";
 import 'rxjs/add/operator/toPromise';
+import {Observable} from "rxjs/Rx";
+import {ChannelService, ConnectionState} from "./components/framework/signlar/channel.service";
 
 
 @Component({
     selector: 'my-app',
     moduleId: module.id,
     templateUrl: 'app.html',
-    directives: [ HeaderComponent, NavComponent, ROUTER_DIRECTIVES],
-    providers: [Location, CookieWrapper, ServerService, CookieService, ErrorService],
+    directives: [HeaderComponent, NavComponent, ROUTER_DIRECTIVES],
+    providers: [Location, CookieWrapper, ServerService, CookieService, ErrorService,ChannelService],
 })
 export class AppComponent implements OnInit {
-    constructor(private secService:ServerService,private viewContainerRef:ViewContainerRef) {
 
-    }
 
     ngOnInit() {
 

@@ -18,10 +18,9 @@ var serverService_1 = require("./services/serverService");
 var cookieWrapper_1 = require("./services/util/cookieWrapper");
 var errorrService_1 = require("./services/errorrService");
 require('rxjs/add/operator/toPromise');
+var channel_service_1 = require("./components/framework/signlar/channel.service");
 var AppComponent = (function () {
-    function AppComponent(secService, viewContainerRef) {
-        this.secService = secService;
-        this.viewContainerRef = viewContainerRef;
+    function AppComponent() {
     }
     AppComponent.prototype.ngOnInit = function () {
     };
@@ -31,9 +30,9 @@ var AppComponent = (function () {
             moduleId: module.id,
             templateUrl: 'app.html',
             directives: [header_component_1.HeaderComponent, nav_component_1.NavComponent, router_1.ROUTER_DIRECTIVES],
-            providers: [common_1.Location, cookieWrapper_1.CookieWrapper, serverService_1.ServerService, core_2.CookieService, errorrService_1.ErrorService],
+            providers: [common_1.Location, cookieWrapper_1.CookieWrapper, serverService_1.ServerService, core_2.CookieService, errorrService_1.ErrorService, channel_service_1.ChannelService],
         }), 
-        __metadata('design:paramtypes', [serverService_1.ServerService, core_1.ViewContainerRef])
+        __metadata('design:paramtypes', [])
     ], AppComponent);
     return AppComponent;
 }());

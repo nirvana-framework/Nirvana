@@ -57,6 +57,10 @@
     <Compile Include="WebMediator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TechFu.Nirvana.SignalRNotifications\TechFu.Nirvana.SignalRNotifications.csproj">
+      <Project>{CC7D13ED-CC5F-48AF-A614-285888BC6E65}</Project>
+      <Name>TechFu.Nirvana.SignalRNotifications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TechFu.Nirvana\TechFu.Nirvana.csproj">
       <Project>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</Project>
       <Name>TechFu.Nirvana</Name>

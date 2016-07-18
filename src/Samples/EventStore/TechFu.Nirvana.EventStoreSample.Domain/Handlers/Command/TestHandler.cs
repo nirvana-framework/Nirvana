@@ -1,5 +1,6 @@
 ﻿using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Commands;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.UiNotifications;
 using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Command
@@ -19,7 +20,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Command
         public CommandResponse<TestResult> Handle(TestCommand command)
         {
 
-            _mediator.Notification(new TestNotification());
+            _mediator.Notification(new TestUiEvent());
 
             return CommandResponse.Succeeded(new TestResult
             {

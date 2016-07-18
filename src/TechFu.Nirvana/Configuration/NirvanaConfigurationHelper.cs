@@ -84,18 +84,24 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.ControllerTypes = new [] { ControllerType.Command,ControllerType.Query};
             return this;
         }
-        public NirvanaConfigurationHelper ForForNotifications()
+        public NirvanaConfigurationHelper ForNotifications()
         {
-            NirvanaSetup.ControllerTypes = new [] { ControllerType.Notification};
+            NirvanaSetup.ControllerTypes = new [] { ControllerType.UiNotification};
             return this;
         }
         public NirvanaConfigurationHelper ForAllTypes()
         {
-            NirvanaSetup.ControllerTypes = new [] { ControllerType.Command, ControllerType.Query, ControllerType.Notification};
+            NirvanaSetup.ControllerTypes = new [] { ControllerType.Command, ControllerType.Query, ControllerType.UiNotification};
             return this;
         }
 
-        public NirvanaConfigurationHelper ForCqrsTypes(params ControllerType[] types)
+        public NirvanaConfigurationHelper ForwardUiNotificationsToWeb()
+        {
+            NirvanaSetup.UiNotificationMediationStrategy = MediationStrategy.ForwardToWeb;
+            return this;
+        }
+
+        public NirvanaConfigurationHelper ForControllerTypes(params ControllerType[] types)
         {
             NirvanaSetup.ControllerTypes = types;
             return this;
@@ -106,7 +112,7 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.RootNames = EnumExtensions.GetAll(NirvanaSetup.RootType).SelectToArray(x => x.Value);
             NirvanaSetup.QueryTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(Query<>),x).ToArray());
             NirvanaSetup.CommandTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(Command<>),x).ToArray());
-            NirvanaSetup.UiNotificationTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(UiNotification<>),x).ToArray());
+            NirvanaSetup.UiNotificationTypes= NirvanaSetup.RootNames.ToDictionary(x => x, x => CqrsUtils.ActionTypes(typeof(UiEvent<>),x).ToArray());
 
 
         }

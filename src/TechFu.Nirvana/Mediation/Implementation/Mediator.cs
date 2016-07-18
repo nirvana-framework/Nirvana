@@ -22,8 +22,13 @@ namespace TechFu.Nirvana.Mediation.Implementation
             var plan = new MediatorPlan<TResult>(typeof(IQueryHandler<,>), HandleMethod, query.GetType());
             return plan.InvokeQuery(query);
         }
+ 
+        public UIEventResponse UiNotification<T>(UiEvent<T> uiEevent)
+        {
+            throw new NotImplementedException();
+        }
 
-        public UiNotificationResponse UiNotification<T>(UiNotification<T> notification)
+        public InternalEventResponse InternalEvent<T>(InternalEvent<T> internalEvent)
         {
             throw new NotImplementedException();
         }

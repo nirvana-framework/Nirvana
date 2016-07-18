@@ -4,7 +4,32 @@ using System.Linq;
 
 namespace TechFu.Nirvana.CQRS
 {
-    public class UiNotificationResponse : Response
+    public class UIEventResponse : Response
+    {
+
+
+        private static UIEventResponse BuildResponse(bool isValid,List<ValidationMessage> validationMessages = null, Exception exception = null)
+        {
+            return new UIEventResponse
+            {
+                IsValid = isValid,
+                ValidationMessages = validationMessages ?? new List<ValidationMessage>(),
+                Exception = exception
+            };
+        }
+
+        public static UIEventResponse Succeeded()
+        {
+            return BuildResponse(true);
+        }
+        public static UIEventResponse Failed()
+        {
+            return BuildResponse(false);
+        }
+
+
+    }
+    public class InternalEventResponse : Response
     {
     }
 

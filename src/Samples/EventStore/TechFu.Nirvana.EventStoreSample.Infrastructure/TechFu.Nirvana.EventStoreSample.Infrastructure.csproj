@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Client">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Client.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -105,6 +108,7 @@
     <Compile Include="Io\JsonSerializerSettingsFactory.cs" />
     <Compile Include="Io\Serializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignalRHubs\TestHubSignalRNotifications.cs" />
     <Compile Include="Threading\SynchronizedStack.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +119,10 @@
     <ProjectReference Include="..\..\..\TechFu.Nirvana.AzureQueues\TechFu.Nirvana.AzureQueues.csproj">
       <Project>{47e14cff-8608-4da3-b6c6-6fa23effbe89}</Project>
       <Name>TechFu.Nirvana.AzureQueues</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TechFu.Nirvana.SignalRNotifications\TechFu.Nirvana.SignalRNotifications.csproj">
+      <Project>{CC7D13ED-CC5F-48AF-A614-285888BC6E65}</Project>
+      <Name>TechFu.Nirvana.SignalRNotifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\TechFu.Nirvana.WebUtils\TechFu.Nirvana.WebUtils.csproj">
       <Project>{bb85b7d1-9352-4192-83d3-4a5b16c5434d}</Project>
