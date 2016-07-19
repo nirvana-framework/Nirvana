@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.UiNotifications;
 using TechFu.Nirvana.SignalRNotifications;
 
@@ -11,7 +12,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications
     {
         private bool isHit;
 
-        public InfrastructureController()
+        public InfrastructureController():base(new Serializer())
         {
             isHit = true;
         }
@@ -25,7 +26,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications
     }
 
 
-    public class TestNotificationHub : UiNotificationHubBase
+    public class TestNotificationHub : UiNotificationHub
     {
        
     }

@@ -101,7 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="EventHub.cs" />
     <Compile Include="EventStatus.cs" />
     <Compile Include="NirvanaCommandProcessorEndpointConfiguration.cs" />
     <Compile Include="Program.cs" />

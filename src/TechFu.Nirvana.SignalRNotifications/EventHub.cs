@@ -1,22 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR;
-using Newtonsoft.Json;
-using TechFu.Nirvana.SignalRNotifications;
+﻿using System.Threading.Tasks;
+using TechFu.Nirvana.CQRS.UiNotifications;
 
-namespace Notifications.Console
+namespace TechFu.Nirvana.SignalRNotifications
 {
-    public class EventHub : UiNotificationHubBase
+    public class EventHub : UiNotificationHub
     {
-
-      
-
-        
-
-
-      
-
-
         public override Task OnConnected()
         {
             var ev = new ChannelEvent
@@ -52,6 +40,4 @@ namespace Notifications.Console
             return base.OnDisconnected(stopCalled);
         }
     }
-
-  
 }

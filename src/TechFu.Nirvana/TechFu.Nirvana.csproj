@@ -63,7 +63,10 @@
     <Compile Include="CQRS\Queue\IQueueMessage.cs" />
     <Compile Include="CQRS\Queue\QueueReference.cs" />
     <Compile Include="CQRS\Queue\QueueStatus.cs" />
+    <Compile Include="CQRS\UiNotifications\ChannelEvent.cs" />
+    <Compile Include="CQRS\UiNotifications\Constants.cs" />
     <Compile Include="CQRS\UiNotifications\INirvanaNotificationHub.cs" />
+    <Compile Include="CQRS\UiNotifications\IUiNotificationHub.cs" />
     <Compile Include="CQRS\Util\CQRSUtils.cs" />
     <Compile Include="Domain\Enumeration.cs" />
     <Compile Include="CQRS\Command.cs" />

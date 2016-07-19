@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Web.Http;
-using Microsoft.AspNet.SignalR;
+using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.SignalRNotifications;
 
 namespace Notifications.Console
@@ -9,13 +9,10 @@ namespace Notifications.Console
     public class TaskController : ApiControllerWithHub<EventHub>
     {
         private readonly string _channel = Constants.TaskChannel;
-        private readonly IHubContext _context;
-
-        public TaskController()
+        
+        public TaskController() : base(new Serializer())
         {
-            // Normally we would inject this
-            //
-            _context = GlobalHost.ConnectionManager.GetHubContext<EventHub>();
+            
         }
 
 
@@ -49,29 +46,21 @@ namespace Notifications.Console
                 PercentComplete = 0.0
             };
 
-            PublishEvent(eventName, status);
+            PublishEvent(eventName, status,_channel);
 
             for (double i = 0; i < steps; i++)
             {
                 status.State = "working";
                 status.PercentComplete = i/steps*100;
-                PublishEvent(eventName, status);
+                PublishEvent(eventName, status, _channel);
                 Thread.Sleep(500);
             }
 
             status.State = "complete";
             status.PercentComplete = 100;
-            PublishEvent(eventName, status);
+            PublishEvent(eventName, status, _channel);
         }
 
-        private void PublishEvent(string eventName, TaskStatus taskStatus)
-        {
-            _context.Clients.Group(_channel).OnEvent(Constants.TaskChannel, new UiNotificationHubBase.ChannelEvent
-            {
-                ChannelName = Constants.TaskChannel,
-                Name = eventName,
-                Data = taskStatus
-            });
-        }
+        
     }
 }

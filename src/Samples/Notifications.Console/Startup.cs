@@ -10,7 +10,7 @@ namespace Notifications.Console
     {
         public void Configuration(IAppBuilder app)
         {
-            StructureMapAspNet.Configure(Assembly.GetExecutingAssembly());
+            StructureMapAspNet.Configure(Assembly.GetExecutingAssembly()).ForWebApi();
             var config = new NirvanaCommandProcessorEndpointConfiguration();
 
             NirvanaSetup.Configure()

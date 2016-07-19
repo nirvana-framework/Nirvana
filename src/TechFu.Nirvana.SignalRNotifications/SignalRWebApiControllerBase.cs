@@ -1,12 +1,21 @@
 ﻿using System;
 using Microsoft.AspNet.SignalR;
+using TechFu.Nirvana.CQRS.UiNotifications;
+using TechFu.Nirvana.Util.Io;
 using TechFu.Nirvana.WebApi.Controllers;
 
 namespace TechFu.Nirvana.SignalRNotifications
 {
     public abstract class ApiControllerWithHub<THub> : CommandQueryApiControllerBase
-        where THub : UiNotificationHubBase
+        where THub : UiNotificationHub
     {
+        private readonly ISerializer _serializer;
+
+        protected ApiControllerWithHub(ISerializer serializer)
+        {
+            _serializer = serializer;
+        }
+
         protected readonly Lazy<IHubContext> _hub =
             new Lazy<IHubContext>(() => GlobalHost.ConnectionManager.GetHubContext<THub>());
 
@@ -16,5 +25,16 @@ namespace TechFu.Nirvana.SignalRNotifications
         {
             return  typeof(THub).Name + ":" + instance;
         }
+
+        protected void PublishEvent(string eventName, object task,string channelName)
+        {
+            Hub.Clients.Group(channelName).OnEvent(Constants.TaskChannel, new ChannelEvent()
+            {
+                ChannelName = Constants.TaskChannel,
+                Name = eventName,
+                Data = task
+            });
+        }
+
     }
 }

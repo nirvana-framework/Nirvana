@@ -1,51 +1,26 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
-using Newtonsoft.Json;
+using TechFu.Nirvana.Configuration;
+using TechFu.Nirvana.CQRS.UiNotifications;
+using TechFu.Nirvana.Util.Io;
 
 namespace TechFu.Nirvana.SignalRNotifications
 {
-    public abstract class UiNotificationHubBase : Hub
+    public abstract class UiNotificationHub : Hub, IUiNotificationHub
     {
-        public static class Constants
+        protected ISerializer Serializer;
+
+        protected UiNotificationHub()
         {
-            public const string AdminChannel = "admin";
-            public const string TaskChannel = "tasks";
+            Serializer = (ISerializer) NirvanaSetup.GetService(typeof(ISerializer));
         }
 
-        public class ChannelEvent
-        {
-            private object _data;
-
-            public string Name { get; set; }
-            public string ChannelName { get; set; }
-            public DateTimeOffset Timestamp { get; set; }
-
-            public object Data
-            {
-                get { return _data; }
-                set
-                {
-                    _data = value;
-                    Json = JsonConvert.SerializeObject(_data);
-                }
-            }
-
-            public string Json { get; private set; }
-
-            public ChannelEvent()
-            {
-                Timestamp = DateTimeOffset.Now;
-            }
-        }
         public Task Publish(ChannelEvent channelEvent)
         {
             Clients.Group(channelEvent.ChannelName).OnEvent(channelEvent.ChannelName, channelEvent);
 
             if (channelEvent.ChannelName != Constants.AdminChannel)
             {
-                // Push this out on the admin channel
-                //
                 Clients.Group(Constants.AdminChannel).OnEvent(Constants.AdminChannel, channelEvent);
             }
 
@@ -87,7 +62,5 @@ namespace TechFu.Nirvana.SignalRNotifications
 
             await Publish(ev);
         }
-
-
     }
 }
