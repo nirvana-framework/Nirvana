@@ -25,8 +25,6 @@ var TaskComponent = (function () {
     }
     TaskComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // Get an observable for events emitted on this channel
-        //
         this.channelService.sub(this.channel).subscribe(function (x) {
             switch (x.Name) {
                 case _this.eventName: {
@@ -38,27 +36,7 @@ var TaskComponent = (function () {
         });
     };
     TaskComponent.prototype.appendStatusUpdate = function (ev) {
-        // Just prepend this to the messages string shown in the textarea
-        //
-        var date = new Date();
-        switch (ev.Data.State) {
-            case "starting": {
-                this.messages = (date.toLocaleTimeString() + " : starting\n") + this.messages;
-                break;
-            }
-            case "complete": {
-                this.messages = (date.toLocaleTimeString() + " : complete\n") + this.messages;
-                break;
-            }
-            default: {
-                this.messages = (date.toLocaleTimeString() + " : " + ev.Data.State + " : " + ev.Data.PercentComplete + " % complete\n") + this.messages;
-            }
-        }
-    };
-    TaskComponent.prototype.callApi = function () {
-        this.http.get(this.apiUrl)
-            .map(function (res) { return res.json(); })
-            .subscribe(function (message) { console.log(message); });
+        this.messages += (new Date().toLocaleTimeString() + " : ") + JSON.stringify(ev.Data);
     };
     __decorate([
         core_1.Input(), 

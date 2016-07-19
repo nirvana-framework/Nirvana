@@ -17,6 +17,6 @@ bootstrap(AppComponent,
         HTTP_PROVIDERS,
         APP_ROUTER_PROVIDERS,
         ChannelService,
-        {provide:SignalrWindow, useValue: window,multi:false},
-        {provide:"channel.config", useValue: channelConfig,multi:false}
-    ]);
+{provide:SignalrWindow, useValue: window,multi:false},
+{provide:"channel.config", useValue: channelConfig,multi:false}
+]);

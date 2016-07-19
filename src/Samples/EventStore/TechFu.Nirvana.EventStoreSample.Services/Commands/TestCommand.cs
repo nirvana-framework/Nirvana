@@ -1,4 +1,5 @@
-﻿using TechFu.Nirvana.CQRS;
+﻿using System;
+using TechFu.Nirvana.CQRS;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Commands
 {

@@ -25,7 +25,7 @@ export class ChannelConfig {
     channel: string;
 }
 
-export class ChannelEvent {
+    export class ChannelEvent {
     Name: string;
     ChannelName: string;
     Timestamp: Date;

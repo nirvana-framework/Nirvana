@@ -2,8 +2,5 @@
 
 namespace TechFu.Nirvana.CQRS
 {
-    public class UiEvent<T> : NirvanaTask
-    {
-        public Guid GroupId { get; set; }
-    }
+    public class UiEvent<T> : NirvanaTask{}
 }

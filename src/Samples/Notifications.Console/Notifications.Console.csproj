@@ -100,13 +100,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
     <Compile Include="EventStatus.cs" />
     <Compile Include="NirvanaCommandProcessorEndpointConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="TaskController.cs" />
+    <Compile Include="InfrastructureController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

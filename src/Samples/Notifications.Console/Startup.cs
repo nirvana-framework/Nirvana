@@ -13,6 +13,8 @@ namespace Notifications.Console
             StructureMapAspNet.Configure(Assembly.GetExecutingAssembly()).ForWebApi();
             var config = new NirvanaCommandProcessorEndpointConfiguration();
 
+
+
             NirvanaSetup.Configure()
              .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
              .SetRootType(config.RootType)
@@ -30,6 +32,14 @@ namespace Notifications.Console
             var httpConfig = new HttpConfiguration();
 
             httpConfig.MapHttpAttributeRoutes();
+
+
+            httpConfig.Routes.MapHttpRoute(
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new {id = RouteParameter.Optional}
+            );
+
 
             app.UseWebApi(httpConfig);
         }

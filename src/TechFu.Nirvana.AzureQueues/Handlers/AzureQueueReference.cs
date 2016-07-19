@@ -18,7 +18,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             Status = QueueStatus.Started;
             Queue = factory.GetQueue(MessageType);
 
-           
+
             RunQueue();
 
 
@@ -42,7 +42,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                     {
                         Status = QueueStatus.Stopped;
                     }
-                }).ContinueWith(x=>x.Wait(this.SleepInMSBetweenTasks));
+                }).ContinueWith(x => x.Wait(this.SleepInMSBetweenTasks));
             }
             if (Status == QueueStatus.ShuttingDown)
             {
@@ -55,14 +55,23 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         private void StopQueueInternal(IQueue queue)
         {
             Console.WriteLine($"Shutting down {this.Name}");
-            this.Status=QueueStatus.ShuttingDown;
+            this.Status = QueueStatus.ShuttingDown;
         }
 
 
 
         private async Task DoWork(CancellationToken ct)
         {
-            InternalQueueController.GetAndExecute(Queue,NumberOfConsumers);
+            try
+            {
+
+                InternalQueueController.GetAndExecute(Queue, NumberOfConsumers);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
             //TODO - handle multiple items here...
         }
 

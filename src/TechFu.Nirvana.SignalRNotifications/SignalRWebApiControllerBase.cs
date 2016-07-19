@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNet.SignalR;
 using TechFu.Nirvana.CQRS.UiNotifications;
-using TechFu.Nirvana.Util.Io;
 using TechFu.Nirvana.WebApi.Controllers;
 
 namespace TechFu.Nirvana.SignalRNotifications
@@ -9,14 +8,7 @@ namespace TechFu.Nirvana.SignalRNotifications
     public abstract class ApiControllerWithHub<THub> : CommandQueryApiControllerBase
         where THub : UiNotificationHub
     {
-        private readonly ISerializer _serializer;
-
-        protected ApiControllerWithHub(ISerializer serializer)
-        {
-            _serializer = serializer;
-        }
-
-        protected readonly Lazy<IHubContext> _hub =
+        public readonly Lazy<IHubContext> _hub =
             new Lazy<IHubContext>(() => GlobalHost.ConnectionManager.GetHubContext<THub>());
 
         protected IHubContext Hub => _hub.Value;

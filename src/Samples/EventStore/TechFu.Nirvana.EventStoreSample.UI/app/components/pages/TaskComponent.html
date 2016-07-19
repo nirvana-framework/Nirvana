@@ -1,14 +1,8 @@
-<div>
-    <h4>Task component bound to '{{eventName}}'</h4>
+<div class="row">
+    <div class="col-xs-12">
+        <textarea  class="console" cols="50" rows="15" [value]="messages"></textarea>
+    </div>
 </div>
 
-<div class="commands">
-            <textarea
-                    class="console"
-                    cols="50"
-                    rows="15"                     [value]="messages"></textarea>
 
-<div class="">
-    <button (click)="callApi()" class="btn btn-primary">Call API</button>
-</div>
-</div>
+
