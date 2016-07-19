@@ -9,25 +9,9 @@ class StatusEvent {
 }
 
 @Component({
+    moduleId:module.id,
     selector: 'task',
-    template: `
-        <div>
-            <h4>Task component bound to '{{eventName}}'</h4>
-        </div>
-    
-        <div class="commands">
-            <textarea 
-                class="console"
-                cols="50" 
-                rows="15"
-                disabled
-                [value]="messages"></textarea> 
-                
-            <div class="commands__input">
-                <button (click)="callApi()">Call API</button>
-            </div>
-        </div>
-    `
+    templateUrl: 'TaskComponent.html'
 })
 export class TaskComponent implements OnInit {
     @Input() eventName: string;

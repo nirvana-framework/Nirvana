@@ -70,8 +70,9 @@ var TaskComponent = (function () {
     ], TaskComponent.prototype, "apiUrl", void 0);
     TaskComponent = __decorate([
         core_1.Component({
+            moduleId: module.id,
             selector: 'task',
-            template: "\n        <div>\n            <h4>Task component bound to '{{eventName}}'</h4>\n        </div>\n    \n        <div class=\"commands\">\n            <textarea \n                class=\"console\"\n                cols=\"50\" \n                rows=\"15\"\n                disabled\n                [value]=\"messages\"></textarea> \n                \n            <div class=\"commands__input\">\n                <button (click)=\"callApi()\">Call API</button>\n            </div>\n        </div>\n    "
+            templateUrl: 'TaskComponent.html'
         }), 
         __metadata('design:paramtypes', [http_1.Http, channel_service_1.ChannelService])
     ], TaskComponent);

@@ -1,27 +1,14 @@
 <div>
-    <div class="apa">
-        <div class="apb">
-            <h2 class="apc">Tasks!</h2>
-        </div>
-    </div>
+    <h4>Task component bound to '{{eventName}}'</h4>
+</div>
 
-    <div class="row">
-        <server-message-list></server-message-list>
-    </div>
-
-    <div>
-        <h4>Task component bound to '{{eventName}}'</h4>
-    </div>
-    <div class="commands">
+<div class="commands">
             <textarea
                     class="console"
                     cols="50"
-                    rows="15"
-                    disabled
-                    [value]="messages"></textarea>
+                    rows="15"                     [value]="messages"></textarea>
 
-        <div class="commands__input">
-            <button (click)="callApi()" class="btn btn-primary">Call API</button>
-        </div>
-    </div>
+<div class="">
+    <button (click)="callApi()" class="btn btn-primary">Call API</button>
+</div>
 </div>

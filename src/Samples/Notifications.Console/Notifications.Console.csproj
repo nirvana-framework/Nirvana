@@ -103,6 +103,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="EventHub.cs" />
     <Compile Include="EventStatus.cs" />
+    <Compile Include="NirvanaCommandProcessorEndpointConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -111,6 +112,28 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TechFu.Nirvana.SignalRNotifications\TechFu.Nirvana.SignalRNotifications.csproj">
+      <Project>{CC7D13ED-CC5F-48AF-A614-285888BC6E65}</Project>
+      <Name>TechFu.Nirvana.SignalRNotifications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TechFu.NirVana.WebApi\TechFu.NirVana.WebApi.csproj">
+      <Project>{e2e27cb9-a052-4186-b4ca-f5a26ace902b}</Project>
+      <Name>TechFu.NirVana.WebApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TechFu.Nirvana\TechFu.Nirvana.csproj">
+      <Project>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</Project>
+      <Name>TechFu.Nirvana</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EventStore\TechFu.Nirvana.EventStoreSample.Infrastructure\TechFu.Nirvana.EventStoreSample.Infrastructure.csproj">
+      <Project>{14892A6D-5061-4F82-9E67-85333162C755}</Project>
+      <Name>TechFu.Nirvana.EventStoreSample.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EventStore\TechFu.Nirvana.EventStoreSample.Services\TechFu.Nirvana.EventStoreSample.Services.Shared.csproj">
+      <Project>{D6626170-C962-48B9-B0D3-275B34DD6D7A}</Project>
+      <Name>TechFu.Nirvana.EventStoreSample.Services.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,11 +1,12 @@
 ﻿using System.Threading;
 using System.Web.Http;
 using Microsoft.AspNet.SignalR;
+using TechFu.Nirvana.SignalRNotifications;
 
 namespace Notifications.Console
 {
     [RoutePrefix("tasks")]
-    public class TaskController : ApiController
+    public class TaskController : ApiControllerWithHub<EventHub>
     {
         private readonly string _channel = Constants.TaskChannel;
         private readonly IHubContext _context;
@@ -65,7 +66,7 @@ namespace Notifications.Console
 
         private void PublishEvent(string eventName, TaskStatus taskStatus)
         {
-            _context.Clients.Group(_channel).OnEvent(Constants.TaskChannel, new ChannelEvent
+            _context.Clients.Group(_channel).OnEvent(Constants.TaskChannel, new UiNotificationHubBase.ChannelEvent
             {
                 ChannelName = Constants.TaskChannel,
                 Name = eventName,

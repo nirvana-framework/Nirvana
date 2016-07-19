@@ -1,5 +1,8 @@
-﻿using System.Web.Http;
+﻿using System.Reflection;
+using System.Web.Http;
 using Owin;
+using TechFu.Nirvana.Configuration;
+using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 
 namespace Notifications.Console
 {
@@ -7,18 +10,23 @@ namespace Notifications.Console
     {
         public void Configuration(IAppBuilder app)
         {
-            // This server will be accessed by clients from other domains, so
-            //  we open up CORS. This needs to be before the call to
-            //  .MapSignalR()!
-            //
+            StructureMapAspNet.Configure(Assembly.GetExecutingAssembly());
+            var config = new NirvanaCommandProcessorEndpointConfiguration();
+
+            NirvanaSetup.Configure()
+             .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
+             .SetRootType(config.RootType)
+             .SetAggregateAttributeType(config.AggregateAttributeType)
+             .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
+             .SetDependencyResolver(config.GetService)
+             .ForCommandAndQuery()
+             .BuildConfiguration()
+             ;
+            
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
-            // Add SignalR to the OWIN pipeline
-            //
             app.MapSignalR();
-
-            // Build up the WebAPI middleware
-            //
+            
             var httpConfig = new HttpConfiguration();
 
             httpConfig.MapHttpAttributeRoutes();
