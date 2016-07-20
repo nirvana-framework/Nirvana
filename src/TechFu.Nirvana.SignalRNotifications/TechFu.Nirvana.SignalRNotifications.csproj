@@ -76,7 +76,7 @@
     <Compile Include="EventHub.cs" />
     <Compile Include="NirvanaHubConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignalRWebApiControllerBase.cs" />
+    <Compile Include="ApiControllerWithHub.cs" />
     <Compile Include="UiNotificationHub.cs" />
   </ItemGroup>
   <ItemGroup>
