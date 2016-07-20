@@ -6,11 +6,8 @@ using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
-using TechFu.Nirvana.EventStoreSample.Infrastructure.SignalRHubs;
-using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Mediation.Implementation;
-using TechFu.Nirvana.SignalRNotifications;
 using TechFu.Nirvana.Util;
 using TechFu.Nirvana.Util.Io;
 using TechFu.Nirvana.Util.Tine;
@@ -66,8 +63,6 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 
 
 
-            //Temporary until I can get a convention together...
-            x.For<IUiINotificationHub<InfrastructureRoot>>().Use<TestHubSignalRNotifications>();
         }
 
         private static string GetStringForConnection(IContext c, ConnectionType connectionType)

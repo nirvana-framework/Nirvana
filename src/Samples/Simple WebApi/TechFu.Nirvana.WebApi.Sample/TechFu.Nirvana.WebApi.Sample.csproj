@@ -159,14 +159,6 @@
     <None Include="Properties\PublishProfiles\lopv2 - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TechFu.Core\TechFu.Core.csproj">
-      <Project>{61216E59-6DA6-4889-B59C-B0B40F409AA9}</Project>
-      <Name>TechFu.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TechFu.Infrastructure\TechFu.Infrastructure.csproj">
-      <Project>{3B9E5770-7454-48F5-9D60-1EABDDD5DFB1}</Project>
-      <Name>TechFu.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\TechFu.NirVana.WebApi\TechFu.NirVana.WebApi.csproj">
       <Project>{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}</Project>
       <Name>TechFu.NirVana.WebApi</Name>
@@ -174,10 +166,6 @@
     <ProjectReference Include="..\..\..\TechFu.Nirvana\TechFu.Nirvana.csproj">
       <Project>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</Project>
       <Name>TechFu.Nirvana</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TechFu.Services.Shared\TechFu.Services.Shared.csproj">
-      <Project>{4D319954-D9D1-450A-8756-A642E75CCDCF}</Project>
-      <Name>TechFu.Services.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

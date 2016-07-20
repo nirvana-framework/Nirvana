@@ -17,29 +17,13 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(x => WebApiConfig.Register(x, a => { }));
-            RouteConfig.RegisterRoutes(RouteTable.Routes, x => { });
+    
+         
 
+      
 
-            StructureMapAspNet.Configure(Assembly.GetExecutingAssembly()).ForWebApi();
-            var config = new NirvanaCommandProcessorEndpointConfiguration();
-
-            NirvanaSetup.Configure()
-                .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
-                .SetRootType(config.RootType)
-                .SetAggregateAttributeType(config.AggregateAttributeType)
-                .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
-                .SetDependencyResolver(config.GetService)
-                .ForNotifications()
-                .BuildConfiguration()
-                ;
-
-            new CqrsApiGenerator().LoadAssembly(config.ControllerAssemblyName,
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"), config.RootNamespace);
-
-            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),
-                new DynamicApiSelector(GlobalConfiguration.Configuration, new[] {typeof(ApiUpdatesController),typeof(InfrastructureController) },
-                    config.ControllerAssemblyName, Assembly.GetExecutingAssembly().GetName().Name));
+//            new CqrsApiGenerator().LoadAssembly(config.ControllerAssemblyName,
+//                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"), config.RootNamespace);
         }
     }
 }

@@ -19,31 +19,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands
 
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(x=>WebApiConfig.Register(x, a => { }));
-            RouteConfig.RegisterRoutes(RouteTable.Routes,x=>{});
 
-
-
-            StructureMapAspNet.Configure(Assembly.GetExecutingAssembly()).ForWebApi();
-            var config = new NirvanaQueueEndpointConfiguration();
-
-            NirvanaSetup.Configure()
-                .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
-                .SetRootType(config.RootType)
-                .SetAggregateAttributeType(config.AggregateAttributeType)
-                .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
-                .SetDependencyResolver(config.GetService)
-                .ForCommands()
-                .ToQueues()
-                .BuildConfiguration()
-                ;
-
-            new CqrsApiGenerator().LoadAssembly(config.ControllerAssemblyName,
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"), config.RootNamespace);
-
-            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),
-                new DynamicApiSelector(GlobalConfiguration.Configuration, new[] {typeof(ApiUpdatesController)},
-                    config.ControllerAssemblyName, Assembly.GetExecutingAssembly().GetName().Name));
         }
     }
 }

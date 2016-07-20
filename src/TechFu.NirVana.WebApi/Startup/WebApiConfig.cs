@@ -17,8 +17,8 @@ namespace TechFu.Nirvana.WebApi.Startup
                     DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
                 };
 
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
+//            var cors = new EnableCorsAttribute("*", "*", "*");
+//            config.EnableCors(cors);
 
 
             config.Formatters.Add(new BrowserJsonFormatter());

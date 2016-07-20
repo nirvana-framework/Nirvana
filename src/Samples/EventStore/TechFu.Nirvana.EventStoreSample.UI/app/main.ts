@@ -11,6 +11,7 @@ import {ChannelService} from "./components/framework/signlar/channel.service";
 
 let channelConfig = new ChannelConfig();
 channelConfig.url = "http://localhost:9123/signalr";
+channelConfig.url = "http://local-uinotifications.mean.software:24171/signalr";
 channelConfig.hubName = "EventHub";
 
 bootstrap(AppComponent,
