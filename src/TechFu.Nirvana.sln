@@ -61,8 +61,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.SignalRNotif
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.QueueCommandProcessor", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor.csproj", "{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications.Console", "Samples\EventStore\Notifications.Console\Notifications.Console.csproj", "{14333B8C-1A6F-40A4-B980-CE0344D7F05B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,10 +135,6 @@ Global
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14333B8C-1A6F-40A4-B980-CE0344D7F05B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14333B8C-1A6F-40A4-B980-CE0344D7F05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14333B8C-1A6F-40A4-B980-CE0344D7F05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14333B8C-1A6F-40A4-B980-CE0344D7F05B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +159,5 @@ Global
 		{8DA75389-1603-415A-9EF2-3E8FD51A532A} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
 		{CC7D13ED-CC5F-48AF-A614-285888BC6E65} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844} = {1ECA6730-5BE1-41CE-BCA5-73AEC8506306}
-		{14333B8C-1A6F-40A4-B980-CE0344D7F05B} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
 	EndGlobalSection
 EndGlobal

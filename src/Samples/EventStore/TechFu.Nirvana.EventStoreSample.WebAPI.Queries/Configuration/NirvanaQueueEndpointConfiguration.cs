@@ -1,9 +1,8 @@
 ﻿using System;
-using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
 
-namespace TechFu.Nirvana.EventStoreSample.WebAPI.Queries
+namespace TechFu.Nirvana.EventStoreSample.WebAPI.Queries.Configuration
 {
     public class NirvanaQueueEndpointConfiguration
     {
