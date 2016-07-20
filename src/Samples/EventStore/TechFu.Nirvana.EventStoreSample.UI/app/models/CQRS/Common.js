@@ -65,4 +65,38 @@ var QueryResponse = (function (_super) {
     return QueryResponse;
 }(Response));
 exports.QueryResponse = QueryResponse;
+var SignalrWindow = (function (_super) {
+    __extends(SignalrWindow, _super);
+    function SignalrWindow() {
+        _super.apply(this, arguments);
+    }
+    return SignalrWindow;
+}(Window));
+exports.SignalrWindow = SignalrWindow;
+(function (ConnectionState) {
+    ConnectionState[ConnectionState["Connecting"] = 1] = "Connecting";
+    ConnectionState[ConnectionState["Connected"] = 2] = "Connected";
+    ConnectionState[ConnectionState["Reconnecting"] = 3] = "Reconnecting";
+    ConnectionState[ConnectionState["Disconnected"] = 4] = "Disconnected";
+})(exports.ConnectionState || (exports.ConnectionState = {}));
+var ConnectionState = exports.ConnectionState;
+var ChannelConfig = (function () {
+    function ChannelConfig() {
+    }
+    return ChannelConfig;
+}());
+exports.ChannelConfig = ChannelConfig;
+var ChannelEvent = (function () {
+    function ChannelEvent() {
+        this.Timestamp = new Date();
+    }
+    return ChannelEvent;
+}());
+exports.ChannelEvent = ChannelEvent;
+var ChannelSubject = (function () {
+    function ChannelSubject() {
+    }
+    return ChannelSubject;
+}());
+exports.ChannelSubject = ChannelSubject;
 //# sourceMappingURL=Common.js.map

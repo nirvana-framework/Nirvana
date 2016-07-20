@@ -29,7 +29,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
                 var queue =
                     new AzureQueueFactory(new AzureQueueConfiguration(),new AzureQueueController(), new Serializer(), new SystemTime(),
                         new Compression(),new MediatorFactory()).GetQueue(command.GetType());
-                queue.Clear();
+              ((AzureStorageQueue)queue).Clear();
                 queue.Send(command);
 
                 queue.DoWork<TestCommand>(x => ProcessCommand(command), false, true);
@@ -51,7 +51,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
                 var queue =
                     new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(), new Serializer(), new SystemTime(),
                         new Compression(), new MediatorFactory()).GetQueue(command.GetType());
-                queue.Clear();
+                ((AzureStorageQueue)queue).Clear();
                 queue.Send(command);
 
                 queue.DoWork<TestCommand>(x => ProcessCommand(command), false, true);

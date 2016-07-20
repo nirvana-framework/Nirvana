@@ -42,7 +42,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Topshelf, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Topshelf.4.0.1\lib\net452\Topshelf.dll</HintPath>
+      <HintPath>..\..\..\packages\Topshelf.4.0.1\lib\net452\Topshelf.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -56,19 +56,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Samples\EventStore\TechFu.Nirvana.EventStoreSample.Infrastructure\TechFu.Nirvana.EventStoreSample.Infrastructure.csproj">
+    <ProjectReference Include="..\TechFu.Nirvana.EventStoreSample.Infrastructure\TechFu.Nirvana.EventStoreSample.Infrastructure.csproj">
       <Project>{14892A6D-5061-4F82-9E67-85333162C755}</Project>
       <Name>TechFu.Nirvana.EventStoreSample.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samples\EventStore\TechFu.Nirvana.EventStoreSample.Services\TechFu.Nirvana.EventStoreSample.Services.Shared.csproj">
+    <ProjectReference Include="..\TechFu.Nirvana.EventStoreSample.Services\TechFu.Nirvana.EventStoreSample.Services.Shared.csproj">
       <Project>{D6626170-C962-48B9-B0D3-275B34DD6D7A}</Project>
       <Name>TechFu.Nirvana.EventStoreSample.Services.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TechFu.Nirvana.AzureQueues\TechFu.Nirvana.AzureQueues.csproj">
+    <ProjectReference Include="..\..\..\TechFu.Nirvana.AzureQueues\TechFu.Nirvana.AzureQueues.csproj">
       <Project>{47e14cff-8608-4da3-b6c6-6fa23effbe89}</Project>
       <Name>TechFu.Nirvana.AzureQueues</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TechFu.Nirvana\TechFu.Nirvana.csproj">
+    <ProjectReference Include="..\..\..\TechFu.Nirvana\TechFu.Nirvana.csproj">
       <Project>{6d5e2ca2-1da6-4436-ba8a-93e1d44d2576}</Project>
       <Name>TechFu.Nirvana</Name>
     </ProjectReference>

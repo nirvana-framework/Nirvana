@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from "@angular/core";
 import {Http, Response} from "@angular/http";
-import {ChannelEvent, ChannelService} from "../framework/signlar/channel.service";
+import {ChannelService} from "../framework/signlar/channel.service";
+import {ChannelEvent} from "../../models/CQRS/Common";
 
 
 class StatusEvent {
@@ -21,8 +22,7 @@ export class TaskComponent implements OnInit {
 
     private channel = "tasks";
 
-    constructor(private http:Http,
-                private channelService:ChannelService) {
+    constructor(private http:Http,private channelService:ChannelService) {
 
     }
 
@@ -31,7 +31,7 @@ export class TaskComponent implements OnInit {
         this.channelService.sub(this.channel).subscribe(
             (x:ChannelEvent) => {
                 switch (x.Name) {
-                    case this.eventName: {
+                    case 'TestUiEvent': {
                         this.appendStatusUpdate(x);
                     }
                 }

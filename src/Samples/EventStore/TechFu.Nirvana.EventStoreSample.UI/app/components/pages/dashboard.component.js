@@ -22,6 +22,7 @@ var Commands_1 = require("../../models/CQRS/Commands");
 var router_1 = require("@angular/router");
 var TaskComponent_1 = require("./TaskComponent");
 var channel_service_1 = require("../framework/signlar/channel.service");
+var Common_1 = require("../../models/CQRS/Common");
 var StatusEvent = (function () {
     function StatusEvent() {
     }
@@ -38,7 +39,7 @@ var DashboardComponent = (function (_super) {
         // Let's wire up to the signalr observables
         //
         this.connectionState$ = this.channelService.connectionState$
-            .map(function (state) { return channel_service_1.ConnectionState[state]; });
+            .map(function (state) { return Common_1.ConnectionState[state]; });
         this.channelService.error$.subscribe(function (error) { console.warn(error); }, function (error) { console.error("errors$ error", error); });
         // Wire up a handler for the starting$ observable to log the
         //  success/fail result

@@ -10,7 +10,7 @@ import {CookieWrapper} from "./services/util/cookieWrapper";
 import {ErrorService} from "./services/errorrService";
 import 'rxjs/add/operator/toPromise';
 import {Observable} from "rxjs/Rx";
-import {ChannelService, ConnectionState} from "./components/framework/signlar/channel.service";
+import {ChannelService} from "./components/framework/signlar/channel.service";
 
 
 @Component({

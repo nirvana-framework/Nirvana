@@ -8,7 +8,6 @@ using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.SignalRHubs;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.UiNotifications;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Mediation.Implementation;
 using TechFu.Nirvana.SignalRNotifications;
@@ -63,6 +62,7 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 
             x.For<IQueueController>().Singleton().Use<AzureQueueController>();
             x.For<ISerializer>().Singleton().Use<Serializer>();
+            x.For<INirvanaHttpClient>().Singleton().Use<NirvanaHttpClient>();
 
 
 

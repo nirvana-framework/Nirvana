@@ -12,61 +12,39 @@ namespace TechFu.Nirvana.WebUtils
         Task<HttpResponseMessage> UiEvent<T>(string requestUrl, UiEvent<T> value);
     }
 
-    public class NirvanaNirvanaHttpClient : INirvanaHttpClient, IDisposable
+    public class NirvanaHttpClient : INirvanaHttpClient
     {
-        private HttpClient _httpClient;
-
-        public NirvanaNirvanaHttpClient(HttpClient httpClient)
+        public async Task<HttpResponseMessage> Command<T>(string requestUri, Command<T> value)
         {
-            _httpClient = httpClient;
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsJsonAsync(requestUri, value).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                return response;
+            }
         }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~NirvanaNirvanaHttpClient()
-        {
-            Dispose(false);
-        }
-
-
-        public async Task<HttpResponseMessage> Command<T>(string requestUri, Command<T> value) 
-        {
-            var response = await _httpClient.PostAsJsonAsync(requestUri, value);
-            response.EnsureSuccessStatusCode();
-            return response;
-        }
-
 
         public async Task<HttpResponseMessage> Query<T>(string requestUri, Query<T> value)
         {
-            var arguments = "";
-
-            var response = await _httpClient.GetAsync($"{requestUri}?{arguments}");
-            response.EnsureSuccessStatusCode();
-            return response;
-            
+            using (var client = new HttpClient())
+            {
+                var arguments = "";
+                var response = await client.GetAsync($"{requestUri}?{arguments}").ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                return response;
+            }
         }
 
         public async Task<HttpResponseMessage> UiEvent<T>(string requestUri, UiEvent<T> value)
         {
-            var response = await _httpClient.PostAsJsonAsync(requestUri, value);
-            response.EnsureSuccessStatusCode();
-            return response;
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing) return;
-
-            if (_httpClient != null)
+            using (var client = new HttpClient())
             {
-                _httpClient.Dispose();
-                _httpClient = null;
+                var response = await client.PostAsJsonAsync(requestUri, value).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                return response;
             }
         }
+
+      
     }
 }

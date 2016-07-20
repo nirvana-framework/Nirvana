@@ -4,7 +4,6 @@ using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.CQRS.Util;
 using TechFu.Nirvana.Mediation;
-using TechFu.Nirvana.SignalRNotifications;
 using TechFu.Nirvana.Util.Io;
 
 namespace TechFu.Nirvana.WebUtils
@@ -12,27 +11,26 @@ namespace TechFu.Nirvana.WebUtils
     public class WebMediator : IWebMediator
     {
         private readonly INirvanaConfiguration _endpointConfiguration;
+        private readonly INirvanaHttpClient _httpClient;
         private readonly ISerializer _serializer;
 
-        public WebMediator(ISerializer serializer, INirvanaConfiguration endpointConfiguration)
+        public WebMediator(ISerializer serializer, INirvanaConfiguration endpointConfiguration,
+            INirvanaHttpClient httpClient)
         {
             _serializer = serializer;
             _endpointConfiguration = endpointConfiguration;
+            _httpClient = httpClient;
         }
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
         {
             try
             {
-                using (var client = new NirvanaNirvanaHttpClient(new HttpClient()))
-                {
-                    var path = GetQueryApiPath(query.GetType());
-
-                    var uri = new Uri(new Uri(_endpointConfiguration.QueryEndpoint), path);
-                    var httpResponseMessage = client.Query(uri.ToString(), query).Result;
-                    var response = BuildQueryResponse<TResult>(httpResponseMessage);
-                    return QueryResponse.Succeeded(response);
-                }
+                var path = GetQueryApiPath(query.GetType());
+                var uri = new Uri(new Uri(_endpointConfiguration.QueryEndpoint), path);
+                var httpResponseMessage = _httpClient.Query(uri.ToString(), query).Result;
+                var response = BuildQueryResponse<TResult>(httpResponseMessage);
+                return QueryResponse.Succeeded(response);
             }
             catch (Exception ex)
             {
@@ -42,22 +40,12 @@ namespace TechFu.Nirvana.WebUtils
 
         public UIEventResponse UiNotification<T>(UiEvent<T> uiEevent)
         {
-            //var type = GetNotificationHubType<T>(uiEevent.GetType());
-            //var hub = NirvanaSetup.GetService(type);
-            //var method = hub.GetType().GetMethod(uiEevent.GetType().Name);
-            //method.Invoke(hub, new object[] {uiEevent});
-
             try
             {
-                using (var client = new NirvanaNirvanaHttpClient(new HttpClient()))
-                {
-                    var path = GetCommandApiPath(uiEevent.GetType());
-
-                    var uri = new Uri(new Uri(_endpointConfiguration.NotificationEndpoint), path);
-                    var httpResponseMessage = client.UiEvent(uri.ToString(), uiEevent).Result;
-                    
-                    return UIEventResponse.Succeeded();
-                }
+                var path = GetCommandApiPath(uiEevent.GetType());
+                var uri = new Uri(new Uri(_endpointConfiguration.NotificationEndpoint), path);
+                var httpResponseMessage = _httpClient.UiEvent(uri.ToString(), uiEevent).Result;
+                return UIEventResponse.Succeeded();
             }
             catch (Exception ex)
             {
@@ -75,32 +63,17 @@ namespace TechFu.Nirvana.WebUtils
         {
             try
             {
-                using (var client = new NirvanaNirvanaHttpClient(new HttpClient()))
-                {
-                    var path = GetCommandApiPath(command.GetType());
-
-                    var uri = new Uri(new Uri(_endpointConfiguration.QueryEndpoint), path);
-                    var httpResponseMessage = client.Command(uri.ToString(), command).Result;
-                    var response = BuildCommandResponse<TResult>(httpResponseMessage);
-                    return CommandResponse.Succeeded(response);
-                }
+                var path = GetCommandApiPath(command.GetType());
+                var uri = new Uri(new Uri(_endpointConfiguration.QueryEndpoint), path);
+                var httpResponseMessage = _httpClient.Command(uri.ToString(), command).Result;
+                var response = BuildCommandResponse<TResult>(httpResponseMessage);
+                return CommandResponse.Succeeded(response);
             }
             catch (Exception ex)
             {
                 return CommandResponse.Failed<TResult>(ex);
             }
         }
-
-        private static Type GetNotificationHubType<T>(Type notificationType)
-        {
-            var type = typeof(IUiINotificationHub<>);
-
-            var attributeType = CqrsUtils.CustomAttribute(notificationType);
-
-            var typeArguments = attributeType.GetType();
-            return type.MakeGenericType(typeArguments);
-        }
-
 
         public string GetQueryApiPath(Type type)
         {

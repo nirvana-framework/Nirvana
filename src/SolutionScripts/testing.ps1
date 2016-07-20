@@ -75,6 +75,10 @@ function global:start-es-sample()
 		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Notifications" "http://local-uinotifications.mean.software:24171/"
 	
 	}
+	 $path = Resolve-Path ".\samples\eventstore" 
+	 Start-Process "$path\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor\bin\debug\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor.exe"
+	 Start-Process "$path\\Notifications.Console\bin\Debug\Notifications.Console.exe"
+	 #Write-Host $path
 }
 function global:run-es-sample()
 {

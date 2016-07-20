@@ -7,8 +7,9 @@ import {ServerMessageListComponenet} from "../framework/AlertList";
 import {TestCommand} from "../../models/CQRS/Commands";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {TaskComponent} from "./TaskComponent";
-import {ConnectionState, ChannelService} from "../framework/signlar/channel.service";
 import {Observable} from "rxjs/Rx";
+import {ChannelService} from "../framework/signlar/channel.service";
+import {ConnectionState} from "../../models/CQRS/Common";
 
 
 class StatusEvent {

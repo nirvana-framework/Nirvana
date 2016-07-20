@@ -5,7 +5,8 @@ import {APP_ROUTER_PROVIDERS} from "./app.routes";
 import {AppComponent} from './app.component';
 
 import "rxjs/add/operator/map";
-import {ChannelConfig, ChannelService, SignalrWindow} from "./components/framework/signlar/channel.service";
+import {ChannelConfig, SignalrWindow} from "./models/CQRS/Common";
+import {ChannelService} from "./components/framework/signlar/channel.service";
 
 
 let channelConfig = new ChannelConfig();
