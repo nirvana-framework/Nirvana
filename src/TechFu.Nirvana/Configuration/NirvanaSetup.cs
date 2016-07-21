@@ -7,6 +7,9 @@ namespace TechFu.Nirvana.Configuration
 
     public static class NirvanaSetup
     {
+        public static string AssemblyFolder { get; set; }
+        public static string ControllerAssemblyName { get; set; }
+        public static string ControllerRootNamespace { get; set; }
         public static Type RootType { get; internal set; }
         public static Type AggregateAttributeType { get; internal set; }
         public static  Func<string, object, bool> AttributeMatchingFunction { get; internal set; }
@@ -17,7 +20,7 @@ namespace TechFu.Nirvana.Configuration
         //processing configuration
         public static MediationStrategy CommandMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
         public static MediationStrategy QueryMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
-        public static MediationStrategy UiNotificationMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
+        public static MediationStrategy UiNotificationMediationStrategy { get; internal  set; } = MediationStrategy.None;
 
 
         //Configuration for task processor applications
@@ -36,7 +39,7 @@ namespace TechFu.Nirvana.Configuration
         public static IDictionary<string,Type[]> QueryTypes{ get; internal set; }
         public static IDictionary<string,Type[]> CommandTypes{ get; internal set; }
         public static IDictionary<string,Type[]> UiNotificationTypes{ get; internal set; }
-        
+
         //TODO - replace CqrsUtils.GetRootTypeName  with this and use it in that function to speed up
         //public static IDictionary<Type, string> TypeRootNames{ get; internal set; }
 

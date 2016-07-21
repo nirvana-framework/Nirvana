@@ -77,7 +77,7 @@ function global:start-es-sample()
 	}
 	 $path = Resolve-Path ".\samples\eventstore" 
 	 Start-Process "$path\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor\bin\Debug\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor.exe"
-	 #Start-Process "$path\\Notifications.Console\bin\Debug\Notifications.Console.exe"
+
 	 #Write-Host $path
 }
 function global:run-es-sample()

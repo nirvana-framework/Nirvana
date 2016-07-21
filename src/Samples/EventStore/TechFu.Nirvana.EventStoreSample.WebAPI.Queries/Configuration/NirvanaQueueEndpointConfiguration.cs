@@ -1,6 +1,7 @@
 ﻿using System;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
+using TechFu.Nirvana.WebApi.Controllers;
 
 namespace TechFu.Nirvana.EventStoreSample.WebAPI.Queries.Configuration
 {
@@ -26,7 +27,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Queries.Configuration
             "TechFu.Nirvana.EventStoreSample.WebAPI.Commands.dll"
         };
 
-      
+        public Type[] InlineControllerTypes=> new[] { typeof(ApiUpdatesController) };
 
 
         public object GetService(Type serviceType) => InternalDependencyResolver.GetInstance(serviceType);

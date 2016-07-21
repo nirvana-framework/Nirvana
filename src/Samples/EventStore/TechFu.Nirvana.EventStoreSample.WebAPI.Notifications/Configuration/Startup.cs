@@ -1,5 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Routing;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
@@ -8,6 +10,7 @@ using Owin;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.Configuration;
+using TechFu.Nirvana.WebApi.Generation;
 using TechFu.Nirvana.WebApi.Startup;
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -22,12 +25,13 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.Configuration
             var config = new NirvanaCommandProcessorEndpointConfiguration();
 
             NirvanaSetup.Configure()
+                .UsingControllerName(config.ControllerAssemblyName,config.RootNamespace)
                 .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
                 .SetRootType(config.RootType)
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
-                .ForCommandAndQuery()
+                .ForNotifications(config.NotificationStrategy)
                 .BuildConfiguration()
                 ;
 
@@ -43,7 +47,9 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.Configuration
             RouteConfig.RegisterRoutes(RouteTable.Routes, x => { });
 
 
-        
+
+
+            new CqrsApiGenerator().LoadAssembly();
 
             var httpConfig = new HttpConfiguration();
 
@@ -55,6 +61,9 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.Configuration
                 "api/{controller}/{id}",
                 new {id = RouteParameter.Optional}
             );
+
+            var dynamicApiSelector = new DynamicApiSelector(GlobalConfiguration.Configuration, new Type[0]);
+            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),dynamicApiSelector);
         }
     }
 }

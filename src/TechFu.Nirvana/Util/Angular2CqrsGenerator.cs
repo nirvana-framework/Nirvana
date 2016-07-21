@@ -20,6 +20,8 @@ namespace TechFu.Nirvana.Util
 
             var emitedTypes = new List<Type>
             {
+                //TODO - Paged Result didn't serialize well, moved to the seed project
+                //See what went wrong and put it back here...
                 typeof(PagedResult<>),
                 typeof(ValidationMessage),
                 typeof(PaginationQuery),

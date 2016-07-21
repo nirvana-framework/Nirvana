@@ -20,7 +20,7 @@ namespace TechFu.Nirvana.WebUtils
             _serializer = serializer;
             _endpointConfiguration = endpointConfiguration;
             _httpClient = httpClient;
-        }
+        } 
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
 
@@ -25,7 +26,8 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications
             "TechFu.Nirvana.EventStoreSample.Services.Shared.dll",
             ControllerAssemblyName
         };
-        
+
+        public MediationStrategy NotificationStrategy => MediationStrategy.InProcess;
 
 
         public object GetService(Type serviceType) => InternalDependencyResolver.GetInstance(serviceType);

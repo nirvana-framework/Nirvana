@@ -1,6 +1,7 @@
 ﻿using System;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Mediation.Implementation;
+using TechFu.Nirvana.WebApi.Controllers;
 using TechFu.Nirvana.WebApi.Sample.DomainSpecificData;
 using TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Handlers;
 using TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Queries;
@@ -24,8 +25,8 @@ namespace TechFu.Nirvana.WebApi.Sample
             "TechFu.Nirvana.WebApi.Sample.dll"
         };
 
-        
-   
+        public Type[] InlineControllerTypes => new[] {typeof(ApiUpdatesController)};
+
 
         //Plug your IoC in here
         public  object GetService(Type serviceType)

@@ -13,21 +13,17 @@ namespace TechFu.Nirvana.WebApi.Startup
     public class DynamicApiSelector : DefaultHttpControllerSelector
     {
         private static readonly Dictionary<string, Type> _handledControllers;
-        private static string  _baseNamespace;
         private readonly HttpConfiguration _configuration;
-
-        private readonly string ApiDllName;
         private readonly Type[] _inlineControllerTypes;
         static DynamicApiSelector()
         {
             _handledControllers = new Dictionary<string, Type>();
         }
 
-        public DynamicApiSelector(HttpConfiguration configuration,Type[] inlineControllerTypes,string dynamidDllName, string baseControllerNamespace) : base(configuration)
+        public DynamicApiSelector(HttpConfiguration configuration,Type[] inlineControllerTypes) : base(configuration)
         {
-            ApiDllName = dynamidDllName;
+           
             this._inlineControllerTypes = inlineControllerTypes;
-            _baseNamespace = baseControllerNamespace;
             _configuration = configuration;
         }
 
@@ -45,10 +41,10 @@ namespace TechFu.Nirvana.WebApi.Startup
             {
                 foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    if (a.GetName().Name == ApiDllName)
+                    if (a.GetName().Name == NirvanaSetup.ControllerAssemblyName)
                         foreach (var t in a.GetTypes())
                         {
-                            if (t.FullName.EqualsIgnoreCase($"{_baseNamespace}.Controllers.{controllerName}Controller"))
+                            if (t.FullName.EqualsIgnoreCase($"{NirvanaSetup.ControllerRootNamespace}.{controllerName}Controller"))
                             {
                                 _handledControllers[rootType] = t;
                             }

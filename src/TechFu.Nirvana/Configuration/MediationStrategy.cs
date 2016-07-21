@@ -5,7 +5,7 @@ namespace TechFu.Nirvana.Configuration
     public class MediationStrategy:Enumeration<MediationStrategy>
     {
         //This should be used for sender apps
-        public static MediationStrategy None = new MediationStrategy(1, "Disabled");
+        public static MediationStrategy None = new MediationStrategy(-1, "Disabled");
 
         //All Commands and UI Notifications handled in this app
         public static MediationStrategy InProcess = new MediationStrategy(1, "In Process");

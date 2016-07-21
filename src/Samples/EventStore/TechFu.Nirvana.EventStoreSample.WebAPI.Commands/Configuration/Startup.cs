@@ -30,6 +30,8 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands.Configuration
             var config = new NirvanaQueueEndpointConfiguration();
 
             NirvanaSetup.Configure()
+                .UsingControllerName(config.ControllerAssemblyName, config.RootNamespace)
+                .WithAssembliesFromFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"))
                 .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
                 .SetRootType(config.RootType)
                 .SetAggregateAttributeType(config.AggregateAttributeType)
@@ -44,12 +46,12 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands.Configuration
 
 
 
-            new CqrsApiGenerator().LoadAssembly(config.ControllerAssemblyName,
-             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"), config.RootNamespace);
+            new CqrsApiGenerator().LoadAssembly();
 
-            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),
-                new DynamicApiSelector(GlobalConfiguration.Configuration, new[] { typeof(ApiUpdatesController) },
-                    config.ControllerAssemblyName, Assembly.GetExecutingAssembly().GetName().Name));
+            
+
+            var dynamicApiSelector = new DynamicApiSelector(GlobalConfiguration.Configuration, config.InlineControllerTypes);
+            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),dynamicApiSelector);
             
         }
 

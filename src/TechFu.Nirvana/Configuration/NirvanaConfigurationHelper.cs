@@ -34,6 +34,17 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.AssemblyNameReferences = refrences;
             return this;
         }
+        public NirvanaConfigurationHelper UsingControllerName(string controllerAssemblyName, string rootNamesapce)
+        {
+            NirvanaSetup.ControllerAssemblyName = controllerAssemblyName;
+            NirvanaSetup.ControllerRootNamespace= rootNamesapce;
+            return this;
+        }
+        public NirvanaConfigurationHelper WithAssembliesFromFolder(string assemblyFolder)
+        {
+            NirvanaSetup.AssemblyFolder = assemblyFolder;
+            return this;
+        }
         public NirvanaConfigurationHelper ForCommands()
         {
             NirvanaSetup.ControllerTypes =new [] { ControllerType.Command};
@@ -84,8 +95,9 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.ControllerTypes = new [] { ControllerType.Command,ControllerType.Query};
             return this;
         }
-        public NirvanaConfigurationHelper ForNotifications()
+        public NirvanaConfigurationHelper ForNotifications(MediationStrategy strategy)
         {
+            NirvanaSetup.UiNotificationMediationStrategy = strategy;
             NirvanaSetup.ControllerTypes = new [] { ControllerType.UiNotification};
             return this;
         }

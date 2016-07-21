@@ -14,7 +14,6 @@ namespace TechFu.Nirvana.WebApi.Sample
 {
     public class WebApiApplication : HttpApplication
     {
-        private static readonly string _rootNamespace = "TechFu.Nirvana.WebApi.Sample";
 
         protected void Application_Start()
         {
@@ -26,6 +25,8 @@ namespace TechFu.Nirvana.WebApi.Sample
             var config = new TestNirvanaConfig();
 
             NirvanaSetup.Configure()
+                .UsingControllerName(config.ControllerAssemblyName, "TechFu.Nirvana.WebApi.Sample")
+                .WithAssembliesFromFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"))
                 .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
                 .SetRootType(config.RootType)
                 .SetAggregateAttributeType(config.AggregateAttributeType)
@@ -35,12 +36,12 @@ namespace TechFu.Nirvana.WebApi.Sample
                 .BuildConfiguration()
                 ;
 
-            new CqrsApiGenerator().LoadAssembly(config.ControllerAssemblyName,
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"), _rootNamespace);
+            new CqrsApiGenerator().LoadAssembly();
 
-            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),
-                new DynamicApiSelector(GlobalConfiguration.Configuration, new[] {typeof(ApiUpdatesController)},
-                    config.ControllerAssemblyName, Assembly.GetExecutingAssembly().GetName().Name));
+
+            var dynamicApiSelector = new DynamicApiSelector(GlobalConfiguration.Configuration, config.InlineControllerTypes);
+            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector), dynamicApiSelector);
+
         }
     }
 }
