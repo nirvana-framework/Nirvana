@@ -44,7 +44,7 @@ namespace TechFu.Nirvana.WebApi.Startup
                     if (a.GetName().Name == NirvanaSetup.ControllerAssemblyName)
                         foreach (var t in a.GetTypes())
                         {
-                            if (t.FullName.EqualsIgnoreCase($"{NirvanaSetup.ControllerRootNamespace}.{controllerName}Controller"))
+                            if (t.FullName.EqualsIgnoreCase($"{NirvanaSetup.ControllerRootNamespace}.Controllers.{controllerName}Controller"))
                             {
                                 _handledControllers[rootType] = t;
                             }

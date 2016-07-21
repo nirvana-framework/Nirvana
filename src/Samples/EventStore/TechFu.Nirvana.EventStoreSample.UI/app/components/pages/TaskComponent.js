@@ -27,7 +27,7 @@ var TaskComponent = (function () {
         var _this = this;
         this.channelService.sub(this.channel).subscribe(function (x) {
             switch (x.Name) {
-                case 'TestUiEvent': {
+                case 'Infrastructure::TestUiEvent': {
                     _this.appendStatusUpdate(x);
                 }
             }

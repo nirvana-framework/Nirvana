@@ -42,7 +42,7 @@ namespace TechFu.Nirvana.WebUtils
         {
             try
             {
-                var path = GetCommandApiPath(uiEevent.GetType());
+                var path = GetUiNotificationPath(uiEevent.GetType());
                 var uri = new Uri(new Uri(_endpointConfiguration.NotificationEndpoint), path);
                 var httpResponseMessage = _httpClient.UiEvent(uri.ToString(), uiEevent).Result;
                 return UIEventResponse.Succeeded();
@@ -83,6 +83,10 @@ namespace TechFu.Nirvana.WebUtils
         public string GetCommandApiPath(Type type)
         {
             return CqrsUtils.GetApiEndpint(type, "Command");
+        }
+        public string GetUiNotificationPath(Type type)
+        {
+            return CqrsUtils.GetApiEndpint(type, "UiEvent");
         }
 
         private T BuildCommandResponse<T>(HttpResponseMessage httpResponseMessage)

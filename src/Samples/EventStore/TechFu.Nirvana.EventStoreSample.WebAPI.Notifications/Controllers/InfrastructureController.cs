@@ -13,7 +13,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.Controllers
 //        public HttpResponseMessage TestUiEvent([FromBody]TestUiEvent testUiEvent)
 //        {
 //            PublishEvent("TestUiEvent", testUiEvent, Constants.TaskChannel);
-//            return Request.CreateResponse(HttpStatusCode.OK, new { });
+//           return Request.CreateResponse(HttpStatusCode.OK, new { });
 //        }
 //    }
 }

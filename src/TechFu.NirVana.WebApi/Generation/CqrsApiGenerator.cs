@@ -16,16 +16,11 @@ namespace TechFu.Nirvana.WebApi.Generation
 {
     public class CqrsApiGenerator
     {
-        private IEnumerable<MetadataReference> GetGlobalReferences()
+        private IEnumerable<MetadataReference> GetGlobalReferences(Assembly[] thirdPartyReferences)
         {
-            var assemblies = new[]
-            {
-                typeof(object).Assembly,
-                typeof(HttpCachePolicy).Assembly,
-                typeof(HttpResponseMessage).Assembly
-            };
-            var refs = from a in assemblies
-                select MetadataReference.CreateFromFile(a.Location);
+            var locations = thirdPartyReferences.Select(x => x.Location);
+
+            var refs = locations.Select(l => MetadataReference.CreateFromFile(l));
             return refs.ToList();
         }
 
@@ -44,9 +39,13 @@ namespace TechFu.Nirvana.WebApi.Generation
             //Commands and Queries
             foreach (var root in NirvanaSetup.RootNames)
             {
-                var actionCode = BuildActionCode(root);
-                codeNamespaces.AddRange(actionCode.AdditionalNamespaces);
-                builder.Append(actionCode.Actions);
+                var actionCode = BuildCommandAndQueryController(root);
+                if (actionCode.Actions != string.Empty)
+                {
+
+                    codeNamespaces.AddRange(actionCode.AdditionalNamespaces);
+                    builder.Append(actionCode.Actions);
+                }
             }
             //UI Notifications 
             var eventHub = BuildEventHub();
@@ -81,7 +80,7 @@ namespace TechFu.Nirvana.WebApi.Generation
                 "TechFu.Nirvana.SignalRNotifications"
             };
             //For now push everything to the task channel
-            var channelName = "Constants.TaskChannel";
+            var channelName = "TechFu.Nirvana.CQRS.UiNotifications.Constants.TaskChannel";
 
             builder.Append("public class UiNotificationController: ApiControllerWithHub<EventHub>{");
 
@@ -99,30 +98,27 @@ namespace TechFu.Nirvana.WebApi.Generation
                     var uiEventKey = $"{key}::{x.Name}";
                     namespaces.Add(x.Namespace);
                     builder.Append("[HttpPost]");
-                    builder.Append($"public HttpResponseMessage {x.Name.Replace("UiEvent", "")}([FromBody]{x.Name} uiEvent)");
+                    var uiEventName = x.Name.Replace("UiEvent", "");
+                    builder.Append($"public HttpResponseMessage {uiEventName}([FromBody]{x.Name} uiEvent)");
                     builder.Append("{");
-                    builder.Append($"PublishEvent({uiEventKey}, uiEvent, {channelName});");
-                    builder.Append("return Request.CreateResponse(HttpStatusCode.OK, new { });");
+                    builder.Append($"PublishEvent(\"{uiEventKey}\", uiEvent, {channelName});");
+                    builder.Append("return Request.CreateResponse(System.Net.HttpStatusCode.OK, new { });");
                     builder.Append("}");
                 }
             }
-
-
-            NirvanaSetup.UiNotificationTypes.SelectMany(x => x.Value).ForEach(x =>
-            {
-
-               
-
-
-            });
+            
             builder.Append("}");
 
 
             return new ControllerActionCode {Actions = builder.ToString(), AdditionalNamespaces = namespaces};
         }
 
-        private ControllerActionCode BuildActionCode(string rootType)
+        private ControllerActionCode BuildCommandAndQueryController(string rootType)
         {
+            if (!NirvanaSetup.ControllerTypes.Contains(ControllerType.Query) || !NirvanaSetup.ControllerTypes.Contains(ControllerType.Command))
+            {
+                return new ControllerActionCode {Actions = string.Empty,AdditionalNamespaces = new List<string>()};
+            }
 
             var builder = new StringBuilder();
             var additionalNamespaces = new List<string>();
@@ -130,27 +126,34 @@ namespace TechFu.Nirvana.WebApi.Generation
             builder.Append(
                 $"public class {rootType}Controller:TechFu.Nirvana.WebApi.Controllers.CommandQueryApiControllerBase{{");
 
-            foreach (var type in NirvanaSetup.QueryTypes[rootType])
+            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Query))
             {
-                additionalNamespaces.Add(type.Namespace);
-                var name = type.Name;
+                foreach (var type in NirvanaSetup.QueryTypes[rootType])
+                {
+                    additionalNamespaces.Add(type.Namespace);
+                    var name = type.Name;
 
-                name = name.Replace("Query", "");
-                builder.Append("[HttpGet]");
-                builder.Append($"public HttpResponseMessage {name}([FromUri] {name}Query query){{");
-                builder.Append("return Query(query);");
-                builder.Append("}");
+                    name = name.Replace("Query", "");
+                    builder.Append("[HttpGet]");
+                    builder.Append($"public HttpResponseMessage {name}([FromUri] {name}Query query){{");
+                    builder.Append("return Query(query);");
+                    builder.Append("}");
+                }
             }
-            foreach (var type in NirvanaSetup.CommandTypes[rootType])
+            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Command))
             {
-                additionalNamespaces.Add(type.Namespace);
-                var name = type.Name;
-                name = name.Replace("Command", "");
-                builder.Append("[HttpPost]");
-                builder.Append($"public HttpResponseMessage {name}([FromBody] {name}Command command){{");
-                builder.Append("return Command(command);");
-                builder.Append("}");
+                foreach (var type in NirvanaSetup.CommandTypes[rootType])
+                {
+                    additionalNamespaces.Add(type.Namespace);
+                    var name = type.Name;
+                    name = name.Replace("Command", "");
+                    builder.Append("[HttpPost]");
+                    builder.Append($"public HttpResponseMessage {name}([FromBody] {name}Command command){{");
+                    builder.Append("return Command(command);");
+                    builder.Append("}");
+                }
             }
+           
 
             builder.Append("}");
             additionalNamespaces.Distinct().ToList();
@@ -161,9 +164,15 @@ namespace TechFu.Nirvana.WebApi.Generation
             };
         }
 
-        public void LoadAssembly()
+        public void LoadAssembly(Assembly[] additionalReferences)
         {
-            var compilation = BuildAssembly();
+            var compilation = BuildAssembly(additionalReferences.Union(new[]
+            {
+                typeof(object).Assembly,
+                typeof(Stack<>).Assembly,
+                typeof(HttpCachePolicy).Assembly,
+                typeof(HttpResponseMessage).Assembly
+            }).ToArray());
             using (var memoryStream = new MemoryStream())
             {
                 var result = compilation.Emit(memoryStream);
@@ -187,7 +196,7 @@ namespace TechFu.Nirvana.WebApi.Generation
             }
         }
 
-        private CSharpCompilation BuildAssembly()
+        private CSharpCompilation BuildAssembly(Assembly[] thirdPartyReferences)
         {
             var tree = BuildTree();
             var syntaxTrees = new[] {tree};
@@ -196,7 +205,7 @@ namespace TechFu.Nirvana.WebApi.Generation
                 options: cSharpCompilationOptions);
 
             compilation = compilation
-                .AddReferences(GetGlobalReferences())
+                .AddReferences(GetGlobalReferences(thirdPartyReferences))
                 .AddReferences(MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\System.Web.Http.dll"))
                 .AddReferences(
                     MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\System.Web.Http.Cors.dll"))

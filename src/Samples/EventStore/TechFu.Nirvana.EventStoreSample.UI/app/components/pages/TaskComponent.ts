@@ -31,7 +31,7 @@ export class TaskComponent implements OnInit {
         this.channelService.sub(this.channel).subscribe(
             (x:ChannelEvent) => {
                 switch (x.Name) {
-                    case 'TestUiEvent': {
+                    case 'Infrastructure::TestUiEvent': {
                         this.appendStatusUpdate(x);
                     }
                 }

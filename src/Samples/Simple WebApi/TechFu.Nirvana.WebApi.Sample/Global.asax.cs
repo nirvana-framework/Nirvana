@@ -36,7 +36,8 @@ namespace TechFu.Nirvana.WebApi.Sample
                 .BuildConfiguration()
                 ;
 
-            new CqrsApiGenerator().LoadAssembly();
+            var thirdPartyReferences = new Assembly[0];
+            new CqrsApiGenerator().LoadAssembly(thirdPartyReferences);
 
 
             var dynamicApiSelector = new DynamicApiSelector(GlobalConfiguration.Configuration, config.InlineControllerTypes);
