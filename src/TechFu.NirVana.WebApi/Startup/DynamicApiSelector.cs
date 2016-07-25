@@ -12,12 +12,12 @@ namespace TechFu.Nirvana.WebApi.Startup
 {
     public class DynamicApiSelector : DefaultHttpControllerSelector
     {
-        private static readonly Dictionary<string, Type> _handledControllers;
+        private static readonly Dictionary<string, Type> HandledControllers;
         private readonly HttpConfiguration _configuration;
         private readonly Type[] _inlineControllerTypes;
         static DynamicApiSelector()
         {
-            _handledControllers = new Dictionary<string, Type>();
+            HandledControllers = new Dictionary<string, Type>();
         }
 
         public DynamicApiSelector(HttpConfiguration configuration,Type[] inlineControllerTypes) : base(configuration)
@@ -31,18 +31,17 @@ namespace TechFu.Nirvana.WebApi.Startup
         {
             
             var controllerName = GetControllerName(request);
-            var inlineType = _inlineControllerTypes.FirstOrDefault(x => StringExtensions.EqualsIgnoreCase(x.Name, controllerName + "Controller"));
+            var inlineType = _inlineControllerTypes.FirstOrDefault(x => x.Name.EqualsIgnoreCase(controllerName + "Controller"));
             if (inlineType!=null)
             {
                 return new HttpControllerDescriptor(_configuration, controllerName,inlineType);
             }
 
-            string rootType;
-            rootType = controllerName == NirvanaSetup.UiNotificationHubName 
+            var rootType = controllerName == NirvanaSetup.UiNotificationHubName 
                 ? NirvanaSetup.UiNotificationHubName 
                 : Enum.Parse(NirvanaSetup.RootType, controllerName, true).ToString();
 
-            if (!_handledControllers.ContainsKey(rootType))
+            if (!HandledControllers.ContainsKey(rootType))
             {
                 foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
                 {
@@ -51,14 +50,14 @@ namespace TechFu.Nirvana.WebApi.Startup
                         {
                             if (t.FullName.EqualsIgnoreCase($"{NirvanaSetup.ControllerRootNamespace}.Controllers.{controllerName}Controller"))
                             {
-                                _handledControllers[rootType] = t;
+                                HandledControllers[rootType] = t;
                             }
                         }
                 }
             }
 
 
-            return new HttpControllerDescriptor(_configuration, controllerName, _handledControllers[rootType]);
+            return new HttpControllerDescriptor(_configuration, controllerName, HandledControllers[rootType]);
         }
     }
 }
