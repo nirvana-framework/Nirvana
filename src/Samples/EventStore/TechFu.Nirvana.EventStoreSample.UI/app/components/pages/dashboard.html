@@ -9,17 +9,21 @@
         <server-message-list></server-message-list>
     </div>
 
-    <a [routerLink]="['/tasks']">Task PoC</a>
 
-    <button class="btn btn-primary" (click)="sendCommand()">send test command</button>
-    {{lastClickTime}}
-
-
-    <div class="flex-row">
-
-
-        <task class="flex" [eventName]="'TestUiEvent'"></task>
+    <div class="row">
+        <button class="btn btn-primary" (click)="sendCommand()">send test command</button>
+        <button class="btn btn-primary" (click)="clear()">Clear Messages</button>
     </div>
+    <div class="row">
+
+        <div class="col-xs-6">
+            <textarea class="form-control" cols="50" rows="15" [value]="sentMessage"></textarea>
+        </div>
+        <div class="col-xs-6">
+            <textarea class="form-control" cols="50" rows="15" [value]="receivedMessage"></textarea>
+        </div>
+    </div>
+
 
 
 </div>

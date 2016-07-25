@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using TechFu.Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.Configuration
 {
@@ -7,6 +11,7 @@ namespace TechFu.Nirvana.Configuration
 
     public static class NirvanaSetup
     {
+        public static string UiNotificationHubName { get; set; } = "UiNotifications";
         public static string AssemblyFolder { get; set; }
         public static string ControllerAssemblyName { get; set; }
         public static string ControllerRootNamespace { get; set; }
@@ -47,6 +52,26 @@ namespace TechFu.Nirvana.Configuration
         public static NirvanaConfigurationHelper Configure()
         {
             return new NirvanaConfigurationHelper();
+        }
+
+        public static string ShowSetup()
+        {
+            var builder = new StringBuilder();
+            var propertyInfos = typeof(NirvanaSetup).GetProperties(BindingFlags.Public | BindingFlags.Static);
+            var fieldInfos = typeof(NirvanaSetup).GetFields(BindingFlags.Public | BindingFlags.Static);
+
+            propertyInfos.ForEach(x =>
+            {
+
+                builder.AppendLine($"{x.Name} : {x.GetValue(null)}");
+            });
+            fieldInfos.ForEach(x =>
+            {
+                builder.AppendLine($"{x.Name} : {x.GetValue(null)}");
+            });
+
+            return builder.ToString();
+
         }
 
     }

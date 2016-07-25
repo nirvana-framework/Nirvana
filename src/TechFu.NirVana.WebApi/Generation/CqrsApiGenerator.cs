@@ -82,7 +82,7 @@ namespace TechFu.Nirvana.WebApi.Generation
             //For now push everything to the task channel
             var channelName = "TechFu.Nirvana.CQRS.UiNotifications.Constants.TaskChannel";
 
-            builder.Append("public class UiNotificationController: ApiControllerWithHub<EventHub>{");
+            builder.Append("public class UiNotificationsController: ApiControllerWithHub<EventHub>{");
 
             //                 [HttpPost]
             //                public HttpResponseMessage TestUiEvent([FromBody]TestUiEvent testUiEvent)
@@ -115,7 +115,7 @@ namespace TechFu.Nirvana.WebApi.Generation
 
         private ControllerActionCode BuildCommandAndQueryController(string rootType)
         {
-            if (!NirvanaSetup.ControllerTypes.Contains(ControllerType.Query) || !NirvanaSetup.ControllerTypes.Contains(ControllerType.Command))
+            if (!NirvanaSetup.ControllerTypes.Contains(ControllerType.Query) && !NirvanaSetup.ControllerTypes.Contains(ControllerType.Command))
             {
                 return new ControllerActionCode {Actions = string.Empty,AdditionalNamespaces = new List<string>()};
             }

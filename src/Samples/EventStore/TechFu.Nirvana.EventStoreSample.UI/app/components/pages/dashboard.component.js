@@ -20,7 +20,6 @@ var errorrService_1 = require("../../services/errorrService");
 var AlertList_1 = require("../framework/AlertList");
 var Commands_1 = require("../../models/CQRS/Commands");
 var router_1 = require("@angular/router");
-var TaskComponent_1 = require("./TaskComponent");
 var channel_service_1 = require("../framework/signlar/channel.service");
 var Common_1 = require("../../models/CQRS/Common");
 var StatusEvent = (function () {
@@ -31,20 +30,27 @@ var StatusEvent = (function () {
 var DashboardComponent = (function (_super) {
     __extends(DashboardComponent, _super);
     function DashboardComponent(_securityService, errorService, channelService) {
+        var _this = this;
         _super.call(this, _securityService, errorService, null);
         this.channelService = channelService;
-        this.lastClickTime = null;
+        this.channel = "tasks";
         this.componentName = 'dashboard';
         this.registerEvents(this.errorList);
-        // Let's wire up to the signalr observables
-        //
+        this.sentMessage = '';
+        this.receivedMessage = '';
         this.connectionState$ = this.channelService.connectionState$
             .map(function (state) { return Common_1.ConnectionState[state]; });
         this.channelService.error$.subscribe(function (error) { console.warn(error); }, function (error) { console.error("errors$ error", error); });
-        // Wire up a handler for the starting$ observable to log the
-        //  success/fail result
-        //
         this.channelService.starting$.subscribe(function () { console.log("signalr service has been started"); }, function () { console.warn("signalr service failed to start!"); });
+        this.channelService.sub(this.channel).subscribe(function (x) {
+            switch (x.Name) {
+                case 'Infrastructure::TestUiEvent': {
+                    _this.appendStatusUpdate(x);
+                }
+            }
+        }, function (error) {
+            console.warn("Attempt to join channel failed!", error);
+        });
     }
     DashboardComponent.prototype.ngOnInit = function () {
         // Start the connection up!
@@ -61,7 +67,14 @@ var DashboardComponent = (function (_super) {
             .then(function (x) { return _this.showClicked(); });
     };
     DashboardComponent.prototype.showClicked = function () {
-        this.lastClickTime = new Date();
+        this.sentMessage += new Date().toDateString() + '\n\n';
+    };
+    DashboardComponent.prototype.appendStatusUpdate = function (ev) {
+        this.receivedMessage += (new Date().toLocaleTimeString() + " : ") + JSON.stringify(ev.Data) + '\n\n';
+    };
+    DashboardComponent.prototype.clear = function () {
+        this.sentMessage = '';
+        this.receivedMessage = '';
     };
     __decorate([
         core_1.ViewChild(AlertList_1.ServerMessageListComponenet), 
@@ -72,7 +85,7 @@ var DashboardComponent = (function (_super) {
             moduleId: module.id,
             selector: 'dashboard-component',
             templateUrl: 'dashboard.html',
-            directives: [router_1.ROUTER_DIRECTIVES, TaskComponent_1.TaskComponent]
+            directives: [router_1.ROUTER_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [serverService_1.ServerService, errorrService_1.ErrorService, channel_service_1.ChannelService])
     ], DashboardComponent);

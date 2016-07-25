@@ -6,10 +6,9 @@ import {ErrorService} from "../../services/errorrService";
 import {ServerMessageListComponenet} from "../framework/AlertList";
 import {TestCommand} from "../../models/CQRS/Commands";
 import {ROUTER_DIRECTIVES} from "@angular/router";
-import {TaskComponent} from "./TaskComponent";
 import {Observable} from "rxjs/Rx";
 import {ChannelService} from "../framework/signlar/channel.service";
-import {ConnectionState} from "../../models/CQRS/Common";
+import {ConnectionState, ChannelEvent} from "../../models/CQRS/Common";
 
 
 class StatusEvent {
@@ -22,24 +21,26 @@ class StatusEvent {
     moduleId:module.id,
     selector: 'dashboard-component',
     templateUrl: 'dashboard.html',
-    directives: [ROUTER_DIRECTIVES,TaskComponent]
+    directives: [ROUTER_DIRECTIVES]
 })
 export class DashboardComponent extends BasePage{
+
+    private receivedMessage:string;
+    private sentMessage:string;
+    private channel = "tasks";
 
     connectionState$: Observable<string>;
 
     @ViewChild(ServerMessageListComponenet)
     private errorList: ServerMessageListComponenet;
-    private lastClickTime:Date = null;
 
     constructor(_securityService:ServerService, errorService:ErrorService, private channelService: ChannelService) {
         super(_securityService,errorService,null);
         this.componentName = 'dashboard';
         this.registerEvents(this.errorList);
+        this.sentMessage='';
+        this.receivedMessage='';
 
-
-        // Let's wire up to the signalr observables
-        //
         this.connectionState$ = this.channelService.connectionState$
             .map((state: ConnectionState) => { return ConnectionState[state]; });
 
@@ -48,13 +49,24 @@ export class DashboardComponent extends BasePage{
             (error: any) => { console.error("errors$ error", error); }
         );
 
-        // Wire up a handler for the starting$ observable to log the
-        //  success/fail result
-        //
         this.channelService.starting$.subscribe(
             () => { console.log("signalr service has been started"); },
             () => { console.warn("signalr service failed to start!"); }
         );
+
+
+        this.channelService.sub(this.channel).subscribe(
+            (x:ChannelEvent) => {
+                switch (x.Name) {
+                    case 'Infrastructure::TestUiEvent': {
+                        this.appendStatusUpdate(x);
+                    }
+                }
+            },
+            (error:any) => {
+                console.warn("Attempt to join channel failed!", error);
+            }
+        )
 
     }
     ngOnInit(){
@@ -67,13 +79,26 @@ export class DashboardComponent extends BasePage{
     ngOnDestroy(){
         this.disposeRegisteredEvents();
     }
+
     public sendCommand(){
         this._serverService.mediator.command(new TestCommand())
             .then(x=>this.showClicked());
     }
 
     private showClicked() {
-       this.lastClickTime = new Date();
+        this.sentMessage += new Date().toDateString() + '\n\n';
     }
+
+
+    private appendStatusUpdate(ev:ChannelEvent):void {
+        this.receivedMessage += `${new Date().toLocaleTimeString()} : ` + JSON.stringify(ev.Data)+ '\n\n';
+    }
+
+    private clear(){
+        this.sentMessage='';
+        this.receivedMessage='';
+    }
+
+
 
 }

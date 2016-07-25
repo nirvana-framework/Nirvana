@@ -45,7 +45,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands.Configuration
             app.UseCors(CorsOptions.AllowAll);
 
 
-
+            var setup = NirvanaSetup.ShowSetup();
             var thirdPartyReferences = new Assembly[0];
             new CqrsApiGenerator().LoadAssembly(thirdPartyReferences);
 

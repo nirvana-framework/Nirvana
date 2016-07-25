@@ -86,7 +86,9 @@ namespace TechFu.Nirvana.WebUtils
         }
         public string GetUiNotificationPath(Type type)
         {
-            return CqrsUtils.GetApiEndpint(type, "UiEvent");
+            //Use one hub for all tasks for now...
+            var rootTypeName = "UiNotifications";
+            return $"{rootTypeName}/{type.Name.Replace("UiEvent", "")}";
         }
 
         private T BuildCommandResponse<T>(HttpResponseMessage httpResponseMessage)

@@ -36,7 +36,12 @@ namespace TechFu.Nirvana.WebApi.Startup
             {
                 return new HttpControllerDescriptor(_configuration, controllerName,inlineType);
             }
-            var rootType =  Enum.Parse(NirvanaSetup.RootType, controllerName,true).ToString();
+
+            string rootType;
+            rootType = controllerName == NirvanaSetup.UiNotificationHubName 
+                ? NirvanaSetup.UiNotificationHubName 
+                : Enum.Parse(NirvanaSetup.RootType, controllerName, true).ToString();
+
             if (!_handledControllers.ContainsKey(rootType))
             {
                 foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
