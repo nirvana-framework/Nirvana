@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using TechFu.Nirvana.Configuration;
 
 namespace TechFu.Nirvana.CQRS.Queue
 {
     public interface IQueue
     {
-        Type MessageType { get; }
+        NirvanaTypeDefinition MessageType { get; }
         void Send<TCommandType>(TCommandType message);
         int GetMessageCount();
         void DoWork<T>(Func<object, bool> work, bool failOnException = false, bool requeueOnFailure = true);

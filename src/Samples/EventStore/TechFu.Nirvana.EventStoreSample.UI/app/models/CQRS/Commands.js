@@ -59,5 +59,18 @@ var TestResult = (function () {
     return TestResult;
 }());
 exports.TestResult = TestResult;
+//ProductCatalog
+var CreateSampleCatalogCommand = (function (_super) {
+    __extends(CreateSampleCatalogCommand, _super);
+    function CreateSampleCatalogCommand() {
+        _super.call(this, 'ProductCatalog/CreateSampleCatalog');
+    }
+    return CreateSampleCatalogCommand;
+}(Common_1.Command));
+exports.CreateSampleCatalogCommand = CreateSampleCatalogCommand;
+(function (Nop) {
+    Nop[Nop["NoValue"] = 0] = "NoValue";
+})(exports.Nop || (exports.Nop = {}));
+var Nop = exports.Nop;
 //Users
 //# sourceMappingURL=Commands.js.map

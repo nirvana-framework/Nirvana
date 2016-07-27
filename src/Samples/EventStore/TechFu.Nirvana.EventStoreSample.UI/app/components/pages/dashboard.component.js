@@ -61,6 +61,9 @@ var DashboardComponent = (function (_super) {
     DashboardComponent.prototype.ngOnDestroy = function () {
         this.disposeRegisteredEvents();
     };
+    DashboardComponent.prototype.createTestCatalog = function () {
+        this._serverService.mediator.command(new Commands_1.CreateSampleCatalogCommand());
+    };
     DashboardComponent.prototype.sendCommand = function () {
         var _this = this;
         this._serverService.mediator.command(new Commands_1.TestCommand())

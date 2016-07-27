@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
+using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Util.Compression;
@@ -35,7 +36,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
            
         }
 
-        public virtual IQueue GetQueue(Type messageType)
+        public virtual IQueue GetQueue(NirvanaTypeDefinition messageType)
         {
             var queueReference = _queueController.GetQueueReferenceFor(messageType);
             return new AzureStorageQueue(_client.Value, queueReference.Name, messageType)

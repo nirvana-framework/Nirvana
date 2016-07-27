@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TechFu.Nirvana.Configuration;
 
 namespace TechFu.Nirvana.CQRS.Queue
 {
@@ -18,7 +19,7 @@ namespace TechFu.Nirvana.CQRS.Queue
         QueueReference[] ForRootType(string rootType);
         QueueReference[] AllQueues();
 
-        QueueReference GetQueueReferenceFor(Type type);
+        QueueReference GetQueueReferenceFor(NirvanaTypeDefinition type);
 
     }
 }

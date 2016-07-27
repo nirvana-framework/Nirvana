@@ -1,13 +1,17 @@
+using System.Data.Entity;
 using System.Reflection;
 using StructureMap;
 using StructureMap.Graph;
 using TechFu.Nirvana.AzureQueues.Handlers;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS.Queue;
+using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
+using TechFu.Nirvana.EventStoreSample.Infrastructure.Domain;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Mediation.Implementation;
+using TechFu.Nirvana.SqlProvider.Domain;
 using TechFu.Nirvana.Util;
 using TechFu.Nirvana.Util.Io;
 using TechFu.Nirvana.Util.Tine;
@@ -56,6 +60,14 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
             x.For<IQueueFactory>().Use<AzureQueueFactory>();
             x.For<IAzureQueueConfiguration>().Use<AzureQueueConfiguration>();
             x.For<INirvanaConfiguration>().Use<NirvanaConfiguration>();
+
+
+            //Data Providers
+            x.For<IRepository>().Use<SqlRepository>();
+
+            //TODO - plug in the connection string DR provider
+            x.For<DbContext>().Use(d=>new RdbmsContext(SaveChangesDecoratorType.Live, "DataStoreConnectionString"));
+
 
             x.For<IQueueController>().Singleton().Use<AzureQueueController>();
             x.For<ISerializer>().Singleton().Use<Serializer>();

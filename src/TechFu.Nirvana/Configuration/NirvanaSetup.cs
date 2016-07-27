@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using TechFu.Nirvana.CQRS.Util;
 using TechFu.Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.Configuration
@@ -17,6 +18,7 @@ namespace TechFu.Nirvana.Configuration
         public static string ControllerRootNamespace { get; set; }
         public static Type RootType { get; internal set; }
         public static Type AggregateAttributeType { get; internal set; }
+        public static string TaskIdentifierProperty { get; internal set; }
         public static  Func<string, object, bool> AttributeMatchingFunction { get; internal set; }
         public static  string[] AssemblyNameReferences { get; internal set; }
         public static ControllerType[] ControllerTypes { get; internal set; }
@@ -41,9 +43,10 @@ namespace TechFu.Nirvana.Configuration
 
         //Called On Configuration build
         public static string[] RootNames { get; internal set; }
-        public static IDictionary<string,Type[]> QueryTypes{ get; internal set; }
-        public static IDictionary<string,Type[]> CommandTypes{ get; internal set; }
-        public static IDictionary<string,Type[]> UiNotificationTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTypeDefinition[]> QueryTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTypeDefinition[]> CommandTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTypeDefinition[]> UiNotificationTypes{ get; internal set; }
+
 
         //TODO - replace CqrsUtils.GetRootTypeName  with this and use it in that function to speed up
         //public static IDictionary<Type, string> TypeRootNames{ get; internal set; }
@@ -74,5 +77,45 @@ namespace TechFu.Nirvana.Configuration
 
         }
 
+
+        public static NirvanaTypeDefinition FindTypeDefinition(Type getType)
+        {
+            //TODO - faster here?
+            var type = CheckTypes(getType, CommandTypes);
+            if (type != null)
+            {
+                return type;
+            }
+
+            type = CheckTypes(getType,UiNotificationTypes);
+            if (type != null)
+            {
+                return type;
+            }
+            return CheckTypes(getType, QueryTypes);
+        }
+
+        private static NirvanaTypeDefinition CheckTypes(Type getType, IDictionary<string, NirvanaTypeDefinition[]> nirvanaTypeDefinitionses)
+        {
+            return nirvanaTypeDefinitionses.Keys.Select(key => LookForType(nirvanaTypeDefinitionses[key], getType)).FirstOrDefault(type => type != null);
+        }
+
+        private static NirvanaTypeDefinition LookForType(NirvanaTypeDefinition[] commandType, Type getType)
+        {
+            return commandType.FirstOrDefault(x => x.Matches(getType));
+        }
+    }
+
+    public class NirvanaTypeDefinition
+    {
+        public Type TaskType { get; set; }
+        public Type NirvanaActionType { get; set; }
+        public string UniqueName { get; set; }
+        public string TypeCorrelationId { get; set; }
+
+        public bool Matches(Type testType)
+        {
+            return testType == TaskType;
+        }
     }
 }

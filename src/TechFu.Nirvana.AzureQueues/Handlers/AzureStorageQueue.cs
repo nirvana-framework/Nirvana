@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Text;
 using Microsoft.WindowsAzure.Storage.Queue;
+using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.CQRS.Util;
@@ -21,7 +22,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         public override Func<CloudQueueMessage> GetMessage => () => _queue.GetMessage();
 
 
-        public override Type MessageType { get; }
+        public override NirvanaTypeDefinition MessageType { get; }
 
         public TimeSpan VisibilityTimeout { get; set; }
 
@@ -33,7 +34,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         }
 
 
-        public AzureStorageQueue(CloudQueueClient client, string rootType, Type messageType, int? timeout = null)
+        public AzureStorageQueue(CloudQueueClient client, string rootType, NirvanaTypeDefinition messageType, int? timeout = null)
         {
             _queueName = AzureQueueController.GetQueueName(rootType, messageType);
             _queue = client.GetQueueReference(_queueName.ToLower());
@@ -44,6 +45,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                     : TimeSpan.FromMilliseconds(timeout.Value)
                 : DefaultVisibilityTimeout;
             _queue.CreateIfNotExists();
+            _queue.Metadata.Add("Name",_queueName);
             _client = client;
         }
 
@@ -132,7 +134,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         public virtual T DeserializeMessage<T, U>(string input) where T : Message<U>
         {
-            var messageContainerType = typeof(Message<>).MakeGenericType(MessageType);
+            var messageContainerType = typeof(Message<>).MakeGenericType(MessageType.TaskType);
             var message = (T) Serializer.Deserialize(messageContainerType, input);
             message.Created = message.Created;
             message.CreatedBy = message.CreatedBy;
@@ -159,15 +161,15 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         }
 
 
-        private MethodInfo GetDoWorkHandler(Type messageType)
+        private MethodInfo GetDoWorkHandler(NirvanaTypeDefinition messageType)
         {
-            return DoWorkmethodInfo.MakeGenericMethod(messageType);
+            return DoWorkmethodInfo.MakeGenericMethod(messageType.TaskType);
         }
 
 
         public bool InvokeCommand(object x)
         {
-            var responseType = CqrsUtils.GetResponseType(MessageType, typeof(Command<>));
+            var responseType = CqrsUtils.GetResponseType(MessageType.TaskType, typeof(Command<>));
             var method = CommandMethodInfo.MakeGenericMethod(responseType);
             var result = method.Invoke(Mediator, new[] {x});
             return ((Response) result).Success();
@@ -175,7 +177,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         public bool InvokeQuery(object x)
         {
-            var responseType = CqrsUtils.GetResponseType(MessageType, typeof(Query<>));
+            var responseType = CqrsUtils.GetResponseType(MessageType.TaskType, typeof(Query<>));
             var method = QueryMethodInfo.MakeGenericMethod(responseType);
             var result = method.Invoke(Mediator, new[] {x});
             return ((Response) result).Success();

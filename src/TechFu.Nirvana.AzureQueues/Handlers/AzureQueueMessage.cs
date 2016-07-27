@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Microsoft.WindowsAzure.Storage.Queue;
+using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.Util.Compression;
 
@@ -10,13 +11,13 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
     {
         private readonly ICompression _compression;
 
-        public AzureQueueMessage(ICompression compression, CloudQueueMessage message, Type messageType)
+        public AzureQueueMessage(ICompression compression, CloudQueueMessage message, NirvanaTypeDefinition messageType)
             : this(message, messageType)
         {
             _compression = compression;
         }
 
-        public AzureQueueMessage(CloudQueueMessage message, Type messageType) : base(messageType)
+        public AzureQueueMessage(CloudQueueMessage message, NirvanaTypeDefinition messageType) : base(messageType)
         {
             Id = message.Id;
             DequeueCount = message.DequeueCount;

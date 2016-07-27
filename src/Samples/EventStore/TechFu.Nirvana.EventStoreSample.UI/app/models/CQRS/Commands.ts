@@ -8,4 +8,7 @@ export class GetVersionQuery extends Query<VersionModel>{constructor(){super('In
 export class VersionModel{public Version: string;}
 export class TestCommand extends Command<TestResult>{constructor(){super('Infrastructure/Test')}}
 export class TestResult{public Message: string;}
+//ProductCatalog
+export class CreateSampleCatalogCommand extends Command<Nop>{constructor(){super('ProductCatalog/CreateSampleCatalog')}}
+export enum Nop{NoValue=0}
 //Users

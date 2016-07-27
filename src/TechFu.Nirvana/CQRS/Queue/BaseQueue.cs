@@ -1,4 +1,5 @@
 ﻿using System;
+using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Util.Compression;
 using TechFu.Nirvana.Util.Io;
@@ -15,7 +16,7 @@ namespace TechFu.Nirvana.CQRS.Queue
         protected ISerializer Serializer;
         protected ISystemTime SystemTime;
 
-        public abstract Type MessageType { get; }
+        public abstract NirvanaTypeDefinition MessageType { get; }
         protected static readonly TimeSpan SevenDays = TimeSpan.FromDays(7);
         protected static readonly TimeSpan DefaultVisibilityTimeout = TimeSpan.FromSeconds(30);
 

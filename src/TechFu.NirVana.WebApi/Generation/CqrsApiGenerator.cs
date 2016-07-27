@@ -95,11 +95,11 @@ namespace TechFu.Nirvana.WebApi.Generation
             {
                 foreach (var x in NirvanaSetup.UiNotificationTypes[key])
                 {
-                    var uiEventKey = $"{key}::{x.Name}";
-                    namespaces.Add(x.Namespace);
+                    var uiEventKey = $"{key}::{x.TaskType.Name}";
+                    namespaces.Add(x.TaskType.Namespace);
                     builder.Append("[HttpPost]");
-                    var uiEventName = x.Name.Replace("UiEvent", "");
-                    builder.Append($"public HttpResponseMessage {uiEventName}([FromBody]{x.Name} uiEvent)");
+                    var uiEventName = x.TaskType.Name.Replace("UiEvent", "");
+                    builder.Append($"public HttpResponseMessage {uiEventName}([FromBody]{x.TaskType.Name} uiEvent)");
                     builder.Append("{");
                     builder.Append($"PublishEvent(\"{uiEventKey}\", uiEvent, {channelName});");
                     builder.Append("return Request.CreateResponse(System.Net.HttpStatusCode.OK, new { });");
@@ -130,8 +130,8 @@ namespace TechFu.Nirvana.WebApi.Generation
             {
                 foreach (var type in NirvanaSetup.QueryTypes[rootType])
                 {
-                    additionalNamespaces.Add(type.Namespace);
-                    var name = type.Name;
+                    additionalNamespaces.Add(type.TaskType.Namespace);
+                    var name = type.TaskType.Name;
 
                     name = name.Replace("Query", "");
                     builder.Append("[HttpGet]");
@@ -144,8 +144,8 @@ namespace TechFu.Nirvana.WebApi.Generation
             {
                 foreach (var type in NirvanaSetup.CommandTypes[rootType])
                 {
-                    additionalNamespaces.Add(type.Namespace);
-                    var name = type.Name;
+                    additionalNamespaces.Add(type.TaskType.Namespace);
+                    var name = type.TaskType.Name;
                     name = name.Replace("Command", "");
                     builder.Append("[HttpPost]");
                     builder.Append($"public HttpResponseMessage {name}([FromBody] {name}Command command){{");

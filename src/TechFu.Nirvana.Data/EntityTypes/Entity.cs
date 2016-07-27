@@ -9,6 +9,7 @@ namespace TechFu.Nirvana.Data.EntityTypes
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
     }
+
     public abstract class Entity<T> : Entity
     {
         public T Id { get; set; }

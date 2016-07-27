@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateRootAttribute.cs" />
+    <Compile Include="ProductCatalog\Commands\CreateSampleCatalogCommand.cs" />
     <Compile Include="Commands\TestCommand.cs" />
+    <Compile Include="ProductCatalog\InternalEvents\CatalogUpdatedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\GetVersionQuery.cs" />
     <Compile Include="UiNotifications\ITestNotificationHub.cs" />
@@ -53,6 +55,11 @@
       <Project>{6d5e2ca2-1da6-4436-ba8a-93e1d44d2576}</Project>
       <Name>TechFu.Nirvana</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\ProductCatalog\" />
+    <Folder Include="ProductCatalog\Queries\" />
+    <Folder Include="ProductCatalog\UINotifications\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

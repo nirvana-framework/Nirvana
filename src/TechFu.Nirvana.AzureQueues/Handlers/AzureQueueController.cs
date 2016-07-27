@@ -31,9 +31,9 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             return QueueTypesByRoot.SelectMany(x => x.Value).ToArray();
         }
 
-        public QueueReference GetQueueReferenceFor(Type type)
+        public QueueReference GetQueueReferenceFor(NirvanaTypeDefinition type)
         {
-            return AllQueues().SingleOrDefault(x => x.MessageType == type);
+            return AllQueues().SingleOrDefault(x => x.MessageType.TaskType == type.TaskType);
         }
 
         public bool StartAll()
@@ -89,9 +89,9 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             return QueueTypesByRoot[rootType];
         }
 
-        public static string GetQueueName(string rootType, Type type)
+        public static string GetQueueName(string rootType, NirvanaTypeDefinition type)
         {
-            return $"{rootType}-{type.Name}";
+            return type.UniqueName;
         }
 
 

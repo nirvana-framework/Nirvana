@@ -4,7 +4,7 @@ import forEach = require("core-js/fn/array/for-each");
 import {BasePage} from "./basePage";
 import {ErrorService} from "../../services/errorrService";
 import {ServerMessageListComponenet} from "../framework/AlertList";
-import {TestCommand} from "../../models/CQRS/Commands";
+import {TestCommand, CreateSampleCatalogCommand} from "../../models/CQRS/Commands";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {Observable} from "rxjs/Rx";
 import {ChannelService} from "../framework/signlar/channel.service";
@@ -78,6 +78,13 @@ export class DashboardComponent extends BasePage{
     }
     ngOnDestroy(){
         this.disposeRegisteredEvents();
+    }
+
+
+
+
+    public createTestCatalog(){
+        this._serverService.mediator.command(new CreateSampleCatalogCommand());
     }
 
     public sendCommand(){

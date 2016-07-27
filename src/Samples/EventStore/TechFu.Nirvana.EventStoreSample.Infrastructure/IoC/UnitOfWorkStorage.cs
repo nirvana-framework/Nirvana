@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
-using TechFu.Nirvana.EventStoreSample.Infrastructure.Threading;
 using TechFu.Nirvana.Util;
+using TechFu.Nirvana.Util.Threading;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 {

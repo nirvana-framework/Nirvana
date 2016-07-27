@@ -10,7 +10,7 @@ namespace TechFu.Nirvana.Mediation.Implementation
 
         public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
         {
-            var messageType = command.GetType();
+            var messageType = NirvanaSetup.FindTypeDefinition(command.GetType());
             var queueFactory = ((IQueueFactory)NirvanaSetup.GetService(typeof(IQueueFactory)));
 
             var queue = queueFactory.GetQueue(messageType);

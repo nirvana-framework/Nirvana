@@ -1,6 +1,7 @@
 using System;
 using Should;
 using TechFu.Nirvana.AzureQueues.Handlers;
+using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.Mediation;
@@ -28,7 +29,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
                 var queue =
                     new AzureQueueFactory(new AzureQueueConfiguration(),new AzureQueueController(), new Serializer(), new SystemTime(),
-                        new Compression(),new MediatorFactory()).GetQueue(command.GetType());
+                        new Compression(),new MediatorFactory()).GetQueue(NirvanaSetup.FindTypeDefinition(command.GetType()));
               ((AzureStorageQueue)queue).Clear();
                 queue.Send(command);
 
@@ -48,9 +49,10 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
             {
                 var command = new TestCommand { Test = "test", ThrowError = false };
 
+                var nirvanaTypeDefinition = NirvanaSetup.FindTypeDefinition(command.GetType());
                 var queue =
                     new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(), new Serializer(), new SystemTime(),
-                        new Compression(), new MediatorFactory()).GetQueue(command.GetType());
+                        new Compression(), new MediatorFactory()).GetQueue(nirvanaTypeDefinition);
                 ((AzureStorageQueue)queue).Clear();
                 queue.Send(command);
 
@@ -93,8 +95,8 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
         public override void RunTest()
         {
-            
-            AzureStorageQueue queue = Sut.GetQueue(typeof(TestCommand)) as AzureStorageQueue;
+            var nirvanaTypeDefinition = new NirvanaTypeDefinition{TaskType = typeof(TestCommand) };
+            AzureStorageQueue queue = Sut.GetQueue(nirvanaTypeDefinition) as AzureStorageQueue;
 
 
             if (queue != null)
@@ -105,7 +107,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
                 var cloudMessage = queue.GetAzureMessage();
 
-                var message = cloudMessage != null ? new AzureQueueMessage(_compression, cloudMessage, typeof(TestCommand)) : null;
+                var message = cloudMessage != null ? new AzureQueueMessage(_compression, cloudMessage, nirvanaTypeDefinition) : null;
                 queue.Delete(cloudMessage);
                 var result = queue.DeserializeMessage<Message<TestCommand>, TestCommand>(message.Text);
                 MessageCount = queue.GetMessageCount();

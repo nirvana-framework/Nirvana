@@ -111,6 +111,7 @@
     <Compile Include="Util\Io\IFileSystem.cs" />
     <Compile Include="Util\Io\ISerializer.cs" />
     <Compile Include="Util\IStartupStep.cs" />
+    <Compile Include="Util\Threading\SynchronizedStack.cs" />
     <Compile Include="Util\Tine\ISystemtime.cs" />
     <Compile Include="Util\Tine\SystemTime.cs" />
   </ItemGroup>

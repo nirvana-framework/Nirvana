@@ -43,8 +43,10 @@
   <ItemGroup>
     <Compile Include="EntityTypes\Entity.cs" />
     <Compile Include="EntityTypes\SoftDeletedEntity.cs" />
-    <Compile Include="IReadOnlyRepository.cs" />
+    <Compile Include="EntityTypes\ViewModel.cs" />
+    <Compile Include="IViewModelRepository.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="ISaveChangesDecorator.cs" />
     <Compile Include="ISoftDelete.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

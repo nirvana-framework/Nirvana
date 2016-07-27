@@ -2,7 +2,7 @@
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.UiNotifications
 {
-    [InfrastructureRoot]
+    [InfrastructureRoot("TestUiEvent")]
     public class TestUiEvent : UiEvent<TestUiEvent>
     {
         public string Message { get; set; }

@@ -3,7 +3,7 @@ using TechFu.Nirvana.CQRS;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Commands
 {
-    [InfrastructureRoot]
+    [InfrastructureRoot("testCommand")]
     public class TestCommand:Command<TestResult>
     {
     }

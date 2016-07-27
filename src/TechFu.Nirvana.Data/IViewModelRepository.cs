@@ -8,10 +8,9 @@ using TechFu.Nirvana.Data.EntityTypes;
 
 namespace TechFu.Nirvana.Data
 {
-    public interface IReadOnlyRepository : IDisposable, ISqlRepository
+    public interface IViewModelRepository : IDisposable
     {
-        T Get<T>(Guid id) where T : Entity<Guid>;
-        T Get<T>(long id) where T : Entity<long>;
+        T Get<T>(Guid id) where T : ViewModel<Guid>;
      
         IQueryable<T> GetAll<T>() where T : Entity;
         IQueryable<T> GetAllAndInclude<T, TProperty>(Expression<Func<T, TProperty>> path) where T : Entity;

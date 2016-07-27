@@ -1,4 +1,5 @@
 ﻿using System;
+using TechFu.Nirvana.Configuration;
 
 namespace TechFu.Nirvana.CQRS.Queue
 {
@@ -10,13 +11,13 @@ namespace TechFu.Nirvana.CQRS.Queue
         DateTime? NextVisibleTime { get; }
         DateTime? InsertionTime { get; }
         DateTime? ExpirationTime { get; }
-        Type MessageType { get; }
+        NirvanaTypeDefinition MessageType { get; }
     }
 
 
     public class QueueMessage : IQueueMessage
     {
-        public QueueMessage(Type messageType)
+        public QueueMessage(NirvanaTypeDefinition messageType)
         {
             MessageType = messageType;
         }
@@ -30,7 +31,7 @@ namespace TechFu.Nirvana.CQRS.Queue
         public DateTime? NextVisibleTime { get; protected set; }
         public DateTime? InsertionTime { get; protected set; }
         public DateTime? ExpirationTime { get; protected set; }
-        public Type MessageType { get; protected set; }
+        public NirvanaTypeDefinition MessageType { get; protected set; }
 
         public QueueMessage SetText(string text)
         {
