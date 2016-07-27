@@ -23,13 +23,9 @@ I am open to feedback, and will accept pull requests, but until I have a better 
 
 
 Features coming:
-- SignalR integration and wireup to UI ( pending on Angular 2 RTM and signlar support)
-- Azure Queue  ( or any queue you want, but it's my preference) support for offloading and durability of work in commands
 - Plugin for EventStore
 - Ability to configure which controllers to use when standing up an endpoint.
 - Ability to stand up a test endpoint ( with examples for test data)
-- Ability to have an endpoint that only routes to a separate layer for processiing ( useful for external API and multi layered setups)
-- Sample repository code moved into the base framework with code first integration
 - Object DB support for readonly repository (used in queries)
 - A seprate Angular 2 seed project that uses the output of the webapi
 - A working WebAPI seed app that can be downloaded and run.
