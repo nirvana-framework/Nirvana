@@ -1,9 +1,10 @@
 ﻿namespace TechFu.Nirvana.Configuration
 {
-    public enum ControllerType
+    public enum TaskType
     {
         Command,
         Query,
-        UiNotification
+        UiNotification,
+        InternalEvent,
     }
 }

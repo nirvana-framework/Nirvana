@@ -32,7 +32,10 @@ namespace TechFu.Nirvana.WebApi.Sample
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
-                .ForCommandAndQuery()
+                .ForCommands(MediationStrategy.InProcess, ChildMediationStrategy.InProcess, MediationStrategy.InProcess)
+                .ForInternalEvents(MediationStrategy.InProcess, ChildMediationStrategy.InProcess, MediationStrategy.InProcess)
+                .ForUiNotifications(MediationStrategy.InProcess, ChildMediationStrategy.InProcess, MediationStrategy.InProcess)
+                .ForQueries(MediationStrategy.InProcess, ChildMediationStrategy.InProcess)
                 .BuildConfiguration()
                 ;
 

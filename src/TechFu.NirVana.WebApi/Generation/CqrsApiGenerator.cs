@@ -70,7 +70,7 @@ namespace TechFu.Nirvana.WebApi.Generation
 
         private ControllerActionCode BuildEventHub()
         {
-            if (NirvanaSetup.UiNotificationMediationStrategy != MediationStrategy.InProcess)
+            if (!NirvanaSetup.IsInProcess(TaskType.UiNotification))
             {
                 return new ControllerActionCode {AdditionalNamespaces = new List<string>(),Actions = String.Empty};
             }
@@ -83,13 +83,6 @@ namespace TechFu.Nirvana.WebApi.Generation
             var channelName = "TechFu.Nirvana.CQRS.UiNotifications.Constants.TaskChannel";
 
             builder.Append("public class UiNotificationsController: ApiControllerWithHub<EventHub>{");
-
-            //                 [HttpPost]
-            //                public HttpResponseMessage TestUiEvent([FromBody]TestUiEvent testUiEvent)
-            //                {
-            //                    PublishEvent("TestUiEvent", testUiEvent, Constants.TaskChannel);
-            //                    return Request.CreateResponse(HttpStatusCode.OK, new { });
-            //                }
 
             foreach (var key in NirvanaSetup.UiNotificationTypes.Keys)
             {
@@ -115,7 +108,7 @@ namespace TechFu.Nirvana.WebApi.Generation
 
         private ControllerActionCode BuildCommandAndQueryController(string rootType)
         {
-            if (!NirvanaSetup.ControllerTypes.Contains(ControllerType.Query) && !NirvanaSetup.ControllerTypes.Contains(ControllerType.Command))
+            if (!NirvanaSetup.CanProcess(TaskType.Query) && !NirvanaSetup.CanProcess(TaskType.Command))
             {
                 return new ControllerActionCode {Actions = string.Empty,AdditionalNamespaces = new List<string>()};
             }
@@ -126,7 +119,7 @@ namespace TechFu.Nirvana.WebApi.Generation
             builder.Append(
                 $"public class {rootType}Controller:TechFu.Nirvana.WebApi.Controllers.CommandQueryApiControllerBase{{");
 
-            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Query))
+            if (NirvanaSetup.CanProcess(TaskType.Query))
             {
                 foreach (var type in NirvanaSetup.QueryTypes[rootType])
                 {
@@ -140,7 +133,7 @@ namespace TechFu.Nirvana.WebApi.Generation
                     builder.Append("}");
                 }
             }
-            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Command))
+            if (NirvanaSetup.CanProcess(TaskType.Command))
             {
                 foreach (var type in NirvanaSetup.CommandTypes[rootType])
                 {

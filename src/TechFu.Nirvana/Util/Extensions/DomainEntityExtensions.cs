@@ -7,13 +7,13 @@ namespace TechFu.Nirvana.Util.Extensions
     {
         public static bool IsEnumeration(this Type type)
         {
-            return !type.IsAbstract && type.Closes(typeof(Enumeration<,>));
+            return !type.IsAbstract && type.ClosesOrImplements(typeof(Enumeration<,>));
         }
 
         public static Type GetEnumerationValueType(this Type type)
         {
             Type[] genericTypeArguments;
-            return type.Closes(typeof(Enumeration<,>), out genericTypeArguments)
+            return type.ClosesOrImplements(typeof(Enumeration<,>), out genericTypeArguments)
                 ? genericTypeArguments[1]
                 : null;
         }

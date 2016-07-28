@@ -28,7 +28,7 @@ namespace TechFu.Nirvana.Mediation.Implementation
             throw new NotImplementedException();
         }
 
-        public InternalEventResponse InternalEvent<T>(InternalEvent<T> internalEvent)
+        public InternalEventResponse InternalEvent(InternalEvent internalEvent)
         {
             throw new NotImplementedException();
         }

@@ -22,6 +22,10 @@ namespace TechFu.Nirvana.CQRS
         {
             return BuildResponse(true);
         }
+        public static UIEventResponse Succeeded(string message)
+        {
+            return BuildResponse(true,new List<ValidationMessage> {new ValidationMessage (MessageType.Info,"",message) });
+        }
         public static UIEventResponse Failed()
         {
             return BuildResponse(false);
@@ -31,6 +35,27 @@ namespace TechFu.Nirvana.CQRS
     }
     public class InternalEventResponse : Response
     {
+        private static InternalEventResponse BuildResponse(bool isValid, List<ValidationMessage> validationMessages = null, Exception exception = null)
+        {
+            return new InternalEventResponse
+            {
+                IsValid = isValid,
+                ValidationMessages = validationMessages ?? new List<ValidationMessage>(),
+                Exception = exception
+            };
+        }
+        public static InternalEventResponse Succeeded()
+        {
+            return BuildResponse(true);
+        }
+        public static InternalEventResponse Succeeded(string message)
+        {
+            return BuildResponse(true, new List<ValidationMessage> { new ValidationMessage(MessageType.Info, "", message) });
+        }
+        public static InternalEventResponse Failed()
+        {
+            return BuildResponse(false);
+        }
     }
 
     public class CommandResponse<TResult> : Response

@@ -67,7 +67,7 @@ namespace TechFu.Nirvana.Util.Extensions
         public static GenericMatch IsEnumType(this Type propertyType)
         {
             Type[] types;
-            var isEnumType = propertyType.Closes(typeof(IEnumerable<>), out types);
+            var isEnumType = propertyType.ClosesOrImplements(typeof(IEnumerable<>), out types);
 
             var isArrayType = propertyType.IsArray;
             if (isArrayType)
@@ -90,7 +90,7 @@ namespace TechFu.Nirvana.Util.Extensions
         public static GenericMatch IsPagedResult(this Type propertyType)
         {
             Type[] types;
-            var isEnumType = propertyType.Closes(typeof(PagedResult<>), out types);
+            var isEnumType = propertyType.ClosesOrImplements(typeof(PagedResult<>), out types);
             return new GenericMatch
             {
                 Matches = isEnumType,

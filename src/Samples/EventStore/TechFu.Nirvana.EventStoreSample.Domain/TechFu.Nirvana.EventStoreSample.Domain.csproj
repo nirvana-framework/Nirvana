@@ -46,9 +46,11 @@
     <Compile Include="Domain\ShoppingCart\CartItem.cs" />
     <Compile Include="Domain\ShoppingCart\Coupon.cs" />
     <Compile Include="Domain\ShoppingCart\CouponType.cs" />
-    <Compile Include="Handlers\Command\ProductCatalog\CreateSampleCatalogHandler.cs" />
-    <Compile Include="Handlers\Command\TestHandler.cs" />
-    <Compile Include="Handlers\Query\GetVersionHandler.cs" />
+    <Compile Include="Handlers\ProductCatalog\Command\CreateSampleCatalogHandler.cs" />
+    <Compile Include="Handlers\Infrastructure\Command\TestHandler.cs" />
+    <Compile Include="Handlers\Infrastructure\Query\GetVersionHandler.cs" />
+    <Compile Include="Handlers\ProductCatalog\Command\UpdateHomePageViewModelHandler.cs" />
+    <Compile Include="Handlers\ProductCatalog\Event\HandleCatalogUpdatedEvent.cs" />
     <Compile Include="Infrastructure\IApplicationConfig.cs" />
     <Compile Include="Infrastructure\IConnectionStringService.cs" />
     <Compile Include="Infrastructure\Startup.cs" />

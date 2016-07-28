@@ -21,7 +21,7 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.Io
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType.Closes(typeof(Enumeration<>));
+            return objectType.ClosesOrImplements(typeof(Enumeration<>));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Queries.Configuration
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
-                .ForQueries()
+                .ForQueries(MediationStrategy.InProcess, ChildMediationStrategy.InProcess)
                 .BuildConfiguration();
 
             app.UseCors(CorsOptions.AllowAll);

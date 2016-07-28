@@ -18,7 +18,7 @@ namespace TechFu.Nirvana.Mediation
         CommandResponse<TResult> Command<TResult>(Command<TResult> command);
         QueryResponse<TResult> Query<TResult>(Query<TResult> query);
         UIEventResponse Notification<TResult>(UiEvent<TResult> uiNotification);
-        InternalEventResponse InternalEvent<TResult>(InternalEvent<TResult> internalEvent);
+        InternalEventResponse InternalEvent(InternalEvent internalEvent);
 
 
     }
@@ -41,13 +41,13 @@ namespace TechFu.Nirvana.Mediation
             return GetMediator(query.GetType()).Query(query);
         }
 
-        public UIEventResponse Notification<TResult>(UiEvent<TResult> query)
+        public UIEventResponse Notification<TResult>(UiEvent<TResult> uiNotification)
         {
-            return GetMediator(query.GetType()).UiNotification(query);
+            return GetMediator(uiNotification.GetType()).UiNotification(uiNotification);
         }
-        public InternalEventResponse InternalEvent<TResult>(InternalEvent<TResult> query)
+        public InternalEventResponse InternalEvent(InternalEvent internalEvent)
         {
-            return GetMediator(query.GetType()).InternalEvent(query);
+            return GetMediator(internalEvent.GetType()).InternalEvent(internalEvent);
         }
 
         private IMediator GetMediatorByStrategy(MediatorStrategy mediatorStrategy)
@@ -66,23 +66,28 @@ namespace TechFu.Nirvana.Mediation
         private MediatorStrategy GetMediatorStrategy(Type messageType)
         {
             if (messageType.IsQuery() 
-                || ( messageType.IsUiNotification() && NirvanaSetup.UiNotificationMediationStrategy == MediationStrategy.InProcess)
-                || ( messageType.IsCommand() && NirvanaSetup.CommandMediationStrategy == MediationStrategy.InProcess))
+                || ( messageType.IsUiNotification() && NirvanaSetup.IsInProcess(TaskType.UiNotification))
+                || ( messageType.IsCommand() && NirvanaSetup.IsInProcess(TaskType.UiNotification))
+                || ( messageType.IsInternalEvent() && NirvanaSetup.IsInProcess(TaskType.InternalEvent))
+                )
             {
                 // Only commands can be offloaded currently
                 return MediatorStrategy.HandleInProc;
             }
 
-            if (messageType.IsQuery()
-               || (messageType.IsUiNotification() && NirvanaSetup.UiNotificationMediationStrategy == MediationStrategy.ForwardToWeb)
-               || (messageType.IsCommand() && NirvanaSetup.CommandMediationStrategy == MediationStrategy.ForwardToWeb))
+            if (
+                 (messageType.IsUiNotification() && NirvanaSetup.ShouldForwardToWeb(TaskType.UiNotification))
+                || (messageType.IsCommand() && NirvanaSetup.ShouldForwardToWeb(TaskType.UiNotification))
+                || (messageType.IsInternalEvent() && NirvanaSetup.ShouldForwardToWeb(TaskType.InternalEvent))
+               )
             {
                 return MediatorStrategy.ForwardToWeb;
             }
 
             if (
-                NirvanaSetup.CommandMediationStrategy == MediationStrategy.ForwardToQueue
-                || NirvanaSetup.CommandMediationStrategy == MediationStrategy.ForwardLongRunningToQueue
+                (messageType.IsUiNotification() && NirvanaSetup.ShouldForwardToQueue(TaskType.UiNotification))
+                || (messageType.IsCommand() && NirvanaSetup.ShouldForwardToQueue(TaskType.UiNotification))
+                || (messageType.IsInternalEvent() && NirvanaSetup.ShouldForwardToQueue(TaskType.InternalEvent))
                 )
             {
                 return MediatorStrategy.ForwardToQueue;

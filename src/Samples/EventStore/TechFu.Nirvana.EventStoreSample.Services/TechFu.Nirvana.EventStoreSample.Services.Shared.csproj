@@ -44,7 +44,10 @@
     <Compile Include="AggregateRootAttribute.cs" />
     <Compile Include="ProductCatalog\Commands\CreateSampleCatalogCommand.cs" />
     <Compile Include="Commands\TestCommand.cs" />
+    <Compile Include="ProductCatalog\Commands\UpdateHomePageViewModelCommand.cs" />
     <Compile Include="ProductCatalog\InternalEvents\CatalogUpdatedEvent.cs" />
+    <Compile Include="ProductCatalog\ViewModels\HomePageProductViewModel.cs" />
+    <Compile Include="ProductCatalog\ViewModels\HomePageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\GetVersionQuery.cs" />
     <Compile Include="UiNotifications\ITestNotificationHub.cs" />

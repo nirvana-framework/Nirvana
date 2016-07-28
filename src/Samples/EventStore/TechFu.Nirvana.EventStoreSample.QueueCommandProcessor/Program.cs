@@ -52,9 +52,9 @@ namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
-                .ForCommands()
-                .FromQueues()
-                .ToWeb()
+                .ForCommands(MediationStrategy.ForwardToWeb,ChildMediationStrategy.ForwardToQueue, MediationStrategy.ForwardToQueue)
+                .ForInternalEvents(MediationStrategy.ForwardToWeb,ChildMediationStrategy.ForwardToQueue, MediationStrategy.ForwardToQueue)
+                .ForUiNotifications(MediationStrategy.ForwardToWeb,ChildMediationStrategy.ForwardToQueue, MediationStrategy.ForwardToQueue)
                 .BuildConfiguration()
                 ;
 

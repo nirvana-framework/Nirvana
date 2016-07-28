@@ -23,13 +23,19 @@ namespace TechFu.Nirvana.Util.Extensions
             return type.Name;
         }
 
-        public static bool Closes(this Type type, Type genericTypeDefinition)
+        public static bool ClosesOrImplements(this Type type, Type genericTypeDefinition)
         {
+
+            if (!genericTypeDefinition.IsGenericTypeDefinition)
+            {
+                return genericTypeDefinition.IsAssignableFrom(type);
+            }
+
             Type[] genericTypeArguments;
-            return Closes(type, genericTypeDefinition, out genericTypeArguments);
+            return ClosesOrImplements(type, genericTypeDefinition, out genericTypeArguments);
         }
 
-        public static bool Closes(this Type type, Type genericTypeDefinition, out Type[] genericTypeArguments)
+        public static bool ClosesOrImplements(this Type type, Type genericTypeDefinition, out Type[] genericTypeArguments)
         {
             if (!genericTypeDefinition.IsGenericTypeDefinition)
                 throw new ArgumentException("Type must be a generic type definition", "genericTypeDefinition");
@@ -80,22 +86,26 @@ namespace TechFu.Nirvana.Util.Extensions
 
         public static bool IsCommand(this Type type)
         {
-            return !type.IsAbstract && type.Closes(typeof(Command<>));
+            return !type.IsAbstract && type.ClosesOrImplements(typeof(Command<>));
         }
         public static bool IsQuery(this Type type)
         {
-            return !type.IsAbstract && type.Closes(typeof(Query<>));
+            return !type.IsAbstract && type.ClosesOrImplements(typeof(Query<>));
         }
         public static bool IsUiNotification(this Type type)
         {
-            return !type.IsAbstract && type.Closes(typeof(UiEvent<>));
+            return !type.IsAbstract && type.ClosesOrImplements(typeof(UiEvent<>));
+        }
+        public static bool IsInternalEvent(this Type type)
+        {
+            return !type.IsAbstract && typeof(InternalEvent).IsAssignableFrom(type);
         }
 
 
         public static Type GetCommandResultType(this Type commandType)
         {
             Type[] genericTypeArguments;
-            return commandType.Closes(typeof(Command<>), out genericTypeArguments)
+            return commandType.ClosesOrImplements(typeof(Command<>), out genericTypeArguments)
                 ? genericTypeArguments[0]
                 : null;
         }
@@ -103,7 +113,7 @@ namespace TechFu.Nirvana.Util.Extensions
         public static Type GetCommandType(this Type commandHandlerType)
         {
             Type[] genericTypeArguments;
-            return commandHandlerType.Closes(typeof(ICommandHandler<,>), out genericTypeArguments)
+            return commandHandlerType.ClosesOrImplements(typeof(ICommandHandler<,>), out genericTypeArguments)
                 ? genericTypeArguments[0]
                 : null;
         }
@@ -113,7 +123,7 @@ namespace TechFu.Nirvana.Util.Extensions
         public static Type GetQueryResultType(this Type queryType)
         {
             Type[] genericTypeArguments;
-            return queryType.Closes(typeof(Query<>), out genericTypeArguments)
+            return queryType.ClosesOrImplements(typeof(Query<>), out genericTypeArguments)
                 ? genericTypeArguments[0]
                 : null;
         }
@@ -121,7 +131,7 @@ namespace TechFu.Nirvana.Util.Extensions
         public static Type GetQueryType(this Type queryHandlerType)
         {
             Type[] genericTypeArguments;
-            return queryHandlerType.Closes(typeof(IQueryHandler<,>), out genericTypeArguments)
+            return queryHandlerType.ClosesOrImplements(typeof(IQueryHandler<,>), out genericTypeArguments)
                 ? genericTypeArguments[0]
                 : null;
         }
@@ -130,7 +140,7 @@ namespace TechFu.Nirvana.Util.Extensions
         public static Type GetListType(this Type listType)
         {
             Type[] genericTypeArguments;
-            return listType.Closes(typeof(IEnumerable<>), out genericTypeArguments)
+            return listType.ClosesOrImplements(typeof(IEnumerable<>), out genericTypeArguments)
                 ? genericTypeArguments[0]
                 : null;
         }

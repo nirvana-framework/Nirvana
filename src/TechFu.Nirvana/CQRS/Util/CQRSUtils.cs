@@ -27,19 +27,11 @@ namespace TechFu.Nirvana.CQRS.Util
         public static IEnumerable<Type> GetAllTypes(string rootType)
         {
             var types = new List<Type>();
-
-            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Command))
-            {
-                types.AddRange(ActionTypes(typeof(Command<>), rootType));
-            }
-            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.Query))
-            {
-                types.AddRange(ActionTypes(typeof(Query<>), rootType));
-            }
-            if (NirvanaSetup.ControllerTypes.Contains(ControllerType.UiNotification))
-            {
-                types.AddRange(ActionTypes(typeof(UiEvent<>), rootType));
-            }
+            types.AddRange(ActionTypes(typeof(Command<>), rootType));
+            types.AddRange(ActionTypes(typeof(Query<>), rootType));
+            types.AddRange(ActionTypes(typeof(UiEvent<>), rootType));
+            types.AddRange(ActionTypes(typeof(InternalEvent), rootType));
+            
 
             return types;
         }
@@ -47,7 +39,7 @@ namespace TechFu.Nirvana.CQRS.Util
         public static Type GetQueryResultType(Type queryType)
         {
             Type[] genericTypeArguments;
-            return queryType.Closes(typeof(Query<>), out genericTypeArguments)
+            return queryType.ClosesOrImplements(typeof(Query<>), out genericTypeArguments)
                 ? genericTypeArguments[0]
                 : null;
         }
@@ -58,7 +50,7 @@ namespace TechFu.Nirvana.CQRS.Util
 
 
             return
-                ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.Closes(types), seedTypes)
+                ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.ClosesOrImplements(types), seedTypes)
                     .Where(x => MatchesRootType(rootType, x))
                     .ToArray();
         }
@@ -78,7 +70,7 @@ namespace TechFu.Nirvana.CQRS.Util
         public static Type GetResponseType(Type queryType, Type closingType)
         {
             Type[] genericTypeArguments;
-            return queryType.Closes(closingType, out genericTypeArguments)
+            return queryType.ClosesOrImplements(closingType, out genericTypeArguments)
                 ? genericTypeArguments[0]
                 : null;
         }

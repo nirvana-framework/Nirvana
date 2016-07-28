@@ -35,7 +35,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.Configuration
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
-                .ForNotifications(config.NotificationStrategy)
+                .ForUiNotifications(MediationStrategy.InProcess, ChildMediationStrategy.ForwardToQueue, MediationStrategy.None)
                 .BuildConfiguration()
                 ;
 

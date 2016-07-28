@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.CQRS.Util;
@@ -8,6 +9,13 @@ namespace TechFu.Nirvana.Configuration
 {
     public class NirvanaConfigurationHelper
     {
+        private readonly Dictionary<TaskType, TaskConfiguration> _taskConfiguration;
+
+        public NirvanaConfigurationHelper()
+        {
+            _taskConfiguration = new Dictionary<TaskType, TaskConfiguration>();
+        }
+
         public NirvanaConfigurationHelper SetRootType(Type rootType)
         {
             NirvanaSetup.RootType = rootType;
@@ -51,85 +59,42 @@ namespace TechFu.Nirvana.Configuration
             return this;
         }
 
-        public NirvanaConfigurationHelper ForCommands()
+        public NirvanaConfigurationHelper ForCommands(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy, MediationStrategy receiverMediationStrategy)
         {
-            NirvanaSetup.ControllerTypes = new[] {ControllerType.Command};
+            AddTaskConfig(mediationStrategy, childMediationStrategy, receiverMediationStrategy, TaskType.UiNotification);
+            return this;
+        }
+        public NirvanaConfigurationHelper ForQueries(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy)
+        {
+            AddTaskConfig(mediationStrategy, childMediationStrategy, MediationStrategy.None, TaskType.UiNotification);
             return this;
         }
 
-        public NirvanaConfigurationHelper HandleInProc()
+        public NirvanaConfigurationHelper ForUiNotifications(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy,MediationStrategy receiverMediationStrategy)
         {
-            NirvanaSetup.CommandMediationStrategy = MediationStrategy.InProcess;
+            AddTaskConfig(mediationStrategy, childMediationStrategy, receiverMediationStrategy, TaskType.UiNotification);
+            return this;
+        }
+        public NirvanaConfigurationHelper ForInternalEvents(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy, MediationStrategy receiverMediationStrategy)
+        {
+            AddTaskConfig(mediationStrategy, childMediationStrategy, receiverMediationStrategy, TaskType.UiNotification);
+
             return this;
         }
 
-        public NirvanaConfigurationHelper ToQueues()
+        private void AddTaskConfig(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy,
+            MediationStrategy receiverMediationStrategy, TaskType taskType)
         {
-            NirvanaSetup.CommandMediationStrategy = MediationStrategy.ForwardToQueue;
-            return this;
+            _taskConfiguration[taskType] = new TaskConfiguration
+            {
+                CanHandle = true,
+                MediationStrategy = mediationStrategy,
+                ReceiverMediationStrategy = receiverMediationStrategy,
+                TaskType = taskType,
+                ChildMediationStrategy = childMediationStrategy
+            };
         }
-
-        public NirvanaConfigurationHelper ToLongRunningQueues()
-        {
-            NirvanaSetup.CommandMediationStrategy = MediationStrategy.ForwardLongRunningToQueue;
-            return this;
-        }
-
-        public NirvanaConfigurationHelper ToWeb()
-        {
-            NirvanaSetup.CommandMediationStrategy = MediationStrategy.ForwardToWeb;
-            return this;
-        }
-
-        public NirvanaConfigurationHelper FromQueues()
-        {
-            NirvanaSetup.RecieverMediationStrategy = MediationStrategy.ForwardToQueue;
-            return this;
-        }
-
-        public NirvanaConfigurationHelper FromLongRunningQueues()
-        {
-            NirvanaSetup.RecieverMediationStrategy = MediationStrategy.ForwardLongRunningToQueue;
-            return this;
-        }
-
-        public NirvanaConfigurationHelper ForQueries()
-        {
-            NirvanaSetup.ControllerTypes = new[] {ControllerType.Query};
-            return this;
-        }
-
-        public NirvanaConfigurationHelper ForCommandAndQuery()
-        {
-            NirvanaSetup.ControllerTypes = new[] {ControllerType.Command, ControllerType.Query};
-            return this;
-        }
-
-        public NirvanaConfigurationHelper ForNotifications(MediationStrategy strategy)
-        {
-            NirvanaSetup.UiNotificationMediationStrategy = strategy;
-            NirvanaSetup.ControllerTypes = new[] {ControllerType.UiNotification};
-            return this;
-        }
-
-        public NirvanaConfigurationHelper ForAllTypes()
-        {
-            NirvanaSetup.ControllerTypes = new[]
-                {ControllerType.Command, ControllerType.Query, ControllerType.UiNotification};
-            return this;
-        }
-
-        public NirvanaConfigurationHelper ForwardUiNotificationsToWeb()
-        {
-            NirvanaSetup.UiNotificationMediationStrategy = MediationStrategy.ForwardToWeb;
-            return this;
-        }
-
-        public NirvanaConfigurationHelper ForControllerTypes(params ControllerType[] types)
-        {
-            NirvanaSetup.ControllerTypes = types;
-            return this;
-        }
+        
 
         public void BuildConfiguration()
         {
@@ -137,9 +102,77 @@ namespace TechFu.Nirvana.Configuration
             NirvanaSetup.RootNames = EnumExtensions.GetAll(NirvanaSetup.RootType).SelectToArray(x => x.Value);
             NirvanaSetup.QueryTypes = NirvanaSetup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Query<>)));
             NirvanaSetup.CommandTypes = NirvanaSetup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Command<>)));
-            NirvanaSetup.UiNotificationTypes = NirvanaSetup.RootNames.ToDictionary(x => x,
-                x => GetTypes(x, typeof(UiEvent<>)));
+            NirvanaSetup.UiNotificationTypes = NirvanaSetup.RootNames.ToDictionary(x => x,x => GetTypes(x, typeof(UiEvent<>)));
+            NirvanaSetup.InternalEventTypes = NirvanaSetup.RootNames.ToDictionary(x => x,x => GetTypes(x, typeof(InternalEvent)));
+
+            var definitions = GetTypes(NirvanaSetup.QueryTypes)
+                .Union(GetTypes(NirvanaSetup.CommandTypes))
+                .Union(GetTypes(NirvanaSetup.UiNotificationTypes))
+                .Union(GetTypes(NirvanaSetup.InternalEventTypes)).ToArray();
+
+            ValidateConfiguration(definitions);
+            NirvanaSetup.DefinitionsByType = definitions.ToDictionary(x => x.TaskType, x => x);
+
+
+            BuildTaskConfiguration();
+
+
+
         }
+
+        private void BuildTaskConfiguration()
+        {
+            GuiarDisabledTasks(TaskType.Command);
+            GuiarDisabledTasks(TaskType.Query);
+            GuiarDisabledTasks(TaskType.UiNotification);
+            GuiarDisabledTasks(TaskType.InternalEvent);
+
+            NirvanaSetup.TaskConfiguration = _taskConfiguration;
+        }
+
+        private void GuiarDisabledTasks(TaskType taskType)
+        {
+            if (!_taskConfiguration.ContainsKey(taskType))
+            {
+                _taskConfiguration[taskType] = BuildDisabledTaskConfiguration(taskType);
+            }
+        }
+
+        private TaskConfiguration BuildDisabledTaskConfiguration(TaskType taskType)
+        {
+
+
+
+
+            return BuildTaskConfiguration(MediationStrategy.None, taskType,
+                false, ChildMediationStrategy.InProcess, MediationStrategy.None);
+        }
+
+        private TaskConfiguration BuildTaskConfiguration(MediationStrategy ms, TaskType taskType, bool canHandle, ChildMediationStrategy forwardLongRunningToQueue, MediationStrategy receiverStrategy)
+        {
+            return new TaskConfiguration
+            {
+                MediationStrategy = ms,
+                TaskType = taskType,
+                CanHandle = canHandle,
+                ChildMediationStrategy = forwardLongRunningToQueue,ReceiverMediationStrategy = receiverStrategy
+            };
+        }
+
+        
+
+        private void ValidateConfiguration(IEnumerable<NirvanaTypeDefinition> definitions)
+        {
+            //TODO - configure this to throw errors for early failuse.
+        }
+
+
+        private static NirvanaTypeDefinition[] GetTypes(IDictionary<string, NirvanaTypeDefinition[]> nirvanaTypeDefinitionses)
+        {
+            return nirvanaTypeDefinitionses.Keys.SelectMany(x=> nirvanaTypeDefinitionses[x]).ToArray();
+        }
+
+     
 
         private NirvanaTypeDefinition[] GetTypes(string rootName, Type actionType)
         {
@@ -171,5 +204,14 @@ namespace TechFu.Nirvana.Configuration
             var aggType = CqrsUtils.CustomAttribute(taskType);
             return aggType.GetProperty(NirvanaSetup.TaskIdentifierProperty).ToString();
         }
+    }
+
+    public class TaskConfiguration
+    {
+        public MediationStrategy ReceiverMediationStrategy { get; set; }
+        public MediationStrategy MediationStrategy { get; set; }
+        public ChildMediationStrategy ChildMediationStrategy { get; set; }
+        public TaskType TaskType { get; set; }
+        public bool CanHandle { get; set; }
     }
 }

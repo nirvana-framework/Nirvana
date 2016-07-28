@@ -2,7 +2,7 @@
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.InternalEvents
 {
-    public class CatalogUpdatedEvent : InternalEvent<InternalEventResponse>
+    public class CatalogUpdatedEvent : InternalEvent
     {
     }
 }

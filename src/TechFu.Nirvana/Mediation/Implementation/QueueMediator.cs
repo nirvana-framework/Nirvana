@@ -10,27 +10,34 @@ namespace TechFu.Nirvana.Mediation.Implementation
 
         public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
         {
-            var messageType = NirvanaSetup.FindTypeDefinition(command.GetType());
-            var queueFactory = ((IQueueFactory)NirvanaSetup.GetService(typeof(IQueueFactory)));
+            SendMessage(command);
+            return CommandResponse.Succeeded(default(TResult), "Work queued.");
+        }
+
+        private static void SendMessage(NirvanaTask task)
+        {
+            var messageType = NirvanaSetup.FindTypeDefinition(task.GetType());
+            var queueFactory = ((IQueueFactory) NirvanaSetup.GetService(typeof(IQueueFactory)));
 
             var queue = queueFactory.GetQueue(messageType);
-            queue.Send(command);
-            return CommandResponse.Succeeded(default(TResult), "Work queued.");
+            queue.Send(task);
         }
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
         {
-            throw new NotImplementedException("This is purposly not implements - queries should never be put on queue");
+            throw new NotImplementedException("This is purposly not implemented - queries should never be put on queue");
         }
 
         public UIEventResponse UiNotification<T>(UiEvent<T> uiEevent)
         {
-            throw new NotImplementedException();
+            SendMessage(uiEevent);
+            return UIEventResponse.Succeeded( "Work queued.");
         }
 
-        public InternalEventResponse InternalEvent<T>(InternalEvent<T> internalEvent)
+        public InternalEventResponse InternalEvent(InternalEvent internalEvent)
         {
-            throw new NotImplementedException();
+            SendMessage(internalEvent);
+            return InternalEventResponse.Succeeded("Work queued.");
         }
 
     }

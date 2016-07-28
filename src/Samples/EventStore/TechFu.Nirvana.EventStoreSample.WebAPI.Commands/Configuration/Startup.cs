@@ -37,8 +37,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands.Configuration
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService)
-                .ForCommands()
-                .ToQueues()
+                .ForCommands(MediationStrategy.ForwardToQueue, ChildMediationStrategy.ForwardToQueue, MediationStrategy.None)
                 .BuildConfiguration()
                 ;
 

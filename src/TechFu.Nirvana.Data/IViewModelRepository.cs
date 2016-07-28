@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data.EntityTypes;
+using TechFu.Nirvana.Domain;
 
 namespace TechFu.Nirvana.Data
 {

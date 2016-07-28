@@ -12,7 +12,10 @@ namespace TechFu.Nirvana.Configuration
 
     public static class NirvanaSetup
     {
+        //Wonky settings, fix these...
+        public static Guid ApplicationLevelViewModelKey { get; set; } = Guid.Parse("f9f54603-2cda-43da-a414-cd7f12eae4a1");
         public static string UiNotificationHubName { get; set; } = "UiNotifications";
+
         public static string AssemblyFolder { get; set; }
         public static string ControllerAssemblyName { get; set; }
         public static string ControllerRootNamespace { get; set; }
@@ -21,24 +24,24 @@ namespace TechFu.Nirvana.Configuration
         public static string TaskIdentifierProperty { get; internal set; }
         public static  Func<string, object, bool> AttributeMatchingFunction { get; internal set; }
         public static  string[] AssemblyNameReferences { get; internal set; }
-        public static ControllerType[] ControllerTypes { get; internal set; }
-        public static Func<Type, Object> GetService { get; internal set; }
+        //public static TaskType[] TaskTypes { get; internal set; }
+        public static Func<Type, object> GetService { get; internal set; }
 
-        //processing configuration
-        public static MediationStrategy CommandMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
-        public static MediationStrategy QueryMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
-        public static MediationStrategy UiNotificationMediationStrategy { get; internal  set; } = MediationStrategy.None;
-
-
-        //Configuration for task processor applications
-        public static MediationStrategy RecieverMediationStrategy { get; internal set; } = MediationStrategy.None;
-
-        //How to handle sub calls within this app 
-        // FOr instance, we get a call from a command processor via web
-        // we want to call this in proc and syncronously
-        //somewhere in the command we want to call a child command  - this may or may not be something 
-        //we want to run in proc
-        public static ChildMediationStrategy ChildMediationStrategy { get; internal  set; } = ChildMediationStrategy.Synchronous;
+//        //processing configuration
+//        public static MediationStrategy CommandMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
+//        public static MediationStrategy QueryMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
+//        public static MediationStrategy UiNotificationMediationStrategy { get; internal  set; } = MediationStrategy.None;
+//
+//
+//        //Configuration for task processor applications
+//        public static MediationStrategy RecieverMediationStrategy { get; internal set; } = MediationStrategy.None;
+//
+//        //How to handle sub calls within this app 
+//        // FOr instance, we get a call from a command processor via web
+//        // we want to call this in proc and syncronously
+//        //somewhere in the command we want to call a child command  - this may or may not be something 
+//        //we want to run in proc
+//        public static ChildMediationStrategy ChildMediationStrategy { get; internal  set; } = ChildMediationStrategy.Synchronous;
 
 
         //Called On Configuration build
@@ -46,6 +49,9 @@ namespace TechFu.Nirvana.Configuration
         public static IDictionary<string, NirvanaTypeDefinition[]> QueryTypes{ get; internal set; }
         public static IDictionary<string, NirvanaTypeDefinition[]> CommandTypes{ get; internal set; }
         public static IDictionary<string, NirvanaTypeDefinition[]> UiNotificationTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTypeDefinition[]> InternalEventTypes { get; set; }
+        public static IDictionary<Type, NirvanaTypeDefinition> DefinitionsByType{ get; internal set; }
+        public static Dictionary<TaskType, TaskConfiguration> TaskConfiguration { get; set; }
 
 
         //TODO - replace CqrsUtils.GetRootTypeName  with this and use it in that function to speed up
@@ -80,42 +86,27 @@ namespace TechFu.Nirvana.Configuration
 
         public static NirvanaTypeDefinition FindTypeDefinition(Type getType)
         {
-            //TODO - faster here?
-            var type = CheckTypes(getType, CommandTypes);
-            if (type != null)
-            {
-                return type;
-            }
 
-            type = CheckTypes(getType,UiNotificationTypes);
-            if (type != null)
-            {
-                return type;
-            }
-            return CheckTypes(getType, QueryTypes);
+            return DefinitionsByType[getType];
         }
 
-        private static NirvanaTypeDefinition CheckTypes(Type getType, IDictionary<string, NirvanaTypeDefinition[]> nirvanaTypeDefinitionses)
+        public static bool IsInProcess(TaskType uiNotification)
         {
-            return nirvanaTypeDefinitionses.Keys.Select(key => LookForType(nirvanaTypeDefinitionses[key], getType)).FirstOrDefault(type => type != null);
+            return TaskConfiguration[uiNotification].CanHandle && TaskConfiguration[uiNotification].MediationStrategy==MediationStrategy.InProcess;
         }
 
-        private static NirvanaTypeDefinition LookForType(NirvanaTypeDefinition[] commandType, Type getType)
+        public static bool ShouldForwardToWeb(TaskType uiNotification)
         {
-            return commandType.FirstOrDefault(x => x.Matches(getType));
+            return TaskConfiguration[uiNotification].CanHandle && TaskConfiguration[uiNotification].MediationStrategy == MediationStrategy.ForwardToWeb;
         }
-    }
-
-    public class NirvanaTypeDefinition
-    {
-        public Type TaskType { get; set; }
-        public Type NirvanaActionType { get; set; }
-        public string UniqueName { get; set; }
-        public string TypeCorrelationId { get; set; }
-
-        public bool Matches(Type testType)
+        public static bool ShouldForwardToQueue(TaskType uiNotification)
         {
-            return testType == TaskType;
+            return TaskConfiguration[uiNotification].CanHandle && TaskConfiguration[uiNotification].MediationStrategy == MediationStrategy.ForwardToQueue;
+        }
+
+        public static bool CanProcess(TaskType query)
+        {
+            return TaskConfiguration[query].CanHandle;
         }
     }
 }

@@ -16,8 +16,7 @@ namespace TechFu.Nirvana.IntegrationTests
             Configured = true;
             NirvanaSetup
                 .Configure()
-                .ForCommands()
-                .ToQueues()
+                .ForCommands(MediationStrategy.InProcess, ChildMediationStrategy.ForwardToQueue, MediationStrategy.ForwardToQueue)
                 .BuildConfiguration();
         }
     }

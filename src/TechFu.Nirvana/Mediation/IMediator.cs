@@ -7,7 +7,7 @@ namespace TechFu.Nirvana.Mediation
         CommandResponse<TResult> Command<TResult>(Command<TResult> command);
         QueryResponse<TResult> Query<TResult>(Query<TResult> query);
         UIEventResponse UiNotification<T>(UiEvent<T> uiEevent);
-        InternalEventResponse InternalEvent<T>(InternalEvent<T> internalEvent);
+        InternalEventResponse InternalEvent(InternalEvent internalEvent);
     }
 
     public interface IWebMediator : IMediator{}

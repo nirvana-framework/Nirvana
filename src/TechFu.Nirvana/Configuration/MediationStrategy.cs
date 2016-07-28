@@ -31,7 +31,7 @@ namespace TechFu.Nirvana.Configuration
     public class ChildMediationStrategy:Enumeration<ChildMediationStrategy>
     {
         //All all sub calls for commands and UI in proc, and fail together 
-        public static ChildMediationStrategy Synchronous = new ChildMediationStrategy(1, "Synchronous");
+        public static ChildMediationStrategy InProcess = new ChildMediationStrategy(1, "Synchronous");
 
 
         //Forward Commands and UI Notifications to a queue 

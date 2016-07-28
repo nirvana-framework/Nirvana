@@ -2,7 +2,7 @@
 
 namespace TechFu.Nirvana.CQRS
 {
-    public class InternalEvent<T> : NirvanaTask
+    public class InternalEvent : NirvanaTask
     {
     }
 }

@@ -53,7 +53,7 @@ namespace TechFu.Nirvana.WebUtils
             }
         }
 
-        public InternalEventResponse InternalEvent<T>(InternalEvent<T> internalEvent)
+        public InternalEventResponse InternalEvent(InternalEvent internalEvent)
         {
             throw new NotImplementedException();
         }
