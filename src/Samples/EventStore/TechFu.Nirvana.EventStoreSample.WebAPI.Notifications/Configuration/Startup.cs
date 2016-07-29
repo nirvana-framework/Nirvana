@@ -34,8 +34,8 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.Configuration
                 .SetRootType(config.RootType)
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
-                .SetDependencyResolver(config.GetService)
-                .ForUiNotifications(MediationStrategy.InProcess, ChildMediationStrategy.ForwardToQueue, MediationStrategy.None)
+                .SetDependencyResolver(config.GetService, config.GetAllServices)
+                .ForUiNotifications(MediationStrategy.InProcess, MediationStrategy.ForwardToQueue, MediationStrategy.None)
                 .BuildConfiguration()
                 ;
 

@@ -36,11 +36,11 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor.Configuration
                 .SetRootType(config.RootType)
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
-                .SetDependencyResolver(config.GetService)
-                .ForCommands(MediationStrategy.InProcess, ChildMediationStrategy.ForwardToQueue, MediationStrategy.None)
-                .ForInternalEvents(MediationStrategy.ForwardToQueue, ChildMediationStrategy.ForwardToQueue, MediationStrategy.None)
-                .ForUiNotifications(MediationStrategy.ForwardToQueue, ChildMediationStrategy.ForwardToQueue, MediationStrategy.None)
-                .ForQueries(MediationStrategy.InProcess, ChildMediationStrategy.InProcess)
+                .SetDependencyResolver(config.GetService, config.GetAllServices)
+                .ForCommands(MediationStrategy.InProcess, MediationStrategy.ForwardToQueue, MediationStrategy.None)
+                .ForInternalEvents(MediationStrategy.InProcess, MediationStrategy.ForwardToQueue, MediationStrategy.None)
+                .ForUiNotifications(MediationStrategy.ForwardToWeb, MediationStrategy.ForwardToQueue, MediationStrategy.None)
+                .ForQueries(MediationStrategy.InProcess, MediationStrategy.InProcess)
                 .BuildConfiguration()
                 ;
 

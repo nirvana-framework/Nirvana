@@ -26,6 +26,7 @@ namespace TechFu.Nirvana.Configuration
         public static  string[] AssemblyNameReferences { get; internal set; }
         //public static TaskType[] TaskTypes { get; internal set; }
         public static Func<Type, object> GetService { get; internal set; }
+        public static Func<Type, object[]> GetServices { get; internal set; }
 
 //        //processing configuration
 //        public static MediationStrategy CommandMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
@@ -46,12 +47,12 @@ namespace TechFu.Nirvana.Configuration
 
         //Called On Configuration build
         public static string[] RootNames { get; internal set; }
-        public static IDictionary<string, NirvanaTypeDefinition[]> QueryTypes{ get; internal set; }
-        public static IDictionary<string, NirvanaTypeDefinition[]> CommandTypes{ get; internal set; }
-        public static IDictionary<string, NirvanaTypeDefinition[]> UiNotificationTypes{ get; internal set; }
-        public static IDictionary<string, NirvanaTypeDefinition[]> InternalEventTypes { get; set; }
-        public static IDictionary<Type, NirvanaTypeDefinition> DefinitionsByType{ get; internal set; }
-        public static Dictionary<TaskType, TaskConfiguration> TaskConfiguration { get; set; }
+        public static IDictionary<string, NirvanaTypeRoutingDefinition[]> QueryTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTypeRoutingDefinition[]> CommandTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTypeRoutingDefinition[]> UiNotificationTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTypeRoutingDefinition[]> InternalEventTypes { get; set; }
+        public static IDictionary<Type, NirvanaTypeRoutingDefinition> DefinitionsByType{ get; internal set; }
+        public static Dictionary<TaskType, NirvanaTypeRoutingDefinition> TaskConfiguration { get; set; }
 
 
         //TODO - replace CqrsUtils.GetRootTypeName  with this and use it in that function to speed up
@@ -84,24 +85,52 @@ namespace TechFu.Nirvana.Configuration
         }
 
 
-        public static NirvanaTypeDefinition FindTypeDefinition(Type getType)
+        public static NirvanaTypeRoutingDefinition FindTypeDefinition(Type getType)
         {
 
             return DefinitionsByType[getType];
         }
 
-        public static bool IsInProcess(TaskType uiNotification)
+        public static bool IsInProcess(TaskType taskType, bool isChildTask)
         {
-            return TaskConfiguration[uiNotification].CanHandle && TaskConfiguration[uiNotification].MediationStrategy==MediationStrategy.InProcess;
+            var config = GetTaskConfiguration(taskType);
+
+
+            return config.CanHandle
+                &&
+                isChildTask
+                ? config.ChildMediationStrategy == MediationStrategy.InProcess
+                : config.MediationStrategy == MediationStrategy.InProcess;
         }
 
-        public static bool ShouldForwardToWeb(TaskType uiNotification)
+        public static bool ShouldForwardToWeb(TaskType taskType, bool isChildTask)
         {
-            return TaskConfiguration[uiNotification].CanHandle && TaskConfiguration[uiNotification].MediationStrategy == MediationStrategy.ForwardToWeb;
+            var config = GetTaskConfiguration(taskType);
+
+
+            return config.CanHandle
+                &&
+                isChildTask
+                ? config.ChildMediationStrategy == MediationStrategy.ForwardToWeb
+                : config.MediationStrategy == MediationStrategy.ForwardToWeb;
+
+
         }
-        public static bool ShouldForwardToQueue(TaskType uiNotification)
+        public static bool ShouldForwardToQueue(TaskType taskType, bool isChildTask)
         {
-            return TaskConfiguration[uiNotification].CanHandle && TaskConfiguration[uiNotification].MediationStrategy == MediationStrategy.ForwardToQueue;
+            var config = GetTaskConfiguration(taskType);
+            
+
+            return config.CanHandle 
+                && 
+                isChildTask
+                ? config.ChildMediationStrategy== MediationStrategy.ForwardToQueue 
+                :config.MediationStrategy == MediationStrategy.ForwardToQueue;
+        }
+
+        private static TaskConfiguration GetTaskConfiguration(TaskType taskType)
+        {
+            return TaskConfiguration[taskType];
         }
 
         public static bool CanProcess(TaskType query)

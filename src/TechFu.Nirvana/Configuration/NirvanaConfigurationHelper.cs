@@ -9,11 +9,11 @@ namespace TechFu.Nirvana.Configuration
 {
     public class NirvanaConfigurationHelper
     {
-        private readonly Dictionary<TaskType, TaskConfiguration> _taskConfiguration;
+        private readonly Dictionary<TaskType, NirvanaTypeRoutingDefinition> _taskConfiguration;
 
         public NirvanaConfigurationHelper()
         {
-            _taskConfiguration = new Dictionary<TaskType, TaskConfiguration>();
+            _taskConfiguration = new Dictionary<TaskType, NirvanaTypeRoutingDefinition>();
         }
 
         public NirvanaConfigurationHelper SetRootType(Type rootType)
@@ -22,9 +22,10 @@ namespace TechFu.Nirvana.Configuration
             return this;
         }
 
-        public NirvanaConfigurationHelper SetDependencyResolver(Func<Type, object> resolverMethod)
+        public NirvanaConfigurationHelper SetDependencyResolver(Func<Type, object> resolverMethod, Func<Type, object[]> resolveMultipleMethod)
         {
             NirvanaSetup.GetService = resolverMethod;
+            NirvanaSetup.GetServices = resolveMultipleMethod;
             return this;
         }
 
@@ -59,33 +60,33 @@ namespace TechFu.Nirvana.Configuration
             return this;
         }
 
-        public NirvanaConfigurationHelper ForCommands(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy, MediationStrategy receiverMediationStrategy)
+        public NirvanaConfigurationHelper ForCommands(MediationStrategy mediationStrategy, MediationStrategy childMediationStrategy, MediationStrategy receiverMediationStrategy)
+        {
+            AddTaskConfig(mediationStrategy, childMediationStrategy, receiverMediationStrategy, TaskType.Command);
+            return this;
+        }
+        public NirvanaConfigurationHelper ForQueries(MediationStrategy mediationStrategy, MediationStrategy childMediationStrategy)
+        {
+            AddTaskConfig(mediationStrategy, childMediationStrategy, MediationStrategy.None, TaskType.Query);
+            return this;
+        }
+
+        public NirvanaConfigurationHelper ForUiNotifications(MediationStrategy mediationStrategy, MediationStrategy childMediationStrategy,MediationStrategy receiverMediationStrategy)
         {
             AddTaskConfig(mediationStrategy, childMediationStrategy, receiverMediationStrategy, TaskType.UiNotification);
             return this;
         }
-        public NirvanaConfigurationHelper ForQueries(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy)
+        public NirvanaConfigurationHelper ForInternalEvents(MediationStrategy mediationStrategy, MediationStrategy childMediationStrategy, MediationStrategy receiverMediationStrategy)
         {
-            AddTaskConfig(mediationStrategy, childMediationStrategy, MediationStrategy.None, TaskType.UiNotification);
-            return this;
-        }
-
-        public NirvanaConfigurationHelper ForUiNotifications(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy,MediationStrategy receiverMediationStrategy)
-        {
-            AddTaskConfig(mediationStrategy, childMediationStrategy, receiverMediationStrategy, TaskType.UiNotification);
-            return this;
-        }
-        public NirvanaConfigurationHelper ForInternalEvents(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy, MediationStrategy receiverMediationStrategy)
-        {
-            AddTaskConfig(mediationStrategy, childMediationStrategy, receiverMediationStrategy, TaskType.UiNotification);
+            AddTaskConfig(mediationStrategy, childMediationStrategy, receiverMediationStrategy, TaskType.InternalEvent);
 
             return this;
         }
 
-        private void AddTaskConfig(MediationStrategy mediationStrategy, ChildMediationStrategy childMediationStrategy,
+        private void AddTaskConfig(MediationStrategy mediationStrategy, MediationStrategy childMediationStrategy,
             MediationStrategy receiverMediationStrategy, TaskType taskType)
         {
-            _taskConfiguration[taskType] = new TaskConfiguration
+            _taskConfiguration[taskType] = new NirvanaTypeRoutingDefinition
             {
                 CanHandle = true,
                 MediationStrategy = mediationStrategy,
@@ -145,36 +146,36 @@ namespace TechFu.Nirvana.Configuration
 
 
             return BuildTaskConfiguration(MediationStrategy.None, taskType,
-                false, ChildMediationStrategy.InProcess, MediationStrategy.None);
+                false, MediationStrategy.None, MediationStrategy.None);
         }
 
-        private TaskConfiguration BuildTaskConfiguration(MediationStrategy ms, TaskType taskType, bool canHandle, ChildMediationStrategy forwardLongRunningToQueue, MediationStrategy receiverStrategy)
+        private TaskConfiguration BuildTaskConfiguration(MediationStrategy outboundStrategy, TaskType taskType, bool canHandle, MediationStrategy childTaskStrategy, MediationStrategy receiverStrategy)
         {
             return new TaskConfiguration
             {
-                MediationStrategy = ms,
+                MediationStrategy = outboundStrategy,
                 TaskType = taskType,
                 CanHandle = canHandle,
-                ChildMediationStrategy = forwardLongRunningToQueue,ReceiverMediationStrategy = receiverStrategy
+                ChildMediationStrategy = childTaskStrategy,ReceiverMediationStrategy = receiverStrategy
             };
         }
 
         
 
-        private void ValidateConfiguration(IEnumerable<NirvanaTypeDefinition> definitions)
+        private void ValidateConfiguration(IEnumerable<NirvanaTypeRoutingDefinition> definitions)
         {
             //TODO - configure this to throw errors for early failuse.
         }
 
 
-        private static NirvanaTypeDefinition[] GetTypes(IDictionary<string, NirvanaTypeDefinition[]> nirvanaTypeDefinitionses)
+        private static NirvanaTypeRoutingDefinition[] GetTypes(IDictionary<string, NirvanaTypeRoutingDefinition[]> nirvanaTypeDefinitionses)
         {
             return nirvanaTypeDefinitionses.Keys.SelectMany(x=> nirvanaTypeDefinitionses[x]).ToArray();
         }
 
      
 
-        private NirvanaTypeDefinition[] GetTypes(string rootName, Type actionType)
+        private NirvanaTypeRoutingDefinition[] GetTypes(string rootName, Type actionType)
         {
             return
                 CqrsUtils.ActionTypes(actionType, rootName)
@@ -182,9 +183,9 @@ namespace TechFu.Nirvana.Configuration
                     .ToArray();
         }
 
-        private NirvanaTypeDefinition BuildTypeDefinition(Type taskType, Type actionType, string rootName)
+        private NirvanaTypeRoutingDefinition BuildTypeDefinition(Type taskType, Type actionType, string rootName)
         {
-            return new NirvanaTypeDefinition
+            return new NirvanaTypeRoutingDefinition
             {
                 NirvanaActionType = actionType,
                 TaskType = taskType,
@@ -206,12 +207,5 @@ namespace TechFu.Nirvana.Configuration
         }
     }
 
-    public class TaskConfiguration
-    {
-        public MediationStrategy ReceiverMediationStrategy { get; set; }
-        public MediationStrategy MediationStrategy { get; set; }
-        public ChildMediationStrategy ChildMediationStrategy { get; set; }
-        public TaskType TaskType { get; set; }
-        public bool CanHandle { get; set; }
-    }
+   
 }

@@ -11,15 +11,15 @@ namespace TechFu.Nirvana.CQRS.Queue
         DateTime? NextVisibleTime { get; }
         DateTime? InsertionTime { get; }
         DateTime? ExpirationTime { get; }
-        NirvanaTypeDefinition MessageType { get; }
+        NirvanaTypeRoutingDefinition MessageTypeRouting { get; }
     }
 
 
     public class QueueMessage : IQueueMessage
     {
-        public QueueMessage(NirvanaTypeDefinition messageType)
+        public QueueMessage(NirvanaTypeRoutingDefinition messageTypeRouting)
         {
-            MessageType = messageType;
+            MessageTypeRouting = messageTypeRouting;
         }
 
         public DateTime? Created { get; protected set; }
@@ -31,7 +31,7 @@ namespace TechFu.Nirvana.CQRS.Queue
         public DateTime? NextVisibleTime { get; protected set; }
         public DateTime? InsertionTime { get; protected set; }
         public DateTime? ExpirationTime { get; protected set; }
-        public NirvanaTypeDefinition MessageType { get; protected set; }
+        public NirvanaTypeRoutingDefinition MessageTypeRouting { get; protected set; }
 
         public QueueMessage SetText(string text)
         {

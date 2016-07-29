@@ -22,7 +22,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         public override Func<CloudQueueMessage> GetMessage => () => _queue.GetMessage();
 
 
-        public override NirvanaTypeDefinition MessageType { get; }
+        public override NirvanaTypeRoutingDefinition MessageTypeRouting { get; }
 
         public TimeSpan VisibilityTimeout { get; set; }
 
@@ -34,11 +34,11 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         }
 
 
-        public AzureStorageQueue(CloudQueueClient client, string rootType, NirvanaTypeDefinition messageType, int? timeout = null)
+        public AzureStorageQueue(CloudQueueClient client, string rootType, NirvanaTypeRoutingDefinition messageTypeRouting, int? timeout = null)
         {
-            _queueName = AzureQueueController.GetQueueName(rootType, messageType);
+            _queueName = AzureQueueController.GetQueueName(rootType, messageTypeRouting);
             _queue = client.GetQueueReference(_queueName.ToLower());
-            MessageType = messageType;
+            MessageTypeRouting = messageTypeRouting;
             VisibilityTimeout = timeout != null
                 ? timeout > SevenDays.TotalMilliseconds
                     ? SevenDays
@@ -66,7 +66,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         {
             //TODO - handle more than one message at a time...
             //Get DoWork
-            var handler = GetDoWorkHandler(MessageType);
+            var handler = GetDoWorkHandler(MessageTypeRouting);
 
             Func<object, bool> workMethod = InvokeCommand;
             handler.Invoke(this, new object[] {workMethod, false, false});
@@ -99,7 +99,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         {
             var cloudMessage = GetAzureMessage();
 
-            var message = cloudMessage != null ? new AzureQueueMessage(Compression, cloudMessage, MessageType) : null;
+            var message = cloudMessage != null ? new AzureQueueMessage(Compression, cloudMessage, MessageTypeRouting) : null;
             if (message == null)
             {
                 return;
@@ -134,7 +134,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         public virtual T DeserializeMessage<T, U>(string input) where T : Message<U>
         {
-            var messageContainerType = typeof(Message<>).MakeGenericType(MessageType.TaskType);
+            var messageContainerType = typeof(Message<>).MakeGenericType(MessageTypeRouting.TaskType);
             var message = (T) Serializer.Deserialize(messageContainerType, input);
             message.Created = message.Created;
             message.CreatedBy = message.CreatedBy;
@@ -161,15 +161,15 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         }
 
 
-        private MethodInfo GetDoWorkHandler(NirvanaTypeDefinition messageType)
+        private MethodInfo GetDoWorkHandler(NirvanaTypeRoutingDefinition messageTypeRouting)
         {
-            return DoWorkmethodInfo.MakeGenericMethod(messageType.TaskType);
+            return DoWorkmethodInfo.MakeGenericMethod(messageTypeRouting.TaskType);
         }
 
 
         public bool InvokeCommand(object x)
         {
-            var responseType = CqrsUtils.GetResponseType(MessageType.TaskType, typeof(Command<>));
+            var responseType = CqrsUtils.GetResponseType(MessageTypeRouting.TaskType, typeof(Command<>));
             var method = CommandMethodInfo.MakeGenericMethod(responseType);
             var result = method.Invoke(Mediator, new[] {x});
             return ((Response) result).Success();
@@ -177,7 +177,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         public bool InvokeQuery(object x)
         {
-            var responseType = CqrsUtils.GetResponseType(MessageType.TaskType, typeof(Query<>));
+            var responseType = CqrsUtils.GetResponseType(MessageTypeRouting.TaskType, typeof(Query<>));
             var method = QueryMethodInfo.MakeGenericMethod(responseType);
             var result = method.Invoke(Mediator, new[] {x});
             return ((Response) result).Success();

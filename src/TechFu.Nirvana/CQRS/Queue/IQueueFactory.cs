@@ -5,6 +5,6 @@ namespace TechFu.Nirvana.CQRS.Queue
 {
     public interface IQueueFactory
     {
-        IQueue GetQueue(NirvanaTypeDefinition messageType);
+        IQueue GetQueue(NirvanaTypeRoutingDefinition messageTypeRouting);
     }
 }

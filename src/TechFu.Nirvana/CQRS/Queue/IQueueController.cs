@@ -19,7 +19,7 @@ namespace TechFu.Nirvana.CQRS.Queue
         QueueReference[] ForRootType(string rootType);
         QueueReference[] AllQueues();
 
-        QueueReference GetQueueReferenceFor(NirvanaTypeDefinition type);
+        QueueReference GetQueueReferenceFor(NirvanaTypeRoutingDefinition typeRouting);
 
     }
 }

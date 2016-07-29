@@ -43,5 +43,9 @@ namespace TechFu.Nirvana.WebApi.Sample
 
             return Activator.CreateInstance(serviceType);
         }
+
+
+        
+        public object[] GetAllServices(Type serviceType) => new object[0];
     }
 }

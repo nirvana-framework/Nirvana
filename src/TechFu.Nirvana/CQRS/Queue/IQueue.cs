@@ -6,7 +6,7 @@ namespace TechFu.Nirvana.CQRS.Queue
 {
     public interface IQueue
     {
-        NirvanaTypeDefinition MessageType { get; }
+        NirvanaTypeRoutingDefinition MessageTypeRouting { get; }
         void Send<TCommandType>(TCommandType message);
         int GetMessageCount();
         void DoWork<T>(Func<object, bool> work, bool failOnException = false, bool requeueOnFailure = true);

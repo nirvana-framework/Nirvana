@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.WebApi.Controllers;
@@ -31,5 +32,6 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands.Configuration
 
 
         public object GetService(Type serviceType) => InternalDependencyResolver.GetInstance(serviceType);
+        public object[] GetAllServices(Type serviceType) => InternalDependencyResolver.GetAllInstances(serviceType).ToArray();
     }
 }

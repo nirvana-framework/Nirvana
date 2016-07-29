@@ -63,12 +63,12 @@ namespace TechFu.Nirvana.Mediation
             return GetInProcMediator();
         }
 
-        private MediatorStrategy GetMediatorStrategy(Type messageType)
+        private MediatorStrategy GetMediatorStrategy(Type messageType,bool isChildTask =false)
         {
             if (messageType.IsQuery() 
-                || ( messageType.IsUiNotification() && NirvanaSetup.IsInProcess(TaskType.UiNotification))
-                || ( messageType.IsCommand() && NirvanaSetup.IsInProcess(TaskType.UiNotification))
-                || ( messageType.IsInternalEvent() && NirvanaSetup.IsInProcess(TaskType.InternalEvent))
+                || ( messageType.IsUiNotification() && NirvanaSetup.IsInProcess(TaskType.UiNotification, isChildTask))
+                || ( messageType.IsCommand() && NirvanaSetup.IsInProcess(TaskType.Command, isChildTask))
+                || ( messageType.IsInternalEvent() && NirvanaSetup.IsInProcess(TaskType.InternalEvent, isChildTask))
                 )
             {
                 // Only commands can be offloaded currently
@@ -76,23 +76,23 @@ namespace TechFu.Nirvana.Mediation
             }
 
             if (
-                 (messageType.IsUiNotification() && NirvanaSetup.ShouldForwardToWeb(TaskType.UiNotification))
-                || (messageType.IsCommand() && NirvanaSetup.ShouldForwardToWeb(TaskType.UiNotification))
-                || (messageType.IsInternalEvent() && NirvanaSetup.ShouldForwardToWeb(TaskType.InternalEvent))
+                 (messageType.IsUiNotification() && NirvanaSetup.ShouldForwardToWeb(TaskType.UiNotification, isChildTask))
+                || (messageType.IsCommand() && NirvanaSetup.ShouldForwardToWeb(TaskType.Command, isChildTask))
+                || (messageType.IsInternalEvent() && NirvanaSetup.ShouldForwardToWeb(TaskType.InternalEvent, isChildTask))
                )
             {
                 return MediatorStrategy.ForwardToWeb;
             }
 
             if (
-                (messageType.IsUiNotification() && NirvanaSetup.ShouldForwardToQueue(TaskType.UiNotification))
-                || (messageType.IsCommand() && NirvanaSetup.ShouldForwardToQueue(TaskType.UiNotification))
-                || (messageType.IsInternalEvent() && NirvanaSetup.ShouldForwardToQueue(TaskType.InternalEvent))
+                (messageType.IsUiNotification() && NirvanaSetup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask))
+                || (messageType.IsCommand() && NirvanaSetup.ShouldForwardToQueue(TaskType.Command, isChildTask))
+                || (messageType.IsInternalEvent() && NirvanaSetup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask))
                 )
             {
                 return MediatorStrategy.ForwardToQueue;
             }
-            throw new NotImplementedException("Currently all children must be handed in proc in synchronously.");
+            throw new NotImplementedException("Execution strategy could not be determined.  Please check your configuration.");
 
 
         }

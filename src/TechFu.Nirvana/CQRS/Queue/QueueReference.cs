@@ -8,7 +8,7 @@ namespace TechFu.Nirvana.CQRS.Queue
         public QueueStatus Status { get; set; }
         public string Name { get; set; }
         public bool CanCancel{ get; set; }
-        public NirvanaTypeDefinition MessageType{ get; set; }
+        public NirvanaTypeRoutingDefinition MessageTypeRouting{ get; set; }
         public int  MessageCount{ get; set; }
         public int  NumberOfConsumers{ get; set; }
         public int SleepInMSBetweenTasks { get; set; }

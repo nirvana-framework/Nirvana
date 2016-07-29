@@ -11,13 +11,13 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
     {
         private readonly ICompression _compression;
 
-        public AzureQueueMessage(ICompression compression, CloudQueueMessage message, NirvanaTypeDefinition messageType)
-            : this(message, messageType)
+        public AzureQueueMessage(ICompression compression, CloudQueueMessage message, NirvanaTypeRoutingDefinition messageTypeRouting)
+            : this(message, messageTypeRouting)
         {
             _compression = compression;
         }
 
-        public AzureQueueMessage(CloudQueueMessage message, NirvanaTypeDefinition messageType) : base(messageType)
+        public AzureQueueMessage(CloudQueueMessage message, NirvanaTypeRoutingDefinition messageTypeRouting) : base(messageTypeRouting)
         {
             Id = message.Id;
             DequeueCount = message.DequeueCount;

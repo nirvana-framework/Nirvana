@@ -36,8 +36,8 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Commands.Configuration
                 .SetRootType(config.RootType)
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
-                .SetDependencyResolver(config.GetService)
-                .ForCommands(MediationStrategy.ForwardToQueue, ChildMediationStrategy.ForwardToQueue, MediationStrategy.None)
+                .SetDependencyResolver(config.GetService, config.GetAllServices)
+                .ForCommands(MediationStrategy.ForwardToQueue, MediationStrategy.ForwardToQueue, MediationStrategy.None)
                 .BuildConfiguration()
                 ;
 

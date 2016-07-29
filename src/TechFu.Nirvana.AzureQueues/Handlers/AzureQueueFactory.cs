@@ -36,10 +36,10 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
            
         }
 
-        public virtual IQueue GetQueue(NirvanaTypeDefinition messageType)
+        public virtual IQueue GetQueue(NirvanaTypeRoutingDefinition messageTypeRouting)
         {
-            var queueReference = _queueController.GetQueueReferenceFor(messageType);
-            return new AzureStorageQueue(_client.Value, queueReference.Name, messageType)
+            var queueReference = _queueController.GetQueueReferenceFor(messageTypeRouting);
+            return new AzureStorageQueue(_client.Value, queueReference.Name, messageTypeRouting)
                 .SetTime(_systemTime)
                 .SetSerializer(_serializer)
                 .SetCompression(_compression)

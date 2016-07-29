@@ -9,20 +9,20 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 {
     public class AzureQueueController : IQueueController
     {
-
         public Dictionary<string, QueueReference[]> QueueTypesByRoot { get; set; }
 
         public AzureQueueController()
         {
-            QueueTypesByRoot = NirvanaSetup.CommandTypes.ToDictionary(x => x.Key, x => x
+            var nirvanaTypeDefinitionses = GetTypes();
+            QueueTypesByRoot = nirvanaTypeDefinitionses.ToDictionary(x => x.Key, x => x
                 .Value.Select(q => new AzureQueueReference
                 {
-                    MessageType = q,
+                    MessageTypeRouting = q,
                     MessageCount = 0,
-                    Name = GetQueueName(x.Key,q),
+                    Name = GetQueueName(x.Key, q),
                     NumberOfConsumers = 1,
                     Status = QueueStatus.Stopped,
-                    SleepInMSBetweenTasks=100,
+                    SleepInMSBetweenTasks = 100
                 }).Cast<QueueReference>().ToArray());
         }
 
@@ -31,16 +31,15 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             return QueueTypesByRoot.SelectMany(x => x.Value).ToArray();
         }
 
-        public QueueReference GetQueueReferenceFor(NirvanaTypeDefinition type)
+        public QueueReference GetQueueReferenceFor(NirvanaTypeRoutingDefinition typeRouting)
         {
-            return AllQueues().SingleOrDefault(x => x.MessageType.TaskType == type.TaskType);
+            return AllQueues().SingleOrDefault(x => x.MessageTypeRouting.TaskType == typeRouting.TaskType);
         }
 
         public bool StartAll()
         {
-            AllQueues().ForEach(x=>x.StartQueue((IQueueFactory)NirvanaSetup.GetService(typeof(IQueueFactory))));
+            AllQueues().ForEach(x => x.StartQueue((IQueueFactory) NirvanaSetup.GetService(typeof(IQueueFactory))));
             return AllQueues().All(x => x.Status == QueueStatus.Started);
-            
         }
 
         public bool StopAll()
@@ -52,11 +51,6 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
             Console.WriteLine($"All queues stopped");
             return stopAll;
-        }
-
-        private void WaitForShutDown(string rootName=null)
-        {
-            //Do it here...
         }
 
         public bool StartRoot(string rootName)
@@ -89,12 +83,29 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             return QueueTypesByRoot[rootType];
         }
 
-        public static string GetQueueName(string rootType, NirvanaTypeDefinition type)
+        private static IDictionary<string, NirvanaTypeRoutingDefinition[]> GetTypes()
         {
-            return type.UniqueName;
+            IList<NirvanaTypeRoutingDefinition> types = new List<NirvanaTypeRoutingDefinition>();
+            foreach (var task in NirvanaSetup.TaskConfiguration)
+            {
+                if (task.Value.ReceiverMediationStrategy == MediationStrategy.ForwardToQueue)
+                {
+                    types.Add(task.Value);
+                }
+            }
+
+            
+            return types.GroupBy(x=>x.RootName).ToDictionary(x=>x.Key,x=>x.ToArray());
         }
 
+        private void WaitForShutDown(string rootName = null)
+        {
+            //Do it here...
+        }
 
-      
+        public static string GetQueueName(string rootType, NirvanaTypeRoutingDefinition typeRouting)
+        {
+            return typeRouting.UniqueName;
+        }
     }
 }

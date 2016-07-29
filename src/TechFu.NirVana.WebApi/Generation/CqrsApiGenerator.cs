@@ -70,7 +70,7 @@ namespace TechFu.Nirvana.WebApi.Generation
 
         private ControllerActionCode BuildEventHub()
         {
-            if (!NirvanaSetup.IsInProcess(TaskType.UiNotification))
+            if (!NirvanaSetup.IsInProcess(TaskType.UiNotification,false))
             {
                 return new ControllerActionCode {AdditionalNamespaces = new List<string>(),Actions = String.Empty};
             }

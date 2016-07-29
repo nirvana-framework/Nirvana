@@ -30,7 +30,7 @@ namespace TechFu.Nirvana.Mediation.Implementation
 
         public InternalEventResponse InternalEvent(InternalEvent internalEvent)
         {
-            throw new NotImplementedException();
+           return (NirvanaSetup.GetService(typeof(InternalEventProcessor)) as InternalEventProcessor).Process(internalEvent);
         }
 
 

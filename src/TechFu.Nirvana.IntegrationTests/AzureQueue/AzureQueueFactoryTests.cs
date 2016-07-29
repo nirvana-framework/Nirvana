@@ -95,7 +95,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
         public override void RunTest()
         {
-            var nirvanaTypeDefinition = new NirvanaTypeDefinition{TaskType = typeof(TestCommand) };
+            var nirvanaTypeDefinition = new NirvanaTypeRoutingDefinition{TaskType = typeof(TestCommand) };
             AzureStorageQueue queue = Sut.GetQueue(nirvanaTypeDefinition) as AzureStorageQueue;
 
 
