@@ -21,8 +21,7 @@ namespace TechFu.Nirvana.Data
             IList<Expression<Func<T, object>>> orders = null,
             IList<Expression<Func<T, object>>> includes = null
         ) where T : Entity;
-
-        void EnableSoftDeleteLoading();
+        
         void BeginTransaction(IsolationLevel? isolationLevel = null);
         void CommitTransaction();
         void RollbackTransaction();

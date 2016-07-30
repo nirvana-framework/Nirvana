@@ -16,7 +16,7 @@ namespace TechFu.Nirvana.CQRS.Queue
         protected ISerializer Serializer;
         protected ISystemTime SystemTime;
 
-        public abstract NirvanaTypeRoutingDefinition MessageTypeRouting { get; }
+        public abstract NirvanaTaskInformation MessageTypeRouting { get; }
         protected static readonly TimeSpan SevenDays = TimeSpan.FromDays(7);
         protected static readonly TimeSpan DefaultVisibilityTimeout = TimeSpan.FromSeconds(30);
 

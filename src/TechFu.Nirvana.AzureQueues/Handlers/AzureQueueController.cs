@@ -17,7 +17,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             QueueTypesByRoot = nirvanaTypeDefinitionses.ToDictionary(x => x.Key, x => x
                 .Value.Select(q => new AzureQueueReference
                 {
-                    MessageTypeRouting = q,
+                    TaskInformaion = q,
                     MessageCount = 0,
                     Name = GetQueueName(x.Key, q),
                     NumberOfConsumers = 1,
@@ -26,14 +26,23 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                 }).Cast<QueueReference>().ToArray());
         }
 
+        private IDictionary<string,NirvanaTaskInformation[]> GetTypes()
+        {
+            return
+                NirvanaSetup.TaskConfiguration.Where(x => x.Value.CanHandle)
+                    .SelectMany(x => x.Value.Tasks)
+                    .GroupBy(x => x.RootName)
+                    .ToDictionary(x => x.Key, x => x.ToArray());
+        }
+
         public QueueReference[] AllQueues()
         {
             return QueueTypesByRoot.SelectMany(x => x.Value).ToArray();
         }
 
-        public QueueReference GetQueueReferenceFor(NirvanaTypeRoutingDefinition typeRouting)
+        public QueueReference GetQueueReferenceFor(NirvanaTaskInformation typeRouting)
         {
-            return AllQueues().SingleOrDefault(x => x.MessageTypeRouting.TaskType == typeRouting.TaskType);
+            return AllQueues().SingleOrDefault(x => x.TaskInformaion.TaskType == typeRouting.TaskType);
         }
 
         public bool StartAll()
@@ -83,27 +92,14 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             return QueueTypesByRoot[rootType];
         }
 
-        private static IDictionary<string, NirvanaTypeRoutingDefinition[]> GetTypes()
-        {
-            IList<NirvanaTypeRoutingDefinition> types = new List<NirvanaTypeRoutingDefinition>();
-            foreach (var task in NirvanaSetup.TaskConfiguration)
-            {
-                if (task.Value.ReceiverMediationStrategy == MediationStrategy.ForwardToQueue)
-                {
-                    types.Add(task.Value);
-                }
-            }
-
-            
-            return types.GroupBy(x=>x.RootName).ToDictionary(x=>x.Key,x=>x.ToArray());
-        }
+        
 
         private void WaitForShutDown(string rootName = null)
         {
             //Do it here...
         }
 
-        public static string GetQueueName(string rootType, NirvanaTypeRoutingDefinition typeRouting)
+        public static string GetQueueName(string rootType, NirvanaTaskInformation typeRouting)
         {
             return typeRouting.UniqueName;
         }

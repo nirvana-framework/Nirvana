@@ -28,30 +28,16 @@ namespace TechFu.Nirvana.Configuration
         public static Func<Type, object> GetService { get; internal set; }
         public static Func<Type, object[]> GetServices { get; internal set; }
 
-//        //processing configuration
-//        public static MediationStrategy CommandMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
-//        public static MediationStrategy QueryMediationStrategy { get; internal  set; } = MediationStrategy.InProcess;
-//        public static MediationStrategy UiNotificationMediationStrategy { get; internal  set; } = MediationStrategy.None;
-//
-//
-//        //Configuration for task processor applications
-//        public static MediationStrategy RecieverMediationStrategy { get; internal set; } = MediationStrategy.None;
-//
-//        //How to handle sub calls within this app 
-//        // FOr instance, we get a call from a command processor via web
-//        // we want to call this in proc and syncronously
-//        //somewhere in the command we want to call a child command  - this may or may not be something 
-//        //we want to run in proc
-//        public static ChildMediationStrategy ChildMediationStrategy { get; internal  set; } = ChildMediationStrategy.Synchronous;
-
 
         //Called On Configuration build
         public static string[] RootNames { get; internal set; }
-        public static IDictionary<string, NirvanaTypeRoutingDefinition[]> QueryTypes{ get; internal set; }
-        public static IDictionary<string, NirvanaTypeRoutingDefinition[]> CommandTypes{ get; internal set; }
-        public static IDictionary<string, NirvanaTypeRoutingDefinition[]> UiNotificationTypes{ get; internal set; }
-        public static IDictionary<string, NirvanaTypeRoutingDefinition[]> InternalEventTypes { get; set; }
-        public static IDictionary<Type, NirvanaTypeRoutingDefinition> DefinitionsByType{ get; internal set; }
+        public static IDictionary<string, NirvanaTaskInformation[]> QueryTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTaskInformation[]> CommandTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTaskInformation[]> UiNotificationTypes{ get; internal set; }
+        public static IDictionary<string, NirvanaTaskInformation[]> InternalEventTypes { get; set; }
+
+        public static IDictionary<Type, NirvanaTaskInformation> DefinitionsByType{ get; internal set; }
+
         public static Dictionary<TaskType, NirvanaTypeRoutingDefinition> TaskConfiguration { get; set; }
 
 
@@ -85,7 +71,7 @@ namespace TechFu.Nirvana.Configuration
         }
 
 
-        public static NirvanaTypeRoutingDefinition FindTypeDefinition(Type getType)
+        public static NirvanaTaskInformation FindTypeDefinition(Type getType)
         {
 
             return DefinitionsByType[getType];
@@ -128,7 +114,7 @@ namespace TechFu.Nirvana.Configuration
                 :config.MediationStrategy == MediationStrategy.ForwardToQueue;
         }
 
-        private static TaskConfiguration GetTaskConfiguration(TaskType taskType)
+        private static NirvanaTypeRoutingDefinition GetTaskConfiguration(TaskType taskType)
         {
             return TaskConfiguration[taskType];
         }

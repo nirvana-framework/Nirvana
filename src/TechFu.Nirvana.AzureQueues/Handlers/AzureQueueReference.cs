@@ -16,7 +16,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         private IQueue StartQueueInternal(IQueueFactory factory)
         {
             Status = QueueStatus.Started;
-            Queue = factory.GetQueue(MessageTypeRouting);
+            Queue = factory.GetQueue(TaskInformaion);
 
 
             RunQueue();

@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.SqlProvider", "TechFu.Nirvana.SqlProvider\TechFu.Nirvana.SqlProvider.csproj", "{4E56A351-06C7-4F01-B988-547D228394C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.MongoProvider", "TechFu.Nirvana.MongoProvider\TechFu.Nirvana.MongoProvider.csproj", "{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -142,6 +144,10 @@ Global
 		{4E56A351-06C7-4F01-B988-547D228394C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E56A351-06C7-4F01-B988-547D228394C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E56A351-06C7-4F01-B988-547D228394C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,5 +172,6 @@ Global
 		{CC7D13ED-CC5F-48AF-A614-285888BC6E65} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844} = {1ECA6730-5BE1-41CE-BCA5-73AEC8506306}
 		{4E56A351-06C7-4F01-B988-547D228394C7} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
+		{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
 	EndGlobalSection
 EndGlobal

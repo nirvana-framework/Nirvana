@@ -36,7 +36,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
            
         }
 
-        public virtual IQueue GetQueue(NirvanaTypeRoutingDefinition messageTypeRouting)
+        public virtual IQueue GetQueue(NirvanaTaskInformation messageTypeRouting)
         {
             var queueReference = _queueController.GetQueueReferenceFor(messageTypeRouting);
             return new AzureStorageQueue(_client.Value, queueReference.Name, messageTypeRouting)

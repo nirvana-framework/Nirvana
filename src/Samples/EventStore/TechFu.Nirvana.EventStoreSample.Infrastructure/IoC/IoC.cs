@@ -48,7 +48,8 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 
                 scan.ConnectImplementationsToTypesClosing(typeof(ICommandHandler<,>));
                 scan.ConnectImplementationsToTypesClosing(typeof(IQueryHandler<,>));
-        
+                scan.ConnectImplementationsToTypesClosing(typeof(IEventHandler<>));
+
 
 
                 scan.AddAllTypesOf<IStartupStep>();

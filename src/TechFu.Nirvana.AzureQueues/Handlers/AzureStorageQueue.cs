@@ -22,7 +22,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         public override Func<CloudQueueMessage> GetMessage => () => _queue.GetMessage();
 
 
-        public override NirvanaTypeRoutingDefinition MessageTypeRouting { get; }
+        public override NirvanaTaskInformation MessageTypeRouting { get; }
 
         public TimeSpan VisibilityTimeout { get; set; }
 
@@ -34,7 +34,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         }
 
 
-        public AzureStorageQueue(CloudQueueClient client, string rootType, NirvanaTypeRoutingDefinition messageTypeRouting, int? timeout = null)
+        public AzureStorageQueue(CloudQueueClient client, string rootType, NirvanaTaskInformation messageTypeRouting, int? timeout = null)
         {
             _queueName = AzureQueueController.GetQueueName(rootType, messageTypeRouting);
             _queue = client.GetQueueReference(_queueName.ToLower());
@@ -161,7 +161,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         }
 
 
-        private MethodInfo GetDoWorkHandler(NirvanaTypeRoutingDefinition messageTypeRouting)
+        private MethodInfo GetDoWorkHandler(NirvanaTaskInformation messageTypeRouting)
         {
             return DoWorkmethodInfo.MakeGenericMethod(messageTypeRouting.TaskType);
         }
