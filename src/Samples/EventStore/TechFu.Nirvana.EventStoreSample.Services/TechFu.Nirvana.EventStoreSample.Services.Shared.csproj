@@ -42,16 +42,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateRootAttribute.cs" />
+    <Compile Include="Infrastructure\Commands\TestCommand.cs" />
+    <Compile Include="Infrastructure\Commands\TestResult.cs" />
+    <Compile Include="Leads\Enumerations\EntityType.cs" />
+    <Compile Include="Leads\Enumerations\IndicatorType.cs" />
+    <Compile Include="Leads\Enumerations\IndicatorSource.cs" />
+    <Compile Include="Leads\Query\GetLeadIndicatorOveriewQuery.cs" />
     <Compile Include="ProductCatalog\Commands\CreateSampleCatalogCommand.cs" />
-    <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="ProductCatalog\Commands\UpdateHomePageViewModelCommand.cs" />
     <Compile Include="ProductCatalog\InternalEvents\CatalogUpdatedEvent.cs" />
     <Compile Include="ProductCatalog\ViewModels\HomePageProductViewModel.cs" />
     <Compile Include="ProductCatalog\ViewModels\HomePageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries\GetVersionQuery.cs" />
-    <Compile Include="UiNotifications\ITestNotificationHub.cs" />
-    <Compile Include="UiNotifications\TestUiEvent.cs" />
+    <Compile Include="Infrastructure\Queries\GetVersionQuery.cs" />
+    <Compile Include="Infrastructure\UiNotifications\TestUiEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\TechFu.Nirvana\TechFu.Nirvana.csproj">
@@ -60,7 +64,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\ProductCatalog\" />
     <Folder Include="ProductCatalog\Queries\" />
     <Folder Include="ProductCatalog\UINotifications\" />
   </ItemGroup>

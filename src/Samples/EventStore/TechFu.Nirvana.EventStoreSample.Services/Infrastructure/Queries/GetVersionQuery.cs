@@ -1,6 +1,6 @@
 using TechFu.Nirvana.CQRS;
 
-namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Queries
+namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Infrastructure.Queries
 {
     [InfrastructureRoot("getversion")]
     public class GetVersionQuery:Query<VersionModel>

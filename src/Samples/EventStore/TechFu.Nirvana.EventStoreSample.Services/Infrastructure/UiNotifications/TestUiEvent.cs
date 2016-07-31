@@ -1,6 +1,6 @@
 ﻿using TechFu.Nirvana.CQRS;
 
-namespace TechFu.Nirvana.EventStoreSample.Services.Shared.UiNotifications
+namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Infrastructure.UiNotifications
 {
     [InfrastructureRoot("TestUiEvent")]
     public class TestUiEvent : UiEvent<TestUiEvent>

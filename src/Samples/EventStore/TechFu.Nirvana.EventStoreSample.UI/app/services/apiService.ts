@@ -10,7 +10,7 @@ import 'rxjs/add/operator/toPromise';
 export class Mediator {
 
     public commandEndpoint:string = 'https://local-commandapi.mean.software:54406/api';
-    public queryEndpoint:string = 'https://local-queryapi.mean.software:54406/api';
+    public queryEndpoint:string = 'https://local-queryapi.mean.software:54410/api';
 
     constructor(private http:Http, private security:ServerService, private serializer:Serializer) {    }
 

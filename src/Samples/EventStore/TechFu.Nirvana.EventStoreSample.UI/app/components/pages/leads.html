@@ -1,0 +1,59 @@
+<div class="row">
+    <h1>Leads</h1>
+</div>
+
+<div class="row" [hidden]="lead.BusinessMeasure==null">
+    <div class="col-xs-6">
+        {{lead.Name}}
+        Address: {{lead.Address}}
+    </div>
+    <div class="col-xs-6">
+        <h4>Business Measures</h4>
+        <div class="row">
+            <table class="table">
+
+
+                <tbody>
+
+                <tr>
+                    <td>Annual revenue</td>
+                    <td>{{lead.BusinessMeasure?.AnnualRevenue}}</td>
+                </tr>
+                <tr>
+                    <td>Number Of Employees</td>
+                    <td>{{lead.BusinessMeasure?.NumberOfEmployees}}</td>
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<style>
+    .selectedSource {
+        border: solid 2px white;
+    }
+</style>
+<div class="row">
+    <table class="table">
+        <thead>
+        <th></th>
+        <th *ngFor='let source of lead.DataSources'>
+            {{source.DisplayName}}
+        </th>
+        <th>Selected Value</th>
+        </thead>
+        <tbody>
+        <tr *ngFor='let indicator of lead.AllIndicators'>
+            <td>{{indicator.DisplayName}}</td>
+            <td *ngFor='let source of lead.DataSources' [ngClass]="{selectedSource: isSelectedSource(indicator,source)}"
+                (click)="setSelectedValue(indicator,source)">
+                {{getSourceValue(indicator,source)}}
+            </td>
+            <td>{{getSelectedDisplayValue(indicator)}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

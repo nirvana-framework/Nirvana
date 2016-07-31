@@ -1,10 +1,10 @@
 ﻿using System;
 using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Commands;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.UiNotifications;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Infrastructure.Commands;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Infrastructure.UiNotifications;
 using TechFu.Nirvana.Mediation;
 
-namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Command
+namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Infrastructure.Command
 {
 
 

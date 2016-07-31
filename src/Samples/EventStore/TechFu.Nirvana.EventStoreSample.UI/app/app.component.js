@@ -19,10 +19,18 @@ var cookieWrapper_1 = require("./services/util/cookieWrapper");
 var errorrService_1 = require("./services/errorrService");
 require('rxjs/add/operator/toPromise');
 var channel_service_1 = require("./components/framework/signlar/channel.service");
+var Common_1 = require("./models/CQRS/Common");
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(channelService) {
+        this.channelService = channelService;
     }
     AppComponent.prototype.ngOnInit = function () {
+        this.connectionState$ = this.channelService.connectionState$
+            .map(function (state) { return Common_1.ConnectionState[state]; });
+        this.channelService.error$.subscribe(function (error) { console.warn(error); }, function (error) { console.error("errors$ error", error); });
+        this.channelService.starting$.subscribe(function () { console.log("signalr service has been started"); }, function () { console.warn("signalr service failed to start!"); });
+        console.log("Starting the channel service");
+        this.channelService.start();
     };
     AppComponent = __decorate([
         core_1.Component({
@@ -32,7 +40,7 @@ var AppComponent = (function () {
             directives: [header_component_1.HeaderComponent, nav_component_1.NavComponent, router_1.ROUTER_DIRECTIVES],
             providers: [common_1.Location, cookieWrapper_1.CookieWrapper, serverService_1.ServerService, core_2.CookieService, errorrService_1.ErrorService, channel_service_1.ChannelService],
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [channel_service_1.ChannelService])
     ], AppComponent);
     return AppComponent;
 }());

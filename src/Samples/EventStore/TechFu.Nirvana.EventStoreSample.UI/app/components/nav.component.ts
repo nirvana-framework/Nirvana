@@ -22,7 +22,8 @@ export class NavComponent implements OnInit {
         this.loggedIn = this._securityService.checkLoggedIn();
         this._securityService.getLoginEvent().subscribe(x=>this.loggedIn = x);
         this.links = [
-
+                new NavItem("","Dashboard"),
+                new NavItem("/leads","Leads")
         ]
     }
 

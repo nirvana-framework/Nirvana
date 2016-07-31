@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
-using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.WebApi.Controllers;
 
-namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor
+namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor.Configuration
 {
     public class NirvanaCommandProcessorEndpointConfiguration
     {

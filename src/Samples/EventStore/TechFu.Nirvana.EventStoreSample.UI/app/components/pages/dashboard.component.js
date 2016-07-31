@@ -21,12 +21,6 @@ var AlertList_1 = require("../framework/AlertList");
 var Commands_1 = require("../../models/CQRS/Commands");
 var router_1 = require("@angular/router");
 var channel_service_1 = require("../framework/signlar/channel.service");
-var Common_1 = require("../../models/CQRS/Common");
-var StatusEvent = (function () {
-    function StatusEvent() {
-    }
-    return StatusEvent;
-}());
 var DashboardComponent = (function (_super) {
     __extends(DashboardComponent, _super);
     function DashboardComponent(_securityService, errorService, channelService) {
@@ -38,10 +32,6 @@ var DashboardComponent = (function (_super) {
         this.registerEvents(this.errorList);
         this.sentMessage = '';
         this.receivedMessage = '';
-        this.connectionState$ = this.channelService.connectionState$
-            .map(function (state) { return Common_1.ConnectionState[state]; });
-        this.channelService.error$.subscribe(function (error) { console.warn(error); }, function (error) { console.error("errors$ error", error); });
-        this.channelService.starting$.subscribe(function () { console.log("signalr service has been started"); }, function () { console.warn("signalr service failed to start!"); });
         this.channelService.sub(this.channel).subscribe(function (x) {
             switch (x.Name) {
                 case 'Infrastructure::TestUiEvent': {
@@ -53,10 +43,6 @@ var DashboardComponent = (function (_super) {
         });
     }
     DashboardComponent.prototype.ngOnInit = function () {
-        // Start the connection up!
-        //
-        console.log("Starting the channel service");
-        this.channelService.start();
     };
     DashboardComponent.prototype.ngOnDestroy = function () {
         this.disposeRegisteredEvents();

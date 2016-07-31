@@ -6,7 +6,8 @@ namespace TechFu.Nirvana.EventStoreSample.Services.Shared
     {
         Infrastructure,
         ProductCatalog,
-        Users
+        Users,
+        Lead,
     }
 
     public class InfrastructureRoot : AggregateRootAttribute
@@ -18,6 +19,12 @@ namespace TechFu.Nirvana.EventStoreSample.Services.Shared
     public class ProductCatalogRoot : AggregateRootAttribute
     {
         public ProductCatalogRoot(string identifier) : base(RootType.ProductCatalog, identifier)
+        {
+        }
+    }
+    public class LeadRoot : AggregateRootAttribute
+    {
+        public LeadRoot(string identifier) : base(RootType.Lead, identifier)
         {
         }
     }

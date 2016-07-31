@@ -73,4 +73,56 @@ exports.CreateSampleCatalogCommand = CreateSampleCatalogCommand;
 })(exports.Nop || (exports.Nop = {}));
 var Nop = exports.Nop;
 //Users
+//Lead
+var GetLeadIndicatorOveriewQuery = (function (_super) {
+    __extends(GetLeadIndicatorOveriewQuery, _super);
+    function GetLeadIndicatorOveriewQuery(LeadId, typescriptPlace) {
+        _super.call(this, 'Lead/GetLeadIndicatorOveriew');
+        this.LeadId = LeadId;
+        this.typescriptPlace = typescriptPlace;
+    }
+    return GetLeadIndicatorOveriewQuery;
+}(Common_1.Query));
+exports.GetLeadIndicatorOveriewQuery = GetLeadIndicatorOveriewQuery;
+var LeadIndicatorViewModel = (function () {
+    function LeadIndicatorViewModel() {
+    }
+    return LeadIndicatorViewModel;
+}());
+exports.LeadIndicatorViewModel = LeadIndicatorViewModel;
+var BusinesssMeasureViewModel = (function () {
+    function BusinesssMeasureViewModel() {
+    }
+    return BusinesssMeasureViewModel;
+}());
+exports.BusinesssMeasureViewModel = BusinesssMeasureViewModel;
+(function (EntityTypeValue) {
+    EntityTypeValue[EntityTypeValue["SoleProp"] = 1] = "SoleProp";
+    EntityTypeValue[EntityTypeValue["LLC"] = 2] = "LLC";
+})(exports.EntityTypeValue || (exports.EntityTypeValue = {}));
+var EntityTypeValue = exports.EntityTypeValue;
+var PerformanceIndicatorViewModel = (function () {
+    function PerformanceIndicatorViewModel() {
+    }
+    return PerformanceIndicatorViewModel;
+}());
+exports.PerformanceIndicatorViewModel = PerformanceIndicatorViewModel;
+var IndicatorValueViewModel = (function () {
+    function IndicatorValueViewModel() {
+    }
+    return IndicatorValueViewModel;
+}());
+exports.IndicatorValueViewModel = IndicatorValueViewModel;
+var IndicatorSource = (function () {
+    function IndicatorSource() {
+    }
+    return IndicatorSource;
+}());
+exports.IndicatorSource = IndicatorSource;
+var IndicatorType = (function () {
+    function IndicatorType() {
+    }
+    return IndicatorType;
+}());
+exports.IndicatorType = IndicatorType;
 //# sourceMappingURL=Commands.js.map

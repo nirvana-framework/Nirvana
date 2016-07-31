@@ -1,16 +1,16 @@
-<div class="ge aom" [hidden]="!loggedIn">
+<div class="ge aom" >
     <nav class="aot">
-        <div class="aon">
+        <div class="aon" [hidden]="!loggedIn">
             <button class="amy amz aoo" type="button" data-toggle="collapse" data-target="#nav-toggleable-sm">
                 <span class="ct">Toggle nav</span>
             </button>
-            <a class="aop cn" [routerLink]="['/clients']">
+            <a class="aop cn" [routerLink]="['/leads']">
                 <span class="bv act aoq"></span>
             </a>
         </div>
 
         <div class="collapse and" id="nav-toggleable-sm">
-            <form class="aor">
+            <form class="aor" [hidden]="!loggedIn">
                 <input class="form-control" type="text" placeholder="Search..." [(ngModel)]="searchTerm">
                 <button type="submit" class="fm" (click)="doSearch()">
                     <span class="bv adn"></span>

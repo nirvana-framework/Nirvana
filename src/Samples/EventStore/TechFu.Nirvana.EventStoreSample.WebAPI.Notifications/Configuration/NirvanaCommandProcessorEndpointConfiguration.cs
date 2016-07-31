@@ -4,7 +4,7 @@ using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
 
-namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications
+namespace TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.Configuration
 {
     public class NirvanaCommandProcessorEndpointConfiguration
     {

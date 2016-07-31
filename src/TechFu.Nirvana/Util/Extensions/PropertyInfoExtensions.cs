@@ -21,6 +21,12 @@ namespace TechFu.Nirvana.Util.Extensions
                     return "string";
                 }
             }
+            if (type.IsType())
+            {
+                {
+                    return "any";
+                }
+            }
             if (type.IsNumber())
             {
                 {
@@ -39,6 +45,15 @@ namespace TechFu.Nirvana.Util.Extensions
                     return "boolean";
                 }
             }
+
+
+            if (type.IsObject())
+            {
+                {
+                    return "any";
+                }
+            }
+
             return string.Empty;
         }
 
@@ -55,6 +70,7 @@ namespace TechFu.Nirvana.Util.Extensions
                    || propertyType.IsNumber()
                    || IsBoolean(propertyType)
                    || propertyType.IsDate()
+                   || propertyType.IsType()
                    || IsObject(propertyType);
         }
 
@@ -114,6 +130,10 @@ namespace TechFu.Nirvana.Util.Extensions
         {
             return propType == typeof(DateTime)
                    || propType == typeof(DateTime?);
+        }
+        public static bool IsType(this Type propType)
+        {
+            return propType == typeof(Type);
         }
 
         public static bool IsObject(this Type propType)

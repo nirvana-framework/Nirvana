@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ProductCatalog;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Commands.ProductCatalog;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.Commands;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.InternalEvents;
 using TechFu.Nirvana.Mediation;
 
-namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Command.ProductCatalog
+namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
 {
     public class CreateSampleCatalogHandler : INopHandler<CreateSampleCatalogCommand>
     {

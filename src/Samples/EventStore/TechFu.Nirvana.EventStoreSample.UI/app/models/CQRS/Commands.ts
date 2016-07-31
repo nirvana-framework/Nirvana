@@ -12,3 +12,12 @@ export class TestResult{public Message: string;}
 export class CreateSampleCatalogCommand extends Command<Nop>{constructor(){super('ProductCatalog/CreateSampleCatalog')}}
 export enum Nop{NoValue=0}
 //Users
+//Lead
+export class GetLeadIndicatorOveriewQuery extends Query<LeadIndicatorViewModel>{constructor(public LeadId: string,public typescriptPlace: boolean){super('Lead/GetLeadIndicatorOveriew')}}
+export class LeadIndicatorViewModel{public AllIndicators: IndicatorType[];public DataSources: IndicatorSource[];public Name: string;public Address: string;public Indicators: PerformanceIndicatorViewModel[];public BusinessMeasure: BusinesssMeasureViewModel;public RootEntityKey: string;public Id: string;}
+export class BusinesssMeasureViewModel{public AnnualRevenue: number;public NumberOfEmployees: number;public EntytyType: EntityTypeValue;}
+export enum EntityTypeValue{SoleProp=1,LLC=2}
+export class PerformanceIndicatorViewModel{public IndicatorType: IndicatorType;public SelectedValue: IndicatorValueViewModel;public AllValues: IndicatorValueViewModel[];}
+export class IndicatorValueViewModel{public LeadId: string;public Value: any;public Type: IndicatorType;public Source: IndicatorSource;}
+export class IndicatorSource{public Value: number;public DisplayName: string;}
+export class IndicatorType{public ValueType: any;public Value: number;public DisplayName: string;}

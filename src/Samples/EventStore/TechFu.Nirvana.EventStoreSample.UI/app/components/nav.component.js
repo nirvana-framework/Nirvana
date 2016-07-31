@@ -23,7 +23,10 @@ var NavComponent = (function () {
         this.searchTerm = '';
         this.loggedIn = this._securityService.checkLoggedIn();
         this._securityService.getLoginEvent().subscribe(function (x) { return _this.loggedIn = x; });
-        this.links = [];
+        this.links = [
+            new NavItem("", "Dashboard"),
+            new NavItem("/leads", "Leads")
+        ];
     };
     NavComponent.prototype.doSearch = function () {
         this.router.navigate(['/searchResults', this.searchTerm]);

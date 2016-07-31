@@ -9,7 +9,10 @@ function global:Debug-iis-Express()
 function global:start-iis(){
 param($site,$url)
 	&start 'C:\Program Files\IIS Express\iisexpress.exe' "/trace:none /site:$site /apppool:Clr4IntegratedAppPool"
-	Start-Process "chrome.exe" $url
+	if($url -ne $null)
+	{
+		Start-Process "chrome.exe" $url
+	}
 }
 
 function global:stop-iis(){
@@ -61,22 +64,24 @@ function global:run-sample()
 function global:start-es-sample()
 {
 	param( [switch] $Secure)
-	if($secure)
-	{
-		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "https://local-commandAPI.mean.software:54406/api/Infrastructure/Test"
-		start-iis "TechFu.Nirvana.EventStoreSample.UI" "https://local-eventsourcesample.mean.software:54407/index.html"
-		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor" "https://local-commandProcessor.mean.software:54408/"
-		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Notifications" "http://local-uinotifications.mean.software:54409/"
-	}
-	else{
-		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Commands" "http://local-commandAPI.mean.software:24168/api/Infrastructure/Test"
-		start-iis "TechFu.Nirvana.EventStoreSample.UI" "http://local-eventsourcesample.mean.software:24169/index.html"
-		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor" "http://local-commandProcessor.mean.software:24170/"
-		start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Notifications" "http://local-uinotifications.mean.software:24171/"
+
+	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Commands"
+	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor" 
+	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Notifications"
+	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Queries"
 	
-	}
 	 $path = Resolve-Path ".\samples\eventstore" 
 	 Start-Process "$path\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor\bin\Debug\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor.exe"
+
+	if($secure)
+	{		
+		start-iis "TechFu.Nirvana.EventStoreSample.UI" "https://local-eventsourcesample.mean.software:54407/index.html"
+	}
+	else{	
+		start-iis "TechFu.Nirvana.EventStoreSample.UI" "http://local-eventsourcesample.mean.software:24169/index.html"	
+	}
+
+
 
 	 #Write-Host $path
 }
