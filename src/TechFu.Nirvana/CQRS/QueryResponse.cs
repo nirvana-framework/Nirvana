@@ -37,6 +37,10 @@ namespace TechFu.Nirvana.CQRS
         {
             return BuildResult(result, true);
         }
+        public static QueryResponse<T> Succeeded<T>(T result,string messsage)
+        {
+            return BuildResult(result, true,new List<ValidationMessage>() {new ValidationMessage(MessageType.Error, "",messsage)});
+        }
 
         public static QueryResponse<T> Failed<T>()
         {
@@ -56,5 +60,6 @@ namespace TechFu.Nirvana.CQRS
         {
             return BuildResult(default(T), false, new List<ValidationMessage>() { new ValidationMessage(MessageType.Error, "", message) });
         }
+        
     }
 }

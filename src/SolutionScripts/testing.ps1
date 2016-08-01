@@ -85,7 +85,7 @@ function global:start-es-sample()
 
 	 #Write-Host $path
 }
-function global:run-es-sample()
+function global:global:run-es-sample()
 {
 	param( [switch] $Secure)
 	stop-iis
@@ -96,4 +96,16 @@ function global:run-es-sample()
 	else{
 		start-es-sample 
 	}
+}
+
+function global:kill-es-sample(){
+	stop-iis
+	Stop-Process -processname "TechFu.Nirvana.EventStoreSample*"
+}
+
+function global:debug-es-sample()
+{
+	kill-es-sample
+	run-es-sample
+	Debug-iis-Express
 }

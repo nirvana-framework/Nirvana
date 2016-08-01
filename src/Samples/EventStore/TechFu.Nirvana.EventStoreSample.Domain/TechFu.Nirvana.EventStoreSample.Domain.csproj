@@ -53,6 +53,7 @@
     <Compile Include="Handlers\Infrastructure\Query\GetVersionHandler.cs" />
     <Compile Include="Handlers\ProductCatalog\Command\UpdateHomePageViewModelHandler.cs" />
     <Compile Include="Handlers\ProductCatalog\Event\HandleCatalogUpdatedEvent.cs" />
+    <Compile Include="Handlers\ProductCatalog\Query\GetHomepageCataglogViewModelHandler.cs" />
     <Compile Include="Infrastructure\IApplicationConfig.cs" />
     <Compile Include="Infrastructure\IConnectionStringService.cs" />
     <Compile Include="Infrastructure\Startup.cs" />

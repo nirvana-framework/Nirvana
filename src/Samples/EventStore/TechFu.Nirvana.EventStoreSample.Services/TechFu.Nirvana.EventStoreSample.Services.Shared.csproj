@@ -51,6 +51,7 @@
     <Compile Include="ProductCatalog\Commands\CreateSampleCatalogCommand.cs" />
     <Compile Include="ProductCatalog\Commands\UpdateHomePageViewModelCommand.cs" />
     <Compile Include="ProductCatalog\InternalEvents\CatalogUpdatedEvent.cs" />
+    <Compile Include="ProductCatalog\Queries\GetHomepageCataglogViewModel.cs" />
     <Compile Include="ProductCatalog\ViewModels\HomePageProductViewModel.cs" />
     <Compile Include="ProductCatalog\ViewModels\HomePageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,7 +65,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ProductCatalog\Queries\" />
     <Folder Include="ProductCatalog\UINotifications\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
