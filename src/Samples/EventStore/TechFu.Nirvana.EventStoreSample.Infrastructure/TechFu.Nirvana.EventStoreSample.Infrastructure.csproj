@@ -91,6 +91,7 @@
       <HintPath>..\..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
       <Private>True</Private>
@@ -142,6 +143,10 @@
     <ProjectReference Include="..\..\..\TechFu.Nirvana.Data\TechFu.Nirvana.Data.csproj">
       <Project>{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}</Project>
       <Name>TechFu.Nirvana.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TechFu.Nirvana.MongoProvider\TechFu.Nirvana.MongoProvider.csproj">
+      <Project>{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D}</Project>
+      <Name>TechFu.Nirvana.MongoProvider</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\TechFu.Nirvana.SignalRNotifications\TechFu.Nirvana.SignalRNotifications.csproj">
       <Project>{CC7D13ED-CC5F-48AF-A614-285888BC6E65}</Project>

@@ -31,7 +31,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
             {
                 {HomePageViewModelBuilder.Keys.Products, products}
             }).Build();
-
+            _viewModelRepository.Save(homepageModel);
 
             return CommandResponse.Succeeded(Nop.NoValue);
         }

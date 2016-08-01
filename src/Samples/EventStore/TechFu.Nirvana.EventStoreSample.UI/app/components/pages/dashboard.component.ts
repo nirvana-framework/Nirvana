@@ -1,13 +1,16 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild, OnInit} from '@angular/core';
 import {ServerService} from '../../services/serverService';
 import forEach = require("core-js/fn/array/for-each");
 import {BasePage} from "./basePage";
 import {ErrorService} from "../../services/errorrService";
 import {ServerMessageListComponenet} from "../framework/AlertList";
-import {TestCommand, CreateSampleCatalogCommand} from "../../models/CQRS/Commands";
+import {
+    TestCommand, CreateSampleCatalogCommand, GetHomepageCataglogViewModelQuery,
+    HomePageViewModel
+} from "../../models/CQRS/Commands";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {ChannelService} from "../framework/signlar/channel.service";
-import {ChannelEvent} from "../../models/CQRS/Common";
+import {ChannelEvent, QueryResponse} from "../../models/CQRS/Common";
 
 
 
@@ -17,12 +20,13 @@ import {ChannelEvent} from "../../models/CQRS/Common";
     templateUrl: 'dashboard.html',
     directives: [ROUTER_DIRECTIVES]
 })
-export class DashboardComponent extends BasePage{
+export class DashboardComponent extends BasePage implements OnInit{
 
     private receivedMessage:string;
     private sentMessage:string;
     private channel = "tasks";
 
+    public model:HomePageViewModel ;
 
     @ViewChild(ServerMessageListComponenet)
     private errorList: ServerMessageListComponenet;
@@ -50,7 +54,12 @@ export class DashboardComponent extends BasePage{
 
     }
     ngOnInit(){
+        this._serverService.mediator.query(new GetHomepageCataglogViewModelQuery()).then(x=>this.setHomePageModel(<QueryResponse<HomePageViewModel>>x))
+    }
 
+    setHomePageModel(model: QueryResponse<HomePageViewModel> ) {
+
+        this.model  = model.Result;
     }
     ngOnDestroy(){
         this.disposeRegisteredEvents();

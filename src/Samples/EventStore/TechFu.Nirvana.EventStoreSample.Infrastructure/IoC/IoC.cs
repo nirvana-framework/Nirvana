@@ -11,6 +11,7 @@ using TechFu.Nirvana.EventStoreSample.Infrastructure.Domain;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Mediation.Implementation;
+using TechFu.Nirvana.MongoProvider;
 using TechFu.Nirvana.SqlProvider.Domain;
 using TechFu.Nirvana.Util;
 using TechFu.Nirvana.Util.Io;
@@ -65,6 +66,16 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 
             //Data Providers
             x.For<IRepository>().Use<SqlRepository>();
+            x.For<IViewModelRepository>().Use<MonogoViewModelRepository>();
+            x.For<NirvanaMongoConfiguration>().Use(c=> new NirvanaMongoConfiguration
+            {
+                Database = "viewModels",
+                Password = "password",
+                ServerName = "localhost",
+                UserName = "viewModelUser",
+                Port=27017
+                // = "mongodb://viewModeluser:password@127.0.0.1:24017/local"
+            });
 
             //TODO - plug in the connection string DR provider
             x.For<DbContext>().Use(d=>new RdbmsContext(SaveChangesDecoratorType.Live, "DataStoreConnectionString"));

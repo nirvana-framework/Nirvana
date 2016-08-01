@@ -43,6 +43,11 @@ var DashboardComponent = (function (_super) {
         });
     }
     DashboardComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._serverService.mediator.query(new Commands_1.GetHomepageCataglogViewModelQuery()).then(function (x) { return _this.setHomePageModel(x); });
+    };
+    DashboardComponent.prototype.setHomePageModel = function (model) {
+        this.model = model.Result;
     };
     DashboardComponent.prototype.ngOnDestroy = function () {
         this.disposeRegisteredEvents();

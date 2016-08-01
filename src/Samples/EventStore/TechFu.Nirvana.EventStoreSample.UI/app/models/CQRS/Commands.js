@@ -60,6 +60,26 @@ var TestResult = (function () {
 }());
 exports.TestResult = TestResult;
 //ProductCatalog
+var GetHomepageCataglogViewModelQuery = (function (_super) {
+    __extends(GetHomepageCataglogViewModelQuery, _super);
+    function GetHomepageCataglogViewModelQuery() {
+        _super.call(this, 'ProductCatalog/GetHomepageCataglogViewModel');
+    }
+    return GetHomepageCataglogViewModelQuery;
+}(Common_1.Query));
+exports.GetHomepageCataglogViewModelQuery = GetHomepageCataglogViewModelQuery;
+var HomePageViewModel = (function () {
+    function HomePageViewModel() {
+    }
+    return HomePageViewModel;
+}());
+exports.HomePageViewModel = HomePageViewModel;
+var HomePageProductViewModel = (function () {
+    function HomePageProductViewModel() {
+    }
+    return HomePageProductViewModel;
+}());
+exports.HomePageProductViewModel = HomePageProductViewModel;
 var CreateSampleCatalogCommand = (function (_super) {
     __extends(CreateSampleCatalogCommand, _super);
     function CreateSampleCatalogCommand() {

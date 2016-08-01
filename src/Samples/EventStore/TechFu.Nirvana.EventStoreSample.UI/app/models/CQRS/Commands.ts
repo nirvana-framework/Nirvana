@@ -9,6 +9,9 @@ export class VersionModel{public Version: string;}
 export class TestCommand extends Command<TestResult>{constructor(){super('Infrastructure/Test')}}
 export class TestResult{public Message: string;}
 //ProductCatalog
+export class GetHomepageCataglogViewModelQuery extends Query<HomePageViewModel>{constructor(){super('ProductCatalog/GetHomepageCataglogViewModel')}}
+export class HomePageViewModel{public Products: HomePageProductViewModel[];public RootEntityKey: string;public Id: string;}
+export class HomePageProductViewModel{public Name: string;public Price: number;public ShortDescription: string;public RootEntityKey: string;public Id: string;}
 export class CreateSampleCatalogCommand extends Command<Nop>{constructor(){super('ProductCatalog/CreateSampleCatalog')}}
 export enum Nop{NoValue=0}
 //Users

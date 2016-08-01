@@ -1,42 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Linq.Expressions;
-using TechFu.Nirvana.CQRS;
+using MongoDB.Driver;
 using TechFu.Nirvana.Data;
-using TechFu.Nirvana.Data.EntityTypes;
 using TechFu.Nirvana.Domain;
 
 namespace TechFu.Nirvana.MongoProvider
 {
-    public  class MonogoViewModelRepository: IViewModelRepository
+    public class MonogoViewModelRepository : IViewModelRepository
     {
+        protected readonly IMongoClient Client;
+        protected readonly IMongoDatabase Database;
+        private string _connectionString;
+
+
+        public MonogoViewModelRepository(NirvanaMongoConfiguration config)
+        {
+            _connectionString = $"mongodb://{config.ServerName}:{config.Port}/{config.Database}";
+            Client = new MongoClient(_connectionString);
+            Database = Client.GetDatabase("ViewModels",new MongoDatabaseSettings
+            {
+                
+            });
+        }
+
         public void Dispose()
         {
-            
         }
 
         public T Get<T>(Guid id) where T : ViewModel<Guid>
         {
-            throw new NotImplementedException();
+            return GetAll<T>().FirstOrDefault(x => x.Id == id);
         }
 
-        public IQueryable<T> GetAll<T>() where T : Entity
+        public void Save<T>(T input) where T : ViewModel<Guid>
         {
-            return new List<T>().AsQueryable();
+            Database.GetCollection<T>(typeof(T).Name).InsertOneAsync(input);
         }
 
-        public IQueryable<T> GetAllAndInclude<T, TProperty>(Expression<Func<T, TProperty>> path) where T : Entity
+        public IQueryable<T> GetAll<T>() where T : ViewModel<Guid>
         {
-            return new List<T>().AsQueryable();
+            return Database.GetCollection<T>(typeof(T).Name).AsQueryable();
         }
 
-        public PagedResult<T> GetPaged<T>(PaginationQuery pageInfo, IList<Expression<Func<T, bool>>> conditions, IList<Expression<Func<T, object>>> orders = null, IList<Expression<Func<T, object>>> includes = null) where T : Entity
-        {
-            return new PagedResult<T>();
-        }
-        
 
         public void BeginTransaction(IsolationLevel? isolationLevel = null)
         {
@@ -49,5 +55,14 @@ namespace TechFu.Nirvana.MongoProvider
         public void RollbackTransaction()
         {
         }
+    }
+
+    public class NirvanaMongoConfiguration
+    {
+        public string ServerName { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Database { get; set; }
+        public int Port { get; set; }
     }
 }
