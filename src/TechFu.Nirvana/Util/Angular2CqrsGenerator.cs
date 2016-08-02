@@ -51,9 +51,21 @@ namespace TechFu.Nirvana.Util
 
             var queryTypes = CqrsUtils. ActionTypes(typeof(Query<>), controllerName);
             var commandTypes = CqrsUtils.ActionTypes(typeof(Command<>), controllerName);
+            var uiEventTypes = CqrsUtils.ActionTypes(typeof(UiEvent<>), controllerName);
 
             WriteTypes(builder, controllerName, emitedTypes, queryTypes, "Query", typeof(Query<>));
             WriteTypes(builder, controllerName, emitedTypes, commandTypes, "Command", typeof(Command<>));
+            WriteEvents(builder, controllerName, emitedTypes, commandTypes, "UiEvent", typeof(UiEvent<>));
+        }
+
+        private void WriteEvents(StringBuilder builder, string controllerName, List<Type> emitedTypes,
+            Type[] eventTypes, string prefix, Type type)
+        {
+            var subTypes = new Stack<Type>();
+            foreach (var queryType in eventTypes)
+            {
+               //TODO - write event types to Angular
+            }
         }
 
         private void WriteTypes(StringBuilder builder, string controllerName,

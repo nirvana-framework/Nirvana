@@ -42,8 +42,8 @@ export class DashboardComponent extends BasePage implements OnInit{
         this.channelService.sub(this.channel).subscribe(
             (x:ChannelEvent) => {
                 switch (x.Name) {
-                    case 'Infrastructure::TestUiEvent': {
-                        this.appendStatusUpdate(x);
+                    case 'ProductCatalog::HomePageUpdatedUiEvent': {
+                        this.refreshHomepageView();
                     }
                 }
             },
@@ -53,8 +53,13 @@ export class DashboardComponent extends BasePage implements OnInit{
         )
 
     }
-    ngOnInit(){
+    refreshHomepageView(){
+
         this._serverService.mediator.query(new GetHomepageCataglogViewModelQuery()).then(x=>this.setHomePageModel(<QueryResponse<HomePageViewModel>>x))
+    }
+
+    ngOnInit(){
+        this.refreshHomepageView();
     }
 
     setHomePageModel(model: QueryResponse<HomePageViewModel> ) {

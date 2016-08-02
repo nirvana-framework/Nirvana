@@ -47,11 +47,13 @@
     <Compile Include="Leads\Enumerations\EntityType.cs" />
     <Compile Include="Leads\Enumerations\IndicatorType.cs" />
     <Compile Include="Leads\Enumerations\IndicatorSource.cs" />
+    <Compile Include="Leads\Enumerations\SerializerTypeValue.cs" />
     <Compile Include="Leads\Query\GetLeadIndicatorOveriewQuery.cs" />
     <Compile Include="ProductCatalog\Commands\CreateSampleCatalogCommand.cs" />
     <Compile Include="ProductCatalog\Commands\UpdateHomePageViewModelCommand.cs" />
     <Compile Include="ProductCatalog\InternalEvents\CatalogUpdatedEvent.cs" />
     <Compile Include="ProductCatalog\Queries\GetHomepageCataglogViewModel.cs" />
+    <Compile Include="ProductCatalog\UINotifications\HomePageUpdatedUiEvent.cs" />
     <Compile Include="ProductCatalog\ViewModels\HomePageProductViewModel.cs" />
     <Compile Include="ProductCatalog\ViewModels\HomePageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,9 +66,7 @@
       <Name>TechFu.Nirvana</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ProductCatalog\UINotifications\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

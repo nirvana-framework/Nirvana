@@ -7,6 +7,7 @@ using TechFu.Nirvana.Data;
 using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ProductCatalog;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.Commands;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.UINotifications;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.ViewModels;
 using TechFu.Nirvana.Mediation;
 
@@ -16,11 +17,13 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
     {
         private readonly IRepository _repository;
         private readonly IViewModelRepository _viewModelRepository;
+        private readonly IMediatorFactory _mediator;
 
-        public UpdateHomePageViewModelHandler(IViewModelRepository viewModelRepository, IRepository repository)
+        public UpdateHomePageViewModelHandler(IViewModelRepository viewModelRepository, IRepository repository, IMediatorFactory mediator)
         {
             _viewModelRepository = viewModelRepository;
             _repository = repository;
+            _mediator = mediator;
         }
 
         public CommandResponse<Nop> Handle(UpdateHomePageViewModelCommand command)
@@ -33,6 +36,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
             }).Build();
             _viewModelRepository.Save(homepageModel);
 
+            _mediator.Notification(new HomePageUpdatedUiEvent());
             return CommandResponse.Succeeded(Nop.NoValue);
         }
     }
@@ -44,6 +48,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
             return new HomePageViewModel
             {
                 Id = NirvanaSetup.ApplicationLevelViewModelKey,
+                RootEntityKey = NirvanaSetup.ApplicationLevelViewModelKey,
                 Products = BuildProductViewModel(GetValue(Keys.Products, new Product[0]))
             };
         }

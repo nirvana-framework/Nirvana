@@ -1,6 +1,6 @@
 ﻿namespace TechFu.Nirvana.EventStoreSample.Domain.Domain.ShoppingCart
 {
-    public enum CouponType
+    public enum CouponTypeValue
     {
         DollarOff,
         PercentOff,

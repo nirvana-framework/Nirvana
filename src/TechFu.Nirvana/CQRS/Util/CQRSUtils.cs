@@ -49,9 +49,9 @@ namespace TechFu.Nirvana.CQRS.Util
             var seedTypes = new[] {typeof(Command<>), NirvanaSetup.RootType};
 
 
+            var matchesType = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.ClosesOrImplements(types), seedTypes);
             return
-                ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.ClosesOrImplements(types), seedTypes)
-                    .Where(x => MatchesRootType(rootType, x))
+                matchesType.Where(x => MatchesRootType(rootType, x))
                     .ToArray();
         }
 

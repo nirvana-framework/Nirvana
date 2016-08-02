@@ -34,17 +34,20 @@ var DashboardComponent = (function (_super) {
         this.receivedMessage = '';
         this.channelService.sub(this.channel).subscribe(function (x) {
             switch (x.Name) {
-                case 'Infrastructure::TestUiEvent': {
-                    _this.appendStatusUpdate(x);
+                case 'ProductCatalog::HomePageUpdatedUiEvent': {
+                    _this.refreshHomepageView();
                 }
             }
         }, function (error) {
             console.warn("Attempt to join channel failed!", error);
         });
     }
-    DashboardComponent.prototype.ngOnInit = function () {
+    DashboardComponent.prototype.refreshHomepageView = function () {
         var _this = this;
         this._serverService.mediator.query(new Commands_1.GetHomepageCataglogViewModelQuery()).then(function (x) { return _this.setHomePageModel(x); });
+    };
+    DashboardComponent.prototype.ngOnInit = function () {
+        this.refreshHomepageView();
     };
     DashboardComponent.prototype.setHomePageModel = function (model) {
         this.model = model.Result;

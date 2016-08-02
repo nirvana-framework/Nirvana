@@ -22,14 +22,15 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Domain.LeadProtoType
     {
         public string SerializedValue;
         public IndicatorTypeValue IndicatorType { get; set; }
-        public Lead Lead { get; set; }
+        public SerializerTypeValue SerializerType{ get; set; }
+        public PerformanceIndicator Indicator { get; set; }
     }
 
     public class PerformanceIndicator : SoftDeletedEntity<Guid>
     {
         public Lead Lead { get; set; }
         public IndicatorTypeValue IndicatorType { get; set; }
-        public IndicatorValue SelectedValue { get; set; }
+        public IndicatorSourceValue SelectedSourceType { get; set; }
         public IndicatorValue[] AllValues { get; set; }
     }
 }

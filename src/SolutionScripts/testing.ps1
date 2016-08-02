@@ -81,13 +81,13 @@ function global:start-es-sample()
 		start-iis "TechFu.Nirvana.EventStoreSample.UI" "http://local-eventsourcesample.mean.software:24169/index.html"	
 	}
 
-	& "C:\Program Files\MongoDB\Server\3.2\bin\mongod.exe" --dbpath "c:\temp\mongoDb" 
+
 
 
 
 	 #Write-Host $path
 }
-function global:global:run-es-sample()
+function global:run-es-sample()
 {
 	param( [switch] $Secure)
 	stop-iis
