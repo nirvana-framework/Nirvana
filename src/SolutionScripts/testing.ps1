@@ -69,9 +69,10 @@ function global:start-es-sample()
 	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor" 
 	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Notifications"
 	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Queries"
-	
-	 $path = Resolve-Path ".\samples\eventstore" 
-	 Start-Process "$path\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor\bin\Debug\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor.exe"
+	Start-Queue-Emulator
+
+	$path = Resolve-Path ".\samples\eventstore" 
+	Start-Process "$path\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor\bin\Debug\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor.exe"
 
 	if($secure)
 	{		
@@ -103,6 +104,7 @@ function global:run-es-sample()
 function global:kill-es-sample(){
 	stop-iis
 	Stop-Process -processname "TechFu.Nirvana.EventStoreSample*"
+	Stop-Queue-Emulator
 }
 
 function global:debug-es-sample()
@@ -110,4 +112,20 @@ function global:debug-es-sample()
 	kill-es-sample
 	run-es-sample
 	Debug-iis-Express
+}
+
+function global:Start-Queue-Emulator(){
+ $status = & "${Env:ProgramFiles(x86)}\microsoft sdks\azure\storage emulator\AzureStorageEmulator.exe" "status"
+ if ($status -contains 'IsRunning: False') {
+  Write-Host "starting queue"
+  & "${Env:ProgramFiles(x86)}\microsoft sdks\azure\storage emulator\AzureStorageEmulator.exe" "start" 
+  }
+}
+function global:Stop-Queue-Emulator(){
+ 
+ $status = & "${Env:ProgramFiles(x86)}\microsoft sdks\azure\storage emulator\AzureStorageEmulator.exe" "status" 
+ if ($status -contains 'IsRunning: True') {
+  Write-Host "starting queue"
+  & "${Env:ProgramFiles(x86)}\microsoft sdks\azure\storage emulator\AzureStorageEmulator.exe" "stop" 
+  }
 }

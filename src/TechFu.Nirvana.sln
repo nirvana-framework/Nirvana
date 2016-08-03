@@ -53,6 +53,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI.Queries", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Queries\TechFu.Nirvana.EventStoreSample.WebAPI.Queries.csproj", "{257C1D40-6B8A-44FC-AF96-436D14DF6439}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI.Notifications", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Notifications\TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.csproj", "{1B125B71-EDF2-457F-BA20-C01F73CF467F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{243C200C-6680-4649-A554-75751CA7EDAD} = {243C200C-6680-4649-A554-75751CA7EDAD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.WebUtils", "TechFu.Nirvana.WebUtils\TechFu.Nirvana.WebUtils.csproj", "{BB85B7D1-9352-4192-83D3-4A5B16C5434D}"
 EndProject

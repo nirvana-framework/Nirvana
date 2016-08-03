@@ -13,14 +13,14 @@ namespace TechFu.Nirvana.Data
         IEnumerable<T> Sql<T>(string sql, params object[] parameters);
     }
 
-    public interface IRepository 
+
+    public interface IRepository
     {
-
-
         T Get<T>(Guid id) where T : Entity<Guid>;
         T Get<T>(long id) where T : Entity<long>;
 
         IQueryable<T> GetAll<T>() where T : Entity;
+        IQueryable<T> Include<T>(IQueryable<T> queryable, IList<Expression<Func<T, object>>> includes) where T : Entity;
         IQueryable<T> GetAllAndInclude<T, TProperty>(Expression<Func<T, TProperty>> path) where T : Entity;
 
         PagedResult<T> GetPaged<T>(PaginationQuery pageInfo,

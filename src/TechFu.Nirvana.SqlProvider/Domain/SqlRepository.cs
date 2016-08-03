@@ -55,6 +55,12 @@ namespace TechFu.Nirvana.SqlProvider.Domain
             return GetDbSet<T>();
         }
 
+        public IQueryable<T> Include<T>(IQueryable<T> queryable, IList<Expression<Func<T, object>>> includes) where T : Entity
+        {
+            queryable = includes.Aggregate(queryable, (current, expression) => current.Include(expression));
+            return queryable;
+        }
+
 
         public PagedResult<T> GetPaged<T>(PaginationQuery pageInfo,
             IList<Expression<Func<T, bool>>> conditions

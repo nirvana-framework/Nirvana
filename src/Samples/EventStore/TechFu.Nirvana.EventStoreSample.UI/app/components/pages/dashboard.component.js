@@ -37,23 +37,28 @@ var DashboardComponent = (function (_super) {
                 case 'ProductCatalog::HomePageUpdatedUiEvent': {
                     _this.refreshHomepageView();
                 }
+                case 'Infrastructure::TestUiEvent': {
+                    _this.appendStatusUpdate(x);
+                }
             }
         }, function (error) {
             console.warn("Attempt to join channel failed!", error);
         });
     }
+    DashboardComponent.prototype.ngOnInit = function () {
+        this.refreshHomepageView();
+    };
+    DashboardComponent.prototype.ngOnDestroy = function () {
+        this.disposeRegisteredEvents();
+    };
     DashboardComponent.prototype.refreshHomepageView = function () {
         var _this = this;
         this._serverService.mediator.query(new Commands_1.GetHomepageCataglogViewModelQuery()).then(function (x) { return _this.setHomePageModel(x); });
     };
-    DashboardComponent.prototype.ngOnInit = function () {
-        this.refreshHomepageView();
-    };
     DashboardComponent.prototype.setHomePageModel = function (model) {
         this.model = model.Result;
     };
-    DashboardComponent.prototype.ngOnDestroy = function () {
-        this.disposeRegisteredEvents();
+    DashboardComponent.prototype.addToCart = function () {
     };
     DashboardComponent.prototype.createTestCatalog = function () {
         this._serverService.mediator.command(new Commands_1.CreateSampleCatalogCommand());

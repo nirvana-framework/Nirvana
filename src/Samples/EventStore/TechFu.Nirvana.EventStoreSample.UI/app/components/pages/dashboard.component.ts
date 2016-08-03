@@ -45,6 +45,9 @@ export class DashboardComponent extends BasePage implements OnInit{
                     case 'ProductCatalog::HomePageUpdatedUiEvent': {
                         this.refreshHomepageView();
                     }
+                    case 'Infrastructure::TestUiEvent': {
+                        this.appendStatusUpdate(x);
+                    }
                 }
             },
             (error:any) => {
@@ -53,24 +56,28 @@ export class DashboardComponent extends BasePage implements OnInit{
         )
 
     }
-    refreshHomepageView(){
 
-        this._serverService.mediator.query(new GetHomepageCataglogViewModelQuery()).then(x=>this.setHomePageModel(<QueryResponse<HomePageViewModel>>x))
-    }
 
     ngOnInit(){
         this.refreshHomepageView();
     }
 
-    setHomePageModel(model: QueryResponse<HomePageViewModel> ) {
 
-        this.model  = model.Result;
-    }
     ngOnDestroy(){
         this.disposeRegisteredEvents();
     }
 
+    refreshHomepageView(){
+        this._serverService.mediator.query(new GetHomepageCataglogViewModelQuery()).then(x=>this.setHomePageModel(<QueryResponse<HomePageViewModel>>x))
+    }
 
+    setHomePageModel(model: QueryResponse<HomePageViewModel> ) {
+        this.model  = model.Result;
+    }
+
+    public addToCart(){
+
+    }
 
     public createTestCatalog(){
         this._serverService.mediator.command(new CreateSampleCatalogCommand());

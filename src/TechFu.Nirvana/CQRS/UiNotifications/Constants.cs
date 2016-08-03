@@ -3,6 +3,7 @@
     public static class Constants
     {
         public const string AdminChannel = "admin";
+        public const string SiteLevel= "siteLevelTasks";
         public const string TaskChannel = "tasks";
     }
 }
