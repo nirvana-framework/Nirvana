@@ -26,7 +26,6 @@ Features coming:
 - Plugin for EventStore
 - Ability to configure which controllers to use when standing up an endpoint.
 - Ability to stand up a test endpoint ( with examples for test data)
-- Object DB support for readonly repository (used in queries)
 - A seprate Angular 2 seed project that uses the output of the webapi
 - A working WebAPI seed app that can be downloaded and run.
 
