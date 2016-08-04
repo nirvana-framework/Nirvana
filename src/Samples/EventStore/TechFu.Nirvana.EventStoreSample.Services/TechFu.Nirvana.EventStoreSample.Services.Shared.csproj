@@ -66,6 +66,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\Queries\GetVersionQuery.cs" />
     <Compile Include="Infrastructure\UiNotifications\TestUiEvent.cs" />
+    <Compile Include="Security\Command\CreateAnonymousUserCommand.cs" />
+    <Compile Include="Security\Command\CreateNewSessionViewModel.cs" />
+    <Compile Include="Security\Events\SessionViewModelCreatedEvent.cs" />
+    <Compile Include="Security\Events\UserCreatedEvent.cs" />
+    <Compile Include="Security\Query\GetNewSessionViewModelQuery.cs" />
+    <Compile Include="Security\ViewModels\SessionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\TechFu.Nirvana\TechFu.Nirvana.csproj">

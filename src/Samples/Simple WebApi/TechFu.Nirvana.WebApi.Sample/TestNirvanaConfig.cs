@@ -31,14 +31,14 @@ namespace TechFu.Nirvana.WebApi.Sample
         //Plug your IoC in here
         public  object GetService(Type serviceType)
         {
-            if (serviceType == typeof(IMediator))
+            if (serviceType == typeof(IMediatorFactory))
             {
-                return new Mediator();
+                return new MediatorFactory();
             }
 
             if (serviceType == typeof(IQueryHandler<GetVersionQuery,string>))
             {
-                return new GetVersionHandler();
+                return new GetVersionHandler(new MediatorFactory());
             }
 
             return Activator.CreateInstance(serviceType);

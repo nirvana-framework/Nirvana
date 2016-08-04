@@ -19,15 +19,25 @@ namespace TechFu.Nirvana.Mediation
         QueryResponse<TResult> Query<TResult>(Query<TResult> query);
         UIEventResponse Notification<TResult>(UiEvent<TResult> uiNotification);
         InternalEventResponse InternalEvent(InternalEvent internalEvent);
+        bool ChildCommands { get; set; }
 
-
+        void SendChild(Action<IMediatorFactory> action);
     }
 
     public class MediatorFactory : IMediatorFactory
     {
+        public bool ChildCommands { get; set; }
+        public void SendChild(Action<IMediatorFactory> action)
+        {
+            ChildCommands = true;
+            action.Invoke(this);
+            ChildCommands = false;
+        }
+
+
         public IMediator GetMediator(Type messageType)
         {
-            var mediatorStrategy = GetMediatorStrategy(messageType);
+            var mediatorStrategy = GetMediatorStrategy(messageType, ChildCommands);
             return GetMediatorByStrategy(mediatorStrategy);
         }
 
@@ -49,6 +59,7 @@ namespace TechFu.Nirvana.Mediation
         {
             return GetMediator(internalEvent.GetType()).InternalEvent(internalEvent);
         }
+
 
         private IMediator GetMediatorByStrategy(MediatorStrategy mediatorStrategy)
         {

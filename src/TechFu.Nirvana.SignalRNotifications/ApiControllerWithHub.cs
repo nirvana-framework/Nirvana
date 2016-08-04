@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.AspNet.SignalR;
+using TechFu.Nirvana.Configuration;
+using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.CQRS.UiNotifications;
 using TechFu.Nirvana.WebApi.Controllers;
 
@@ -18,14 +20,17 @@ namespace TechFu.Nirvana.SignalRNotifications
             return  typeof(THub).Name + ":" + instance;
         }
 
-        protected void PublishEvent(string eventName, object task,string channelName)
+        protected void PublishEvent(string eventName, UiEvent task,string channelName)
         {
-            Hub.Clients.Group(channelName).OnEvent(Constants.TaskChannel, new ChannelEvent()
+            var channelEvent = new ChannelEvent()
             {
                 ChannelName = Constants.TaskChannel,
                 Name = eventName,
-                Data = task
-            });
+                Data = task,
+                AggregateRoot = task.AggregateRoot,
+                
+            };
+            Hub.Clients.Group(channelName).OnEvent(Constants.TaskChannel, channelEvent);
         }
 
     }

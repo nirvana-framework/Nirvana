@@ -19,9 +19,13 @@ namespace TechFu.Nirvana.SignalRNotifications
         {
             Clients.Group(channelEvent.ChannelName).OnEvent(channelEvent.ChannelName, channelEvent);
 
-            if (channelEvent.ChannelName != Constants.AdminChannel)
+            if (channelEvent.ChannelName == Constants.AdminChannel)
             {
                 Clients.Group(Constants.AdminChannel).OnEvent(Constants.AdminChannel, channelEvent);
+            }
+            if (channelEvent.ChannelName == Constants.AggregateLevel)
+            {
+                Clients.Group(Constants.AggregateLevel).OnEvent(Constants.AggregateLevel, channelEvent);
             }
 
             return Task.FromResult(0);

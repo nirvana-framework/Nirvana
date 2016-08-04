@@ -2,5 +2,12 @@
 
 namespace TechFu.Nirvana.CQRS
 {
-    public class UiEvent<T> : NirvanaTask{}
+
+    public abstract class UiEvent<T> : UiEvent{}
+
+    public abstract class UiEvent : NirvanaTask
+    {
+        public abstract Guid AggregateRoot { get; }
+    }
+    
 }

@@ -4,6 +4,13 @@ export class ServerException{    public Message:string;}
 export class PagedResult<T>{public Results:T[] ; public LastPage:number; public Total:number;public PerPage:number;public Page:number}
 export abstract class Command<TResult> {    constructor(public endpointName:string){}}
 export abstract class Query<TResult> {constructor(public endpointName:string){}}
+export class AppConstants{
+    constructor(){
+        this.EmptyGuid = "00000000-0000-0000-0000-000000000000";
+    }
+
+    public EmptyGuid : string;
+}
 
 export abstract class Response {
     public ValidationMessages:ValidationMessage[];

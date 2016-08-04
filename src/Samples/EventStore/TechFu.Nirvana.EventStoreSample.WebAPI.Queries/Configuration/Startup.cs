@@ -39,6 +39,10 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Queries.Configuration
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService, config.GetAllServices)
                 .ForQueries(MediationStrategy.InProcess, MediationStrategy.InProcess)
+                //Don't create endpoints, but do allow the mediator to fire events / commands when a query is called
+                .ForCommands(MediationStrategy.None, MediationStrategy.ForwardToQueue,MediationStrategy.None)
+                .ForInternalEvents(MediationStrategy.None, MediationStrategy.ForwardToQueue,MediationStrategy.None)
+                .ForUiNotifications(MediationStrategy.None, MediationStrategy.ForwardToQueue,MediationStrategy.None)
                 .BuildConfiguration();
 
             app.UseCors(CorsOptions.AllowAll);

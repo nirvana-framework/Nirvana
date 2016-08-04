@@ -7,5 +7,6 @@ namespace TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.UINotif
     public class CartNeedsUpdateUiEvent:UiEvent<CartNeedsUpdateUiEvent>
     {
         public Guid UserId { get; set; }
+        public override Guid AggregateRoot => UserId;
     }
 }

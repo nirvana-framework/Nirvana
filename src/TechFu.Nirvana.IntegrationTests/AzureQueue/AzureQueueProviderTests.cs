@@ -15,15 +15,19 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
     }
 
-    public class TestCommandHandler : ICommandHandler<TestCommand, TestResult>
+    public class TestCommandHandler : BaseCommandHandler<TestCommand, TestResult>
     {
-        public CommandResponse<TestResult> Handle(TestCommand command)
+        public override CommandResponse<TestResult> Handle(TestCommand task)
         {
-            if (command.ThrowError)
+            if (task.ThrowError)
             {
                 throw new NotImplementedException();
             }
             return CommandResponse.Succeeded(new TestResult());
+        }
+
+        public TestCommandHandler(IMediatorFactory mediator) : base(mediator)
+        {
         }
     }
 

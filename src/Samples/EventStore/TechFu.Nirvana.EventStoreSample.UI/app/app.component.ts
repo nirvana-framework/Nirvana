@@ -11,7 +11,7 @@ import {ErrorService} from "./services/errorrService";
 import 'rxjs/add/operator/toPromise';
 import {Observable} from "rxjs/Rx";
 import {ChannelService} from "./components/framework/signlar/channel.service";
-import {ConnectionState} from "./models/CQRS/Common";
+import {ConnectionState, AppConstants} from "./models/CQRS/Common";
 
 
 @Component({
@@ -19,7 +19,7 @@ import {ConnectionState} from "./models/CQRS/Common";
     moduleId: module.id,
     templateUrl: 'app.html',
     directives: [HeaderComponent, NavComponent, ROUTER_DIRECTIVES],
-    providers: [Location, CookieWrapper, ServerService, CookieService, ErrorService,ChannelService],
+    providers: [Location, CookieWrapper, ServerService, CookieService, ErrorService,ChannelService,AppConstants],
 })
 export class AppComponent implements OnInit {
 

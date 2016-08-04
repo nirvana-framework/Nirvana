@@ -7,8 +7,23 @@ namespace TechFu.Nirvana.Mediation
     public interface IEventHandler<in T>
         where T : InternalEvent
     {
-        InternalEventResponse Handle(T command);
+        InternalEventResponse Handle(T task);
     }
+
+    public abstract class BaseEventHandler<T> : IEventHandler<T>
+
+        where T : InternalEvent
+    {
+        protected readonly IMediatorFactory Mediator;
+
+        protected BaseEventHandler(IMediatorFactory mediator)
+        {
+            Mediator = mediator;
+        }
+
+        public abstract InternalEventResponse Handle(T task);
+    }
+
 
     public class InternalEventProcessor
     {

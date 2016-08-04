@@ -17,14 +17,16 @@ var user_1 = require('../models/security/user');
 var masthead_1 = require('../models/common/masthead');
 var apiService_1 = require('./apiService');
 var serializer_1 = require("./util/serializer");
+var Common_1 = require("../models/CQRS/Common");
 var Commands_1 = require("../models/CQRS/Commands");
 var errorrService_1 = require("./errorrService");
 var ServerService = (function () {
-    function ServerService(router, http, cookies, errorService) {
+    function ServerService(router, http, cookies, errorService, constants) {
         this.router = router;
         this.http = http;
         this.cookies = cookies;
         this.errorService = errorService;
+        this.constants = constants;
         this.currentUser = new user_1.User();
         this.masthead = new masthead_1.MastHead();
         this.authKeys = {};
@@ -33,7 +35,17 @@ var ServerService = (function () {
         this.mediator = new apiService_1.Mediator(this.http, this, this.serializer);
         this.masthead.setTitle('Nirvana Event Store Sample');
         this.authKeys.loginCookie = "loginCookie";
+        this.authKeys.sessionCookie = "sessionCookie";
+        //Get this from cookie later...
+        this.sessionId = this.getSessionId();
     }
+    ServerService.prototype.setSession = function (session) {
+        this.session = session.Result;
+        this.sessionId = this.session.Id;
+        var expiration = new Date();
+        expiration.setDate(expiration.getDate() + 30);
+        this.cookies.setCookie(this.authKeys.sessionCookie, this.session, expiration);
+    };
     ServerService.prototype.handleError = function (componentName, error) {
         if (error) {
             var errors = [];
@@ -67,9 +79,16 @@ var ServerService = (function () {
         this.currentUser.logOut();
         this.onLogin.emit(this.currentUser.loggedIn());
     };
+    ServerService.prototype.getSessionId = function () {
+        var session = this.cookies.getCookie(this.authKeys.sessionCookie, new Commands_1.SessionViewModel());
+        if (session.Id == "") {
+            return this.constants.EmptyGuid;
+        }
+        return session.Id;
+    };
     ServerService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router, http_1.Http, cookieWrapper_1.CookieWrapper, errorrService_1.ErrorService])
+        __metadata('design:paramtypes', [router_1.Router, http_1.Http, cookieWrapper_1.CookieWrapper, errorrService_1.ErrorService, Common_1.AppConstants])
     ], ServerService);
     return ServerService;
 }());

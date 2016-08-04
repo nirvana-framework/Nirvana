@@ -6,11 +6,11 @@ import {ErrorService} from "../../services/errorrService";
 import {ServerMessageListComponenet} from "../framework/AlertList";
 import {
     TestCommand, CreateSampleCatalogCommand, GetHomepageCataglogViewModelQuery,
-    HomePageViewModel
+    HomePageViewModel, GetNewSessionViewModelQuery, SessionViewModel
 } from "../../models/CQRS/Commands";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {ChannelService} from "../framework/signlar/channel.service";
-import {ChannelEvent, QueryResponse} from "../../models/CQRS/Common";
+import {ChannelEvent, QueryResponse, AppConstants} from "../../models/CQRS/Common";
 
 
 
@@ -59,6 +59,7 @@ export class DashboardComponent extends BasePage implements OnInit{
 
 
     ngOnInit(){
+        this.getSession();
         this.refreshHomepageView();
     }
 
@@ -102,4 +103,9 @@ export class DashboardComponent extends BasePage implements OnInit{
         this.receivedMessage='';
     }
 
+    private getSession() {
+
+        this._serverService.mediator.query(new GetNewSessionViewModelQuery(this._serverService.sessionId,true))
+            .then(x=>this._serverService.setSession(<QueryResponse<SessionViewModel>>x));
+    }
 }

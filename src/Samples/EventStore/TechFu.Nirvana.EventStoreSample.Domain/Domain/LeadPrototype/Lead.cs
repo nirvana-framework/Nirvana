@@ -2,7 +2,7 @@
 using TechFu.Nirvana.Data.EntityTypes;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Leads.Enumerations;
 
-namespace TechFu.Nirvana.EventStoreSample.Domain.Domain.LeadProtoType
+namespace TechFu.Nirvana.EventStoreSample.Domain.Domain.LeadPrototype
 {
     public class Lead : SoftDeletedEntity<Guid>
     {

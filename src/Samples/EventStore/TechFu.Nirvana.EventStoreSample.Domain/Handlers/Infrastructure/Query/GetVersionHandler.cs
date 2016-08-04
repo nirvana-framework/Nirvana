@@ -4,11 +4,15 @@ using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Infrastructure.Query
 {
-    public class GetVersionHandler : IQueryHandler<GetVersionQuery, VersionModel>
+    public class GetVersionHandler : QueryHandlerBase<GetVersionQuery, VersionModel>
     {
-        public QueryResponse<VersionModel> Handle(GetVersionQuery query)
+        public GetVersionHandler(IMediatorFactory mediator) : base(mediator)
         {
-            return QueryResponse.Succeeded(new VersionModel { Version = "1.0" });
+        }
+
+        public override QueryResponse<VersionModel> Handle(GetVersionQuery query)
+        {
+            return QueryResponse.Succeeded(new VersionModel {Version = "1.0"});
         }
     }
 }

@@ -80,6 +80,7 @@
     <Compile Include="CQRS\Response.cs" />
     <Compile Include="CQRS\ValidationMessage.cs" />
     <Compile Include="Domain\ViewModelBuilder.cs" />
+    <Compile Include="Mediation\BaseNoOpCommandHandler.cs" />
     <Compile Include="Mediation\ICommandHandler.cs" />
     <Compile Include="Mediation\IEventHandler.cs" />
     <Compile Include="Mediation\IMediator.cs" />

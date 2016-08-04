@@ -6,22 +6,15 @@ using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Infrastructure.Command
 {
-
-
-
-    public class TestHandler : ICommandHandler<TestCommand, TestResult>
+    public class TestHandler : BaseCommandHandler<TestCommand, TestResult>
     {
-        private readonly IMediatorFactory _mediator;
-
-        public TestHandler(IMediatorFactory mediator)
+        public TestHandler(IMediatorFactory mediator) : base(mediator)
         {
-            _mediator = mediator;
         }
 
-        public CommandResponse<TestResult> Handle(TestCommand command)
+        public override CommandResponse<TestResult> Handle(TestCommand task)
         {
-
-            _mediator.Notification(new TestUiEvent {Message = $"UI NOtification from {Guid.NewGuid()}"});
+            Mediator.Notification(new TestUiEvent {Message = $"UI NOtification from {Guid.NewGuid()}"});
 
             return CommandResponse.Succeeded(new TestResult
             {

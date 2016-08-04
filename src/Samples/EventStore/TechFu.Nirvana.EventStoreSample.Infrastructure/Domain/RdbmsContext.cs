@@ -7,7 +7,7 @@ using System.Linq;
 using EntityFramework.DynamicFilters;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.Data.EntityTypes;
-using TechFu.Nirvana.EventStoreSample.Domain.Domain.LeadProtoType;
+using TechFu.Nirvana.EventStoreSample.Domain.Domain.LeadPrototype;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ProductCatalog;
 using TechFu.Nirvana.Util.Extensions;
 using TechFu.Nirvana.Util.Tine;

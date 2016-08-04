@@ -13,20 +13,18 @@ using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
 {
-    public class UpdateHomePageViewModelHandler : INopHandler<UpdateHomePageViewModelCommand>
+    public class UpdateHomePageViewModelHandler : BaseNoOpCommandHandler<UpdateHomePageViewModelCommand>
     {
         private readonly IRepository _repository;
         private readonly IViewModelRepository _viewModelRepository;
-        private readonly IMediatorFactory _mediator;
 
-        public UpdateHomePageViewModelHandler(IViewModelRepository viewModelRepository, IRepository repository, IMediatorFactory mediator)
+        public UpdateHomePageViewModelHandler(IViewModelRepository viewModelRepository, IRepository repository, IMediatorFactory mediator) : base(mediator)
         {
             _viewModelRepository = viewModelRepository;
             _repository = repository;
-            _mediator = mediator;
         }
 
-        public CommandResponse<Nop> Handle(UpdateHomePageViewModelCommand command)
+        public override CommandResponse<Nop> Handle(UpdateHomePageViewModelCommand task)
         {
             var products = _repository.GetAll<Product>().ToArray();
 
@@ -36,7 +34,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
             }).Build();
             _viewModelRepository.Save(homepageModel);
 
-            _mediator.Notification(new HomePageUpdatedUiEvent());
+            Mediator.Notification(new HomePageUpdatedUiEvent());
             return CommandResponse.Succeeded(Nop.NoValue);
         }
     }

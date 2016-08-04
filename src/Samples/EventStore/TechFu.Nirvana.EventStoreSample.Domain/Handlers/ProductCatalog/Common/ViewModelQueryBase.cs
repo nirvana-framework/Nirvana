@@ -6,18 +6,16 @@ using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Common
 {
-    public abstract class ViewModelQueryBase<T, U> : IQueryHandler<T, U>
+    public abstract class ViewModelQueryBase<T, U> : QueryHandlerBase<T, U>
         where U : ViewModel<Guid>
         where T : Query<U>
     {
         private readonly IViewModelRepository _repository;
 
-        protected ViewModelQueryBase(IViewModelRepository repository)
+        protected ViewModelQueryBase(IViewModelRepository repository, IMediatorFactory mediator):base(mediator)
         {
             _repository = repository;
         }
-
-        public abstract QueryResponse<U> Handle(T query);
 
         public QueryResponse<U> GetFromViewModelRepository(T query, Func<T, Guid> match)
         {

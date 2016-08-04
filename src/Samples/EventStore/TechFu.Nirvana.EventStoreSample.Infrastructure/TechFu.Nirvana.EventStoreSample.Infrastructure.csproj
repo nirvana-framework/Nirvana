@@ -131,6 +131,14 @@
     <Compile Include="Migrations\201608021251279_leadPrototype.Designer.cs">
       <DependentUpon>201608021251279_leadPrototype.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608040044253_cart.cs" />
+    <Compile Include="Migrations\201608040044253_cart.Designer.cs">
+      <DependentUpon>201608040044253_cart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608041150268_NameToCart.cs" />
+    <Compile Include="Migrations\201608041150268_NameToCart.Designer.cs">
+      <DependentUpon>201608041150268_NameToCart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\SynchronizedStack.cs" />
@@ -187,6 +195,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608021251279_leadPrototype.resx">
       <DependentUpon>201608021251279_leadPrototype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608040044253_cart.resx">
+      <DependentUpon>201608040044253_cart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608041150268_NameToCart.resx">
+      <DependentUpon>201608041150268_NameToCart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,16 +9,16 @@ using TechFu.Nirvana.Util.Io;
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.LeadPrototype
 {
     public class GetLeadIndicatorOveriewHandler :
-        IQueryHandler<GetLeadIndicatorOveriewQuery, LeadIndicatorViewModel>
+        QueryHandlerBase<GetLeadIndicatorOveriewQuery, LeadIndicatorViewModel>
     {
         private readonly ISerializer _serializer;
 
-        public GetLeadIndicatorOveriewHandler(ISerializer serializer)
+        public GetLeadIndicatorOveriewHandler(ISerializer serializer, IMediatorFactory mediator):base(mediator)
         {
             _serializer = serializer;
         }
 
-        public QueryResponse<LeadIndicatorViewModel> Handle(GetLeadIndicatorOveriewQuery query)
+        public override QueryResponse<LeadIndicatorViewModel> Handle(GetLeadIndicatorOveriewQuery query)
         {
             var leadIndicatorViewModel = new LeadIndicatorViewModel
             {

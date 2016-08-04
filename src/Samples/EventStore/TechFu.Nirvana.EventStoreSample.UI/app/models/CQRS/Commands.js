@@ -80,6 +80,21 @@ var HomePageProductViewModel = (function () {
     return HomePageProductViewModel;
 }());
 exports.HomePageProductViewModel = HomePageProductViewModel;
+var AddProductToCartCommand = (function (_super) {
+    __extends(AddProductToCartCommand, _super);
+    function AddProductToCartCommand(UserId, ProductId, Quantity) {
+        _super.call(this, 'ProductCatalog/AddProductToCart');
+        this.UserId = UserId;
+        this.ProductId = ProductId;
+        this.Quantity = Quantity;
+    }
+    return AddProductToCartCommand;
+}(Common_1.Command));
+exports.AddProductToCartCommand = AddProductToCartCommand;
+(function (Nop) {
+    Nop[Nop["NoValue"] = 0] = "NoValue";
+})(exports.Nop || (exports.Nop = {}));
+var Nop = exports.Nop;
 var CreateSampleCatalogCommand = (function (_super) {
     __extends(CreateSampleCatalogCommand, _super);
     function CreateSampleCatalogCommand() {
@@ -88,11 +103,34 @@ var CreateSampleCatalogCommand = (function (_super) {
     return CreateSampleCatalogCommand;
 }(Common_1.Command));
 exports.CreateSampleCatalogCommand = CreateSampleCatalogCommand;
-(function (Nop) {
-    Nop[Nop["NoValue"] = 0] = "NoValue";
-})(exports.Nop || (exports.Nop = {}));
-var Nop = exports.Nop;
 //Users
+//Security
+var GetNewSessionViewModelQuery = (function (_super) {
+    __extends(GetNewSessionViewModelQuery, _super);
+    function GetNewSessionViewModelQuery(SessionId, typescriptPlace) {
+        _super.call(this, 'Security/GetNewSessionViewModel');
+        this.SessionId = SessionId;
+        this.typescriptPlace = typescriptPlace;
+    }
+    return GetNewSessionViewModelQuery;
+}(Common_1.Query));
+exports.GetNewSessionViewModelQuery = GetNewSessionViewModelQuery;
+var SessionViewModel = (function () {
+    function SessionViewModel() {
+    }
+    return SessionViewModel;
+}());
+exports.SessionViewModel = SessionViewModel;
+var CreateNewSessionViewModelCommand = (function (_super) {
+    __extends(CreateNewSessionViewModelCommand, _super);
+    function CreateNewSessionViewModelCommand(SessionId, typescriptPlace) {
+        _super.call(this, 'Security/CreateNewSessionViewModel');
+        this.SessionId = SessionId;
+        this.typescriptPlace = typescriptPlace;
+    }
+    return CreateNewSessionViewModelCommand;
+}(Common_1.Command));
+exports.CreateNewSessionViewModelCommand = CreateNewSessionViewModelCommand;
 //Lead
 var GetLeadIndicatorOveriewQuery = (function (_super) {
     __extends(GetLeadIndicatorOveriewQuery, _super);

@@ -38,7 +38,7 @@ var AppComponent = (function () {
             moduleId: module.id,
             templateUrl: 'app.html',
             directives: [header_component_1.HeaderComponent, nav_component_1.NavComponent, router_1.ROUTER_DIRECTIVES],
-            providers: [common_1.Location, cookieWrapper_1.CookieWrapper, serverService_1.ServerService, core_2.CookieService, errorrService_1.ErrorService, channel_service_1.ChannelService],
+            providers: [common_1.Location, cookieWrapper_1.CookieWrapper, serverService_1.ServerService, core_2.CookieService, errorrService_1.ErrorService, channel_service_1.ChannelService, Common_1.AppConstants],
         }), 
         __metadata('design:paramtypes', [channel_service_1.ChannelService])
     ], AppComponent);

@@ -30,6 +30,13 @@ var Query = (function () {
     return Query;
 }());
 exports.Query = Query;
+var AppConstants = (function () {
+    function AppConstants() {
+        this.EmptyGuid = "00000000-0000-0000-0000-000000000000";
+    }
+    return AppConstants;
+}());
+exports.AppConstants = AppConstants;
 var Response = (function () {
     function Response() {
     }

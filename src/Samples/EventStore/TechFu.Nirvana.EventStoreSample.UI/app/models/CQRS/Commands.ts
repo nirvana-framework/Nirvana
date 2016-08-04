@@ -12,9 +12,14 @@ export class TestResult{public Message: string;}
 export class GetHomepageCataglogViewModelQuery extends Query<HomePageViewModel>{constructor(){super('ProductCatalog/GetHomepageCataglogViewModel')}}
 export class HomePageViewModel{public Products: HomePageProductViewModel[];public RootEntityKey: string;public Id: string;}
 export class HomePageProductViewModel{public Name: string;public Price: number;public ShortDescription: string;public RootEntityKey: string;public Id: string;}
-export class CreateSampleCatalogCommand extends Command<Nop>{constructor(){super('ProductCatalog/CreateSampleCatalog')}}
+export class AddProductToCartCommand extends Command<Nop>{constructor(public UserId: string,public ProductId: string,public Quantity: number){super('ProductCatalog/AddProductToCart')}}
 export enum Nop{NoValue=0}
+export class CreateSampleCatalogCommand extends Command<Nop>{constructor(){super('ProductCatalog/CreateSampleCatalog')}}
 //Users
+//Security
+export class GetNewSessionViewModelQuery extends Query<SessionViewModel>{constructor(public SessionId: string,public typescriptPlace: boolean){super('Security/GetNewSessionViewModel')}}
+export class SessionViewModel{public Name: string;public RootEntityKey: string;public Id: string;}
+export class CreateNewSessionViewModelCommand extends Command<Nop>{constructor(public SessionId: string,public typescriptPlace: boolean){super('Security/CreateNewSessionViewModel')}}
 //Lead
 export class GetLeadIndicatorOveriewQuery extends Query<LeadIndicatorViewModel>{constructor(public LeadId: string,public typescriptPlace: boolean){super('Lead/GetLeadIndicatorOveriew')}}
 export class LeadIndicatorViewModel{public AllIndicators: IndicatorType[];public DataSources: IndicatorSource[];public Name: string;public Address: string;public Indicators: PerformanceIndicatorViewModel[];public BusinessMeasure: BusinesssMeasureViewModel;public RootEntityKey: string;public Id: string;}

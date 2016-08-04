@@ -4,15 +4,18 @@ using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Common;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.Queries;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.ViewModels;
+using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Query
 {
     public class GetHomepageCataglogViewModelHandler :
         ViewModelQueryBase<GetHomepageCataglogViewModelQuery, HomePageViewModel>
     {
-        public GetHomepageCataglogViewModelHandler(IViewModelRepository repository) : base(repository)
+        public GetHomepageCataglogViewModelHandler(IViewModelRepository repository, IMediatorFactory mediator) : base(repository, mediator)
         {
         }
+
+    
 
         public override QueryResponse<HomePageViewModel> Handle(GetHomepageCataglogViewModelQuery query)
         {

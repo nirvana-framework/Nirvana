@@ -3,31 +3,32 @@ using System.Collections.Generic;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ProductCatalog;
+using TechFu.Nirvana.EventStoreSample.Domain.Domain.ShoppingCart;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.Commands;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.InternalEvents;
 using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
 {
-    public class CreateSampleCatalogHandler : INopHandler<CreateSampleCatalogCommand>
+    public class CreateSampleCatalogHandler : BaseNoOpCommandHandler<CreateSampleCatalogCommand>
     {
         private readonly IRepository _repository;
-        private readonly IMediatorFactory _mediator;
 
-        public CreateSampleCatalogHandler(IRepository repository, IMediatorFactory mediator)
+        public CreateSampleCatalogHandler(IRepository repository, IMediatorFactory mediator) : base(mediator)
         {
             _repository = repository;
-            _mediator = mediator;
         }
 
-        public CommandResponse<Nop> Handle(CreateSampleCatalogCommand command)
+        public override CommandResponse<Nop> Handle(CreateSampleCatalogCommand task)
         {
 
             var oldCatalog = _repository.GetAll<Product>();
+            _repository.DeleteCollection(_repository.GetAll<CartItem>());
+            _repository.DeleteCollection(_repository.GetAll<Cart>());
             _repository.DeleteCollection(oldCatalog);
 
             _repository.SaveOrUpdateCollection(SampleCatalog());
-            _mediator.InternalEvent(new CatalogUpdatedEvent());
+            Mediator.InternalEvent(new CatalogUpdatedEvent());
             return CommandResponse.Succeeded(Nop.NoValue);
         }
 

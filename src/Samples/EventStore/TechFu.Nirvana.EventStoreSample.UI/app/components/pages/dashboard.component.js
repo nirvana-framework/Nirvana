@@ -46,6 +46,7 @@ var DashboardComponent = (function (_super) {
         });
     }
     DashboardComponent.prototype.ngOnInit = function () {
+        this.getSession();
         this.refreshHomepageView();
     };
     DashboardComponent.prototype.ngOnDestroy = function () {
@@ -77,6 +78,11 @@ var DashboardComponent = (function (_super) {
     DashboardComponent.prototype.clear = function () {
         this.sentMessage = '';
         this.receivedMessage = '';
+    };
+    DashboardComponent.prototype.getSession = function () {
+        var _this = this;
+        this._serverService.mediator.query(new Commands_1.GetNewSessionViewModelQuery(this._serverService.sessionId, true))
+            .then(function (x) { return _this._serverService.setSession(x); });
     };
     __decorate([
         core_1.ViewChild(AlertList_1.ServerMessageListComponenet), 

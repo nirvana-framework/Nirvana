@@ -4,9 +4,13 @@ using TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Queries;
 
 namespace TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Handlers
 {
-    public class GetVersionHandler : IQueryHandler<GetVersionQuery, string>
+    public class GetVersionHandler : QueryHandlerBase<GetVersionQuery, string>
     {
-        public QueryResponse<string> Handle(GetVersionQuery query)
+        public GetVersionHandler(IMediatorFactory mediator) : base(mediator)
+        {
+        }
+
+        public override QueryResponse<string> Handle(GetVersionQuery query)
         {
             return QueryResponse.Succeeded("V 1.0");
         }

@@ -20,6 +20,7 @@ namespace TechFu.Nirvana.Data
         T Get<T>(long id) where T : Entity<long>;
 
         IQueryable<T> GetAll<T>() where T : Entity;
+        IQueryable<T> GetAllAndInclude<T>(IList<Expression<Func<T, object>>> includes) where T : Entity;
         IQueryable<T> Include<T>(IQueryable<T> queryable, IList<Expression<Func<T, object>>> includes) where T : Entity;
         IQueryable<T> GetAllAndInclude<T, TProperty>(Expression<Func<T, TProperty>> path) where T : Entity;
 

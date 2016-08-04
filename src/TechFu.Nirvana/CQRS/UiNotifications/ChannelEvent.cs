@@ -10,6 +10,7 @@ namespace TechFu.Nirvana.CQRS.UiNotifications
 
         public string Name { get; set; }
         public string ChannelName { get; set; }
+        public Guid AggregateRoot { get; set; }
         public DateTimeOffset Timestamp { get; set; }
 
         public object Data
