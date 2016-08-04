@@ -8,7 +8,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Infrastructure.Command
 {
     public class TestHandler : BaseCommandHandler<TestCommand, TestResult>
     {
-        public TestHandler(IMediatorFactory mediator) : base(mediator)
+        public TestHandler(IChildMediatorFactory mediator) : base(mediator)
         {
         }
 

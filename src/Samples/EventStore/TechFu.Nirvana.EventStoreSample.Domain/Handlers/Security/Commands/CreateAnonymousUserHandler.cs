@@ -12,7 +12,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Security.Commands
     {
         private readonly IRepository _repository;
 
-        public CreateAnonymousUserHandler(IRepository repository, IMediatorFactory mediator) : base(mediator)
+        public CreateAnonymousUserHandler(IRepository repository, IChildMediatorFactory mediator) : base(mediator)
         {
             _repository = repository;
         }

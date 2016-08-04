@@ -18,7 +18,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
     {
         private readonly IRepository _repository;
 
-        public AddProductToCartHandler(IRepository repository, IMediatorFactory mediator) : base(mediator)
+        public AddProductToCartHandler(IRepository repository, IChildMediatorFactory mediator) : base(mediator)
         {
             _repository = repository;
         }

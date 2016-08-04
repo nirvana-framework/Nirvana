@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Common;
@@ -11,14 +9,11 @@ using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Security.Queries
 {
-    public class GetSessionViewModelHandler: ViewModelQueryBase<GetNewSessionViewModelQuery,SessionViewModel>
+    public class GetSessionViewModelHandler : ViewModelQueryBase<GetNewSessionViewModelQuery, SessionViewModel>
     {
-
-
-
-        public GetSessionViewModelHandler(IViewModelRepository repository,IMediatorFactory mediator) : base(repository, mediator)
+        public GetSessionViewModelHandler(IViewModelRepository repository, IMediatorFactory mediator)
+            : base(repository, mediator)
         {
-
         }
 
         public override QueryResponse<SessionViewModel> Handle(GetNewSessionViewModelQuery query)
@@ -27,11 +22,8 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Security.Queries
             if (query.SessionId == Guid.Empty)
             {
                 var sessionId = Guid.NewGuid();
+                Mediator.Command(new CreateNewSessionViewModelCommand {SessionId = sessionId});
 
-                Mediator.SendChild(x =>
-                {
-                    x.Command(new CreateNewSessionViewModelCommand { SessionId = sessionId });
-                });
                 return QueryResponse.Succeeded(new SessionViewModel
                 {
                     Id = sessionId,

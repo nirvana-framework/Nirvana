@@ -10,7 +10,7 @@ namespace TechFu.Nirvana.Mediation
     public abstract class BaseNoOpCommandHandler<T> : BaseCommandHandler<T, Nop>
         where T : Command<Nop>
     {
-        protected BaseNoOpCommandHandler(IMediatorFactory mediator) : base(mediator)
+        protected BaseNoOpCommandHandler(IChildMediatorFactory mediator) : base(mediator)
         {
         }
     }
@@ -20,10 +20,9 @@ namespace TechFu.Nirvana.Mediation
     {
         protected readonly IMediatorFactory Mediator;
 
-        protected BaseCommandHandler(IMediatorFactory mediator)
+        protected BaseCommandHandler(IChildMediatorFactory mediator)
         {
             Mediator = mediator;
-            Mediator.ChildCommands = true;
         }
 
         public abstract CommandResponse<U> Handle(T task);

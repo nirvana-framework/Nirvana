@@ -57,6 +57,8 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
             });
             
             
+//            x.For<IMediatorFactory>().Use<MediatorFactory>();
+//            x.For<IChildMediatorFactory>().Use<ChildMediatorFactory>();
             x.For<IMediator>().Use<Mediator>();
             x.For<IWebMediator>().Use<WebMediator>();
             x.For<IQueueFactory>().Use<AzureQueueFactory>();

@@ -18,7 +18,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
         private bool ProcessCommand(TestCommand arg)
         {
-            return new TestCommandHandler(new MediatorFactory()).Handle(arg).Success();
+            return new TestCommandHandler(new ChildMediatorFactory()).Handle(arg).Success();
         }
 
         public class when_a_handler_fails : AzureQueueTests

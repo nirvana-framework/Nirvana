@@ -26,7 +26,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
             return CommandResponse.Succeeded(new TestResult());
         }
 
-        public TestCommandHandler(IMediatorFactory mediator) : base(mediator)
+        public TestCommandHandler(IChildMediatorFactory mediator) : base(mediator)
         {
         }
     }

@@ -11,7 +11,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Security.Commands
     {
         private readonly IViewModelRepository _repository;
 
-        public CreateNewSessionViewModelHandler(IViewModelRepository repository, IMediatorFactory mediator)
+        public CreateNewSessionViewModelHandler(IViewModelRepository repository, IChildMediatorFactory mediator)
             : base(mediator)
         {
             _repository = repository;

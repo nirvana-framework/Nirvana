@@ -18,7 +18,8 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
         private readonly IRepository _repository;
         private readonly IViewModelRepository _viewModelRepository;
 
-        public UpdateCartViewModelHandler(IRepository repository, IViewModelRepository viewModelRepository,IMediatorFactory mediator) : base(mediator)
+        public UpdateCartViewModelHandler(IRepository repository, IViewModelRepository viewModelRepository,
+            IChildMediatorFactory mediator) : base(mediator)
         {
             _repository = repository;
             _viewModelRepository = viewModelRepository;

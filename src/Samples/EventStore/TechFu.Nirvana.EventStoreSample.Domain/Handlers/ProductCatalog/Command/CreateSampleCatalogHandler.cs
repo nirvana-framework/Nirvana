@@ -14,7 +14,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
     {
         private readonly IRepository _repository;
 
-        public CreateSampleCatalogHandler(IRepository repository, IMediatorFactory mediator) : base(mediator)
+        public CreateSampleCatalogHandler(IRepository repository, IChildMediatorFactory mediator) : base(mediator)
         {
             _repository = repository;
         }

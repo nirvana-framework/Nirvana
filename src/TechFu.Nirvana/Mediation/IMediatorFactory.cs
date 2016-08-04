@@ -12,6 +12,11 @@ namespace TechFu.Nirvana.Mediation
         ForwardToQueue,
     }
 
+    public interface IChildMediatorFactory: IMediatorFactory
+    {
+
+    }
+
     public interface IMediatorFactory
     {
         IMediator GetMediator(Type messageType);
@@ -19,22 +24,26 @@ namespace TechFu.Nirvana.Mediation
         QueryResponse<TResult> Query<TResult>(Query<TResult> query);
         UIEventResponse Notification<TResult>(UiEvent<TResult> uiNotification);
         InternalEventResponse InternalEvent(InternalEvent internalEvent);
-        bool ChildCommands { get; set; }
-
-        void SendChild(Action<IMediatorFactory> action);
+        bool ChildCommands { get; }
+        
     }
 
-    public class MediatorFactory : IMediatorFactory
+    public class ChildMediatorFactory : MediatorFactoryBase, IChildMediatorFactory
     {
-        public bool ChildCommands { get; set; }
-        public void SendChild(Action<IMediatorFactory> action)
-        {
-            ChildCommands = true;
-            action.Invoke(this);
-            ChildCommands = false;
-        }
+        public override  bool ChildCommands => true;
+    }
+
+    public class MediatorFactory : MediatorFactoryBase
+    {
+        public override bool ChildCommands => false;
+    }
 
 
+
+    public abstract class MediatorFactoryBase: IMediatorFactory
+    {
+
+        public abstract bool ChildCommands { get;}
         public IMediator GetMediator(Type messageType)
         {
             var mediatorStrategy = GetMediatorStrategy(messageType, ChildCommands);
@@ -74,12 +83,12 @@ namespace TechFu.Nirvana.Mediation
             return GetInProcMediator();
         }
 
-        private MediatorStrategy GetMediatorStrategy(Type messageType,bool isChildTask =false)
+        private MediatorStrategy GetMediatorStrategy(Type messageType, bool isChildTask = false)
         {
-            if (messageType.IsQuery() 
-                || ( messageType.IsUiNotification() && NirvanaSetup.IsInProcess(TaskType.UiNotification, isChildTask))
-                || ( messageType.IsCommand() && NirvanaSetup.IsInProcess(TaskType.Command, isChildTask))
-                || ( messageType.IsInternalEvent() && NirvanaSetup.IsInProcess(TaskType.InternalEvent, isChildTask))
+            if (messageType.IsQuery()
+                || (messageType.IsUiNotification() && NirvanaSetup.IsInProcess(TaskType.UiNotification, isChildTask))
+                || (messageType.IsCommand() && NirvanaSetup.IsInProcess(TaskType.Command, isChildTask))
+                || (messageType.IsInternalEvent() && NirvanaSetup.IsInProcess(TaskType.InternalEvent, isChildTask))
                 )
             {
                 // Only commands can be offloaded currently
@@ -112,16 +121,19 @@ namespace TechFu.Nirvana.Mediation
 
         private IMediator GetWebMediator()
         {
-            return (IWebMediator) NirvanaSetup.GetService(typeof(IWebMediator));
+            return (IWebMediator)NirvanaSetup.GetService(typeof(IWebMediator));
         }
 
         private IMediator GetQueueMediator()
         {
-            return (IQueueMediator) NirvanaSetup.GetService(typeof(IQueueMediator));
+            return (IQueueMediator)NirvanaSetup.GetService(typeof(IQueueMediator));
         }
         private static IMediator GetInProcMediator()
         {
-            return (IMediator) NirvanaSetup.GetService(typeof(IMediator));
+            return (IMediator)NirvanaSetup.GetService(typeof(IMediator));
         }
+
     }
+
+   
 }
