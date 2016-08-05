@@ -48,6 +48,7 @@ var DashboardComponent = (function (_super) {
     DashboardComponent.prototype.ngOnInit = function () {
         this.getSession();
         this.refreshHomepageView();
+        this.refreshCart();
     };
     DashboardComponent.prototype.ngOnDestroy = function () {
         this.disposeRegisteredEvents();
@@ -59,7 +60,21 @@ var DashboardComponent = (function (_super) {
     DashboardComponent.prototype.setHomePageModel = function (model) {
         this.model = model.Result;
     };
-    DashboardComponent.prototype.addToCart = function () {
+    DashboardComponent.prototype.refreshCart = function () {
+        var _this = this;
+        this._serverService.mediator.query(new Commands_1.GetCartViewModelQuery(this._serverService.sessionId, true))
+            .then(function (x) { return _this.setCartViewModel(x); });
+    };
+    DashboardComponent.prototype.setCartViewModel = function (cart) {
+        if (cart.IsValid) {
+            this.cart = cart.Result;
+        }
+        else {
+            this.cart = new Commands_1.CartViewModel();
+        }
+    };
+    DashboardComponent.prototype.addToCart = function (productId) {
+        this._serverService.mediator.command(new Commands_1.AddProductToCartCommand(this._serverService.sessionId, productId, 1));
     };
     DashboardComponent.prototype.createTestCatalog = function () {
         this._serverService.mediator.command(new Commands_1.CreateSampleCatalogCommand());

@@ -4,6 +4,10 @@ function global:Debug-iis-Express()
 {
 	$DTE.Debugger.LocalProcesses | where-object -FilterScript {$_.Name -like "*iisexpress.exe*" } | ForEach-Object {Write-Host $_.Attach()}
 }
+function global:Debug-Processor()
+{
+	$DTE.Debugger.LocalProcesses | where-object -FilterScript {$_.Name -like "*QueueCommandProcessor*" } | ForEach-Object {Write-Host $_.Attach()}
+}
 
 #start iis with the console window up, so we can see trace messages from the website while were doing front end development.
 function global:start-iis(){

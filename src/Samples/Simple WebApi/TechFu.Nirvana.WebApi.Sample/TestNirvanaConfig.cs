@@ -38,7 +38,7 @@ namespace TechFu.Nirvana.WebApi.Sample
 
             if (serviceType == typeof(IQueryHandler<GetVersionQuery,string>))
             {
-                return new GetVersionHandler(new MediatorFactory());
+                return new GetVersionHandler(new ChildMediatorFactory());
             }
 
             return Activator.CreateInstance(serviceType);

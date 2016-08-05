@@ -13,7 +13,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.LeadPrototype
     {
         private readonly ISerializer _serializer;
 
-        public GetLeadIndicatorOveriewHandler(ISerializer serializer, IMediatorFactory mediator):base(mediator)
+        public GetLeadIndicatorOveriewHandler(ISerializer serializer, IChildMediatorFactory mediator):base(mediator)
         {
             _serializer = serializer;
         }

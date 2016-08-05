@@ -9,6 +9,9 @@ export class VersionModel{public Version: string;}
 export class TestCommand extends Command<TestResult>{constructor(){super('Infrastructure/Test')}}
 export class TestResult{public Message: string;}
 //ProductCatalog
+export class GetCartViewModelQuery extends Query<CartViewModel>{constructor(public UserId: string,public typescriptPlace: boolean){super('ProductCatalog/GetCartViewModel')}}
+export class CartViewModel{public Items: CartItemViewModel[];public SubTotal: number;public RootEntityKey: string;public Id: string;}
+export class CartItemViewModel{public Description: string;public Name: string;public Price: number;public RootEntityKey: string;public Id: string;}
 export class GetHomepageCataglogViewModelQuery extends Query<HomePageViewModel>{constructor(){super('ProductCatalog/GetHomepageCataglogViewModel')}}
 export class HomePageViewModel{public Products: HomePageProductViewModel[];public RootEntityKey: string;public Id: string;}
 export class HomePageProductViewModel{public Name: string;public Price: number;public ShortDescription: string;public RootEntityKey: string;public Id: string;}

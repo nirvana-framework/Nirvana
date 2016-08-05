@@ -6,7 +6,7 @@ namespace TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Handlers
 {
     public class GetVersionHandler : QueryHandlerBase<GetVersionQuery, string>
     {
-        public GetVersionHandler(IMediatorFactory mediator) : base(mediator)
+        public GetVersionHandler(IChildMediatorFactory mediator) : base(mediator)
         {
         }
 

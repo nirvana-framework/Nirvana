@@ -38,7 +38,6 @@ namespace TechFu.Nirvana.Mediation.Implementation
         {
             private readonly Func<object> _getHandler;
             private readonly MethodInfo _handleMethod;
-            private readonly Type _handlerType;
 
             public MediatorPlan(Type handlerTypeTemplate, string handlerMethodName, Type messageType)
             {
@@ -47,12 +46,11 @@ namespace TechFu.Nirvana.Mediation.Implementation
                 var needsNewHandler = false;
 
                 _handleMethod = GetHandlerMethod(genericHandlerType, handlerMethodName, messageType);
-                _handlerType = handler.GetType();
                 _getHandler = () =>
                 {
                     if (needsNewHandler)
                         handler = NirvanaSetup.GetService(genericHandlerType);
-
+                    //Get a new instance on retry
                     needsNewHandler = true;
 
                     return handler;

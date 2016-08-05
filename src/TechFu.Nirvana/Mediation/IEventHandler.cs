@@ -16,7 +16,7 @@ namespace TechFu.Nirvana.Mediation
     {
         protected readonly IMediatorFactory Mediator;
 
-        protected BaseEventHandler(IMediatorFactory mediator)
+        protected BaseEventHandler(IChildMediatorFactory mediator)
         {
             Mediator = mediator;
         }

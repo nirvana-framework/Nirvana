@@ -11,7 +11,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Security.Queries
 {
     public class GetSessionViewModelHandler : ViewModelQueryBase<GetNewSessionViewModelQuery, SessionViewModel>
     {
-        public GetSessionViewModelHandler(IViewModelRepository repository, IMediatorFactory mediator)
+        public GetSessionViewModelHandler(IViewModelRepository repository, IChildMediatorFactory mediator)
             : base(repository, mediator)
         {
         }

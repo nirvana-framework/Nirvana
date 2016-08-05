@@ -12,7 +12,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Common
     {
         private readonly IViewModelRepository _repository;
 
-        protected ViewModelQueryBase(IViewModelRepository repository, IMediatorFactory mediator):base(mediator)
+        protected ViewModelQueryBase(IViewModelRepository repository, IChildMediatorFactory mediator):base(mediator)
         {
             _repository = repository;
         }

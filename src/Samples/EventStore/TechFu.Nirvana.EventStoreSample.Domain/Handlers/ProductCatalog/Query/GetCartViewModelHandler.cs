@@ -9,7 +9,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Query
 {
     public class GetCartViewModelHandler : ViewModelQueryBase<GetCartViewModelQuery, CartViewModel>
     {
-        public GetCartViewModelHandler(IViewModelRepository repository, IMediatorFactory mediator) : base(repository, mediator)
+        public GetCartViewModelHandler(IViewModelRepository repository, IChildMediatorFactory mediator) : base(repository, mediator)
         {
         }
 

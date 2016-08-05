@@ -11,7 +11,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Query
     public class GetHomepageCataglogViewModelHandler :
         ViewModelQueryBase<GetHomepageCataglogViewModelQuery, HomePageViewModel>
     {
-        public GetHomepageCataglogViewModelHandler(IViewModelRepository repository, IMediatorFactory mediator) : base(repository, mediator)
+        public GetHomepageCataglogViewModelHandler(IViewModelRepository repository, IChildMediatorFactory mediator) : base(repository, mediator)
         {
         }
 

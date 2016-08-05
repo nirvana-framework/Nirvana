@@ -6,7 +6,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Infrastructure.Query
 {
     public class GetVersionHandler : QueryHandlerBase<GetVersionQuery, VersionModel>
     {
-        public GetVersionHandler(IMediatorFactory mediator) : base(mediator)
+        public GetVersionHandler(IChildMediatorFactory mediator) : base(mediator)
         {
         }
 

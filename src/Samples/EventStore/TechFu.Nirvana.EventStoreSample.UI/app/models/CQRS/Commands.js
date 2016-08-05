@@ -60,6 +60,28 @@ var TestResult = (function () {
 }());
 exports.TestResult = TestResult;
 //ProductCatalog
+var GetCartViewModelQuery = (function (_super) {
+    __extends(GetCartViewModelQuery, _super);
+    function GetCartViewModelQuery(UserId, typescriptPlace) {
+        _super.call(this, 'ProductCatalog/GetCartViewModel');
+        this.UserId = UserId;
+        this.typescriptPlace = typescriptPlace;
+    }
+    return GetCartViewModelQuery;
+}(Common_1.Query));
+exports.GetCartViewModelQuery = GetCartViewModelQuery;
+var CartViewModel = (function () {
+    function CartViewModel() {
+    }
+    return CartViewModel;
+}());
+exports.CartViewModel = CartViewModel;
+var CartItemViewModel = (function () {
+    function CartItemViewModel() {
+    }
+    return CartItemViewModel;
+}());
+exports.CartItemViewModel = CartItemViewModel;
 var GetHomepageCataglogViewModelQuery = (function (_super) {
     __extends(GetHomepageCataglogViewModelQuery, _super);
     function GetHomepageCataglogViewModelQuery() {

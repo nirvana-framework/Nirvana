@@ -39,7 +39,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor.Configuration
                 .SetDependencyResolver(config.GetService, config.GetAllServices)
                 .ForCommands(MediationStrategy.InProcess, MediationStrategy.ForwardToQueue, MediationStrategy.None)
                 .ForInternalEvents(MediationStrategy.InProcess, MediationStrategy.ForwardToQueue, MediationStrategy.None)
-                .ForUiNotifications(MediationStrategy.ForwardToWeb, MediationStrategy.ForwardToQueue, MediationStrategy.None)
+                .ForUiNotifications(MediationStrategy.ForwardToWeb, MediationStrategy.ForwardToWeb, MediationStrategy.None)
                 .ForQueries(MediationStrategy.InProcess, MediationStrategy.InProcess)
                 .BuildConfiguration()
                 ;

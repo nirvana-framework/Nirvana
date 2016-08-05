@@ -7,7 +7,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Event
 {
     public class HandleCatalogUpdatedEvent : BaseEventHandler<CatalogUpdatedEvent>
     {
-        public HandleCatalogUpdatedEvent(IMediatorFactory mediator) : base(mediator)
+        public HandleCatalogUpdatedEvent(IChildMediatorFactory mediator) : base(mediator)
         {
         }
 

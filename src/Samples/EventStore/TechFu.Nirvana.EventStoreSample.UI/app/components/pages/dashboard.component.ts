@@ -6,7 +6,8 @@ import {ErrorService} from "../../services/errorrService";
 import {ServerMessageListComponenet} from "../framework/AlertList";
 import {
     TestCommand, CreateSampleCatalogCommand, GetHomepageCataglogViewModelQuery,
-    HomePageViewModel, GetNewSessionViewModelQuery, SessionViewModel
+    HomePageViewModel, GetNewSessionViewModelQuery, SessionViewModel, AddProductToCartCommand, GetCartViewModelQuery,
+    CartViewModel
 } from "../../models/CQRS/Commands";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {ChannelService} from "../framework/signlar/channel.service";
@@ -27,6 +28,7 @@ export class DashboardComponent extends BasePage implements OnInit{
     private channel = "tasks";
 
     public model:HomePageViewModel ;
+    public cart:CartViewModel;
 
     @ViewChild(ServerMessageListComponenet)
     private errorList: ServerMessageListComponenet;
@@ -61,6 +63,7 @@ export class DashboardComponent extends BasePage implements OnInit{
     ngOnInit(){
         this.getSession();
         this.refreshHomepageView();
+        this.refreshCart();
     }
 
 
@@ -75,9 +78,20 @@ export class DashboardComponent extends BasePage implements OnInit{
     setHomePageModel(model: QueryResponse<HomePageViewModel> ) {
         this.model  = model.Result;
     }
+    public refreshCart(){
+        this._serverService.mediator.query(new GetCartViewModelQuery(this._serverService.sessionId,true))
+            .then(x=>this.setCartViewModel(<QueryResponse<CartViewModel>>x));
+    }
 
-    public addToCart(){
+    public setCartViewModel(cart:QueryResponse<CartViewModel>){
+        if(cart.IsValid){this.cart = cart.Result;}
+        else {this.cart = new CartViewModel();}
 
+
+    }
+
+    public addToCart(productId:string){
+        this._serverService.mediator.command(new AddProductToCartCommand(this._serverService.sessionId,productId,1))
     }
 
     public createTestCatalog(){
