@@ -7,12 +7,15 @@ using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.CQRS.Util;
 using TechFu.Nirvana.Mediation;
+using TechFu.Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.AzureQueues.Handlers
 {
     public class AzureStorageQueue : BaseQueue<CloudQueueMessage>
     {
         private static readonly MethodInfo DoWorkmethodInfo;
+
+        private static readonly MethodInfo InternalEventMethodInfo;
         private static readonly MethodInfo QueryMethodInfo;
         private static readonly MethodInfo CommandMethodInfo;
 
@@ -30,6 +33,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         {
             CommandMethodInfo = typeof(MediatorFactory).GetMethod("Command");
             QueryMethodInfo = typeof(MediatorFactory).GetMethod("Query");
+            InternalEventMethodInfo = typeof(MediatorFactory).GetMethod("InternalEvent");
             DoWorkmethodInfo = typeof(AzureStorageQueue).GetMethod("DoWork");
         }
 
@@ -67,8 +71,18 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             //TODO - handle more than one message at a time...
             //Get DoWork
             var handler = GetDoWorkHandler(MessageTypeRouting);
+            Func<object, bool> workMethod = null;
+            if (this.MessageTypeRouting.TaskType.IsInternalEvent())
+            {
+                workMethod = InvokeInternalEvent;
+            }
+            if (this.MessageTypeRouting.TaskType.IsCommand())
+            {
 
-            Func<object, bool> workMethod = InvokeCommand;
+
+                workMethod = InvokeCommand;
+            }
+
             handler.Invoke(this, new object[] {workMethod, false, false});
         }
 
@@ -167,6 +181,11 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
         }
 
 
+        public bool InvokeInternalEvent(object x)
+        {
+            var result = InternalEventMethodInfo.Invoke(Mediator, new[] {x});
+            return ((Response) result).Success();
+        }
         public bool InvokeCommand(object x)
         {
             var responseType = CqrsUtils.GetResponseType(MessageTypeRouting.TaskType, typeof(Command<>));

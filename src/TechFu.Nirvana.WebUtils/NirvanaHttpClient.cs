@@ -15,6 +15,15 @@ namespace TechFu.Nirvana.WebUtils
                 return response;
             }
         }
+        public async Task<HttpResponseMessage> InternalEvent(string requestUri, InternalEvent value)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.PostAsJsonAsync(requestUri, value).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                return response;
+            }
+        }
 
         public async Task<HttpResponseMessage> Query<T>(string requestUri, Query<T> value)
         {

@@ -113,9 +113,8 @@ function global:kill-es-sample(){
 
 function global:debug-es-sample()
 {
-	kill-es-sample
-	run-es-sample
 	Debug-iis-Express
+	Debug-Processor
 }
 
 function global:Start-Queue-Emulator(){

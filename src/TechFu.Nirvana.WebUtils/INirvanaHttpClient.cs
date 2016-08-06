@@ -10,5 +10,6 @@ namespace TechFu.Nirvana.WebUtils
         Task<HttpResponseMessage> Command<T>(string requestUri, Command<T> value);
         Task<HttpResponseMessage> Query<T>(string requestUrl, Query<T> value);
         Task<HttpResponseMessage> UiEvent<T>(string requestUrl, UiEvent<T> value);
+        Task<HttpResponseMessage> InternalEvent(string requestUrl, InternalEvent value);
     }
 }

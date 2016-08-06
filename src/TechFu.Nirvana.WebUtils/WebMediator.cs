@@ -55,7 +55,18 @@ namespace TechFu.Nirvana.WebUtils
 
         public InternalEventResponse InternalEvent(InternalEvent internalEvent)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var path = GetInternalEventApiPath(internalEvent.GetType());
+                var uri = new Uri(new Uri(_endpointConfiguration.InternalEventEndpoint), path);
+                var httpResponseMessage = _httpClient.InternalEvent(uri.ToString(), internalEvent).Result;
+                var response = BuildInternalEventResponse(httpResponseMessage);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return InternalEventResponse.Failed();
+            }
         }
 
 
@@ -64,7 +75,7 @@ namespace TechFu.Nirvana.WebUtils
             try
             {
                 var path = GetCommandApiPath(command.GetType());
-                var uri = new Uri(new Uri(_endpointConfiguration.QueryEndpoint), path);
+                var uri = new Uri(new Uri(_endpointConfiguration.CommandEndpoint), path);
                 var httpResponseMessage = _httpClient.Command(uri.ToString(), command).Result;
                 var response = BuildCommandResponse<TResult>(httpResponseMessage);
                 return CommandResponse.Succeeded(response);
@@ -78,6 +89,10 @@ namespace TechFu.Nirvana.WebUtils
         public string GetQueryApiPath(Type type)
         {
             return CqrsUtils.GetApiEndpint(type, "Query");
+        }
+        public string GetInternalEventApiPath(Type type)
+        {
+            return CqrsUtils.GetApiEndpint(type, "");
         }
 
         public string GetCommandApiPath(Type type)
@@ -94,6 +109,10 @@ namespace TechFu.Nirvana.WebUtils
         private T BuildCommandResponse<T>(HttpResponseMessage httpResponseMessage)
         {
             return _serializer.Deserialize<T>(httpResponseMessage.Content.ReadAsStringAsync().Result);
+        }
+        private InternalEventResponse BuildInternalEventResponse(HttpResponseMessage httpResponseMessage)
+        {
+            return _serializer.Deserialize<InternalEventResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);
         }
 
         private T BuildQueryResponse<T>(HttpResponseMessage httpResponseMessage)

@@ -77,7 +77,12 @@ namespace TechFu.Nirvana.CQRS.Util
 
         public static string GetApiEndpint(string rootTypeName, string actionName, string superTypeName)
         {
-            return $"{rootTypeName}/{actionName.Replace(superTypeName, "")}";
+
+            if (!superTypeName.IsNullOrEmpty())
+            {
+                actionName = actionName.Replace(superTypeName, "");
+            }
+            return $"{rootTypeName}/{actionName}";
         }
 
         public static string GetApiEndpint(Type type,  string superTypeName)
