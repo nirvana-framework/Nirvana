@@ -22,7 +22,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
                     Name = GetQueueName(x.Key, q),
                     NumberOfConsumers = 1,
                     Status = QueueStatus.Stopped,
-                    SleepInMSBetweenTasks = 500
+                    SleepInMSBetweenTasks = 200
                 }).Cast<QueueReference>().ToArray());
         }
 

@@ -29,6 +29,12 @@ namespace TechFu.Nirvana.WebApi.Controllers
             LogException(response);
             return Request.CreateResponse(GetResponseCode(response), PrepCommand(response));
         }
+        protected HttpResponseMessage InternalEvent(InternalEvent command)
+        {
+            var response = MediatorFactory.InternalEvent(command);
+            LogException(response);
+            return Request.CreateResponse(GetResponseCode(response), PrepEventResponse(response));
+        }
 
         private Command<TResult> AddAuthToCommand<TResult>(Command<TResult> command)
         {
@@ -96,6 +102,16 @@ namespace TechFu.Nirvana.WebApi.Controllers
             };
         }
 
+        private object PrepEventResponse(InternalEventResponse response)
+        {
+            return new
+            {
+                Exception = new {Message = response.Exception},
+                response.ValidationMessages,
+                response.IsValid
+            };
+        }
+
         private object PrepQuery<T>(QueryResponse<T> response)
         {
             return new
@@ -108,6 +124,12 @@ namespace TechFu.Nirvana.WebApi.Controllers
         }
 
         private HttpStatusCode GetResponseCode<T>(CommandResponse<T> input)
+        {
+            return input.Exception != null
+                ? HttpStatusCode.InternalServerError
+                : input.IsValid ? HttpStatusCode.OK : HttpStatusCode.BadRequest;
+        }
+        private HttpStatusCode GetResponseCode(InternalEventResponse input)
         {
             return input.Exception != null
                 ? HttpStatusCode.InternalServerError

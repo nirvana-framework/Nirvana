@@ -11,7 +11,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Event
         {
         }
 
-        public override InternalEventResponse Handle(CatalogUpdatedEvent command)
+        public override InternalEventResponse Handle(CatalogUpdatedEvent internalEvent)
         {
             Mediator.Command(new UpdateHomePageViewModelCommand());
             return InternalEventResponse.Succeeded();

@@ -11,9 +11,9 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Event
         {
         }
 
-        public override InternalEventResponse Handle(CartViewModelUpdatedEvent command)
+        public override InternalEventResponse Handle(CartViewModelUpdatedEvent internalEvent)
         {
-            Mediator.Notification(new CartNeedsUpdateUiEvent {UserId = command.UserId});
+            Mediator.Notification(new CartNeedsUpdateUiEvent {UserId = internalEvent.UserId});
             return InternalEventResponse.Succeeded();
         }
     }

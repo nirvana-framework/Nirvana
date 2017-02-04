@@ -125,12 +125,8 @@ namespace TechFu.Nirvana.WebApi.Generation
                 {
                     additionalNamespaces.Add(type.TaskType.Namespace);
                     var name = type.TaskType.Name;
-
                     name = name.Replace("Query", "");
-                    builder.Append("[HttpGet]");
-                    builder.Append($"public HttpResponseMessage {name}([FromUri] {name}Query query){{");
-                    builder.Append("return Query(query);");
-                    builder.Append("}");
+                    builder.Append($"[HttpGet]public HttpResponseMessage {name}([FromUri] {name}Query query){{return Query(query);}}");
                 }
             }
             if (NirvanaSetup.CanProcess(TaskType.Command))
@@ -140,10 +136,16 @@ namespace TechFu.Nirvana.WebApi.Generation
                     additionalNamespaces.Add(type.TaskType.Namespace);
                     var name = type.TaskType.Name;
                     name = name.Replace("Command", "");
-                    builder.Append("[HttpPost]");
-                    builder.Append($"public HttpResponseMessage {name}([FromBody] {name}Command command){{");
-                    builder.Append("return Command(command);");
-                    builder.Append("}");
+                    builder.Append($"[HttpPost]public HttpResponseMessage {name}([FromBody] {name}Command command){{return Command(command);}}");
+                }
+            }
+            if (NirvanaSetup.CanProcess(TaskType.InternalEvent))
+            {
+                foreach (var type in NirvanaSetup.InternalEventTypes[rootType])
+                {
+                    additionalNamespaces.Add(type.TaskType.Namespace);
+                    var name = type.TaskType.Name;
+                    builder.Append($"[HttpPost]public HttpResponseMessage {name}([FromBody] {name} internalEvent){{return InternalEvent(internalEvent);}}");
                 }
             }
            

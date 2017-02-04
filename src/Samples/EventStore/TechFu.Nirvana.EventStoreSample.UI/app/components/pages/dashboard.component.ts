@@ -14,35 +14,34 @@ import {ChannelService} from "../framework/signlar/channel.service";
 import {ChannelEvent, QueryResponse, AppConstants} from "../../models/CQRS/Common";
 
 
-
 @Component({
-    moduleId:module.id,
+    moduleId: module.id,
     selector: 'dashboard-component',
     templateUrl: 'dashboard.html',
     directives: [ROUTER_DIRECTIVES]
 })
-export class DashboardComponent extends BasePage implements OnInit{
+export class DashboardComponent extends BasePage implements OnInit {
 
-    private receivedMessage:string;
-    private sentMessage:string;
+    private receivedMessage: string;
+    private sentMessage: string;
     private channel = "tasks";
 
-    public model:HomePageViewModel ;
-    public cart:CartViewModel;
+    public model: HomePageViewModel;
+    public cart: CartViewModel;
 
     @ViewChild(ServerMessageListComponenet)
     private errorList: ServerMessageListComponenet;
 
-    constructor(_securityService:ServerService, errorService:ErrorService, private channelService: ChannelService) {
-        super(_securityService,errorService,null);
+    constructor(_securityService: ServerService, errorService: ErrorService, private channelService: ChannelService) {
+        super(_securityService, errorService, null);
         this.componentName = 'dashboard';
         this.registerEvents(this.errorList);
-        this.sentMessage='';
-        this.receivedMessage='';
+        this.sentMessage = '';
+        this.receivedMessage = '';
 
 
         this.channelService.sub(this.channel).subscribe(
-            (x:ChannelEvent) => {
+            (x: ChannelEvent) => {
                 switch (x.Name) {
                     case 'ProductCatalog::HomePageUpdatedUiEvent': {
                         this.refreshHomepageView();
@@ -52,7 +51,7 @@ export class DashboardComponent extends BasePage implements OnInit{
                     }
                 }
             },
-            (error:any) => {
+            (error: any) => {
                 console.warn("Attempt to join channel failed!", error);
             }
         )
@@ -60,45 +59,50 @@ export class DashboardComponent extends BasePage implements OnInit{
     }
 
 
-    ngOnInit(){
+    ngOnInit() {
         this.getSession();
         this.refreshHomepageView();
         this.refreshCart();
     }
 
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.disposeRegisteredEvents();
     }
 
-    refreshHomepageView(){
+    refreshHomepageView() {
         this._serverService.mediator.query(new GetHomepageCataglogViewModelQuery()).then(x=>this.setHomePageModel(<QueryResponse<HomePageViewModel>>x))
     }
 
-    setHomePageModel(model: QueryResponse<HomePageViewModel> ) {
-        this.model  = model.Result;
+    setHomePageModel(model: QueryResponse<HomePageViewModel>) {
+        this.model = model.Result;
     }
-    public refreshCart(){
-        this._serverService.mediator.query(new GetCartViewModelQuery(this._serverService.sessionId,true))
+
+    public refreshCart() {
+        this._serverService.mediator.query(new GetCartViewModelQuery(this._serverService.sessionId, true))
             .then(x=>this.setCartViewModel(<QueryResponse<CartViewModel>>x));
     }
 
-    public setCartViewModel(cart:QueryResponse<CartViewModel>){
-        if(cart.IsValid){this.cart = cart.Result;}
-        else {this.cart = new CartViewModel();}
+    public setCartViewModel(cart: QueryResponse<CartViewModel>) {
+        if (cart.IsValid) {
+            this.cart = cart.Result;
+        }
+        else {
+            this.cart = new CartViewModel();
+        }
 
 
     }
 
-    public addToCart(productId:string){
-        this._serverService.mediator.command(new AddProductToCartCommand(this._serverService.sessionId,productId,1))
+    public addToCart(productId: string) {
+        this._serverService.mediator.command(new AddProductToCartCommand(this._serverService.sessionId, productId, 1))
     }
 
-    public createTestCatalog(){
+    public createTestCatalog() {
         this._serverService.mediator.command(new CreateSampleCatalogCommand());
     }
 
-    public sendCommand(){
+    public sendCommand() {
         this._serverService.mediator.command(new TestCommand())
             .then(x=>this.showClicked());
     }
@@ -108,18 +112,18 @@ export class DashboardComponent extends BasePage implements OnInit{
     }
 
 
-    private appendStatusUpdate(ev:ChannelEvent):void {
-        this.receivedMessage += `${new Date().toLocaleTimeString()} : ` + JSON.stringify(ev.Data)+ '\n\n';
+    private appendStatusUpdate(ev: ChannelEvent): void {
+        this.receivedMessage += `${new Date().toLocaleTimeString()} : ` + JSON.stringify(ev.Data) + '\n\n';
     }
 
-    private clear(){
-        this.sentMessage='';
-        this.receivedMessage='';
+    private clear() {
+        this.sentMessage = '';
+        this.receivedMessage = '';
     }
 
     private getSession() {
 
-        this._serverService.mediator.query(new GetNewSessionViewModelQuery(this._serverService.sessionId,true))
+        this._serverService.mediator.query(new GetNewSessionViewModelQuery(this._serverService.sessionId, true))
             .then(x=>this._serverService.setSession(<QueryResponse<SessionViewModel>>x));
     }
 }
