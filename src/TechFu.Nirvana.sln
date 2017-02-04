@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25402.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana", "TechFu.Nirvana\TechFu.Nirvana.csproj", "{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}"
 EndProject
@@ -68,6 +68,21 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.SqlProvider", "TechFu.Nirvana.SqlProvider\TechFu.Nirvana.SqlProvider.csproj", "{4E56A351-06C7-4F01-B988-547D228394C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.MongoProvider", "TechFu.Nirvana.MongoProvider\TechFu.Nirvana.MongoProvider.csproj", "{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BBC2923A-A53E-4782-A56A-5E557AE59276}"
+	ProjectSection(SolutionItems) = preProject
+		default.ps1 = default.ps1
+		PsakeBootstrapper.ps1 = PsakeBootstrapper.ps1
+		restoreSolutionPackages.bat = restoreSolutionPackages.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScripts", "{12B4BFE5-4EA5-484C-B70F-B616F016A091}"
+	ProjectSection(SolutionItems) = preProject
+		BuildScripts\buildSteps.ps1 = BuildScripts\buildSteps.ps1
+		BuildScripts\buildUtilities.ps1 = BuildScripts\buildUtilities.ps1
+		BuildScripts\FileSystemhelpers.ps1 = BuildScripts\FileSystemhelpers.ps1
+		BuildScripts\packaging.ps1 = BuildScripts\packaging.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -166,6 +181,7 @@ Global
 		{C8BAE784-4FE1-4DB8-9DD1-470FB17C3A97} = {32A064C3-BA62-4410-A374-569F4590B21E}
 		{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71} = {32A064C3-BA62-4410-A374-569F4590B21E}
 		{DA980A43-C58F-4697-82D5-BD14BB209362} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
+		{22832FCA-268F-4F25-A141-90339D031E03} = {BBC2923A-A53E-4782-A56A-5E557AE59276}
 		{DCB5C9D3-8273-423F-99ED-578B0FBA90C8} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
 		{243C200C-6680-4649-A554-75751CA7EDAD} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
 		{1ECA6730-5BE1-41CE-BCA5-73AEC8506306} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}
@@ -176,5 +192,6 @@ Global
 		{5E01F8CB-BD51-4F63-AC1F-C99E8E35B844} = {1ECA6730-5BE1-41CE-BCA5-73AEC8506306}
 		{4E56A351-06C7-4F01-B988-547D228394C7} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
 		{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
+		{12B4BFE5-4EA5-484C-B70F-B616F016A091} = {BBC2923A-A53E-4782-A56A-5E557AE59276}
 	EndGlobalSection
 EndGlobal
