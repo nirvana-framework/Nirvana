@@ -67,7 +67,7 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 
 
             //Data Providers
-            x.For<IRepository>().Use<SqlRepository>();
+            x.For<IRepository<object>>().Use<SqlRepository<object>>();
             x.For<IViewModelRepository>().Use<MonogoViewModelRepository>();
             x.For<NirvanaMongoConfiguration>().Use(c=> new NirvanaMongoConfiguration
             {

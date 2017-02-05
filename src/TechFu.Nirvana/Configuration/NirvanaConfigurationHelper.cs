@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.CQRS.Util;
+using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.Configuration
@@ -16,9 +18,10 @@ namespace TechFu.Nirvana.Configuration
             _taskConfiguration = new Dictionary<TaskType, NirvanaTypeRoutingDefinition>();
         }
 
-        public NirvanaConfigurationHelper SetRootType(Type rootType)
+        public NirvanaConfigurationHelper SetRootType(Type rootType,Assembly typeAssembly)
         {
             NirvanaSetup.RootType = rootType;
+            NirvanaSetup.RootTypeAssembly = typeAssembly;
             return this;
         }
 
@@ -107,8 +110,13 @@ namespace TechFu.Nirvana.Configuration
 
         public void BuildConfiguration()
         {
+
+            var rootTypeNames = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes
+                (x => NirvanaSetup.RootType.IsAssignableFrom(x), NirvanaSetup.RootTypeAssembly)
+                .Select(x=>x.Name);
+
             NirvanaSetup.TaskIdentifierProperty = "Identifier";
-            NirvanaSetup.RootNames = EnumExtensions.GetAll(NirvanaSetup.RootType).SelectToArray(x => x.Value);
+            NirvanaSetup.RootNames = rootTypeNames.ToArray();
             NirvanaSetup.QueryTypes = NirvanaSetup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Query<>)));
             NirvanaSetup.CommandTypes = NirvanaSetup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Command<>)));
             NirvanaSetup.UiNotificationTypes = NirvanaSetup.RootNames.ToDictionary(x => x,

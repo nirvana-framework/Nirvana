@@ -9,14 +9,14 @@ namespace TechFu.Nirvana.TestFramework
     public abstract class TestBase<TSutType, TTaskType> where TTaskType : new()
     {
         protected IMediator Mediator;
-        protected IRepository Repository;
+        protected IRepository<object> Repository;
         protected TSutType Sut;
         protected TTaskType Task;
         public abstract Func<TSutType> Build { get; }
 
         protected TestBase()
         {
-            Repository = Substitute.For<IRepository>();
+            Repository = Substitute.For<IRepository<object>>();
             Mediator = Substitute.For<IMediator>();
             Task = new TTaskType();
 

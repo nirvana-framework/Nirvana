@@ -46,7 +46,12 @@ namespace TechFu.Nirvana.CQRS.Util
 
         public static Type[] ActionTypes(Type types, string rootType)
         {
-            var seedTypes = new[] {typeof(Command<>), NirvanaSetup.RootType};
+            var seedTypes = new[]
+            {
+                typeof(Command<>).Assembly,
+                NirvanaSetup.RootType.Assembly,
+                NirvanaSetup.RootTypeAssembly
+            };
 
 
             var matchesType = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.ClosesOrImplements(types), seedTypes);

@@ -17,7 +17,7 @@ using TechFu.Nirvana.Util.Tine;
 
 namespace TechFu.Nirvana.SqlProvider.Domain
 {
-    public class SqlRepository : IRepository
+    public class SqlRepository<TRoot> : IRepository<TRoot>
     {
         public static Action<DbContext> Configure = a => { };
 

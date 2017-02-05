@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TechFu.Nirvana.Data.EntityTypes;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.InternalEvents;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Domain.ShoppingCart
 {

@@ -1,8 +1,8 @@
 ﻿using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Security.Command;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Security.Events;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Security.ViewModels;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Command;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Events;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.ViewModels;
 using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Security.Commands

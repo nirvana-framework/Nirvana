@@ -14,7 +14,7 @@ namespace TechFu.Nirvana.Data
     }
 
 
-    public interface IRepository
+    public interface IRepository<TRoot>
     {
         T Get<T>(Guid id) where T : Entity<Guid>;
         T Get<T>(long id) where T : Entity<long>;

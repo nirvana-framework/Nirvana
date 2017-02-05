@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.WebApi.Controllers;

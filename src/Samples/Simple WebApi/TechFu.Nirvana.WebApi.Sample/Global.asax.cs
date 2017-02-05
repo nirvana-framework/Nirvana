@@ -28,7 +28,7 @@ namespace TechFu.Nirvana.WebApi.Sample
                 .UsingControllerName(config.ControllerAssemblyName, "TechFu.Nirvana.WebApi.Sample")
                 .WithAssembliesFromFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"))
                 .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
-                .SetRootType(config.RootType)
+                .SetRootType(config.RootType, this.GetType().Assembly)
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService, config.GetAllServices)

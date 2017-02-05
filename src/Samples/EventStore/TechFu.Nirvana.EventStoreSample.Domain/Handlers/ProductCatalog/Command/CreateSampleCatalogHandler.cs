@@ -4,24 +4,24 @@ using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ProductCatalog;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ShoppingCart;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.Commands;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.InternalEvents;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Commands;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.InternalEvents;
 using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
 {
     public class CreateSampleCatalogHandler : BaseNoOpCommandHandler<CreateSampleCatalogCommand>
     {
-        private readonly IRepository _repository;
+        private readonly IRepository<object> _repository;
 
-        public CreateSampleCatalogHandler(IRepository repository, IChildMediatorFactory mediator) : base(mediator)
+        public CreateSampleCatalogHandler(IRepository<object> repository, IChildMediatorFactory mediator)
+            : base(mediator)
         {
             _repository = repository;
         }
 
         public override CommandResponse<Nop> Handle(CreateSampleCatalogCommand task)
         {
-
             var oldCatalog = _repository.GetAll<Product>();
             _repository.DeleteCollection(_repository.GetAll<CartItem>());
             _repository.DeleteCollection(_repository.GetAll<Cart>());
@@ -59,7 +59,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
                     Id = Guid.NewGuid(),
                     LongDescription = "Test test",
                     ShortDescription = "Test"
-                },
+                }
             };
         }
     }

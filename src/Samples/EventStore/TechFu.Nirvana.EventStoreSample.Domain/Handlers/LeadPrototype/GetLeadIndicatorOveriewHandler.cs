@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Leads.Enumerations;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Leads.Query;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Leads.Enumerations;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Leads.Query;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Util.Io;
 

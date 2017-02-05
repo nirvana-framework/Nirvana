@@ -7,34 +7,31 @@ using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ProductCatalog;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.Security;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ShoppingCart;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.Commands;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.ProductCatalog.InternalEvents;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Security.Command;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Commands;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.InternalEvents;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Command;
 using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
 {
     public class AddProductToCartHandler : BaseNoOpCommandHandler<AddProductToCartCommand>
     {
-        private readonly IRepository _repository;
+        private readonly IRepository<object> _repository;
 
-        public AddProductToCartHandler(IRepository repository, IChildMediatorFactory mediator) : base(mediator)
+        public AddProductToCartHandler(IRepository<object> repository, IChildMediatorFactory mediator) : base(mediator)
         {
             _repository = repository;
         }
 
         public override CommandResponse<Nop> Handle(AddProductToCartCommand task)
         {
-
             var user = _repository.Get<SiteUser>(task.UserId);
 
             if (user == null)
-            {
                 Mediator.Command(new CreateAnonymousUserCommand
                 {
                     SessionId = task.UserId
                 });
-            }
 
             var cart = _repository
                            .GetAllAndInclude(new List<Expression<Func<Cart, object>>> {x => x.Items})
@@ -73,6 +70,5 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
                 ShortDescription = product.ShortDescription
             });
         }
-        
     }
 }

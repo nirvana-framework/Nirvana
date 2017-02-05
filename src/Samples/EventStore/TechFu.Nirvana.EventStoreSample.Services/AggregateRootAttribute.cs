@@ -1,41 +1,41 @@
 ﻿using System;
+using TechFu.Nirvana.Domain;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared
 {
-    public enum RootType
-    {
-        Infrastructure,
-        ProductCatalog,
-        Users,
-        Security,
-        Lead,
-    }
+
+
+    public class Infrastructure : RootType{}
+    public class ProductCatalog : RootType { }
+    public class Users : RootType { }
+    public class Security : RootType { }
+    public class Lead : RootType { }
 
     public class InfrastructureRoot : AggregateRootAttribute
     {
-        public static string RootName = RootType.Infrastructure.ToString();
-        public InfrastructureRoot(string identifier) : base(RootType.Infrastructure,identifier)
+        public static string RootName = nameof(Infrastructure);
+        public InfrastructureRoot(string identifier) : base(new Infrastructure(), identifier)
         {
         }
     }
     public class ProductCatalogRoot : AggregateRootAttribute
     {
-        public static string RootName = RootType.ProductCatalog.ToString();
-        public ProductCatalogRoot(string identifier) : base(RootType.ProductCatalog, identifier)
+        public static string RootName = nameof(ProductCatalog);
+        public ProductCatalogRoot(string identifier) : base(new ProductCatalog(), identifier)
         {
         }
     }
     public class SecurityRoot : AggregateRootAttribute
     {
-        public static string RootName = RootType.Security.ToString();
-        public SecurityRoot(string identifier) : base(RootType.Security, identifier)
+        public static string RootName = nameof(Security);
+        public SecurityRoot(string identifier) : base(new Security(), identifier)
         {
         }
     }
     public class LeadRoot : AggregateRootAttribute
     {
-        public static string RootName = RootType.Lead.ToString();
-        public LeadRoot(string identifier) : base(RootType.Lead, identifier)
+        public static string RootName = nameof(Lead);
+        public LeadRoot(string identifier) : base(new Lead(), identifier)
         {
         }
     }

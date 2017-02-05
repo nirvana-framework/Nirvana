@@ -38,8 +38,8 @@ namespace TechFu.Nirvana.WebApi.Startup
             }
 
             var rootType = controllerName == NirvanaSetup.UiNotificationHubName 
-                ? NirvanaSetup.UiNotificationHubName 
-                : Enum.Parse(NirvanaSetup.RootType, controllerName, true).ToString();
+                ? NirvanaSetup.UiNotificationHubName
+                : NirvanaSetup.RootNames.Single(x=>x.Equals(controllerName,StringComparison.CurrentCultureIgnoreCase));
 
             if (!HandledControllers.ContainsKey(rootType))
             {

@@ -34,7 +34,7 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.Queries.Configuration
                 .UsingControllerName(config.ControllerAssemblyName, config.RootNamespace)
                 .WithAssembliesFromFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"))
                 .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
-                .SetRootType(config.RootType)
+                .SetRootType(config.RootType,typeof(Services.Shared.Infrastructure).Assembly)
                 .SetAggregateAttributeType(config.AggregateAttributeType)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService, config.GetAllServices)

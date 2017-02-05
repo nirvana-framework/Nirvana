@@ -2,9 +2,9 @@
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Common;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Security.Command;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Security.Query;
-using TechFu.Nirvana.EventStoreSample.Services.Shared.Security.ViewModels;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Command;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Query;
+using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.ViewModels;
 using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Security.Queries

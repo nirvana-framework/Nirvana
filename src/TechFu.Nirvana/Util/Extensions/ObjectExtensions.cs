@@ -160,5 +160,12 @@ namespace TechFu.Nirvana.Util.Extensions
             return types.SelectMany(t => t.Assembly.GetTypes())
                 .Where(exclusionExpression).ToList();
         }
+       
+        public static List<Type> AddAllTypesFromAssembliesContainingTheseSeedTypes(
+            Func<Type, bool> exclusionExpression, params Assembly[] assemblies)
+        {
+            return assemblies.SelectMany(t => t.GetTypes())
+                .Where(exclusionExpression).ToList();
+        }
     }
 }
