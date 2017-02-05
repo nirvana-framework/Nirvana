@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decorators\ISaveChangesDecorator.cs" />
+    <Compile Include="Decorators\ModifiedCreatedDecorator.cs" />
+    <Compile Include="Decorators\RdbmsContext.cs" />
+    <Compile Include="Decorators\SaveChangesContext.cs" />
+    <Compile Include="Decorators\SaveChangesDecoratorFactory.cs" />
+    <Compile Include="Decorators\SaveChangesDecoratorType.cs" />
     <Compile Include="Domain\SqlRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

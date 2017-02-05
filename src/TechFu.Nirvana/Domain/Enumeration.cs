@@ -7,14 +7,6 @@ using System.Reflection;
 
 namespace TechFu.Nirvana.Domain
 {
-    public abstract class RootType
-    {
-
-
-
-    }
-
-
     public interface IEnumeration
     {
         object Value { get; }

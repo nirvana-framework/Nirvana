@@ -79,6 +79,7 @@
     <Compile Include="CQRS\QueryResponse.cs" />
     <Compile Include="CQRS\Response.cs" />
     <Compile Include="CQRS\ValidationMessage.cs" />
+    <Compile Include="Domain\RootType.cs" />
     <Compile Include="Domain\ViewModelBuilder.cs" />
     <Compile Include="Mediation\BaseNoOpCommandHandler.cs" />
     <Compile Include="Mediation\ICommandHandler.cs" />
