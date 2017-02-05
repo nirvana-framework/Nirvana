@@ -18,7 +18,6 @@
 
   </metadata>
   <files>
-    <file src="bin\Debug\TechFu.Nirvana.dll" target="lib\net461" />
-    <file src="bin\Debug\TechFu.Nirvana.pdb" target="lib\net461" />
+    <file src="bin\debug\*.dll" target="lib" />
   </files>
 </package>

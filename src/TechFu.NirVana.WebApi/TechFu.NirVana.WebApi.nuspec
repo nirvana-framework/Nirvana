@@ -44,7 +44,7 @@
 
   </metadata>
   <files>
-    <file src="bin\Debug\TechFu.Nirvana.WebApi.dll" target="lib\net461" />
-    <file src="bin\Debug\TechFu.Nirvana.WebApi.pdb" target="lib\net461" />
+    <file src="bin\Debug\TechFu.Nirvana.WebApi.dll" target="lib" />
+    <file src="bin\Debug\TechFu.Nirvana.WebApi.pdb" target="lib" />
   </files>
 </package>
