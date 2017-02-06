@@ -1,5 +1,5 @@
 using System.Data.Entity.Migrations;
-using TechFu.Nirvana.EventStoreSample.Infrastructure.Domain;
+using TechFu.Nirvana.SqlProvider;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.Migrations
 {

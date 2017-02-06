@@ -1,6 +1,10 @@
+using TechFu.Nirvana.Domain;
+
 namespace TechFu.Nirvana.TestFramework.CQRS
 {
-    public abstract class CqrsTestBase<TSutType, TTaskType> : TestBase<TSutType, TTaskType> where TTaskType : new()
+    public abstract class CqrsTestBase<TSutType, TTaskType, TRootType> : TestBase<TSutType, TTaskType,TRootType> 
+        where TTaskType : new()
+        where TRootType: RootType
     {
     }
 }

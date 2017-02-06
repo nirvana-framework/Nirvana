@@ -1,13 +1,13 @@
 ﻿using TechFu.Nirvana.CQRS;
+using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.TestFramework.CQRS
 {
-    public abstract class QueryBaseTest<TSutType, TCommandType, TOppType> : CqrsTestBase<TSutType, TCommandType>
+    public abstract class QueryBaseTest<TSutType, TCommandType, TOppType,TRootType> : CqrsTestBase<TSutType, TCommandType,TRootType>
         where TSutType : IQueryHandler<TCommandType, TOppType>
-        where TCommandType : Query<TOppType>, new()
+        where TCommandType : Query<TOppType>, new() where TRootType : RootType
     {
-        private readonly CqrsTestBase<TSutType, TCommandType> _cqrsTestBase;
         protected QueryResponse<TOppType> Result;
 
         public override void RunTest()

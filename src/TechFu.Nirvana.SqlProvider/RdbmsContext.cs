@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Reflection;
 using EntityFramework.DynamicFilters;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.Data.EntityTypes;
@@ -67,12 +68,22 @@ namespace TechFu.Nirvana.SqlProvider
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
+
+        protected static IEnumerable<Type> EntityTypesByNamespace(string baseNamespace, Assembly assembly)
+        {
+            return assembly.GetTypes()
+                .Where(
+                    x =>
+                        !x.IsAbstract && typeof(Entity).IsAssignableFrom(x) &&
+                        x.Namespace.Contains(baseNamespace));
+        }
+
     }
 
 
 
     public abstract class RdbmsContext<T> : RdbmsContext 
-        where T: AggregateRootAttribute
+        where T: RootType
     {
 
 
@@ -98,8 +109,6 @@ namespace TechFu.Nirvana.SqlProvider
             {
                 entityMethod.MakeGenericMethod(type).Invoke(modelBuilder, new object[] {});
             }
-            
-            
             modelBuilder.Filter("SoftDelete", (ISoftDelete e) => e.Deleted == null || !e.Deleted.HasValue);
 
         }

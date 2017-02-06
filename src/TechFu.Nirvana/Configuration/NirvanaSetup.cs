@@ -19,9 +19,7 @@ namespace TechFu.Nirvana.Configuration
         public static string AssemblyFolder { get; set; }
         public static string ControllerAssemblyName { get; set; }
         public static string ControllerRootNamespace { get; set; }
-        public static Type RootType { get; internal set; }
         public static Assembly RootTypeAssembly { get; internal set; }
-        public static Type AggregateAttributeType { get; internal set; }
         public static string TaskIdentifierProperty { get; internal set; }
         public static  Func<string, object, bool> AttributeMatchingFunction { get; internal set; }
         public static  string[] AssemblyNameReferences { get; internal set; }

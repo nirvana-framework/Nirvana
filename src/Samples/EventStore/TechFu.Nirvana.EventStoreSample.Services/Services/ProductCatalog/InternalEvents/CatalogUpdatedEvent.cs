@@ -2,7 +2,7 @@
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.InternalEvents
 {
-    [ProductCatalogRoot("CatalogUpdatedEvent")]
+    [ProductCatalogRoot(typeof(CatalogUpdatedEvent))]
     public class CatalogUpdatedEvent : InternalEvent
     {
     }

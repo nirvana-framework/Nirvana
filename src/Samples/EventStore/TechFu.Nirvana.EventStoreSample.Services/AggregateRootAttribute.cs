@@ -5,37 +5,54 @@ namespace TechFu.Nirvana.EventStoreSample.Services.Shared
 {
 
 
-    public class Infrastructure : RootType{}
-    public class ProductCatalog : RootType { }
-    public class Users : RootType { }
-    public class Security : RootType { }
-    public class Lead : RootType { }
+    public class InfrastructureRoot : RootType
+    {
+        public override string RootName => "Infrastructure";
+    }
+    public class ProductCatalogRoot : RootType
+    {
+        public override string RootName => "ProductCatalog";
+    }
+    public class UsersRoot : RootType
+    {
+        public override string RootName => "Users";
+    }
+    public class SecurityRoot : RootType
+    {
+        public override string RootName => "Security";
+    }
+    public class LeadRoot : RootType
+    {
+        public override string RootName => "Lead";
+    }
 
-    public class InfrastructureRoot : AggregateRootAttribute
+    public class InfrastructureRootAttribute : AggregateRootAttribute
     {
-        public override string RootName => nameof(Infrastructure);
-        public InfrastructureRoot(string identifier) : base(new Infrastructure(), identifier)
+        public InfrastructureRootAttribute(Type identifierType) : base(new InfrastructureRoot(), identifierType)
         {
         }
     }
-    public class ProductCatalogRoot : AggregateRootAttribute
+    public class ProductCatalogRootAttribute : AggregateRootAttribute
     {
-        public override string RootName => nameof(ProductCatalog);
-        public ProductCatalogRoot(string identifier) : base(new ProductCatalog(), identifier)
+        public ProductCatalogRootAttribute(Type identifierType) : base(new ProductCatalogRoot(), identifierType)
         {
         }
     }
-    public class SecurityRoot : AggregateRootAttribute
+    public class UsersRootAttribute : AggregateRootAttribute
     {
-        public override string RootName => nameof(Security);
-        public SecurityRoot(string identifier) : base(new Security(), identifier)
+        public UsersRootAttribute(Type identifierType) : base(new UsersRoot(), identifierType)
         {
         }
     }
-    public class LeadRoot : AggregateRootAttribute
+    public class SecurityRootAttribute : AggregateRootAttribute
     {
-        public override string RootName => nameof(Lead);
-        public LeadRoot(string identifier) : base(new Lead(), identifier)
+        public SecurityRootAttribute(Type identifierType) : base(new SecurityRoot(), identifierType)
+        {
+        }
+    }
+    public class LeadRootAttribute : AggregateRootAttribute
+    {
+        public LeadRootAttribute(Type identifierType) : base(new LeadRoot(), identifierType)
         {
         }
     }

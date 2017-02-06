@@ -21,8 +21,6 @@ namespace TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor.Configuration
 
         public  string[] AssemblyNameReferences => new[]
         {
-            "TechFu.Nirvana.dll",
-            "TechFu.Nirvana.WebApi.dll",
             "TechFu.Nirvana.EventStoreSample.Domain.dll",
             "TechFu.Nirvana.EventStoreSample.Infrastructure.dll",
             "TechFu.Nirvana.EventStoreSample.Services.Shared.dll",

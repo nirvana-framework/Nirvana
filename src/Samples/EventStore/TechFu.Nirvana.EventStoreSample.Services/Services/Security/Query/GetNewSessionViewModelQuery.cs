@@ -4,7 +4,7 @@ using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.ViewMode
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Query
 {
-    [SecurityRoot("GetNewSessionViewModelQuery")]
+    [SecurityRoot(typeof(GetNewSessionViewModelQuery))]
     public class GetNewSessionViewModelQuery:Query<SessionViewModel>
     {
         public Guid SessionId { get; set; }

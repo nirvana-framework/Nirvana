@@ -7,7 +7,9 @@ using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
+using TechFu.Nirvana.EventStoreSample.Infrastructure.Domain;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
+using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Mediation.Implementation;
 using TechFu.Nirvana.MongoProvider;
@@ -16,7 +18,6 @@ using TechFu.Nirvana.Util;
 using TechFu.Nirvana.Util.Io;
 using TechFu.Nirvana.Util.Tine;
 using TechFu.Nirvana.WebUtils;
-using RdbmsContext = TechFu.Nirvana.EventStoreSample.Infrastructure.Domain.RdbmsContext;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 {
@@ -67,7 +68,6 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 
 
             //Data Providers
-            x.For<IRepository<object>>().Use<SqlRepository<object>>();
             x.For<IViewModelRepository>().Use<MonogoViewModelRepository>();
             x.For<NirvanaMongoConfiguration>().Use(c=> new NirvanaMongoConfiguration
             {
@@ -80,7 +80,20 @@ namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
             });
 
             //TODO - plug in the connection string DR provider
-            x.For<DbContext>().Use(d=>new RdbmsContext(SaveChangesDecoratorType.Live, "DataStoreConnectionString"));
+            x.For<RdbmsContext<InfrastructureRoot>>().Use(d=>new InfrastructureContext(SaveChangesDecoratorType.Live));
+            x.For<IRepository<InfrastructureRoot>>().Use<SqlRepository<InfrastructureRoot>>();
+
+            x.For<RdbmsContext<UsersRoot>>().Use(d=>new UsersContext(SaveChangesDecoratorType.Live));
+            x.For<IRepository<UsersRoot>>().Use<SqlRepository<UsersRoot>>();
+
+            x.For<RdbmsContext<SecurityRoot>>().Use(d=>new SecurityContext(SaveChangesDecoratorType.Live));
+            x.For<IRepository<SecurityRoot>>().Use<SqlRepository<SecurityRoot>>();
+
+            x.For<RdbmsContext<LeadRoot>>().Use(d=>new LeadContext(SaveChangesDecoratorType.Live));
+            x.For<IRepository<LeadRoot>>().Use<SqlRepository<LeadRoot>>();
+
+            x.For<RdbmsContext<ProductCatalogRoot>>().Use(d=>new ProductCatalogContext(SaveChangesDecoratorType.Live));
+            x.For<IRepository<ProductCatalogRoot>>().Use<SqlRepository<ProductCatalogRoot>>();
 
 
             x.For<IQueueController>().Singleton().Use<AzureQueueController>();

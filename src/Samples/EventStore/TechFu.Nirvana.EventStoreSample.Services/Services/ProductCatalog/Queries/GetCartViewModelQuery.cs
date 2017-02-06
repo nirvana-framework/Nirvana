@@ -4,7 +4,7 @@ using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Vi
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Queries
 {
-    [ProductCatalogRoot("GetCartViewModelQuery")]
+    [ProductCatalogRoot(typeof(GetCartViewModelQuery))]
     public class GetCartViewModelQuery : Query<CartViewModel>
     {
         public Guid UserId { get; set; }

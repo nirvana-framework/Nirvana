@@ -3,6 +3,7 @@ using Should;
 using TechFu.Nirvana.AzureQueues.Handlers;
 using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS.Queue;
+using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.TestFramework;
@@ -68,7 +69,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
     }
 
-    public class AzureQueueFactoryTests : TestBase<AzureQueueFactory, TestCommand>
+    public class AzureQueueFactoryTests : TestBase<AzureQueueFactory, TestCommand,RootType>
     {
         private int MessageCount;
 

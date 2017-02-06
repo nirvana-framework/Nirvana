@@ -2,7 +2,7 @@
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Commands
 {
-    [ProductCatalogRoot("UpdateHomePageViewModelCommand")]
+    [ProductCatalogRoot(typeof(UpdateHomePageViewModelCommand))]
     public class UpdateHomePageViewModelCommand : NopCommand
     {
     }

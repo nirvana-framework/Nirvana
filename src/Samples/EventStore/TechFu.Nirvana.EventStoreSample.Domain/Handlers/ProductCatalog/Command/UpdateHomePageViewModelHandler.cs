@@ -6,6 +6,7 @@ using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ProductCatalog;
+using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Commands;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.UINotifications;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.ViewModels;
@@ -15,10 +16,10 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
 {
     public class UpdateHomePageViewModelHandler : BaseNoOpCommandHandler<UpdateHomePageViewModelCommand>
     {
-        private readonly IRepository<object> _repository;
+        private readonly IRepository<ProductCatalogRoot> _repository;
         private readonly IViewModelRepository _viewModelRepository;
 
-        public UpdateHomePageViewModelHandler(IViewModelRepository viewModelRepository, IRepository<object> repository,
+        public UpdateHomePageViewModelHandler(IViewModelRepository viewModelRepository, IRepository<ProductCatalogRoot> repository,
             IChildMediatorFactory mediator) : base(mediator)
         {
             _viewModelRepository = viewModelRepository;

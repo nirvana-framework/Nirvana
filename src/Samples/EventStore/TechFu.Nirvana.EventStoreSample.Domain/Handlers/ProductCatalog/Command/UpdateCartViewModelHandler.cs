@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ShoppingCart;
+using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Commands;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.InternalEvents;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.ViewModels;
@@ -14,10 +15,10 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
 {
     public class UpdateCartViewModelHandler : BaseNoOpCommandHandler<UpdateCartViewModelCommand>
     {
-        private readonly IRepository<object> _repository;
+        private readonly IRepository<ProductCatalogRoot> _repository;
         private readonly IViewModelRepository _viewModelRepository;
 
-        public UpdateCartViewModelHandler(IRepository<object> repository, IViewModelRepository viewModelRepository,
+        public UpdateCartViewModelHandler(IRepository<ProductCatalogRoot> repository, IViewModelRepository viewModelRepository,
             IChildMediatorFactory mediator) : base(mediator)
         {
             _repository = repository;

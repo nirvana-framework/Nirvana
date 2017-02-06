@@ -18,9 +18,8 @@ namespace TechFu.Nirvana.Configuration
             _taskConfiguration = new Dictionary<TaskType, NirvanaTypeRoutingDefinition>();
         }
 
-        public NirvanaConfigurationHelper SetRootType(Type rootType,Assembly typeAssembly)
+        public NirvanaConfigurationHelper SetRootTypeAssembly(Assembly typeAssembly)
         {
-            NirvanaSetup.RootType = rootType;
             NirvanaSetup.RootTypeAssembly = typeAssembly;
             return this;
         }
@@ -33,11 +32,7 @@ namespace TechFu.Nirvana.Configuration
             return this;
         }
 
-        public NirvanaConfigurationHelper SetAggregateAttributeType(Type attributeType)
-        {
-            NirvanaSetup.AggregateAttributeType = attributeType;
-            return this;
-        }
+     
 
         public NirvanaConfigurationHelper SetAttributeMatchingFunction(Func<string, object, bool> method)
         {
@@ -47,7 +42,14 @@ namespace TechFu.Nirvana.Configuration
 
         public NirvanaConfigurationHelper SetAdditionalAssemblyNameReferences(string[] refrences)
         {
-            NirvanaSetup.AssemblyNameReferences = refrences;
+
+             var commonReferences = new[]
+                {
+                    "TechFu.Nirvana.dll",
+                    "TechFu.Nirvana.WebApi.dll"
+                };
+
+        NirvanaSetup.AssemblyNameReferences = commonReferences.Concat(refrences).ToArray();
             return this;
         }
 
@@ -112,8 +114,8 @@ namespace TechFu.Nirvana.Configuration
         {
 
             var rootTypeNames = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes
-                (x => NirvanaSetup.RootType.IsAssignableFrom(x), NirvanaSetup.RootTypeAssembly)
-                .Select(x=>x.Name);
+                (x => typeof(RootType).IsAssignableFrom(x), NirvanaSetup.RootTypeAssembly)
+                .Select(x=>(Activator.CreateInstance(x) as RootType).RootName);
 
             NirvanaSetup.TaskIdentifierProperty = "Identifier";
             NirvanaSetup.RootNames = rootTypeNames.ToArray();

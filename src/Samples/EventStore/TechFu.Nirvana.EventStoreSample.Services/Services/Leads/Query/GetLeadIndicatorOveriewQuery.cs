@@ -5,7 +5,7 @@ using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Leads.Enumeration
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Leads.Query
 {
-    [LeadRoot("GetLeadIndicatorOveriewQuery")]
+    [LeadRoot(typeof(GetLeadIndicatorOveriewQuery))]
     public class GetLeadIndicatorOveriewQuery :Query<LeadIndicatorViewModel>
     {
         public Guid LeadId { get; set; }

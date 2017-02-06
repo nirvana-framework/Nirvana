@@ -12,20 +12,22 @@ using EntityFramework.DynamicFilters;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.Data.EntityTypes;
+using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.Util.Extensions;
 using TechFu.Nirvana.Util.Tine;
 
 namespace TechFu.Nirvana.SqlProvider
 {
     public class SqlRepository<TRoot> : IRepository<TRoot>
+        where TRoot: RootType
     {
-        public static Action<DbContext> Configure = a => { };
+        public static Action<RdbmsContext<TRoot>> Configure = a => { };
 
         private readonly ConcurrentDictionary<Type, object> _dbSets = new ConcurrentDictionary<Type, object>();
 
-        private DbContext _context;
+        private RdbmsContext<TRoot> _context;
 
-        public SqlRepository(DbContext context)
+        public SqlRepository(RdbmsContext<TRoot> context)
         {
             _context = context;
         }

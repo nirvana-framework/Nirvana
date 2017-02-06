@@ -48,8 +48,7 @@ namespace TechFu.Nirvana.EventStoreSample.QueueCommandProcessor
             var config = new CommandProcessorNirvanaConfig();
             NirvanaSetup.Configure()
                 .SetAdditionalAssemblyNameReferences(config.AssemblyNameReferences)
-                .SetRootType(config.RootType, typeof(Services.Shared.Infrastructure).Assembly)
-                .SetAggregateAttributeType(config.AggregateAttributeType)
+                .SetRootTypeAssembly( typeof(Services.Shared.InfrastructureRoot).Assembly)
                 .SetAttributeMatchingFunction(config.AttributeMatchingFunction)
                 .SetDependencyResolver(config.GetService,config.GetAllServices)
                 .ForCommands(MediationStrategy.ForwardToWeb, MediationStrategy.ForwardToQueue, MediationStrategy.ForwardToQueue)

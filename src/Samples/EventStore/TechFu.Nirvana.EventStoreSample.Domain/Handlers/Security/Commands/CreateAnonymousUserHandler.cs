@@ -1,6 +1,7 @@
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.Security;
+using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Command;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Events;
 using TechFu.Nirvana.Mediation;
@@ -10,9 +11,9 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Security.Commands
 {
     public class CreateAnonymousUserHandler : BaseNoOpCommandHandler<CreateAnonymousUserCommand>
     {
-        private readonly IRepository<object> _repository;
+        private readonly IRepository<SecurityRoot> _repository;
 
-        public CreateAnonymousUserHandler(IRepository<object> repository, IChildMediatorFactory mediator)
+        public CreateAnonymousUserHandler(IRepository<SecurityRoot> repository, IChildMediatorFactory mediator)
             : base(mediator)
         {
             _repository = repository;

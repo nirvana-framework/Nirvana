@@ -21,8 +21,6 @@ namespace TechFu.Nirvana.WebApi.Sample
 
         public  string[] AssemblyNameReferences => new[]
         {
-            "TechFu.Nirvana.dll",
-            "TechFu.Nirvana.WebApi.dll",
             "TechFu.Nirvana.WebApi.Sample.dll"
         };
 

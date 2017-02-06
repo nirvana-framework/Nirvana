@@ -3,7 +3,7 @@ using TechFu.Nirvana.CQRS;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Commands
 {
-    [ProductCatalogRoot("AddProductToCartCommand")]
+    [ProductCatalogRoot(typeof(AddProductToCartCommand))]
     public class AddProductToCartCommand : NopCommand
     {
         public Guid UserId { get; set; }

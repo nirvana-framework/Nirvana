@@ -3,7 +3,7 @@ using TechFu.Nirvana.Domain;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.ViewModels
 {
-    [ProductCatalogRoot("CartViewModel")]
+    [ProductCatalogRoot(typeof(CartViewModel))]
     public class CartViewModel : ViewModel<Guid>
     {
         public CartItemViewModel[] Items { get; set; }

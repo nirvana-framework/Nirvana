@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using TechFu.Nirvana.CQRS;
 using TechFu.Nirvana.Data.EntityTypes;
+using TechFu.Nirvana.Domain;
 
 namespace TechFu.Nirvana.Data
 {
@@ -14,7 +15,7 @@ namespace TechFu.Nirvana.Data
     }
 
 
-    public interface IRepository<TRoot>
+    public interface IRepository<TRoot> where TRoot : RootType
     {
         T Get<T>(Guid id) where T : Entity<Guid>;
         T Get<T>(long id) where T : Entity<long>;

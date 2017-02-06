@@ -2,7 +2,7 @@
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Commands
 {
-    [ProductCatalogRoot("CreateSampleCatalogCommand")]
+    [ProductCatalogRoot(typeof(CreateSampleCatalogCommand))]
     public class CreateSampleCatalogCommand : NopCommand
     {
     }

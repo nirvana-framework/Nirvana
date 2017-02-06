@@ -3,7 +3,7 @@ using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Vi
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Queries
 {
-    [ProductCatalogRoot("GetHomepageCataglogViewModelQuery")]
+    [ProductCatalogRoot(typeof(GetHomepageCataglogViewModelQuery))]
     public class GetHomepageCataglogViewModelQuery : Query<HomePageViewModel>
     {
     }

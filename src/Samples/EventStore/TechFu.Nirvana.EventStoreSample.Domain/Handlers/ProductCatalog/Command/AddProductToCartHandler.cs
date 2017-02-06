@@ -7,6 +7,7 @@ using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ProductCatalog;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.Security;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ShoppingCart;
+using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Commands;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.InternalEvents;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Command;
@@ -16,9 +17,9 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
 {
     public class AddProductToCartHandler : BaseNoOpCommandHandler<AddProductToCartCommand>
     {
-        private readonly IRepository<object> _repository;
+        private readonly IRepository<ProductCatalogRoot> _repository;
 
-        public AddProductToCartHandler(IRepository<object> repository, IChildMediatorFactory mediator) : base(mediator)
+        public AddProductToCartHandler(IRepository<ProductCatalogRoot> repository, IChildMediatorFactory mediator) : base(mediator)
         {
             _repository = repository;
         }

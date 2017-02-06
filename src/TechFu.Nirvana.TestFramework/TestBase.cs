@@ -2,21 +2,25 @@ using System;
 using System.Linq.Expressions;
 using NSubstitute;
 using TechFu.Nirvana.Data;
+using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.TestFramework
 {
-    public abstract class TestBase<TSutType, TTaskType> where TTaskType : new()
+    public abstract class TestBase<TSutType, TTaskType,TRootType> 
+        where TTaskType : new()
+        where TRootType:RootType
+
     {
         protected IMediator Mediator;
-        protected IRepository<object> Repository;
         protected TSutType Sut;
         protected TTaskType Task;
+        protected IRepository<TRootType> Repository;
         public abstract Func<TSutType> Build { get; }
 
         protected TestBase()
         {
-            Repository = Substitute.For<IRepository<object>>();
+            Repository = Substitute.For<IRepository<TRootType>>();
             Mediator = Substitute.For<IMediator>();
             Task = new TTaskType();
 

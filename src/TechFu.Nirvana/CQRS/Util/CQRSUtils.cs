@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using TechFu.Nirvana.Configuration;
+using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.CQRS.Util
@@ -49,7 +50,6 @@ namespace TechFu.Nirvana.CQRS.Util
             var seedTypes = new[]
             {
                 typeof(Command<>).Assembly,
-                NirvanaSetup.RootType.Assembly,
                 NirvanaSetup.RootTypeAssembly
             };
 
@@ -68,7 +68,7 @@ namespace TechFu.Nirvana.CQRS.Util
 
         public static Attribute CustomAttribute(Type x)
         {
-            return Attribute.GetCustomAttribute(x, NirvanaSetup.AggregateAttributeType);
+            return Attribute.GetCustomAttribute(x, typeof(AggregateRootAttribute));
         }
 
 
