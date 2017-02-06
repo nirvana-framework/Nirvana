@@ -15,7 +15,7 @@ using TechFu.Nirvana.Data.EntityTypes;
 using TechFu.Nirvana.Util.Extensions;
 using TechFu.Nirvana.Util.Tine;
 
-namespace TechFu.Nirvana.SqlProvider.Domain
+namespace TechFu.Nirvana.SqlProvider
 {
     public class SqlRepository<TRoot> : IRepository<TRoot>
     {

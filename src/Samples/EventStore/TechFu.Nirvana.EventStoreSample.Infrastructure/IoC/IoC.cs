@@ -7,16 +7,16 @@ using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.CQRS.Queue;
 using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
-using TechFu.Nirvana.EventStoreSample.Infrastructure.Domain;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.Mediation.Implementation;
 using TechFu.Nirvana.MongoProvider;
-using TechFu.Nirvana.SqlProvider.Domain;
+using TechFu.Nirvana.SqlProvider;
 using TechFu.Nirvana.Util;
 using TechFu.Nirvana.Util.Io;
 using TechFu.Nirvana.Util.Tine;
 using TechFu.Nirvana.WebUtils;
+using RdbmsContext = TechFu.Nirvana.EventStoreSample.Infrastructure.Domain.RdbmsContext;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 {

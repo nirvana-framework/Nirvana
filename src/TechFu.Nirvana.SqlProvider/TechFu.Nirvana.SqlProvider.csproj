@@ -57,13 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Decorators\ISaveChangesDecorator.cs" />
-    <Compile Include="Decorators\ModifiedCreatedDecorator.cs" />
-    <Compile Include="Decorators\RdbmsContext.cs" />
-    <Compile Include="Decorators\SaveChangesContext.cs" />
-    <Compile Include="Decorators\SaveChangesDecoratorFactory.cs" />
-    <Compile Include="Decorators\SaveChangesDecoratorType.cs" />
-    <Compile Include="Domain\SqlRepository.cs" />
+    <Compile Include="RdbmsContext.cs" />
+    <Compile Include="SqlRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +74,9 @@
       <Project>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</Project>
       <Name>TechFu.Nirvana</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

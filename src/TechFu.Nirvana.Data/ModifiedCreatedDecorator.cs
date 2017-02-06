@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Linq;
-using TechFu.Nirvana.Data;
 using TechFu.Nirvana.Data.EntityTypes;
-using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.Util.Extensions;
 using TechFu.Nirvana.Util.Tine;
 
-namespace TechFu.Nirvana.SqlProvider.Decorators
+namespace TechFu.Nirvana.Data
 {
     public class ModifiedCreatedDecorator : ISaveChangesDecorator
     {
-        public int Decorate<T>(SaveChangesContext<T> context) where T: AggregateRootAttribute
+        public int Decorate(SaveChangesContext context) 
         {
             var dateTime = new SystemTime().UtcNow();
 
             var currentUserName = "unknown";
 
-            context.Context.ChangeTracker.Entries<Entity>()
-                .Where(x => x.State == EntityState.Added)
-                .Select(x => x.Entity)
+            context.Context.GetEntities(EntityChangeState.Added)
                 .ForEach(x =>
                 {
                     x.Created = dateTime;
@@ -41,9 +35,7 @@ namespace TechFu.Nirvana.SqlProvider.Decorators
 
                 });
 
-            context.Context.ChangeTracker.Entries<Entity>()
-                .Where(x => x.State == EntityState.Modified)
-                .Select(x => x.Entity)
+            context.Context.GetEntities(EntityChangeState.Modified)
                 .ForEach(x =>
                 {
                     x.Updated = dateTime;

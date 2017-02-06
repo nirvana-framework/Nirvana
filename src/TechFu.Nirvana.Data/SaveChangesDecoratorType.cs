@@ -1,4 +1,4 @@
-﻿namespace TechFu.Nirvana.SqlProvider.Decorators
+﻿namespace TechFu.Nirvana.Data
 {
     public enum SaveChangesDecoratorType
     {

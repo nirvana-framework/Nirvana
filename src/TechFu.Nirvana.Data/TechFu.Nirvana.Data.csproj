@@ -44,11 +44,16 @@
     <Compile Include="EntityTypes\Entity.cs" />
     <Compile Include="EntityTypes\SoftDeletedEntity.cs" />
     <Compile Include="EntityTypes\ViewModel.cs" />
+    <Compile Include="IDataContext.cs" />
+    <Compile Include="ISaveChangesDecorator.cs" />
     <Compile Include="IViewModelRepository.cs" />
     <Compile Include="IRepository.cs" />
-    <Compile Include="ISaveChangesDecorator.cs" />
     <Compile Include="ISoftDelete.cs" />
+    <Compile Include="ModifiedCreatedDecorator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveChangesContext.cs" />
+    <Compile Include="SaveChangesDecoratorFactory.cs" />
+    <Compile Include="SaveChangesDecoratorType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TechFu.Nirvana\TechFu.Nirvana.csproj">

@@ -1,5 +1,8 @@
-﻿namespace TechFu.Nirvana.Data
+﻿
+namespace TechFu.Nirvana.Data
 {
-   
-
+    public interface ISaveChangesDecorator
+    {
+        int Decorate(SaveChangesContext context);
+    }
 }
