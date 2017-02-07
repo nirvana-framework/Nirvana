@@ -21,7 +21,6 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
         {
             return new TestCommandHandler(new ChildMediatorFactory()).Handle(arg).Success();
         }
-
         public class when_a_handler_fails : AzureQueueTests
         {
             public when_a_handler_fails()
@@ -37,7 +36,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
                 queue.DoWork<TestCommand>(x => ProcessCommand(command), false, true);
                 messageCount = queue.GetMessageCount();
             }
-            [Fact]
+            [Fact(Skip = "explicit")]
             public void should_not_remove_message()
             {
                 messageCount.ShouldEqual(1);
@@ -60,7 +59,7 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
                 queue.DoWork<TestCommand>(x => ProcessCommand(command), false, true);
                 messageCount = queue.GetMessageCount();
             }
-            [Fact]
+            [Fact(Skip = "explicit")]
             public void should_not_remove_message()
             {
                 messageCount.ShouldEqual(0);
@@ -118,13 +117,13 @@ namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 
         public class when_sending_to_azure_queues : AzureQueueFactoryTests
         {
-            [Fact]
+            [Fact(Skip = "explicit")]
             public void should_have_no_messages()
             {
                 MessageCount.ShouldEqual(0);
             }
-
-            [Fact]
+            
+            [Fact(Skip = "explicit")]
             public void should_send_and_recieve_message()
             {
                 Result.Test.ShouldEqual("this is a test");
