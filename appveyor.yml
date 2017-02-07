@@ -1,5 +1,6 @@
 version: 1.0.{build}
 before_build:
+  - cd src
   - nuget restore
 build:
   project: src\TechFu.Nirvana.sln
