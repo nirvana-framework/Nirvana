@@ -5,7 +5,7 @@ environment:
   testLocation: TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll
   searchdirs: -searchdirs:&quot;TechFu.Nirvana\bin\Debug&quot;
   register: -register:user
-  outputFile: -output:coverage.xml
+  outputFile: coverage.xml
   openCverLocation: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe
   coversallslocation: packages\coveralls.io.1.3.4\tools\coveralls.net.exe
 
@@ -18,5 +18,5 @@ build:
 
 after_test: 
 # generate report for NUnit testing framework:
-  -cmd:$env:openCverLocation -register:user -filter:"+[*]*" -target:"$env:xunitLocation" -targetargs:"$env:testLocation" env:searchdirs env:outputFile
-  -cmd:$env:coversallslocation --opencover coverage.xml
+  -cmd:$env:openCverLocation -register:user -filter:"+[*]*" -target:"$env:xunitLocation" -targetargs:"$env:testLocation" $env:searchdirs -output:$env:outputFile
+  -cmd:$env:coversallslocation --opencover $end:outputFile
