@@ -12,6 +12,7 @@ environment:
 before_build:
   - cd src
   - nuget restore
+  - echo ${opencoverLocation}
 build:
   project: src\TechFu.Nirvana.sln
   verbosity: minimal
