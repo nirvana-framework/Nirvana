@@ -132,10 +132,6 @@
       <Project>{47e14cff-8608-4da3-b6c6-6fa23effbe89}</Project>
       <Name>TechFu.Nirvana.AzureQueues</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\TechFu.Nirvana.Data\TechFu.Nirvana.Data.csproj">
-      <Project>{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}</Project>
-      <Name>TechFu.Nirvana.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\TechFu.Nirvana.MongoProvider\TechFu.Nirvana.MongoProvider.csproj">
       <Project>{9E3C624E-FF4E-4C86-B763-E4311D3A1B1D}</Project>
       <Name>TechFu.Nirvana.MongoProvider</Name>

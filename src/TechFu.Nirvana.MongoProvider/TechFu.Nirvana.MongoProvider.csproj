@@ -60,10 +60,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TechFu.Nirvana.Data\TechFu.Nirvana.Data.csproj">
-      <Project>{1332ad6e-f98f-4cd7-a353-b9f94c7fc13f}</Project>
-      <Name>TechFu.Nirvana.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TechFu.Nirvana\TechFu.Nirvana.csproj">
       <Project>{6d5e2ca2-1da6-4436-ba8a-93e1d44d2576}</Project>
       <Name>TechFu.Nirvana</Name>

@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +70,17 @@
     <Compile Include="CQRS\UiNotifications\INirvanaNotificationHub.cs" />
     <Compile Include="CQRS\UiNotifications\IUiNotificationHub.cs" />
     <Compile Include="CQRS\Util\CQRSUtils.cs" />
+    <Compile Include="Data\EntityTypes\Entity.cs" />
+    <Compile Include="Data\EntityTypes\SoftDeletedEntity.cs" />
+    <Compile Include="Data\IDataContext.cs" />
+    <Compile Include="Data\IRepository.cs" />
+    <Compile Include="Data\ISaveChangesDecorator.cs" />
+    <Compile Include="Data\ISoftDelete.cs" />
+    <Compile Include="Data\IViewModelRepository.cs" />
+    <Compile Include="Data\ModifiedCreatedDecorator.cs" />
+    <Compile Include="Data\SaveChangesContext.cs" />
+    <Compile Include="Data\SaveChangesDecoratorFactory.cs" />
+    <Compile Include="Data\SaveChangesDecoratorType.cs" />
     <Compile Include="Domain\Enumeration.cs" />
     <Compile Include="CQRS\Command.cs" />
     <Compile Include="CQRS\CommandResponse.cs" />

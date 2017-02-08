@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="EntityTypes\Entity.cs" />
     <Compile Include="EntityTypes\SoftDeletedEntity.cs" />
-    <Compile Include="EntityTypes\ViewModel.cs" />
     <Compile Include="IDataContext.cs" />
     <Compile Include="ISaveChangesDecorator.cs" />
     <Compile Include="IViewModelRepository.cs" />

@@ -46,6 +46,13 @@ task buildAndPackage  -depends ShowMsBuildVersion{
 	restore-packages $source $TestAssetPath
 	build-and-package #buildutilities.ps1		
 }
+task analyze  {
+	#build and package
+	. initialize-build	
+	#restore-packages $source $TestAssetPath
+	#clean-and-build #buildutilities.ps1		
+	run_analysis $source
+}
 
 task ShowMsBuildVersion {
   msbuild /version

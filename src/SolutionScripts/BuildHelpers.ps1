@@ -7,3 +7,6 @@ function global:psake-fastBuild {
 function global:psake-package {
 	.\psakebootstrapper.ps1 master buildAndPackage
 }
+function global:psake-analyze {
+	.\psakebootstrapper.ps1 master analyze
+}

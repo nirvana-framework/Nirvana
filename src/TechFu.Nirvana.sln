@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26020.0
+VisualStudioVersion = 15.0.26127.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana", "TechFu.Nirvana\TechFu.Nirvana.csproj", "{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}"
 EndProject
@@ -31,12 +31,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.IntegrationT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.TestFramework", "TechFu.Nirvana.TestFramework\TechFu.Nirvana.TestFramework.csproj", "{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.Data", "TechFu.Nirvana.Data\TechFu.Nirvana.Data.csproj", "{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSample.WebAPI.Commands", "Samples\EventStore\TechFu.Nirvana.EventStoreSample.WebAPI.Commands\TechFu.Nirvana.EventStoreSample.WebAPI.Commands.csproj", "{DA980A43-C58F-4697-82D5-BD14BB209362}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionScripts", "SolutionScripts", "{22832FCA-268F-4F25-A141-90339D031E03}"
 	ProjectSection(SolutionItems) = preProject
+		SolutionScripts\BuildHelpers.ps1 = SolutionScripts\BuildHelpers.ps1
 		SolutionScripts\database.ps1 = SolutionScripts\database.ps1
 		SolutionScripts\hosts.ps1 = SolutionScripts\hosts.ps1
 		SolutionScripts\iis.ps1 = SolutionScripts\iis.ps1
@@ -87,8 +86,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2E52E6C1-6FB1-4DF9-B23F-74F47042F23E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C61140FC-1ACF-4D12-9370-5A13216A2E2E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{033E464B-C69B-4D4E-ABBC-E303D21A93EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{D7B1131A-1EED-4624-B124-60E0C59753C8}"
 EndProject
@@ -212,18 +209,6 @@ Global
 		{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71}.Release|x64.Build.0 = Release|Any CPU
 		{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71}.Release|x86.ActiveCfg = Release|Any CPU
 		{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71}.Release|x86.Build.0 = Release|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Debug|x64.Build.0 = Debug|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Debug|x86.Build.0 = Debug|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Release|x64.ActiveCfg = Release|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Release|x64.Build.0 = Release|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Release|x86.ActiveCfg = Release|Any CPU
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}.Release|x86.Build.0 = Release|Any CPU
 		{DA980A43-C58F-4697-82D5-BD14BB209362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DA980A43-C58F-4697-82D5-BD14BB209362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA980A43-C58F-4697-82D5-BD14BB209362}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -360,7 +345,6 @@ Global
 		{47E14CFF-8608-4DA3-B6C6-6FA23EFFBE89} = {DADA71F0-6FE0-48B6-AE77-F309F30A1DC1}
 		{C8BAE784-4FE1-4DB8-9DD1-470FB17C3A97} = {32A064C3-BA62-4410-A374-569F4590B21E}
 		{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71} = {C61140FC-1ACF-4D12-9370-5A13216A2E2E}
-		{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F} = {033E464B-C69B-4D4E-ABBC-E303D21A93EA}
 		{DA980A43-C58F-4697-82D5-BD14BB209362} = {DCB5C9D3-8273-423F-99ED-578B0FBA90C8}
 		{22832FCA-268F-4F25-A141-90339D031E03} = {BBC2923A-A53E-4782-A56A-5E557AE59276}
 		{DCB5C9D3-8273-423F-99ED-578B0FBA90C8} = {067A0AC9-F027-41AC-9FE3-69C376876A6E}

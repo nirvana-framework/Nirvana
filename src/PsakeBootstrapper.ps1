@@ -18,6 +18,7 @@ $packages+=(Create-package-object 'Nuget.CommandLine' $null)
 $packages+=(Create-package-object 'Xunit' $null)
 $packages+=(Create-package-object 'azurestorageemulator' $null)
 $packages+=(Create-package-object 'opencover.portable' '4.6.519' $false)
+$packages+=(Create-package-object 'coveralls.io' '1.3.4' $true)
 $packages+=(Create-package-object 'reportgenerator.portable' '2.5.0.0' $false)
 $packs=(choco list -lo)
 

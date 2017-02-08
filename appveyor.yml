@@ -1,12 +1,25 @@
 version: 1.0.{build}
+
+environment:
+	xunitLocation:"packages\xunit.runner.console.2.1.0\tools\xunit.console.exe"
+	testLocation:TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll"
+	searchdirs:"-searchdirs:&quot;TechFu.Nirvana\bin\Debug&quot;"
+	register:"-register:user"
+	outputFile:"-output:coverage.xml"
+    openCverLocation :"\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe"
+
 before_build:
   - cd src
   - nuget restore
 build:
   project: src\TechFu.Nirvana.sln
   verbosity: minimal
+
 after_test: 
-    - packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe" -targetargs:"/noresults /noisolation /testcontainer:"".\MyUnitTests\bin\Debug\MyUnitTests.dll" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:.\MyProject_coverage.xml 
-    - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
-    - pip install codecov
-    - codecov -f "MyProject_coverage.xml"	
+# generate report for NUnit testing framework:
+    -cmd: %openCverLocation% -register:user -filter:"+[*]*" -target:"%xunitLocation%" -targetargs:"%testLocation%" %searchdirs% %outputFile%
+
+# generate report for MSTest testing framework:
+#    -cmd: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:YOURPROJECT.Tests/bin/debug/YOURPROJECT.Tests.dll" -output:coverage.xml
+
+    - cmd: packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml

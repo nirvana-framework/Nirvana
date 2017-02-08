@@ -69,10 +69,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\TechFu.Nirvana.Data\TechFu.Nirvana.Data.csproj">
-      <Project>{1332AD6E-F98F-4CD7-A353-B9F94C7FC13F}</Project>
-      <Name>TechFu.Nirvana.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TechFu.Nirvana.EventStoreSample.Services\TechFu.Nirvana.EventStoreSample.Services.Shared.csproj">
       <Project>{D6626170-C962-48B9-B0D3-275B34DD6D7A}</Project>
       <Name>TechFu.Nirvana.EventStoreSample.Services.Shared</Name>

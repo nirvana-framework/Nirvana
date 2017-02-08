@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using TechFu.Nirvana.Data.EntityTypes;
 
 namespace TechFu.Nirvana.Data
@@ -14,6 +13,6 @@ namespace TechFu.Nirvana.Data
         Unchanged = 1,
         Added = 2,
         Deleted = 4,
-        Modified = 8,
+        Modified = 8
     }
 }
