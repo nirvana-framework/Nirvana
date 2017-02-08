@@ -3,7 +3,7 @@ version: 1.0.{build}
 environment:
   xunitLocation: packages\xunit.runner.console.2.1.0\tools\xunit.console.exe
   testLocation: TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll
-  searchdirs: -searchdirs:&quot;TechFu.Nirvana\bin\Debug&quot;
+  searchdirs: "&quot;TechFu.Nirvana\bin\Debug"
   register: -register:user
   outputFile: coverage.xml
   openCverLocation: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe
@@ -20,5 +20,5 @@ build:
 test_script: 
 # run open cover and push to coveralls
   #- packages\OpenCover.4.5.3522\OpenCover.Console.exe -register:user -filter:"+[AutoHashing]*" -target:"packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -targetargs:"AutoHasher.Test\bin\debug\AutoHasher.Test.dll /domain:single /noshadow" -output:"coverage.xml"
-  - cmd: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"$env:xunitLocation" -targetargs:"$env:testLocation" $env:searchdirs -output:$env:outputFile
+  - cmd: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"$env:xunitLocation" -targetargs:"$env:testLocation" -searchdirs:"$env:searchdirs" -output:$env:outputFile
   - $env:coversallslocation --opencover $env:outputFile
