@@ -19,5 +19,5 @@ build:
 # run open cover and push to coveralls
 test_script: 
   - echo: XUnit Location:${xunitLocation}
-  - cmd: ${opencoverLocation} -register:user -filter:"+[*]*" -target:"${$env:xunitLocation}" -targetargs:"${xunitLocation}" -searchdirs:"${searchdirs}" -output:${outputFile}
+  - cmd: ${opencoverLocation} -register:user -filter:"+[*]*" -target:"${xunitLocation}" -targetargs:"${testLocation}" -searchdirs:"${searchdirs}" -output:${outputFile}
   - ${coversallslocation} --opencover ${outputFile}
