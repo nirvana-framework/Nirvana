@@ -17,7 +17,7 @@ build:
 
 after_test: 
 # generate report for NUnit testing framework:
-  -cmd: %openCverLocation% -register:user -filter:"+[*]*" -target:"%xunitLocation%" -targetargs:"%testLocation%" %searchdirs% %outputFile%
+  -cmd:$env:openCverLocation -register:user -filter:"+[*]*" -target:"env:xunitLocation" -targetargs:"env:testLocation" env:searchdirs env:outputFile
 
 # generate report for MSTest testing framework:
 #    -cmd: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe" -targetargs:"/testcontainer:YOURPROJECT.Tests/bin/debug/YOURPROJECT.Tests.dll" -output:coverage.xml
