@@ -17,6 +17,6 @@ build:
   verbosity: minimal
 
 after_test: 
-# generate report for NUnit testing framework:
+# run open cover and push to coveralls
   -cmd:$env:openCverLocation -register:user -filter:"+[*]*" -target:"$env:xunitLocation" -targetargs:"$env:testLocation" $env:searchdirs -output:$env:outputFile
-  -cmd:$env:coversallslocation --opencover $end:outputFile
+  -cmd:$env:coversallslocation --opencover $env:outputFile
