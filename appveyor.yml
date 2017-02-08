@@ -5,7 +5,7 @@ environment:
   testLocation: TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll
   searchdirs: TechFu.Nirvana\bin\Debug
   outputFile: coverage.xml
-  openCverLocation: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe
+  opencoverLocation: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe
   coversallslocation: packages\coveralls.io.1.3.4\tools\coveralls.net.exe  
   COVERALLS_REPO_TOKEN:
     secure: 3GdseosXgFoKKGTlxCnx4ufignGtNLGgxWDDskoA/2lb2NlFqIo5B1i72NerCpY4
@@ -19,5 +19,5 @@ build:
 # run open cover and push to coveralls
 test_script: 
   - echo: XUnit Location:${xunitLocation}
-  - cmd: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"($env:xunitLocation)" -targetargs:"${xunitLocation}" -searchdirs:"$env:searchdirs" -output:$env:outputFile
-  - $env:coversallslocation --opencover $env:outputFile 
+  - cmd: ${opencoverLocation} -register:user -filter:"+[*]*" -target:"${$env:xunitLocation}" -targetargs:"${xunitLocation}" -searchdirs:"${searchdirs}" -output:${outputFile}
+  - ${coversallslocation} --opencover ${outputFile}
