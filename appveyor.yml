@@ -3,7 +3,7 @@ version: 1.0.{build}
 environment:
   xunitLocation: packages\xunit.runner.console.2.1.0\tools\xunit.console.exe
   testLocation: TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll
-  searchdirs: "TechFu.Nirvana\bin\Debug"
+  searchdirs: TechFu.Nirvana\bin\Debug
   register: -register:user
   outputFile: coverage.xml
   openCverLocation: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe
