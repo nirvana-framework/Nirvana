@@ -18,6 +18,6 @@ build:
   
 # run open cover and push to coveralls
 test_script: 
-  - cmd: "echo XUnit Location: %xunitLocation%"
-  - cmd: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"($env:xunitLocation)" -targetargs:"$env:testLocation" -searchdirs:"$env:searchdirs" -output:$env:outputFile
+  - echo: XUnit Location:${xunitLocation}
+  - cmd: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"($env:xunitLocation)" -targetargs:"${xunitLocation}" -searchdirs:"$env:searchdirs" -output:$env:outputFile
   - $env:coversallslocation --opencover $env:outputFile 
