@@ -90,39 +90,3 @@ param($sourcePath)
 
 
 }
-
-function dummy(){
-
-
- %ChocolateyInstall%\lib\opencover.portable\tools\OpenCover.Console.exe -target:"%ChocolateyInstall%\lib\XUnit\tools\xunit\xunit.console.exe" ^
- -targetargs:"TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll" ^
- -searchdirs:"QS.Core\bin\Debug;packages\CsvHelper.2.2.2\lib\net40-client;packages\structuremap.4.1.1.372\lib\dotnet" ^
- -output:"..\unittest.coverage.raw.xml" ^
- -filter:"+[*]* -[UnitTests]* -[StructureMap]* -[CsvHelper]* -[Octokit]* " ^
- -register:user
-
-
-
-
- $a = "$sourcePath\generatemetrics.bat" 
-	 & $a | Out-Null
-
-	$reportPath = "$sourcePath\..\unittest.coverage.raw.xml"
-	$uploaderPath = "$sourcePath\..\CodecovUploader.sh"
-	$arguments = "-f $reportPath -t fd2ea931-1b48-4597-a850-fbe58c58020e -X gcov"
-	
-	if ($env:BUILD_NUMBER -ne "1.0.0.0") {	
-		Write-Host "uploading to codecov"				
-		Invoke-WebRequest -Uri "https://codecov.io/bash" -OutFile $uploaderPath
-		Start-Process $uploaderPath $arguments -Wait
-		#Invoke-Expression "$uploaderPath -f $reportPath -t fd2ea931-1b48-4597-a850-fbe58c58020e -X gcov"	
-	}
-	else{	
-		Write-Host "Building Report"		
-		$gen="$packages\reportgenerator.portable\tools\ReportGenerator.exe"
-		& $gen "-reports:$sourcePath\..\unittest.coverage.raw.xml" "-targetdir:$sourcePath\..\OpenCover\UnitTestReport"
-		Start-Process "chrome.exe" "$sourcePath\..\OpenCover\UnitTestReport\index.htm"		
-	}
-}
-
-
