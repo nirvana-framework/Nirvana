@@ -11,7 +11,6 @@ environment:
     secure: 3GdseosXgFoKKGTlxCnx4ufignGtNLGgxWDDskoA/2lb2NlFqIo5B1i72NerCpY4
 before_build:
   - cd src
-  - echo ${opencoverLocation}
   - echo %opencoverLocation%
   - nuget restore
 build:
@@ -21,5 +20,5 @@ build:
 # run open cover and push to coveralls
 test_script: 
   - echo: XUnit Location:${xunitLocation}
-  - cmd ${opencoverLocation} -register:user -filter:"+[*]*" -target:"${xunitLocation}" -targetargs:"${testLocation}" -searchdirs:"${searchdirs}" -output:${outputFile}
-  - cmd ${coversallslocation} --opencover ${outputFile}
+  - cmd %opencoverLocation% -register:user -filter:"+[*]*" -target:"%xunitLocation%" -targetargs:"%testLocation%" -searchdirs:"%searchdirs%" -output:$%outputFile%
+  - cmd %coversallslocation% --opencover %outputFile%
