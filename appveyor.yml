@@ -18,5 +18,6 @@ build:
 
 after_test: 
 # run open cover and push to coveralls
-  -cmd:$env:openCverLocation -register:user -filter:"+[*]*" -target:"$env:xunitLocation" -targetargs:"$env:testLocation" $env:searchdirs -output:$env:outputFile
-  -cmd:$env:coversallslocation --opencover $env:outputFile
+  #- packages\OpenCover.4.5.3522\OpenCover.Console.exe -register:user -filter:"+[AutoHashing]*" -target:"packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -targetargs:"AutoHasher.Test\bin\debug\AutoHasher.Test.dll /domain:single /noshadow" -output:"coverage.xml"
+  - $env:openCverLocation -register:user -filter:"+[*]*" -target:"$env:xunitLocation" -targetargs:"$env:testLocation" $env:searchdirs -output:$env:outputFile
+  - $env:coversallslocation --opencover $env:outputFile
