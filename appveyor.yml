@@ -3,6 +3,7 @@ before_build:
   - cd src
   - ps: $scripts =@()
   - ps: $path= Resolve-Path ./
+  - ps: new-item "buildoutput"	-Force -ItemType Directory 
   - ps: Get-ChildItem (Join-Path ($path) \BuildScripts\*.ps1)  | ForEach { 		$scripts += $_.FullName	} 
   - ps: $scripts | ForEach { . $_} 
   - nuget restore
