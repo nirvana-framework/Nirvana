@@ -55,6 +55,7 @@ function validate-packaging (){
 function run_analysis(){
 param($sourcePath)
 	Write-Host "Generating Coverage report"		
+	$outputPath = resolve-path ".\buildoutput"
 	$chocoPath = "$env:ChocolateyInstall\lib"
 	$xunitLocation = "packages\xunit.runner.console.2.1.0\tools\xunit.console.exe"	
 	$testLocation="TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll"
@@ -62,24 +63,23 @@ param($sourcePath)
 	$targetArgs="-targetargs:`"$testLocation`""
 	$searchdirs="-searchdirs:`"TechFu.Nirvana\bin\Debug`""
 	$register="-register:user"
-	$outputFile="-output:.\buildoutput\coverage.xml"
+	$outputFile="-output:$outputPath\coverage.xml"
 
 	$openCverLocation ="packages\OpenCover.4.6.519\tools\OpenCover.Console.exe"
 	$paramList="$target","$targetArgs","$searchdirs","$register","$outputFile"
 	& $openCverLocation $paramList
-	#$env:COVERALLS_REPO_TOKEN="GT8AnmNpEXG36MkOqKkfm0zDid9Qs59rL"
 	if($env:COVERALLS_REPO_TOKEN -ne $null){	
 		Write-Host "Uploading to Coveralls"		
 		$coverallsLocation ="packages\coveralls.io.1.3.4\tools\coveralls.net.exe"
-		$caparams="--opencover","buildoutput\coverage.xml"
+		$caparams="--opencover","$outputPath\coverage.xml"
 		& $coverallsLocation $caparams 
 	}
 	else{
 		Write-Host "Building Report"		
 		$gen="packages\ReportGenerator.2.5.2\tools\ReportGenerator.exe"
-		$rparams= "-reports:`"buildoutput\coverage.xml`"","-targetdir:`"buildOutput\OpenCover\UnitTestReport`""
+		$rparams= "-reports:`"$outputPath\coverage.xml`"","-targetdir:`"$outputPath\OpenCover\UnitTestReport`""
 		& $gen $rparams
-		Start-Process "chrome.exe" "buildOutput\OpenCover\UnitTestReport\index.htm"		
+		Start-Process "chrome.exe" "$outputPath\OpenCover\UnitTestReport\index.htm"		
 	}
 
 
