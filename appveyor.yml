@@ -15,15 +15,17 @@ environment:
 
 build:
   project: src\TechFu.Nirvana.sln
-  verbosity: minimal
+  verbosity: minimal  
+  publish_nuget: true
+  include_nuget_references: true
+  parallel: true
+
   
 # run open cover and push to coveralls
 test_script: 
   - ps: run_analysis
 
-after_test:
-  - ps: package_all_projects
-  - ps: validate-packaging
+
 
 deploy:
   provider: NuGet                # remove to push to NuGet.org
