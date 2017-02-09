@@ -17,3 +17,4 @@ build:
   
 # run open cover and push to coveralls
 test_script: 
+  - ps: run_analysis
