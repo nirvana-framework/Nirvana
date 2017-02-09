@@ -19,6 +19,7 @@ build:
   
 # run open cover and push to coveralls
 test_script: 
+    - ps: $scripts =@()
     - ps: $path= Resolve-Path ./
     - ps: Get-ChildItem (Join-Path ($path) \BuildScripts\*.ps1)  | ForEach { 		$scripts += $_.FullName	} 
     - ps: $scripts | ForEach { . $_} 
