@@ -17,7 +17,7 @@ build:
   project: src\TechFu.Nirvana.sln
   verbosity: minimal 
   parallel: true
-after_build
+after_build:
   - nuget pack TechFu.Nirvana\TechFu.Nirvana.nuspec -Version $(version) -OutputDirectory buildoutput 
   
 # run open cover and push to coveralls
