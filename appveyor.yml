@@ -20,3 +20,14 @@ build:
 # run open cover and push to coveralls
 test_script: 
   - ps: run_analysis
+
+after_test:
+  - ps: package_all_projects
+  - ps: validate-packaging
+
+deploy:
+  provider: NuGet                # remove to push to NuGet.org
+  api_key:
+    secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
+  skip_symbols: false
+  artifact: /.*\buildoutput.nupkg/
