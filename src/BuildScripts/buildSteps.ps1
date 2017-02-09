@@ -62,7 +62,7 @@ param($sourcePath)
 	$targetArgs="-targetargs:`"$testLocation`""
 	$searchdirs="-searchdirs:`"TechFu.Nirvana\bin\Debug`""
 	$register="-register:user"
-	$outputFile="-output:buildoutput\coverage.xml"
+	$outputFile="-output:.\buildoutput\coverage.xml"
 
 	$openCverLocation ="packages\OpenCover.4.6.519\tools\OpenCover.Console.exe"
 	$paramList="$target","$targetArgs","$searchdirs","$register","$outputFile"
@@ -72,7 +72,7 @@ param($sourcePath)
 	if($env:COVERALLS_REPO_TOKEN -ne $null){	
 		Write-Host "Uploading to Coveralls"		
 		$coverallsLocation ="packages\coveralls.io.1.3.4\tools\coveralls.net.exe"
-		$caparams="--opencover","buildoutput\coverage.xml"
+		$caparams="--opencover",".\buildoutput\coverage.xml"
 		& $coverallsLocation $caparams 
 	}
 	else{
