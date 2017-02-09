@@ -30,7 +30,7 @@ Features coming:
 - A working WebAPI seed app that can be downloaded and run.
 
 
-Questions? Comments? Concerns?  Feel free to shoot me a note. (testing org switch)
+Questions? Comments? Concerns?  Feel free to shoot me a note. 
 
 
  
