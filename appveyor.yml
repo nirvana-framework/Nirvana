@@ -11,7 +11,7 @@ before_build:
 
 environment:
   COVERALLS_REPO_TOKEN:
-    secure: Fh9IlfRd5IN9SeOTYw2yJB/cyTY/wgI2h4DodDz5tW/qlabO1lkjoxcj1AY9BZrG
+    secure: 7m6u4U6aBEF9AUPt6XP+4zCNAkPgc8IUF34QJZ0qxHqSMJbeNvNsfdKpblLCwtFX
 
 build:
   project: src\TechFu.Nirvana.sln
