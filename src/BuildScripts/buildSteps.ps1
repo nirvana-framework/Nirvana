@@ -56,11 +56,9 @@ function validate-packaging (){
 
 function run_analysis(){
 param($sourcePath)
-	Write-Host "Generating Coverage report"	
-	
+	Write-Host "Generating Coverage report"		
 	$chocoPath = "$env:ChocolateyInstall\lib"
-	$xunitLocation = "packages\xunit.runner.console.2.1.0\tools\xunit.console.exe"
-	
+	$xunitLocation = "packages\xunit.runner.console.2.1.0\tools\xunit.console.exe"	
 	$testLocation="TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll"
 	$target="-target:`"$xunitLocation`""
 	$targetArgs="-targetargs:`"$testLocation`""
@@ -68,7 +66,7 @@ param($sourcePath)
 	$register="-register:user"
 	$outputFile="-output:$sourcePath\coverage.xml"
 
-	$openCverLocation ="$sourcePath\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe"
+	$openCverLocation ="packages\OpenCover.4.6.519\tools\OpenCover.Console.exe"
 	$paramList="$target","$targetArgs","$searchdirs","$register","$outputFile"
 	& $openCverLocation $paramList
 
