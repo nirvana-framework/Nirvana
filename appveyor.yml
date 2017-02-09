@@ -27,15 +27,12 @@ build:
   parallel: true
   publish_nuget: true
   publish_nuget_symbols: true
-  include_nuget_references: true
+  include_nuget_references: false
 
 # run open cover and push to coveralls
 test_script: 
   - ps: run_analysis
 
-artifacts:
-  # pushing all *.nupkg files in build directory recursively
-  - path: '**\*.nupkg'
 
 
 deploy:
