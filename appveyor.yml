@@ -19,15 +19,5 @@ build:
   
 # run open cover and push to coveralls
 test_script: 
-    ps: |
-	  $xunitLocation = "packages\xunit.runner.console.2.1.0\tools\xunit.console.exe"
-      $testLocation="TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll"
-	  $target="-target:`"$xunitLocation`""
-	  $targetArgs="-targetargs:`"$testLocation`""
-	  $searchdirs="-searchdirs:`"TechFu.Nirvana\bin\Debug`""
-	  $register="-register:user"
-	  $outputFile="-output:coverage.xml"
-
-	  $openCverLocation ="packages\OpenCover.4.6.519\tools\OpenCover.Console.exe"
-	  $paramList="$target","$targetArgs","$searchdirs","$register","$outputFile"
-	  & $openCverLocation $paramList
+    - ps: Get-ChildItem (Join-Path ($path) \BuildScripts\*.ps1)  | ForEach { 		$scripts += $_.FullName	} 
+    - ps: $scripts | ForEach { . $_} 
