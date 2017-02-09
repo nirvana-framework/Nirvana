@@ -9,8 +9,8 @@ namespace TechFu.Nirvana.CQRS.Queue
         NirvanaTaskInformation MessageTypeRouting { get; }
         void Send<TCommandType>(TCommandType message);
         int GetMessageCount();
-        void DoWork<T>(Func<object, bool> work, bool failOnException = false, bool requeueOnFailure = true);
         void GetAndExecute(int numberOfConsumers);
+        void DoWork<TInput>(Func<object, bool> work, bool failOnException = false, bool requeueOnFailure = true);
     }
 
     public interface IQueue<out TQueueMessageType>: IQueue

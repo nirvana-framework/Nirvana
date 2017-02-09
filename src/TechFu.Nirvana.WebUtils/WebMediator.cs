@@ -47,7 +47,7 @@ namespace TechFu.Nirvana.WebUtils
                 var httpResponseMessage = _httpClient.UiEvent(uri.ToString(), uiEevent).Result;
                 return UIEventResponse.Succeeded();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return UIEventResponse.Failed();
             }
@@ -63,7 +63,7 @@ namespace TechFu.Nirvana.WebUtils
                 var response = BuildInternalEventResponse(httpResponseMessage);
                 return response;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return InternalEventResponse.Failed();
             }

@@ -62,20 +62,24 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
 
         private async Task DoWork(CancellationToken ct)
         {
-            try
+            await Task.Run(() =>
             {
+                try
+                {
+                    InternalQueueController.GetAndExecute(Queue, NumberOfConsumers);
 
-                InternalQueueController.GetAndExecute(Queue, NumberOfConsumers);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-            //TODO - handle multiple items here...
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+                //TODO - handle multiple items here...})
+            });
+
+
+
         }
-
-       
     }
 
     internal class InternalQueueController

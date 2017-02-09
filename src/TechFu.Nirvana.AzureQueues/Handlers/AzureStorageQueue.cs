@@ -44,10 +44,10 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             _queue = client.GetQueueReference(_queueName.ToLower());
             MessageTypeRouting = messageTypeRouting;
             VisibilityTimeout = timeout != null
-                ? timeout > SevenDays.TotalMilliseconds
-                    ? SevenDays
+                ? timeout > QueueHelper.SevenDays.TotalMilliseconds
+                    ? QueueHelper.SevenDays
                     : TimeSpan.FromMilliseconds(timeout.Value)
-                : DefaultVisibilityTimeout;
+                : QueueHelper.DefaultVisibilityTimeout;
             _queue.CreateIfNotExists();
             _queue.Metadata.Add("Name",_queueName);
             _client = client;
@@ -125,7 +125,7 @@ namespace TechFu.Nirvana.AzureQueues.Handlers
             {
                 success = work(typed.Body);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if (failOnException)
                 {
