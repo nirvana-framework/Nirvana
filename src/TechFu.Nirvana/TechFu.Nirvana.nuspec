@@ -3,7 +3,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Nirvana</id>
-    <version>0.0.1</version>
+    <version>$version$</version>
     <authors>Jason Cavaliere</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Glue for .NET and Web applications</description>

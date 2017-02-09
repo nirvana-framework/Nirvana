@@ -17,9 +17,10 @@ build:
   project: src\TechFu.Nirvana.sln
   verbosity: minimal 
   parallel: true
-after_build:
-  - nuget pack TechFu.Nirvana\TechFu.Nirvana.nuspec -Version $(version) -OutputDirectory buildoutput 
-  
+  publish_nuget: true
+  publish_nuget_symbols: true
+  include_nuget_references: true
+
 # run open cover and push to coveralls
 test_script: 
   - ps: run_analysis
@@ -34,4 +35,4 @@ deploy:
   api_key:
     secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
   skip_symbols: false
-  artifact: \buildoutput\*.nupkg/
+  artifact: /.*\.nupkg/
