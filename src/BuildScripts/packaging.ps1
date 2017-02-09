@@ -5,32 +5,14 @@ param($versionNumber)
 		$_.FullName -NotLike "*obj*" -and $_.FullName -NotLike  "*\.bower\cache*" -and $_.FullName -NotLike  "*npm*"-and $_.FullName -NotLike  "*bower_components*" -and $_.FullName -NotLike  "*test*"
 	}
 	$exe = [string](Resolve-Path "$env:ChocolateyInstall\lib\NuGet.CommandLine\tools\nuget.exe" )
+		
+	foreach($nuspec in $nuspecs){	
+		"packaging $($nuspec.FullName)" | out-host
+		Push-Location $nuspec.Directory
+			& $exe pack  $($nuspec.FullName) -Version $versionNumber -NoPackageAnalysis -OutputDirectory ..\  | Out-File "buildoutput\packaging.log" -Append	
+		Pop-Location
+	}	
 	
-	if( (($env:PACKAGE_PARALLEL) -eq $null) -or (($env:PACKAGE_PARALLEL) -ne "true" ) ){
-		"running serial package creation" | out-host	
-		foreach($nuspec in $nuspecs){	
-			"packaging $($nuspec.FullName)" | out-host
-			Push-Location $nuspec.Directory
-				& $exe pack  $($nuspec.FullName) -Version $versionNumber -NoPackageAnalysis -OutputDirectory ..\  | Out-File "$TestAssetPath\packaging.log" -Append	
-			Pop-Location
-		}	
-	}
-	else{	
-		"running parallel package creation" | out-host	
-		foreach($nuspec in $nuspecs){
-			$scriptblocks +=  [scriptblock]::Create({
-		    "packaging $($nuspec.FullName)" | out-host
-			Push-Location $nuspec.Directory
-				cd $($nuspec.Directory)
-				& $exe pack  $($nuspec.FullName) -Version $versionNumber -NoPackageAnalysis -OutputDirectory ..\  | Out-File "$TestAssetPath\packaging.log" -Append
-			})
-			Pop-Location
-		}
-		foreach($block in $scriptblocks){
-			Start-Job -ScriptBlock $block 
-		}
-		wait_for_jobs_to_finish "packaging.log"
-	}
 }
 
 filter Where-NotMatch($Selector,[String[]]$Like,[String[]]$Regex) {
@@ -55,14 +37,14 @@ filter Where-NotMatch($Selector,[String[]]$Like,[String[]]$Regex) {
 
 
 function fail-on-missed-packaging(){
-param($searchString, $pattern, $logName)
-	$result = Select-String -Path $searchString -Pattern $pattern
+param($searchFileName, $pattern, $logName)
+	$result = Select-String -Path $searchFileName -Pattern $pattern
 	if($result -eq $null){
 		$message = "could not find $pattern when searching for $logName packaging"
 		throw $message
 	}
 	else
 	{
-		$result  | foreach { $_ | Out-File "$TestAssetPath\packaging.log" -Append}
+		$result  | foreach { $_ | Out-File "buildoutput\packaging.log" -Append}
 	}
 }

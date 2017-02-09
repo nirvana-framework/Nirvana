@@ -2,39 +2,37 @@
 
 function clean-build-logs-and-test-data()
 {
-
-	log "Resetting  logs"
-	
-	Remove-Item "$TestAssetPath\*.log"  | out-null
-	Remove-Item "$TestAssetPath\*.nupkg"  | out-null
-	Remove-Item "$TestAssetPath\*.coverage"  | out-null
-	Remove-Item "$TestAssetPath\*.coverage.raw"  | out-null
-	Get-ChildItem "$TestAssetPath\*.xml" | foreach ($_){remove-item $_.FullName } 
+	log "Resetting  logs"	
+	Remove-Item "buildoutput\*.log"  | out-null
+	Remove-Item "buildoutput\*.nupkg"  | out-null
+	Remove-Item "buildoutput\*.coverage"  | out-null
+	Remove-Item "buildoutput\*.coverage.raw"  | out-null
+	Get-ChildItem "buildoutput\*.xml" | foreach ($_){remove-item $_.FullName } 
 }
 
 function restore-packages(){
 	param($source,$TestAssetPath)
 	log "Restoring Packages"
-	cmd.exe /c "$source\restoreSolutionPackages.bat" | Out-File "$TestAssetPath\restore.log" 
+	cmd.exe /c "restoreSolutionPackages.bat" | Out-File "buildoutput\restore.log" 
 }
 function  clean-and-build(){
 
 	log "Cleaning solution and removing old build packages"
 	clean-build-logs-and-test-data
 
-	exec { msbuild TechFu.Nirvana.sln /m /t:clean /v:n /nr:false | out-file "$TestAssetPath\build.log" -Append	}
+	exec { msbuild TechFu.Nirvana.sln /m /t:clean /v:n /nr:false | out-file "buildoutput\build.log" -Append	}
 
 	log "Building Solution"
-	exec { msbuild TechFu.Nirvana.sln /m  /t:Rebuild /v:n /nr:false | out-file "$TestAssetPath\build.log" -Append }
+	exec { msbuild TechFu.Nirvana.sln /m  /t:Rebuild /v:n /nr:false | out-file "buildoutput\build.log" -Append }
 }
 
 function  rebuild-without-clean(){
-	exec { msbuild TechFu.Nirvana.sln /m /t:rebuild /v:n /nr:false | out-file "$TestAssetPath\build.log" -Append }
+	exec { msbuild TechFu.Nirvana.sln /m /t:rebuild /v:n /nr:false | out-file "buildoutput\build.log" -Append }
 }
 
 function  incremental-build-without-clean(){
 	log "Building Solution"
-	exec { msbuild TechFu.Nirvana.sln /m /t:build /v:n /nr:false | out-file "$TestAssetPath\build.log" -Append }
+	exec { msbuild TechFu.Nirvana.sln /m /t:build /v:n /nr:false | out-file "buildoutput\build.log" -Append }
 }
 
 

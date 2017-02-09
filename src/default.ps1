@@ -10,13 +10,13 @@ function initialize-build(){
 	$path= Resolve-Path ./
 	$scripts =@()
 	$ElapsedTime = [System.Diagnostics.Stopwatch]::StartNew()			
-	remove-item *.log	
+	new-item "buildoutput"	-Force -ItemType Directory 
+	remove-item "buildoutput\*.log"	
 	Get-ChildItem (Join-Path ($path) \BuildScripts\*.ps1)  | ForEach { 		$scripts += $_.FullName	} 
 	Get-ChildItem (Join-Path ($path) \SolutionScripts\*.ps1)  | ForEach { 		$scripts += $_.FullName	} 
 	$scripts | ForEach { . $_} 
 	$source =[string] $path
 	ensure-build-number
-	$TestAssetPath = get-test-asset-path($source)
 	log "Test Asset Path: $source\..\"
 	log "Runtime Directory: $([System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory())"
 	Log "Complete : $($ElapsedTime.Elapsed)"
