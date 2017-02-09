@@ -3,14 +3,15 @@ version: 1.0.{build}
 environment:
   COVERALLS_REPO_TOKEN:
     secure: 3GdseosXgFoKKGTlxCnx4ufignGtNLGgxWDDskoA/2lb2NlFqIo5B1i72NerCpY4
+
 before_build:
   - cd src
-  - echo $(outputFile)
-  - nuget restore
   - ps: $scripts =@()
   - ps: $path= Resolve-Path ./
   - ps: Get-ChildItem (Join-Path ($path) \BuildScripts\*.ps1)  | ForEach { 		$scripts += $_.FullName	} 
   - ps: $scripts | ForEach { . $_} 
+  - nuget restore
+
 build:
   project: src\TechFu.Nirvana.sln
   verbosity: minimal
