@@ -67,12 +67,11 @@ param($sourcePath)
 	$openCverLocation ="packages\OpenCover.4.6.519\tools\OpenCover.Console.exe"
 	$paramList="$target","$targetArgs","$searchdirs","$register","$outputFile"
 	& $openCverLocation $paramList
-
-	write-host "Coveralls token: $env:COVERALLS_REPO_TOKEN"
+	#$env:COVERALLS_REPO_TOKEN="GT8AnmNpEXG36MkOqKkfm0zDid9Qs59rL"
 	if($env:COVERALLS_REPO_TOKEN -ne $null){	
 		Write-Host "Uploading to Coveralls"		
 		$coverallsLocation ="packages\coveralls.io.1.3.4\tools\coveralls.net.exe"
-		$caparams="--opencover",".\buildoutput\coverage.xml"
+		$caparams="--opencover","buildoutput\coverage.xml"
 		& $coverallsLocation $caparams 
 	}
 	else{
