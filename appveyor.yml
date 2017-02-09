@@ -12,6 +12,11 @@ before_build:
   - ps: $scripts | ForEach { . $_} 
   - nuget restore
 
+
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: Fh9IlfRd5IN9SeOTYw2yJB/cyTY/wgI2h4DodDz5tW/qlabO1lkjoxcj1AY9BZrG
+
 build:
   project: src\TechFu.Nirvana.sln
   verbosity: minimal

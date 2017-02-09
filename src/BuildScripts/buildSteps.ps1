@@ -68,7 +68,7 @@ param($sourcePath)
 	$paramList="$target","$targetArgs","$searchdirs","$register","$outputFile"
 	& $openCverLocation $paramList
 
-	
+	write-host "Coveralls token: $env:COVERALLS_REPO_TOKEN"
 	if($env:COVERALLS_REPO_TOKEN -ne $null){	
 		Write-Host "Uploading to Coveralls"		
 		$coverallsLocation ="packages\coveralls.io.1.3.4\tools\coveralls.net.exe"
