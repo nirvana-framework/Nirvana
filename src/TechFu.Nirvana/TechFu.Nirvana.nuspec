@@ -4,7 +4,7 @@
   <metadata>
     <id>Nirvana</id>
     <version>$version$</version>
-    <authors>Jason Cavaliere</authors>
+    <authors>Nirvana Framework</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Glue for .NET and Web applications</description>
     <frameworkAssemblies>

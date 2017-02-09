@@ -2,9 +2,9 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>TechFu.NirVana.WebApi</id>
-    <version>0.0.1</version>
-    <authors>Jason Cavaliere</authors>
+    <id>NirVana.WebApi</id>
+    <version>$version$</version>
+    <authors>Nirvana Framework</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Roslyn Based Web API endpoint creation for the Nirvana Framework</description>
     <frameworkAssemblies>
