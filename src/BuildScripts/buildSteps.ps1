@@ -72,16 +72,16 @@ param($sourcePath)
 
 	
 	if($env:COVERALLS_REPO_TOKEN -ne $null){	
-		$coverallsLocation ="$sourcePath\packages\coveralls.io.1.3.4\tools\coveralls.net.exe"
+		$coverallsLocation ="packages\coveralls.io.1.3.4\tools\coveralls.net.exe"
 		$caparams="--opencover","coverage.xml"
 		& $coverallsLocation $caparams 
 	}
 	else{
 		Write-Host "Building Report"		
 		$gen="packages\ReportGenerator.2.5.2\tools\ReportGenerator.exe"
-		$rparams= "-reports:`"$sourcePath\coverage.xml`"","-targetdir:`"$sourcePath\..\OpenCover\UnitTestReport`""
+		$rparams= "-reports:`"coverage.xml`"","-targetdir:`"$sourcePath\..\OpenCover\UnitTestReport`""
 		& $gen $rparams
-		Start-Process "chrome.exe" "$sourcePath\..\OpenCover\UnitTestReport\index.htm"		
+		Start-Process "chrome.exe" "..\OpenCover\UnitTestReport\index.htm"		
 	}
 
 

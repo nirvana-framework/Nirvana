@@ -7,10 +7,11 @@ before_build:
   - cd src
   - echo $(outputFile)
   - nuget restore
-  - ps: $scripts =@()
-  - ps: $path= Resolve-Path ./
-  - ps: Get-ChildItem (Join-Path ($path) \BuildScripts\*.ps1)  | ForEach { 		$scripts += $_.FullName	} 
-  - ps: $scripts | ForEach { . $_} 
+  - ps: >-
+      $scripts =@()
+      $path= Resolve-Path ./
+      Get-ChildItem (Join-Path ($path) \BuildScripts\*.ps1)  | ForEach { 		$scripts += $_.FullName	} 
+      $scripts | ForEach { . $_} 
 build:
   project: src\TechFu.Nirvana.sln
   verbosity: minimal
