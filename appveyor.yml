@@ -1,9 +1,4 @@
 version: 1.0.{build}
-
-environment:
-  COVERALLS_REPO_TOKEN:
-    secure: 3GdseosXgFoKKGTlxCnx4ufignGtNLGgxWDDskoA/2lb2NlFqIo5B1i72NerCpY4
-
 before_build:
   - cd src
   - ps: $scripts =@()
