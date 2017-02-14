@@ -2,7 +2,7 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>NirVana.WebApi</id>
+    <id>Nirvana.WebApi</id>
     <version>$version$</version>
     <authors>Nirvana Framework</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
