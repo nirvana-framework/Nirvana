@@ -30,11 +30,11 @@ namespace TechFu.Nirvana.WebUtils
                 var uri = new Uri(new Uri(_endpointConfiguration.QueryEndpoint), path);
                 var httpResponseMessage = _httpClient.Query(uri.ToString(), query).Result;
                 var response = BuildQueryResponse<TResult>(httpResponseMessage);
-                return QueryResponse.Succeeded(response);
+                return QueryResponse.Success(response);
             }
             catch (Exception ex)
             {
-                return QueryResponse.Failed<TResult>(ex);
+                return QueryResponse.Fail<TResult>(ex);
             }
         }
 

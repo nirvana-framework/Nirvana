@@ -12,7 +12,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Infrastructure.Query
 
         public override QueryResponse<VersionModel> Handle(GetVersionQuery query)
         {
-            return QueryResponse.Succeeded(new VersionModel {Version = "1.0"});
+            return QueryResponse.Success(new VersionModel {Version = "1.0"});
         }
     }
 }

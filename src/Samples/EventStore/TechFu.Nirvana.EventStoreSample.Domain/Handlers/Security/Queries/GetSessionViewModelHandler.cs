@@ -24,7 +24,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Security.Queries
                 var sessionId = Guid.NewGuid();
                 Mediator.Command(new CreateNewSessionViewModelCommand {SessionId = sessionId});
 
-                return QueryResponse.Succeeded(new SessionViewModel
+                return QueryResponse.Success(new SessionViewModel
                 {
                     Id = sessionId,
                     RootEntityKey = sessionId,

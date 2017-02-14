@@ -12,7 +12,7 @@ namespace TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Handlers
 
         public override QueryResponse<string> Handle(GetVersionQuery query)
         {
-            return QueryResponse.Succeeded("V 1.0");
+            return QueryResponse.Success("V 1.0");
         }
     }
 }

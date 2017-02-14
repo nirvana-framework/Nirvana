@@ -32,7 +32,7 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.LeadPrototype
                 Address = "somewhere...over the rainbow="
             };
 
-            return QueryResponse.Succeeded(leadIndicatorViewModel);
+            return QueryResponse.Success(leadIndicatorViewModel);
         }
 
         private BusinesssMeasureViewModel getBusinessMeasure()

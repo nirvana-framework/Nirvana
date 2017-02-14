@@ -28,12 +28,12 @@ namespace TechFu.Nirvana.Util
                 typeof(MessageType)
             };
 
-            builder.AppendLine("import {Command,Query,PagedResult} from \"./Common\"; ");
+            builder.AppendLine("import {Command,Query,PagedResult,MessageType,ValidationMessage,MessageType} from \"ng2-nirvana\"; ");
 
-            builder.AppendLine("//Common");
-            builder.AppendLine(WriteResponseType(typeof(ValidationMessage), new Stack<Type>(), true));
-            builder.AppendLine(WriteResponseType(typeof(PaginationQuery), new Stack<Type>(), true));
-            builder.AppendLine(WriteResponseType(typeof(MessageType), new Stack<Type>()));
+            //builder.AppendLine("//Common");
+            //builder.AppendLine(WriteResponseType(typeof(ValidationMessage), new Stack<Type>(), true));
+            //builder.AppendLine(WriteResponseType(typeof(PaginationQuery), new Stack<Type>(), true));
+            //builder.AppendLine(WriteResponseType(typeof(MessageType), new Stack<Type>()));
 
             foreach (var controllerName in NirvanaSetup.RootNames)
             {

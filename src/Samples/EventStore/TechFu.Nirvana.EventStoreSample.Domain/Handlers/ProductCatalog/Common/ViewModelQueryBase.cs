@@ -22,10 +22,10 @@ namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Common
             var model = _repository.Get<U>(match.Invoke(query));
             if (model == null)
             {
-                return QueryResponse.Failed<U>("Could not Find Model");
+                return QueryResponse.Fail<U>("Could not Find Model");
             }
 
-            return QueryResponse.Succeeded(model);
+            return QueryResponse.Success(model);
         }
     }
 }
