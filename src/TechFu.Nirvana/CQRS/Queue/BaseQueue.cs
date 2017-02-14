@@ -1,11 +1,11 @@
 ﻿using System;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.Mediation;
-using TechFu.Nirvana.Util.Compression;
-using TechFu.Nirvana.Util.Io;
-using TechFu.Nirvana.Util.Tine;
+using Nirvana.Configuration;
+using Nirvana.Mediation;
+using Nirvana.Util.Compression;
+using Nirvana.Util.Io;
+using Nirvana.Util.Tine;
 
-namespace TechFu.Nirvana.CQRS.Queue
+namespace Nirvana.CQRS.Queue
 {
     public static class QueueHelper
     {

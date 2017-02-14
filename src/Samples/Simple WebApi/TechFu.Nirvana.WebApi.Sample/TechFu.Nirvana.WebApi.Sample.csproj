@@ -157,13 +157,13 @@
     <None Include="Properties\PublishProfiles\lopv2 - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\TechFu.NirVana.WebApi\TechFu.NirVana.WebApi.csproj">
+    <ProjectReference Include="..\..\..\TechFu.NirVana.WebApi\Nirvana.Web.csproj">
       <Project>{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}</Project>
-      <Name>TechFu.NirVana.WebApi</Name>
+      <Name>Nirvana.Web</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\TechFu.Nirvana\TechFu.Nirvana.csproj">
+    <ProjectReference Include="..\..\..\TechFu.Nirvana\Nirvana.csproj">
       <Project>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</Project>
-      <Name>TechFu.Nirvana</Name>
+      <Name>Nirvana</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

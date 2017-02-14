@@ -2,7 +2,7 @@ using System;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace TechFu.Nirvana.WebApi.Startup
+namespace Nirvana.Web.Startup
 {
     public class RouteConfig
     {

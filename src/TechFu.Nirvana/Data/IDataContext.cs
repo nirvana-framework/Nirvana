@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using TechFu.Nirvana.Data.EntityTypes;
+using Nirvana.Data.EntityTypes;
 
-namespace TechFu.Nirvana.Data
+namespace Nirvana.Data
 {
     public interface IDataContext
     {

@@ -1,6 +1,6 @@
-﻿using TechFu.Nirvana.CQRS;
+﻿using Nirvana.CQRS;
 
-namespace TechFu.Nirvana.Mediation
+namespace Nirvana.Mediation
 {
     public interface IQueryHandler<T, U>
         where T : Query<U>

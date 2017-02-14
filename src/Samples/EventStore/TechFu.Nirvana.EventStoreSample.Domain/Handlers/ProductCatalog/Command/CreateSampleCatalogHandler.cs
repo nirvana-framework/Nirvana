@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Data;
+using Nirvana.CQRS;
+using Nirvana.Data;
+using Nirvana.Mediation;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ProductCatalog;
 using TechFu.Nirvana.EventStoreSample.Domain.Domain.ShoppingCart;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Commands;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.InternalEvents;
-using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Command
 {

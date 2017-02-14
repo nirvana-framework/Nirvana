@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TechFu.Nirvana.Util.Extensions
+namespace Nirvana.Util.Extensions
 {
     /// <summary>
     ///     System.Convert extention methods.  Not all types have been implmented.  Add missing types as needed.

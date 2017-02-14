@@ -1,6 +1,6 @@
 ﻿using System;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS;
+using Nirvana.Configuration;
+using Nirvana.CQRS;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Infrastructure.UiNotifications
 {

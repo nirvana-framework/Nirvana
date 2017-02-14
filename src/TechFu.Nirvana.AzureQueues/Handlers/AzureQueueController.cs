@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS.Queue;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.Configuration;
+using Nirvana.CQRS.Queue;
+using Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.AzureQueues.Handlers
 {

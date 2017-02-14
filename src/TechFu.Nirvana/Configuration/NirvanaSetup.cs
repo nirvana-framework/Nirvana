@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using TechFu.Nirvana.CQRS.Util;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.Configuration
+namespace Nirvana.Configuration
 {
 
 

@@ -1,8 +1,8 @@
 ﻿using System;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.Util.Io;
+using Nirvana.Configuration;
+using Nirvana.Util.Io;
 
-namespace TechFu.Nirvana.CQRS.UiNotifications
+namespace Nirvana.CQRS.UiNotifications
 {
     public class ChannelEvent
     {

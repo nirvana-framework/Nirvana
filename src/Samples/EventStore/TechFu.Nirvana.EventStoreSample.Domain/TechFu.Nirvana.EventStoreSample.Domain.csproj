@@ -73,9 +73,9 @@
       <Project>{D6626170-C962-48B9-B0D3-275B34DD6D7A}</Project>
       <Name>TechFu.Nirvana.EventStoreSample.Services.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\TechFu.Nirvana\TechFu.Nirvana.csproj">
+    <ProjectReference Include="..\..\..\TechFu.Nirvana\Nirvana.csproj">
       <Project>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</Project>
-      <Name>TechFu.Nirvana</Name>
+      <Name>Nirvana</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace TechFu.Nirvana.Util
+namespace Nirvana.Util
 {
     public interface IStartupStep
     {

@@ -1,7 +1,7 @@
 using System;
-using TechFu.Nirvana.Configuration;
+using Nirvana.Configuration;
 
-namespace TechFu.Nirvana.CQRS.Queue
+namespace Nirvana.CQRS.Queue
 {
     public abstract class QueueReference
     {

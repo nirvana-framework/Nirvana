@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS.Queue;
+using Nirvana.Configuration;
+using Nirvana.CQRS.Queue;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using Topshelf;
 

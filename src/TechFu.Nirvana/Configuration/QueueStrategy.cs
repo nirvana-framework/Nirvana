@@ -1,3 +1,3 @@
-﻿namespace TechFu.Nirvana.Configuration
+﻿namespace Nirvana.Configuration
 {
 }

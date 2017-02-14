@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace TechFu.Nirvana.CQRS.UiNotifications
+namespace Nirvana.CQRS.UiNotifications
 {
     public interface IUiNotificationHub
     {

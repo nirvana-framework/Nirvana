@@ -140,13 +140,13 @@
       <Project>{d6626170-c962-48b9-b0d3-275b34dd6d7a}</Project>
       <Name>TechFu.Nirvana.EventStoreSample.Services.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\TechFu.NirVana.WebApi\TechFu.NirVana.WebApi.csproj">
+    <ProjectReference Include="..\..\..\TechFu.NirVana.WebApi\Nirvana.Web.csproj">
       <Project>{e2e27cb9-a052-4186-b4ca-f5a26ace902b}</Project>
-      <Name>TechFu.NirVana.WebApi</Name>
+      <Name>Nirvana.Web</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\TechFu.Nirvana\TechFu.Nirvana.csproj">
+    <ProjectReference Include="..\..\..\TechFu.Nirvana\Nirvana.csproj">
       <Project>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</Project>
-      <Name>TechFu.Nirvana</Name>
+      <Name>Nirvana</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -9,12 +9,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using EntityFramework.DynamicFilters;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Data;
-using TechFu.Nirvana.Data.EntityTypes;
-using TechFu.Nirvana.Domain;
-using TechFu.Nirvana.Util.Extensions;
-using TechFu.Nirvana.Util.Tine;
+using Nirvana.CQRS;
+using Nirvana.Data;
+using Nirvana.Data.EntityTypes;
+using Nirvana.Domain;
+using Nirvana.Util.Extensions;
+using Nirvana.Util.Tine;
 
 namespace TechFu.Nirvana.SqlProvider
 {

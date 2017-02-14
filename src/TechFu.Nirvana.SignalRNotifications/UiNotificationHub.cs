@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS.UiNotifications;
-using TechFu.Nirvana.Util.Io;
+using Nirvana.Configuration;
+using Nirvana.CQRS.UiNotifications;
+using Nirvana.Util.Io;
 
 namespace TechFu.Nirvana.SignalRNotifications
 {

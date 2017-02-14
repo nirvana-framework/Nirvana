@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS;
+using Nirvana.Configuration;
+using Nirvana.CQRS;
 
-namespace TechFu.Nirvana.Mediation
+namespace Nirvana.Mediation
 {
     public interface IEventHandler<in T>
         where T : InternalEvent

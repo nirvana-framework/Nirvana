@@ -1,5 +1,5 @@
 ﻿using System;
-using TechFu.Nirvana.CQRS;
+using Nirvana.CQRS;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.ViewModels;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.Query

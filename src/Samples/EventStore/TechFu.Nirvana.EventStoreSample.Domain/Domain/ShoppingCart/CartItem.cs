@@ -1,5 +1,5 @@
 ﻿using System;
-using TechFu.Nirvana.Data.EntityTypes;
+using Nirvana.Data.EntityTypes;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Domain.ShoppingCart
 {

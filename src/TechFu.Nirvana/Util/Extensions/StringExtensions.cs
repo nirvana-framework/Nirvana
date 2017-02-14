@@ -8,7 +8,7 @@ using System.Security;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
-namespace TechFu.Nirvana.Util.Extensions
+namespace Nirvana.Util.Extensions
 {
     public static class StringExtensions
     {

@@ -8,11 +8,10 @@ using System.Text;
 using System.Web;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS.Util;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.Configuration;
+using Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.WebApi.Generation
+namespace Nirvana.Web.Generation
 {
     public class CqrsApiGenerator
     {

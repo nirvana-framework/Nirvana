@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Mediation;
+using Nirvana.CQRS;
+using Nirvana.Mediation;
 
-namespace TechFu.Nirvana.Util.Extensions
+namespace Nirvana.Util.Extensions
 {
     public static class TypeExtensions
     {

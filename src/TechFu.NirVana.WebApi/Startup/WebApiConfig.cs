@@ -1,10 +1,9 @@
 using System;
 using System.Net.Http.Headers;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using Newtonsoft.Json;
 
-namespace TechFu.Nirvana.WebApi.Startup
+namespace Nirvana.Web.Startup
 {
     public static class WebApiConfig
     {

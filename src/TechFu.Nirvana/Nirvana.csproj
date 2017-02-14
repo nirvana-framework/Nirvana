@@ -7,8 +7,8 @@
     <ProjectGuid>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TechFu.Nirvana</RootNamespace>
-    <AssemblyName>TechFu.Nirvana</AssemblyName>
+    <RootNamespace>Nirvana</RootNamespace>
+    <AssemblyName>Nirvana</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -133,7 +133,7 @@
     <Compile Include="Util\Tine\SystemTime.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TechFu.Nirvana.nuspec" />
+    <None Include="Nirvana.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

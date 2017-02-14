@@ -1,5 +1,5 @@
-﻿using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Mediation;
+﻿using Nirvana.CQRS;
+using Nirvana.Mediation;
 using TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Queries;
 
 namespace TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Handlers

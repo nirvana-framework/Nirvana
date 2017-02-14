@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TechFu.Nirvana.Domain
+namespace Nirvana.Domain
 {
 
     public abstract class ViewModel<T> : ViewModel

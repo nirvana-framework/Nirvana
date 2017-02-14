@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TechFu.Nirvana.Util.Extensions
+namespace Nirvana.Util.Extensions
 {
     public static class EnumExtensions
     {

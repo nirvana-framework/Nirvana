@@ -1,6 +1,6 @@
-﻿using TechFu.Nirvana.CQRS;
+﻿using Nirvana.CQRS;
+using Nirvana.Mediation;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Infrastructure.Queries;
-using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Infrastructure.Query
 {

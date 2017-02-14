@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using TechFu.Nirvana.Domain;
+using Nirvana.Domain;
+using Nirvana.Web.Controllers;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
-using TechFu.Nirvana.WebApi.Controllers;
 
 namespace TechFu.Nirvana.EventStoreSample.WebAPI.Queries.Configuration
 {

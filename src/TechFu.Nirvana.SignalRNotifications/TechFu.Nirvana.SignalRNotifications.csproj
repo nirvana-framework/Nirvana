@@ -76,13 +76,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TechFu.NirVana.WebApi\TechFu.NirVana.WebApi.csproj">
+    <ProjectReference Include="..\TechFu.NirVana.WebApi\Nirvana.Web.csproj">
       <Project>{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}</Project>
-      <Name>TechFu.NirVana.WebApi</Name>
+      <Name>Nirvana.Web</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TechFu.Nirvana\TechFu.Nirvana.csproj">
+    <ProjectReference Include="..\TechFu.Nirvana\Nirvana.csproj">
       <Project>{6d5e2ca2-1da6-4436-ba8a-93e1d44d2576}</Project>
-      <Name>TechFu.Nirvana</Name>
+      <Name>Nirvana</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

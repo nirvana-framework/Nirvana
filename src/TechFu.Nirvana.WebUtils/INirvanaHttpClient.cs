@@ -1,9 +1,8 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
-using TechFu.Nirvana.CQRS;
+using Nirvana.CQRS;
 
-namespace TechFu.Nirvana.WebUtils
+namespace Nirvana.WebUtils
 {
     public interface INirvanaHttpClient
     {

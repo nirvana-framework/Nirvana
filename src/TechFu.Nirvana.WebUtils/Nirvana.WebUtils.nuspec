@@ -2,11 +2,11 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Nirvana.WebApi</id>
+    <id>Nirvana.WebUtils</id>
     <version>$version$</version>
     <authors>Nirvana Framework</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Roslyn Based Web API endpoint creation for the Nirvana Framework</description>
+    <description>Web Utility Class For Nirvana Framework</description>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net461" />
       <frameworkAssembly assemblyName="System" targetFramework="net461" />
@@ -44,7 +44,6 @@
 
   </metadata>
   <files>
-    <file src="bin\Debug\TechFu.Nirvana.WebApi.dll" target="lib" />
-    <file src="bin\Debug\TechFu.Nirvana.WebApi.pdb" target="lib" />
+    <file src="bin\Debug\Nirvana.WebUtils.dll" target="lib" />
   </files>
 </package>

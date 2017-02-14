@@ -1,7 +1,7 @@
 ﻿
 
 
-using TechFu.Nirvana.CQRS;
+using Nirvana.CQRS;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Infrastructure.Commands
 {

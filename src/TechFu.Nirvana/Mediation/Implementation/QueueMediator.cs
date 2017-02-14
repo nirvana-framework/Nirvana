@@ -1,9 +1,9 @@
 ﻿using System;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.CQRS.Queue;
+using Nirvana.Configuration;
+using Nirvana.CQRS;
+using Nirvana.CQRS.Queue;
 
-namespace TechFu.Nirvana.Mediation.Implementation
+namespace Nirvana.Mediation.Implementation
 {
     public class QueueMediator:IQueueMediator
     {

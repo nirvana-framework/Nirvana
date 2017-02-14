@@ -5,10 +5,10 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.Configuration;
+using Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.WebApi.Startup
+namespace Nirvana.Web.Startup
 {
     public class DynamicApiSelector : DefaultHttpControllerSelector
     {

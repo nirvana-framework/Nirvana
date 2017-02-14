@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TechFu.Nirvana.Util
+namespace Nirvana.Util
 {
     public class DisposeAction : IDisposable
     {

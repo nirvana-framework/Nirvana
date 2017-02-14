@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Globalization;
 
-namespace TechFu.Nirvana.Util.Extensions
+namespace Nirvana.Util.Extensions
 {
     public static class TryParseExtensions
     {

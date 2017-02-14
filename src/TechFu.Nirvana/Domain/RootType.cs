@@ -1,6 +1,6 @@
 using System;
 
-namespace TechFu.Nirvana.Domain
+namespace Nirvana.Domain
 {
     public abstract class RootType
     {

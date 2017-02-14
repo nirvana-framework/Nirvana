@@ -1,6 +1,6 @@
 ﻿using System;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Mediation;
+using Nirvana.CQRS;
+using Nirvana.Mediation;
 
 namespace TechFu.Nirvana.IntegrationTests.AzureQueue
 {

@@ -1,9 +1,9 @@
 ﻿using System;
-using TechFu.Nirvana.Data.EntityTypes;
-using TechFu.Nirvana.Util.Extensions;
-using TechFu.Nirvana.Util.Tine;
+using Nirvana.Data.EntityTypes;
+using Nirvana.Util.Extensions;
+using Nirvana.Util.Tine;
 
-namespace TechFu.Nirvana.Data
+namespace Nirvana.Data
 {
     public class ModifiedCreatedDecorator : ISaveChangesDecorator
     {

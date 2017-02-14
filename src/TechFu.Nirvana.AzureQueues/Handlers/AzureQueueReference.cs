@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using TechFu.Nirvana.CQRS.Queue;
+using Nirvana.CQRS.Queue;
 
 namespace TechFu.Nirvana.AzureQueues.Handlers
 {

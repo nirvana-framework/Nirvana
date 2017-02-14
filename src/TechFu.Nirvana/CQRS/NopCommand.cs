@@ -1,4 +1,4 @@
-﻿namespace TechFu.Nirvana.CQRS
+﻿namespace Nirvana.CQRS
 {
     public abstract class NopCommand : Command<Nop>
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
-using TechFu.Nirvana.Domain;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.Domain;
+using Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.Io
 {

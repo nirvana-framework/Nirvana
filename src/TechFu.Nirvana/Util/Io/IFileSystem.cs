@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace TechFu.Nirvana.Util.Io
+namespace Nirvana.Util.Io
 {
     public interface IFileSystem
     {

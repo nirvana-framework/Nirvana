@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
-using TechFu.Nirvana.Util;
+using Nirvana.Util;
 
-namespace TechFu.Nirvana.WebApi.Controllers
+namespace Nirvana.Web.Controllers
 {
     public class ApiUpdatesController : CommandQueryApiControllerBase
     {

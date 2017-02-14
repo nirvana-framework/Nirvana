@@ -1,6 +1,6 @@
 ﻿using System;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Domain;
+using Nirvana.CQRS;
+using Nirvana.Domain;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Leads.Enumerations;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Leads.Query

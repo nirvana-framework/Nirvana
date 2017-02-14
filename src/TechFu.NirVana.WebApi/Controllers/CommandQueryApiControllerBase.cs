@@ -4,11 +4,11 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Cors;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Mediation;
+using Nirvana.Configuration;
+using Nirvana.CQRS;
+using Nirvana.Mediation;
 
-namespace TechFu.Nirvana.WebApi.Controllers
+namespace Nirvana.Web.Controllers
 {
     [EnableCors("*", "*", "*")]
     public abstract class CommandQueryApiControllerBase : ApiController

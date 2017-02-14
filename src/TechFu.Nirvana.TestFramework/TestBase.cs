@@ -1,9 +1,9 @@
 using System;
 using System.Linq.Expressions;
+using Nirvana.Data;
+using Nirvana.Domain;
+using Nirvana.Mediation;
 using NSubstitute;
-using TechFu.Nirvana.Data;
-using TechFu.Nirvana.Domain;
-using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.TestFramework
 {

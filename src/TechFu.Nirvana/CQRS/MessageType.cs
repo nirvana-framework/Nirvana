@@ -1,4 +1,4 @@
-﻿namespace TechFu.Nirvana.CQRS
+﻿namespace Nirvana.CQRS
 {
     public enum MessageType
     {

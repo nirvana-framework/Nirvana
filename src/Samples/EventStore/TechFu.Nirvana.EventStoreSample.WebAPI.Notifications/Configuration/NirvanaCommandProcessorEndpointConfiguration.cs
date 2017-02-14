@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.Domain;
+using Nirvana.Configuration;
+using Nirvana.Domain;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
 

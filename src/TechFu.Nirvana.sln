@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26127.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana", "TechFu.Nirvana\TechFu.Nirvana.csproj", "{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nirvana", "TechFu.Nirvana\Nirvana.csproj", "{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.NirVana.WebApi", "TechFu.NirVana.WebApi\TechFu.NirVana.WebApi.csproj", "{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nirvana.Web", "TechFu.NirVana.WebApi\Nirvana.Web.csproj", "{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EC367F66-0717-4DD3-9C93-32A356BCBCF3}"
 EndProject
@@ -56,7 +56,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.EventStoreSa
 		{243C200C-6680-4649-A554-75751CA7EDAD} = {243C200C-6680-4649-A554-75751CA7EDAD}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechFu.Nirvana.WebUtils", "TechFu.Nirvana.WebUtils\TechFu.Nirvana.WebUtils.csproj", "{BB85B7D1-9352-4192-83D3-4A5B16C5434D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nirvana.WebUtils", "TechFu.Nirvana.WebUtils\Nirvana.WebUtils.csproj", "{BB85B7D1-9352-4192-83D3-4A5B16C5434D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internal Domain", "Internal Domain", "{8DA75389-1603-415A-9EF2-3E8FD51A532A}"
 EndProject

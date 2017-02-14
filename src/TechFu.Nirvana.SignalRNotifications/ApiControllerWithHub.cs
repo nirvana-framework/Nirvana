@@ -1,9 +1,8 @@
 ﻿using System;
 using Microsoft.AspNet.SignalR;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.CQRS.UiNotifications;
-using TechFu.Nirvana.WebApi.Controllers;
+using Nirvana.CQRS;
+using Nirvana.CQRS.UiNotifications;
+using Nirvana.Web.Controllers;
 
 namespace TechFu.Nirvana.SignalRNotifications
 {

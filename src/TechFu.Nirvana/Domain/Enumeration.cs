@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-namespace TechFu.Nirvana.Domain
+namespace Nirvana.Domain
 {
     public interface IEnumeration
     {

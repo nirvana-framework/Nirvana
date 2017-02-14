@@ -1,5 +1,5 @@
 ﻿using System;
-using TechFu.Nirvana.Data.EntityTypes;
+using Nirvana.Data.EntityTypes;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Leads.Enumerations;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Domain.LeadPrototype

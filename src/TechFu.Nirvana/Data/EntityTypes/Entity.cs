@@ -1,6 +1,6 @@
 using System;
 
-namespace TechFu.Nirvana.Data.EntityTypes
+namespace Nirvana.Data.EntityTypes
 {
     public abstract class Entity
     {

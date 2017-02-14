@@ -1,8 +1,8 @@
 using System;
 using System.Data;
-using TechFu.Nirvana.Domain;
+using Nirvana.Domain;
 
-namespace TechFu.Nirvana.Data
+namespace Nirvana.Data
 {
     public interface IViewModelRepository : IDisposable
     {

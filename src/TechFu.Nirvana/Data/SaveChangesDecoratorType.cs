@@ -1,4 +1,4 @@
-﻿namespace TechFu.Nirvana.Data
+﻿namespace Nirvana.Data
 {
     public enum SaveChangesDecoratorType
     {

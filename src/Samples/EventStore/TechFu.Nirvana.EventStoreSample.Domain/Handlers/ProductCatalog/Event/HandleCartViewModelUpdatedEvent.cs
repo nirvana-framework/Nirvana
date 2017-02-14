@@ -1,7 +1,7 @@
-﻿using TechFu.Nirvana.CQRS;
+﻿using Nirvana.CQRS;
+using Nirvana.Mediation;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.InternalEvents;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.UINotifications;
-using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Event
 {

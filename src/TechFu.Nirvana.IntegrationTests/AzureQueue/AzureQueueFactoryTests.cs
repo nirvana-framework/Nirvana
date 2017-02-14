@@ -1,14 +1,14 @@
 using System;
+using Nirvana.Configuration;
+using Nirvana.CQRS.Queue;
+using Nirvana.Domain;
+using Nirvana.Mediation;
+using Nirvana.Util.Compression;
+using Nirvana.Util.Tine;
 using Should;
 using TechFu.Nirvana.AzureQueues.Handlers;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS.Queue;
-using TechFu.Nirvana.Domain;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
-using TechFu.Nirvana.Mediation;
 using TechFu.Nirvana.TestFramework;
-using TechFu.Nirvana.Util.Compression;
-using TechFu.Nirvana.Util.Tine;
 using Xunit;
 
 namespace TechFu.Nirvana.IntegrationTests.AzureQueue

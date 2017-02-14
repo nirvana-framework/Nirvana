@@ -1,9 +1,9 @@
-﻿using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Data;
+﻿using Nirvana.CQRS;
+using Nirvana.Data;
+using Nirvana.Mediation;
 using TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Common;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.Queries;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.ProductCatalog.ViewModels;
-using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Query
 {

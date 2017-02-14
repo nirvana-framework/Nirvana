@@ -6,13 +6,12 @@ using System.Web.Http.Dispatcher;
 using System.Web.Routing;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
+using Nirvana.Configuration;
+using Nirvana.Web.Generation;
+using Nirvana.Web.Startup;
 using Owin;
-using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor.Configuration;
-using TechFu.Nirvana.WebApi.Controllers;
-using TechFu.Nirvana.WebApi.Generation;
-using TechFu.Nirvana.WebApi.Startup;
 
 [assembly: OwinStartup(typeof(Startup))]
 

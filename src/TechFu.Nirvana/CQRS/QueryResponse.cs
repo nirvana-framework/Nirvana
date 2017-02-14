@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TechFu.Nirvana.CQRS
+namespace Nirvana.CQRS
 {
     public class QueryResponse<T> : Response
     {

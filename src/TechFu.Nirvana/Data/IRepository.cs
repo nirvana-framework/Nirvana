@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Data.EntityTypes;
-using TechFu.Nirvana.Domain;
+using Nirvana.CQRS;
+using Nirvana.Data.EntityTypes;
+using Nirvana.Domain;
 
-namespace TechFu.Nirvana.Data
+namespace Nirvana.Data
 {
     public interface ISqlRepository
     {

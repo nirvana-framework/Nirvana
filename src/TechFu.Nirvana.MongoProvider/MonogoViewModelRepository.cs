@@ -2,8 +2,8 @@
 using System.Data;
 using System.Linq;
 using MongoDB.Driver;
-using TechFu.Nirvana.Data;
-using TechFu.Nirvana.Domain;
+using Nirvana.Data;
+using Nirvana.Domain;
 
 namespace TechFu.Nirvana.MongoProvider
 {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net.Http;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.CQRS.Util;
-using TechFu.Nirvana.Mediation;
-using TechFu.Nirvana.Util.Io;
+using Nirvana.Configuration;
+using Nirvana.CQRS;
+using Nirvana.CQRS.Util;
+using Nirvana.Mediation;
+using Nirvana.Util.Io;
 
-namespace TechFu.Nirvana.WebUtils
+namespace Nirvana.WebUtils
 {
     public class WebMediator : IWebMediator
     {

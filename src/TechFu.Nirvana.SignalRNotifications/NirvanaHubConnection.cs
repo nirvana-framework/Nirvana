@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.AspNet.SignalR.Client;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.SignalRNotifications
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TechFu.Nirvana.CQRS
+﻿namespace Nirvana.CQRS
 {
     
     public class InternalEvent : NirvanaTask{}

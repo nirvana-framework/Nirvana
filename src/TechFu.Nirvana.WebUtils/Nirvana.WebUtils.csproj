@@ -7,8 +7,8 @@
     <ProjectGuid>{BB85B7D1-9352-4192-83D3-4A5B16C5434D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TechFu.Nirvana.WebUtils</RootNamespace>
-    <AssemblyName>TechFu.Nirvana.WebUtils</AssemblyName>
+    <RootNamespace>Nirvana.WebUtils</RootNamespace>
+    <AssemblyName>Nirvana.WebUtils</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -59,13 +59,14 @@
       <Project>{CC7D13ED-CC5F-48AF-A614-285888BC6E65}</Project>
       <Name>TechFu.Nirvana.SignalRNotifications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TechFu.Nirvana\TechFu.Nirvana.csproj">
+    <ProjectReference Include="..\TechFu.Nirvana\Nirvana.csproj">
       <Project>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</Project>
-      <Name>TechFu.Nirvana</Name>
+      <Name>Nirvana</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Nirvana.WebUtils.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

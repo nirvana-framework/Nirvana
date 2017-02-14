@@ -1,8 +1,8 @@
 ﻿using System;
-using TechFu.Nirvana.CQRS;
+using Nirvana.CQRS;
+using Nirvana.Mediation;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Infrastructure.Commands;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Infrastructure.UiNotifications;
-using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.Infrastructure.Command
 {

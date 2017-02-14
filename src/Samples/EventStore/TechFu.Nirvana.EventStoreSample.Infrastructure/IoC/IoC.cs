@@ -1,23 +1,23 @@
 using System.Data.Entity;
 using System.Reflection;
+using Nirvana.Configuration;
+using Nirvana.CQRS.Queue;
+using Nirvana.Data;
+using Nirvana.Mediation;
+using Nirvana.Mediation.Implementation;
+using Nirvana.Util;
+using Nirvana.Util.Io;
+using Nirvana.Util.Tine;
+using Nirvana.WebUtils;
 using StructureMap;
 using StructureMap.Graph;
 using TechFu.Nirvana.AzureQueues.Handlers;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS.Queue;
-using TechFu.Nirvana.Data;
 using TechFu.Nirvana.EventStoreSample.Domain.Infrastructure;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Domain;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.Io;
 using TechFu.Nirvana.EventStoreSample.Services.Shared;
-using TechFu.Nirvana.Mediation;
-using TechFu.Nirvana.Mediation.Implementation;
 using TechFu.Nirvana.MongoProvider;
 using TechFu.Nirvana.SqlProvider;
-using TechFu.Nirvana.Util;
-using TechFu.Nirvana.Util.Io;
-using TechFu.Nirvana.Util.Tine;
-using TechFu.Nirvana.WebUtils;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 {

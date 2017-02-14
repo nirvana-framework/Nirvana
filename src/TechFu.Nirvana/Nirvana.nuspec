@@ -18,6 +18,6 @@
 
   </metadata>
   <files>
-    <file src="bin\debug\*.dll" target="lib" />
+    <file src="bin\debug\Nirvana.dll" target="lib" />
   </files>
 </package>

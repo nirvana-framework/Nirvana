@@ -1,6 +1,6 @@
-﻿using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Domain;
-using TechFu.Nirvana.Mediation;
+﻿using Nirvana.CQRS;
+using Nirvana.Domain;
+using Nirvana.Mediation;
 
 namespace TechFu.Nirvana.TestFramework.CQRS
 {

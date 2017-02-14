@@ -1,6 +1,6 @@
 using System;
 
-namespace TechFu.Nirvana.Util.Tine
+namespace Nirvana.Util.Tine
 {
     public class SystemTime : ISystemTime
     {

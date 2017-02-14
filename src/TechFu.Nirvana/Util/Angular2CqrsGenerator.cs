@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.CQRS.Util;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.Configuration;
+using Nirvana.CQRS;
+using Nirvana.CQRS.Util;
+using Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.Util
+namespace Nirvana.Util
 {
     public class Angular2CqrsGenerator
     {

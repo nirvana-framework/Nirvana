@@ -1,4 +1,4 @@
-using TechFu.Nirvana.Domain;
+using Nirvana.Domain;
 
 namespace TechFu.Nirvana.TestFramework.CQRS
 {

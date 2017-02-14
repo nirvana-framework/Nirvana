@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
-using TechFu.Nirvana.Util.Io;
+using Nirvana.Util.Io;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.Io
 {

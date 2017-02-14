@@ -1,8 +1,8 @@
 ﻿using System;
+using Nirvana.CQRS;
+using Nirvana.Mediation;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Mediation;
 
 namespace TechFu.Nirvana.TestFramework
 {

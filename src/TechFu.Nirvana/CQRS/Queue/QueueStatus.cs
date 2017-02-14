@@ -1,4 +1,4 @@
-namespace TechFu.Nirvana.CQRS.Queue
+namespace Nirvana.CQRS.Queue
 {
     public enum QueueStatus
     {

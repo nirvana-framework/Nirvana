@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using TechFu.Nirvana.CQRS;
+using Nirvana.CQRS;
+using Nirvana.Mediation;
+using Nirvana.Util.Io;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Leads.Enumerations;
 using TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Leads.Query;
-using TechFu.Nirvana.Mediation;
-using TechFu.Nirvana.Util.Io;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.LeadPrototype
 {

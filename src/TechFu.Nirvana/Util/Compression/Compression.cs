@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 
-namespace TechFu.Nirvana.Util.Compression
+namespace Nirvana.Util.Compression
 {
     public interface ICompression
     {

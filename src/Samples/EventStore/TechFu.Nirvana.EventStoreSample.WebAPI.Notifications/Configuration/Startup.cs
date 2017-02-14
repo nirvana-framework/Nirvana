@@ -8,13 +8,13 @@ using System.Web.Routing;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
+using Nirvana.Configuration;
+using Nirvana.Web.Generation;
+using Nirvana.Web.Startup;
 using Owin;
-using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.EventStoreSample.Infrastructure.IoC;
 using TechFu.Nirvana.EventStoreSample.WebAPI.Notifications.Configuration;
 using TechFu.Nirvana.SignalRNotifications;
-using TechFu.Nirvana.WebApi.Generation;
-using TechFu.Nirvana.WebApi.Startup;
 
 [assembly: OwinStartup(typeof(Startup))]
 

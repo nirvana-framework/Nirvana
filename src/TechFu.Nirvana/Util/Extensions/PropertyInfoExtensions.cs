@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using TechFu.Nirvana.CQRS;
+using Nirvana.CQRS;
 
-namespace TechFu.Nirvana.Util.Extensions
+namespace Nirvana.Util.Extensions
 {
     public static class PropertyInfoExtensions
     {

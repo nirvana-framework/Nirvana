@@ -1,4 +1,4 @@
-﻿namespace TechFu.Nirvana.CQRS.UiNotifications
+﻿namespace Nirvana.CQRS.UiNotifications
 {
     public static class Constants
     {

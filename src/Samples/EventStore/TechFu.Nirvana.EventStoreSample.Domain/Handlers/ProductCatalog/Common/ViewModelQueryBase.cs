@@ -1,8 +1,8 @@
 ﻿using System;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.Data;
-using TechFu.Nirvana.Domain;
-using TechFu.Nirvana.Mediation;
+using Nirvana.CQRS;
+using Nirvana.Data;
+using Nirvana.Domain;
+using Nirvana.Mediation;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Handlers.ProductCatalog.Common
 {

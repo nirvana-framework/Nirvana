@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nirvana.Util;
 using StructureMap;
-using TechFu.Nirvana.Util;
 
 namespace TechFu.Nirvana.EventStoreSample.Infrastructure.IoC
 {

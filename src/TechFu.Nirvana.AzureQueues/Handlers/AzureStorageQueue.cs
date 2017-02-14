@@ -2,12 +2,12 @@
 using System.Reflection;
 using System.Text;
 using Microsoft.WindowsAzure.Storage.Queue;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.CQRS.Queue;
-using TechFu.Nirvana.CQRS.Util;
-using TechFu.Nirvana.Mediation;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.Configuration;
+using Nirvana.CQRS;
+using Nirvana.CQRS.Queue;
+using Nirvana.CQRS.Util;
+using Nirvana.Mediation;
+using Nirvana.Util.Extensions;
 
 namespace TechFu.Nirvana.AzureQueues.Handlers
 {

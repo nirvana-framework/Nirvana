@@ -1,5 +1,5 @@
 ﻿using System;
-using TechFu.Nirvana.Domain;
+using Nirvana.Domain;
 
 namespace TechFu.Nirvana.EventStoreSample.Services.Shared.Services.Security.ViewModels
 {

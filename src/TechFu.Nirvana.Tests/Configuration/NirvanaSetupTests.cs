@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using Nirvana.Configuration;
 using Should;
-using TechFu.Nirvana.Configuration;
 using TechFu.Nirvana.TestFramework;
 using Xunit;
 

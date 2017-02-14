@@ -7,8 +7,8 @@
     <ProjectGuid>{E2E27CB9-A052-4186-B4CA-F5A26ACE902B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TechFu.Nirvana.WebApi</RootNamespace>
-    <AssemblyName>TechFu.Nirvana.WebApi</AssemblyName>
+    <RootNamespace>Nirvana.Web</RootNamespace>
+    <AssemblyName>Nirvana.Web</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -153,13 +153,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Nirvana.Web.nuspec" />
     <None Include="packages.config" />
-    <None Include="TechFu.NirVana.WebApi.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TechFu.Nirvana\TechFu.Nirvana.csproj">
+    <ProjectReference Include="..\TechFu.Nirvana\Nirvana.csproj">
       <Project>{6d5e2ca2-1da6-4436-ba8a-93e1d44d2576}</Project>
-      <Name>TechFu.Nirvana</Name>
+      <Name>Nirvana</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

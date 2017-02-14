@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TechFu.Nirvana.Domain;
+using Nirvana.Domain;
 
 namespace TechFu.Nirvana.EventStoreSample.Domain.Infrastructure
 {

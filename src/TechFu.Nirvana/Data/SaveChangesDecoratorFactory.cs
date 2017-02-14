@@ -1,6 +1,6 @@
 using System;
 
-namespace TechFu.Nirvana.Data
+namespace Nirvana.Data
 {
     public class SaveChangesDecoratorFactory
     {

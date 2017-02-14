@@ -1,4 +1,4 @@
-﻿namespace TechFu.Nirvana.CQRS.UiNotifications
+﻿namespace Nirvana.CQRS.UiNotifications
 {
     public interface INirvanaNotificationHub<T>
     {

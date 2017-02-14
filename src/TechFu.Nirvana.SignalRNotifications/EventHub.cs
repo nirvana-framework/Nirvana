@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using TechFu.Nirvana.CQRS.UiNotifications;
+using Nirvana.CQRS.UiNotifications;
 
 namespace TechFu.Nirvana.SignalRNotifications
 {

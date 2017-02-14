@@ -1,7 +1,7 @@
 using System;
-using TechFu.Nirvana.Domain;
+using Nirvana.Domain;
 
-namespace TechFu.Nirvana.Util.Extensions
+namespace Nirvana.Util.Extensions
 {
     public static class DomainEntityExtensions
     {

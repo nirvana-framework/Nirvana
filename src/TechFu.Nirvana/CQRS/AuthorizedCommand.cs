@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TechFu.Nirvana.CQRS
+namespace Nirvana.CQRS
 {
     public abstract class AuthorizedCommand<T> : Command<T>, IAuthorizedTask
     {

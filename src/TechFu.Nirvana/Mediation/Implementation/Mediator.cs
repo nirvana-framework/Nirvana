@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.CQRS;
+using Nirvana.Configuration;
+using Nirvana.CQRS;
 
-namespace TechFu.Nirvana.Mediation.Implementation
+namespace Nirvana.Mediation.Implementation
 {
     public class Mediator : ILocalMediator
     {

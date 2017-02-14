@@ -1,4 +1,4 @@
-﻿namespace TechFu.Nirvana.Configuration
+﻿namespace Nirvana.Configuration
 {
     public enum TaskType
     {

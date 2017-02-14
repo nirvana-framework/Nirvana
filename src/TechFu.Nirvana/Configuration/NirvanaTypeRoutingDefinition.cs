@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace TechFu.Nirvana.Configuration
+namespace Nirvana.Configuration
 {
 
 

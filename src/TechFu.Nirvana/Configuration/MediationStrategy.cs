@@ -1,6 +1,6 @@
-﻿using TechFu.Nirvana.Domain;
+﻿using Nirvana.Domain;
 
-namespace TechFu.Nirvana.Configuration
+namespace Nirvana.Configuration
 {
     public class MediationStrategy:Enumeration<MediationStrategy>
     {

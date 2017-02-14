@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.Domain;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.Configuration;
+using Nirvana.Domain;
+using Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.CQRS.Util
+namespace Nirvana.CQRS.Util
 {
     public class CqrsUtils
     {

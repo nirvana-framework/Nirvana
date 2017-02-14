@@ -1,4 +1,4 @@
-using TechFu.Nirvana.CQRS;
+using Nirvana.CQRS;
 
 namespace TechFu.Nirvana.WebApi.Sample.DomainSpecificData.Queries
 {

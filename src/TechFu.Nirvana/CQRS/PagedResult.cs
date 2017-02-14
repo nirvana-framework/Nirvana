@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TechFu.Nirvana.CQRS
+namespace Nirvana.CQRS
 {
     public class PagedResult<T>
     {

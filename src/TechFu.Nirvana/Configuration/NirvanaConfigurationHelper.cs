@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TechFu.Nirvana.CQRS;
-using TechFu.Nirvana.CQRS.Util;
-using TechFu.Nirvana.Domain;
-using TechFu.Nirvana.Util.Extensions;
+using Nirvana.CQRS;
+using Nirvana.CQRS.Util;
+using Nirvana.Domain;
+using Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.Configuration
+namespace Nirvana.Configuration
 {
     public class NirvanaConfigurationHelper
     {

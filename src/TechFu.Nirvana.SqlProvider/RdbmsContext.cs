@@ -6,9 +6,9 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
 using EntityFramework.DynamicFilters;
-using TechFu.Nirvana.Data;
-using TechFu.Nirvana.Data.EntityTypes;
-using TechFu.Nirvana.Domain;
+using Nirvana.Data;
+using Nirvana.Data.EntityTypes;
+using Nirvana.Domain;
 
 namespace TechFu.Nirvana.SqlProvider
 {

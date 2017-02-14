@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Routing;
-using TechFu.Nirvana.Configuration;
-using TechFu.Nirvana.WebApi.Generation;
-using TechFu.Nirvana.WebApi.Startup;
+using Nirvana.Configuration;
+using Nirvana.Web.Generation;
+using Nirvana.Web.Startup;
 
 namespace TechFu.Nirvana.WebApi.Sample
 {

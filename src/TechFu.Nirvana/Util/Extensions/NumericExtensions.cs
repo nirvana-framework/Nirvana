@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TechFu.Nirvana.Util.Extensions
+namespace Nirvana.Util.Extensions
 {
     public static class NumericExtensions
     {
