@@ -28,7 +28,7 @@ namespace TechFu.Nirvana.Util
                 typeof(MessageType)
             };
 
-            builder.AppendLine("import {Command,Query,PagedResult,MessageType,ValidationMessage,MessageType} from \"ng2-nirvana\"; ");
+            builder.AppendLine("import {Command,Query,PagedResult,MessageType,ValidationMessage} from \"ng2-nirvana\"; ");
 
             //builder.AppendLine("//Common");
             //builder.AppendLine(WriteResponseType(typeof(ValidationMessage), new Stack<Type>(), true));
