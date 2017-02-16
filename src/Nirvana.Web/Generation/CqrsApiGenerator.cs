@@ -203,7 +203,7 @@ namespace Nirvana.Web.Generation
                 .AddReferences(MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\System.Web.Http.dll"))
                 .AddReferences(
                     MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\System.Web.Http.Cors.dll"))
-                .AddReferences(MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\TechFu.Nirvana.dll"));
+                .AddReferences(MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\Nirvana.dll"));
 
             foreach (var additionalAssembly in NirvanaSetup.AssemblyNameReferences)
             {
