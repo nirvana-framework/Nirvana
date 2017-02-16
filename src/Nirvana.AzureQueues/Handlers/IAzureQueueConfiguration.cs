@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace TechFu.Nirvana.AzureQueues.Handlers
+namespace Nirvana.AzureQueues.Handlers
 {
     public interface IAzureQueueConfiguration
     {

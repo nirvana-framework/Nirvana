@@ -2,7 +2,7 @@
 using Nirvana.Domain;
 using Nirvana.Mediation;
 
-namespace TechFu.Nirvana.TestFramework.CQRS
+namespace Nirvana.TestFramework.CQRS
 {
     namespace UnitTests.Commands
     {

@@ -5,7 +5,7 @@ using Nirvana.Domain;
 using Nirvana.Mediation;
 using NSubstitute;
 
-namespace TechFu.Nirvana.TestFramework
+namespace Nirvana.TestFramework
 {
     public abstract class TestBase<TSutType, TTaskType,TRootType> 
         where TTaskType : new()

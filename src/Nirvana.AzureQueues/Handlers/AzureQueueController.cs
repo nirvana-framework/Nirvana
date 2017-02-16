@@ -5,7 +5,7 @@ using Nirvana.Configuration;
 using Nirvana.CQRS.Queue;
 using Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.AzureQueues.Handlers
+namespace Nirvana.AzureQueues.Handlers
 {
     public class AzureQueueController : IQueueController
     {

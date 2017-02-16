@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Nirvana.CQRS.UiNotifications;
 
-namespace TechFu.Nirvana.SignalRNotifications
+namespace Nirvana.SignalRNotifications
 {
     public class EventHub : UiNotificationHub
     {

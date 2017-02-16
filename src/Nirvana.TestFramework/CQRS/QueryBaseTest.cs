@@ -2,7 +2,7 @@
 using Nirvana.Domain;
 using Nirvana.Mediation;
 
-namespace TechFu.Nirvana.TestFramework.CQRS
+namespace Nirvana.TestFramework.CQRS
 {
     public abstract class QueryBaseTest<TSutType, TCommandType, TOppType,TRootType> : CqrsTestBase<TSutType, TCommandType,TRootType>
         where TSutType : IQueryHandler<TCommandType, TOppType>

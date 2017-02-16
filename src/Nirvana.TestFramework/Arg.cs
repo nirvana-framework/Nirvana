@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using NSubstitute;
 
-namespace TechFu.Nirvana.TestFramework
+namespace Nirvana.TestFramework
 {
     public class Arg<T>
     {

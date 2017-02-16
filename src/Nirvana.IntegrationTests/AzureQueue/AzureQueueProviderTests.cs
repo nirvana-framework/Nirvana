@@ -2,7 +2,7 @@
 using Nirvana.CQRS;
 using Nirvana.Mediation;
 
-namespace TechFu.Nirvana.IntegrationTests.AzureQueue
+namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
 {
     public class TestCommand : Command<TestResult>
     {

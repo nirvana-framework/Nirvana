@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Nirvana.CQRS.Queue;
 
-namespace TechFu.Nirvana.AzureQueues.Handlers
+namespace Nirvana.AzureQueues.Handlers
 {
     public class AzureQueueReference : QueueReference
     {

@@ -1,11 +1,10 @@
-using System;
 using System.Text;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Nirvana.Configuration;
 using Nirvana.CQRS.Queue;
 using Nirvana.Util.Compression;
 
-namespace TechFu.Nirvana.AzureQueues.Handlers
+namespace Nirvana.AzureQueues.Handlers
 {
     public class AzureQueueMessage : QueueMessage
     {

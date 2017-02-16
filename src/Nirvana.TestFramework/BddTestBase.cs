@@ -4,7 +4,7 @@ using Nirvana.Mediation;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
-namespace TechFu.Nirvana.TestFramework
+namespace Nirvana.TestFramework
 {
     public abstract class BddTestBase<TSut, TInput, TResult> 
     {

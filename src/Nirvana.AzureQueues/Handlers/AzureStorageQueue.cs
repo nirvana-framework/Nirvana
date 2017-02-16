@@ -9,7 +9,7 @@ using Nirvana.CQRS.Util;
 using Nirvana.Mediation;
 using Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.AzureQueues.Handlers
+namespace Nirvana.AzureQueues.Handlers
 {
     public class AzureStorageQueue : BaseQueue<CloudQueueMessage>
     {

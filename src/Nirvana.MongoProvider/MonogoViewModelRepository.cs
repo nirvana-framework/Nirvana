@@ -5,7 +5,7 @@ using MongoDB.Driver;
 using Nirvana.Data;
 using Nirvana.Domain;
 
-namespace TechFu.Nirvana.MongoProvider
+namespace Nirvana.MongoProvider
 {
     public class MonogoViewModelRepository : IViewModelRepository
     {

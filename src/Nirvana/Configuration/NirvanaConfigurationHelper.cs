@@ -46,7 +46,7 @@ namespace Nirvana.Configuration
              var commonReferences = new[]
                 {
                     "Nirvana.dll",
-                    "Nirvana.WebApi.dll"
+                    "Nirvana.Web.dll"
                 };
 
         NirvanaSetup.AssemblyNameReferences = commonReferences.Concat(refrences).ToArray();

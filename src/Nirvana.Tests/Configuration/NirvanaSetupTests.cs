@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
 using Nirvana.Configuration;
+using Nirvana.TestFramework;
 using Should;
-using TechFu.Nirvana.TestFramework;
 using Xunit;
 
-namespace TechFu.Nirvana.Tests.Configuration
+namespace Nirvana.Tests.Configuration
 {
     public abstract class NirvanaSetupTests
     {

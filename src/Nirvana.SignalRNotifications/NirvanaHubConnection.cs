@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using Microsoft.AspNet.SignalR.Client;
 using Nirvana.Util.Extensions;
 
-namespace TechFu.Nirvana.SignalRNotifications
+namespace Nirvana.SignalRNotifications
 {
     public abstract class NirvanaHubConnection<TRootAttributType> : HubConnection, IUiINotificationHub<TRootAttributType>
     {

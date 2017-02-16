@@ -10,7 +10,7 @@ using Nirvana.Data;
 using Nirvana.Data.EntityTypes;
 using Nirvana.Domain;
 
-namespace TechFu.Nirvana.SqlProvider
+namespace Nirvana.SqlProvider
 {
 
 

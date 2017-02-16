@@ -7,8 +7,8 @@
     <ProjectGuid>{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TechFu.Nirvana.TestFramework</RootNamespace>
-    <AssemblyName>TechFu.Nirvana.TestFramework</AssemblyName>
+    <RootNamespace>Nirvana.TestFramework</RootNamespace>
+    <AssemblyName>Nirvana.TestFramework</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

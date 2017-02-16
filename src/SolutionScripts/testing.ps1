@@ -46,10 +46,10 @@ function global:start-sample()
 	param( [switch] $Secure)
 	if($secure)
 	{
-		start-iis "TechFu.Nirvana.WebApi.Sample" "https://local-nirvanaAPI.mean.software:54405/api/Infrastructure/GetVersion"
+		start-iis "Nirvana.WebApi.Sample" "https://local-nirvanaAPI.mean.software:54405/api/Infrastructure/GetVersion"
 	}
 	else{
-		start-iis "TechFu.Nirvana.WebApi.Sample" "http://local-nirvanaAPI.mean.software:24167/api/Infrastructure/GetVersion"
+		start-iis "Nirvana.WebApi.Sample" "http://local-nirvanaAPI.mean.software:24167/api/Infrastructure/GetVersion"
 	}
 }
 function global:run-sample()
@@ -69,21 +69,21 @@ function global:start-es-sample()
 {
 	param( [switch] $Secure)
 
-	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Commands"
-	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.CommandProcessor" 
-	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Notifications"
-	start-iis "TechFu.Nirvana.EventStoreSample.WebAPI.Queries"
+	start-iis "Nirvana.EventStoreSample.WebAPI.Commands"
+	start-iis "Nirvana.EventStoreSample.WebAPI.CommandProcessor" 
+	start-iis "Nirvana.EventStoreSample.WebAPI.Notifications"
+	start-iis "Nirvana.EventStoreSample.WebAPI.Queries"
 	Start-Queue-Emulator
 
 	$path = Resolve-Path ".\samples\eventstore" 
-	Start-Process "$path\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor\bin\Debug\TechFu.Nirvana.EventStoreSample.QueueCommandProcessor.exe"
+	Start-Process "$path\Nirvana.EventStoreSample.QueueCommandProcessor\bin\Debug\Nirvana.EventStoreSample.QueueCommandProcessor.exe"
 
 	if($secure)
 	{		
-		start-iis "TechFu.Nirvana.EventStoreSample.UI" "https://local-eventsourcesample.mean.software:54407/index.html"
+		start-iis "Nirvana.EventStoreSample.UI" "https://local-eventsourcesample.mean.software:54407/index.html"
 	}
 	else{	
-		start-iis "TechFu.Nirvana.EventStoreSample.UI" "http://local-eventsourcesample.mean.software:24169/index.html"	
+		start-iis "Nirvana.EventStoreSample.UI" "http://local-eventsourcesample.mean.software:24169/index.html"	
 	}
 
 
@@ -107,7 +107,7 @@ function global:run-es-sample()
 
 function global:kill-es-sample(){
 	stop-iis
-	Stop-Process -processname "TechFu.Nirvana.EventStoreSample*"
+	Stop-Process -processname "Nirvana.EventStoreSample*"
 	Stop-Queue-Emulator
 }
 

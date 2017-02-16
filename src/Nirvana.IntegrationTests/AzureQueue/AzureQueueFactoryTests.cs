@@ -6,11 +6,11 @@
 //using Nirvana.Util.Compression;
 //using Nirvana.Util.Tine;
 //using Should;
-//using TechFu.Nirvana.AzureQueues.Handlers;
-//using TechFu.Nirvana.TestFramework;
+//using Nirvana.AzureQueues.Handlers;
+//using Nirvana.TestFramework;
 //using Xunit;
 //
-//namespace TechFu.Nirvana.IntegrationTests.AzureQueue
+//namespace Nirvana.IntegrationTests.AzureQueue
 //{
 //    public class AzureQueueTests
 //    {

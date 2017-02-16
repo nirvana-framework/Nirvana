@@ -4,7 +4,7 @@ using Nirvana.CQRS;
 using Nirvana.CQRS.UiNotifications;
 using Nirvana.Web.Controllers;
 
-namespace TechFu.Nirvana.SignalRNotifications
+namespace Nirvana.SignalRNotifications
 {
     public abstract class ApiControllerWithHub<THub> : CommandQueryApiControllerBase
         where THub : UiNotificationHub

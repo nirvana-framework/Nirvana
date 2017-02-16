@@ -16,7 +16,7 @@ using Nirvana.Domain;
 using Nirvana.Util.Extensions;
 using Nirvana.Util.Tine;
 
-namespace TechFu.Nirvana.SqlProvider
+namespace Nirvana.SqlProvider
 {
     public class SqlRepository<TRoot> : IRepository<TRoot>
         where TRoot: RootType

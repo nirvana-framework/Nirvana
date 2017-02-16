@@ -1,6 +1,6 @@
 ﻿using Nirvana.Configuration;
 
-namespace TechFu.Nirvana.IntegrationTests
+namespace Nirvana.AzureQueues.IntegrationTests
 {
     internal static class TestConfiguration
     {

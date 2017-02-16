@@ -7,8 +7,8 @@
     <ProjectGuid>{C8BAE784-4FE1-4DB8-9DD1-470FB17C3A97}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TechFu.Nirvana.IntegrationTests</RootNamespace>
-    <AssemblyName>TechFu.Nirvana.IntegrationTests</AssemblyName>
+    <RootNamespace>Nirvana.AzureQueues.IntegrationTests</RootNamespace>
+    <AssemblyName>Nirvana.AzureQueues.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

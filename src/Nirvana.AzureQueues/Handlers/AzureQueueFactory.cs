@@ -8,7 +8,7 @@ using Nirvana.Util.Compression;
 using Nirvana.Util.Io;
 using Nirvana.Util.Tine;
 
-namespace TechFu.Nirvana.AzureQueues.Handlers
+namespace Nirvana.AzureQueues.Handlers
 {
     public class AzureQueueFactory : IQueueFactory
     {

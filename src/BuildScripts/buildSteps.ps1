@@ -58,10 +58,10 @@ param($sourcePath)
 	$outputPath = resolve-path ".\buildoutput"
 	$chocoPath = "$env:ChocolateyInstall\lib"
 	$xunitLocation = "packages\xunit.runner.console.2.1.0\tools\xunit.console.exe"	
-	$testLocation="TechFu.Nirvana.Tests\bin\Debug\TechFu.Nirvana.Tests.dll"
+	$testLocation="Nirvana.Tests\bin\Debug\Nirvana.Tests.dll"
 	$target="-target:`"$xunitLocation`""
 	$targetArgs="-targetargs:`"$testLocation`""
-	$searchdirs="-searchdirs:`"TechFu.Nirvana\bin\Debug`""
+	$searchdirs="-searchdirs:`"Nirvana\bin\Debug`""
 	$register="-register:user"
 	$outputFile="-output:$outputPath\coverage.xml"
 

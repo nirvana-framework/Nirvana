@@ -4,7 +4,7 @@ using Nirvana.Configuration;
 using Nirvana.CQRS.UiNotifications;
 using Nirvana.Util.Io;
 
-namespace TechFu.Nirvana.SignalRNotifications
+namespace Nirvana.SignalRNotifications
 {
     public abstract class UiNotificationHub : Hub, IUiNotificationHub
     {

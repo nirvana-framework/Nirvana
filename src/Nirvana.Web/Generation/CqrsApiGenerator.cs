@@ -32,8 +32,8 @@ namespace Nirvana.Web.Generation
                 "System.Net.Http",
                 "System.Web.Http",
                 "Nirvana",
-                "Nirvana.WebApi",
-                "Nirvana.WebApi.Controllers"
+                "c",
+                "Nirvana.Web.Controllers"
             };
             //Commands and Queries
             foreach (var root in NirvanaSetup.RootNames)
@@ -76,10 +76,10 @@ namespace Nirvana.Web.Generation
             var builder = new StringBuilder();
             var namespaces = new List<string>
             {
-                "TechFu.Nirvana.SignalRNotifications"
+                "Nirvana.SignalRNotifications"
             };
             //For now push everything to the task channel
-            var channelName = "TechFu.Nirvana.CQRS.UiNotifications.Constants.TaskChannel";
+            var channelName = "Nirvana.CQRS.UiNotifications.Constants.TaskChannel";
 
             builder.Append("public class UiNotificationsController: ApiControllerWithHub<EventHub>{");
 
@@ -116,7 +116,7 @@ namespace Nirvana.Web.Generation
             var additionalNamespaces = new List<string>();
 
             builder.Append(
-                $"public class {rootType}Controller:TechFu.Nirvana.WebApi.Controllers.CommandQueryApiControllerBase{{");
+                $"public class {rootType}Controller:Nirvana.Web.Controllers.CommandQueryApiControllerBase{{");
 
             if (NirvanaSetup.CanProcess(TaskType.Query))
             {
