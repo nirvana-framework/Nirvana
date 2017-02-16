@@ -22,7 +22,7 @@ environment:
     secure: 7m6u4U6aBEF9AUPt6XP+4zCNAkPgc8IUF34QJZ0qxHqSMJbeNvNsfdKpblLCwtFX
 
 build:
-  project: src\TechFu.Nirvana.sln
+  project: src\Nirvana.sln
   verbosity: minimal 
   parallel: true
   publish_nuget: true
