@@ -32,7 +32,7 @@ namespace Nirvana.Web.Generation
                 "System.Net.Http",
                 "System.Web.Http",
                 "Nirvana",
-                "c",
+                "Nirvana.Web",
                 "Nirvana.Web.Controllers"
             };
             //Commands and Queries
