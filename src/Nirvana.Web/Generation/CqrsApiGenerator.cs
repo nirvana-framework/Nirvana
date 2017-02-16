@@ -31,9 +31,9 @@ namespace Nirvana.Web.Generation
             {
                 "System.Net.Http",
                 "System.Web.Http",
-                "TechFu.Nirvana",
-                "TechFu.Nirvana.WebApi",
-                "TechFu.Nirvana.WebApi.Controllers"
+                "Nirvana",
+                "Nirvana.WebApi",
+                "Nirvana.WebApi.Controllers"
             };
             //Commands and Queries
             foreach (var root in NirvanaSetup.RootNames)
