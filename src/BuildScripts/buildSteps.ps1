@@ -20,19 +20,19 @@ function  clean-and-build(){
 	log "Cleaning solution and removing old build packages"
 	clean-build-logs-and-test-data
 
-	exec { msbuild TechFu.Nirvana.sln /m /t:clean /v:n /nr:false | out-file "buildoutput\build.log" -Append	}
+	exec { msbuild Nirvana.sln /m /t:clean /v:n /nr:false | out-file "buildoutput\build.log" -Append	}
 
 	log "Building Solution"
-	exec { msbuild TechFu.Nirvana.sln /m  /t:Rebuild /v:n /nr:false | out-file "buildoutput\build.log" -Append }
+	exec { msbuild Nirvana.sln /m  /t:Rebuild /v:n /nr:false | out-file "buildoutput\build.log" -Append }
 }
 
 function  rebuild-without-clean(){
-	exec { msbuild TechFu.Nirvana.sln /m /t:rebuild /v:n /nr:false | out-file "buildoutput\build.log" -Append }
+	exec { msbuild Nirvana.sln /m /t:rebuild /v:n /nr:false | out-file "buildoutput\build.log" -Append }
 }
 
 function  incremental-build-without-clean(){
 	log "Building Solution"
-	exec { msbuild TechFu.Nirvana.sln /m /t:build /v:n /nr:false | out-file "buildoutput\build.log" -Append }
+	exec { msbuild Nirvana.sln /m /t:build /v:n /nr:false | out-file "buildoutput\build.log" -Append }
 }
 
 
