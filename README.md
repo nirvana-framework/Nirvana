@@ -1,4 +1,5 @@
-﻿# Nirvana
+﻿# Nirvana  [![Build status](https://ci.appveyor.com/api/projects/status/e9fptck6gl690cei?svg=true)](https://ci.appveyor.com/project/jasoncavaliere/nirvana-yewbu)  [![codecov](https://codecov.io/gh/nirvana-framework/Nirvana/branch/master/graph/badge.svg)](https://codecov.io/gh/nirvana-framework/Nirvana)  
+
 
 ##Glue for .NET and UI applications
 
