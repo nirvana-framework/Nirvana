@@ -13,14 +13,16 @@ namespace Nirvana.CQRS.UiNotifications
         public Guid AggregateRoot { get; set; }
         public DateTimeOffset Timestamp { get; set; }
 
-        public object Data
+        public object GetData()
         {
-            get { return _data; }
-            set
-            {
-                _data = value;
-                Json = ((ISerializer)NirvanaSetup.GetService(typeof(ISerializer))).Serialize(_data);
-            }
+            return _data;
+        }
+
+        public ChannelEvent SetData(object value, ISerializer serializer)
+        {
+            _data = value;
+            Json = serializer.Serialize(_data);
+            return this;
         }
 
         public string Json { get; private set; }

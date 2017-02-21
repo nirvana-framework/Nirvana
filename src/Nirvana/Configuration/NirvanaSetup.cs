@@ -8,38 +8,39 @@ namespace Nirvana.Configuration
 {
 
 
-    public static class NirvanaSetup
+
+    public class NirvanaSetup
     {
         //Wonky settings, fix these...
-        public static Guid ApplicationLevelViewModelKey { get; set; } = Guid.Parse("f9f54603-2cda-43da-a414-cd7f12eae4a1");
-        public static string UiNotificationHubName { get; set; } = "UiNotifications";
+        public Guid ApplicationLevelViewModelKey { get; set; } = Guid.Parse("f9f54603-2cda-43da-a414-cd7f12eae4a1");
+        public string UiNotificationHubName { get; set; } = "UiNotifications";
 
-        public static string AssemblyFolder { get; set; }
-        public static string ControllerAssemblyName { get; set; }
-        public static string ControllerRootNamespace { get; set; }
-        public static Assembly RootTypeAssembly { get; internal set; }
-        public static string TaskIdentifierProperty { get; internal set; }
-        public static  Func<string, object, bool> AttributeMatchingFunction { get; internal set; }
-        public static  string[] AssemblyNameReferences { get; internal set; }
-        //public static TaskType[] TaskTypes { get; internal set; }
-        public static Func<Type, object> GetService { get; internal set; }
-        public static Func<Type, object[]> GetServices { get; internal set; }
+        public string AssemblyFolder { get; set; }
+        public string ControllerAssemblyName { get; set; }
+        public  string ControllerRootNamespace { get; set; }
+        public  Assembly RootTypeAssembly { get; internal set; }
+        public  string TaskIdentifierProperty { get; internal set; }
+        public   Func<string, object, bool> AttributeMatchingFunction { get; internal set; }
+        public   string[] AssemblyNameReferences { get; internal set; }
+        
+        public   Func<Type, object> GetService { get; internal set; }
+        public   Func<Type, object[]> GetServices { get; internal set; }
 
 
         //Called On Configuration build
-        public static string[] RootNames { get; internal set; }
-        public static IDictionary<string, NirvanaTaskInformation[]> QueryTypes{ get; internal set; }
-        public static IDictionary<string, NirvanaTaskInformation[]> CommandTypes{ get; internal set; }
-        public static IDictionary<string, NirvanaTaskInformation[]> UiNotificationTypes{ get; internal set; }
-        public static IDictionary<string, NirvanaTaskInformation[]> InternalEventTypes { get; set; }
+        public  string[] RootNames { get; internal set; }
+        public  IDictionary<string, NirvanaTaskInformation[]> QueryTypes{ get; internal set; }
+        public  IDictionary<string, NirvanaTaskInformation[]> CommandTypes{ get; internal set; }
+        public  IDictionary<string, NirvanaTaskInformation[]> UiNotificationTypes{ get; internal set; }
+        public  IDictionary<string, NirvanaTaskInformation[]> InternalEventTypes { get; set; }
 
-        public static IDictionary<Type, NirvanaTaskInformation> DefinitionsByType{ get; internal set; }
+        public  IDictionary<Type, NirvanaTaskInformation> DefinitionsByType{ get; internal set; }
 
-        public static Dictionary<TaskType, NirvanaTypeRoutingDefinition> TaskConfiguration { get; set; }
+        public  Dictionary<TaskType, NirvanaTypeRoutingDefinition> TaskConfiguration { get; set; }
 
 
         //TODO - replace CqrsUtils.GetRootTypeName  with this and use it in that function to speed up
-        //public static IDictionary<Type, string> TypeRootNames{ get; internal set; }
+        //public  IDictionary<Type, string> TypeRootNames{ get; internal set; }
 
 
         public static NirvanaConfigurationHelper Configure()
@@ -47,7 +48,7 @@ namespace Nirvana.Configuration
             return new NirvanaConfigurationHelper();
         }
 
-        public static string ShowSetup()
+        public  string ShowSetup()
         {
             var builder = new StringBuilder();
             var propertyInfos = typeof(NirvanaSetup).GetProperties(BindingFlags.Public | BindingFlags.Static);
@@ -68,13 +69,13 @@ namespace Nirvana.Configuration
         }
 
 
-        public static NirvanaTaskInformation FindTypeDefinition(Type getType)
+        public  NirvanaTaskInformation FindTypeDefinition(Type getType)
         {
 
             return DefinitionsByType[getType];
         }
 
-        public static bool IsInProcess(TaskType taskType, bool isChildTask)
+        public  bool IsInProcess(TaskType taskType, bool isChildTask)
         {
             var config = GetTaskConfiguration(taskType);
 
@@ -86,7 +87,7 @@ namespace Nirvana.Configuration
                 : config.MediationStrategy == MediationStrategy.InProcess;
         }
 
-        public static bool ShouldForwardToWeb(TaskType taskType, bool isChildTask)
+        public  bool ShouldForwardToWeb(TaskType taskType, bool isChildTask)
         {
             var config = GetTaskConfiguration(taskType);
 
@@ -99,7 +100,7 @@ namespace Nirvana.Configuration
 
 
         }
-        public static bool ShouldForwardToQueue(TaskType taskType, bool isChildTask)
+        public  bool ShouldForwardToQueue(TaskType taskType, bool isChildTask)
         {
             var config = GetTaskConfiguration(taskType);
             
@@ -111,12 +112,12 @@ namespace Nirvana.Configuration
                 :config.MediationStrategy == MediationStrategy.ForwardToQueue;
         }
 
-        private static NirvanaTypeRoutingDefinition GetTaskConfiguration(TaskType taskType)
+        private  NirvanaTypeRoutingDefinition GetTaskConfiguration(TaskType taskType)
         {
             return TaskConfiguration[taskType];
         }
 
-        public static bool CanProcess(TaskType query)
+        public  bool CanProcess(TaskType query)
         {
             return TaskConfiguration[query].CanHandle;
         }

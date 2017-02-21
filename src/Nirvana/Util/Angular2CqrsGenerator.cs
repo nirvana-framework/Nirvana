@@ -13,6 +13,12 @@ namespace Nirvana.Util
 {
     public class Angular2CqrsGenerator
     {
+        private readonly NirvanaSetup _setup;
+
+        public Angular2CqrsGenerator(NirvanaSetup setup)
+        {
+            _setup = setup;
+        }
 
         public string GetV2Items()
         {
@@ -35,7 +41,7 @@ namespace Nirvana.Util
             //builder.AppendLine(WriteResponseType(typeof(PaginationQuery), new Stack<Type>(), true));
             //builder.AppendLine(WriteResponseType(typeof(MessageType), new Stack<Type>()));
 
-            foreach (var controllerName in NirvanaSetup.RootNames)
+            foreach (var controllerName in _setup.RootNames)
             {
                 WriteController(builder, controllerName, emitedTypes);
             }
@@ -49,9 +55,9 @@ namespace Nirvana.Util
         {
             builder.Append($"//{controllerName}" + Environment.NewLine);
 
-            var queryTypes = CqrsUtils. ActionTypes(typeof(Query<>), controllerName);
-            var commandTypes = CqrsUtils.ActionTypes(typeof(Command<>), controllerName);
-            var uiEventTypes = CqrsUtils.ActionTypes(typeof(UiEvent<>), controllerName);
+            var queryTypes = _setup. TaskTypes(typeof(Query<>), controllerName);
+            var commandTypes = _setup.TaskTypes(typeof(Command<>), controllerName);
+            var uiEventTypes = _setup.TaskTypes(typeof(UiEvent<>), controllerName);
 
             WriteTypes(builder, controllerName, emitedTypes, queryTypes, "Query", typeof(Query<>));
             WriteTypes(builder, controllerName, emitedTypes, commandTypes, "Command", typeof(Command<>));

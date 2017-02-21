@@ -30,11 +30,19 @@ namespace Nirvana.Mediation
 
     public class ChildMediatorFactory : MediatorFactoryBase, IChildMediatorFactory
     {
+        public ChildMediatorFactory(NirvanaSetup setup) : base(setup)
+        {
+        }
+
         public override  bool ChildCommands => true;
     }
 
     public class MediatorFactory : MediatorFactoryBase
     {
+        public MediatorFactory(NirvanaSetup setup) : base(setup)
+        {
+        }
+
         public override bool ChildCommands => false;
     }
 
@@ -42,6 +50,12 @@ namespace Nirvana.Mediation
 
     public abstract class MediatorFactoryBase: IMediatorFactory
     {
+        private readonly NirvanaSetup _setup;
+
+        protected MediatorFactoryBase(NirvanaSetup setup)
+        {
+            _setup = setup;
+        }
 
         public abstract bool ChildCommands { get;}
         public IMediator GetMediator(Type messageType)
@@ -86,9 +100,9 @@ namespace Nirvana.Mediation
         private MediatorStrategy GetMediatorStrategy(Type messageType, bool isChildTask = false)
         {
             if (messageType.IsQuery()
-                || (messageType.IsUiNotification() && NirvanaSetup.IsInProcess(TaskType.UiNotification, isChildTask))
-                || (messageType.IsCommand() && NirvanaSetup.IsInProcess(TaskType.Command, isChildTask))
-                || (messageType.IsInternalEvent() && NirvanaSetup.IsInProcess(TaskType.InternalEvent, isChildTask))
+                || (messageType.IsUiNotification() && _setup.IsInProcess(TaskType.UiNotification, isChildTask))
+                || (messageType.IsCommand() && _setup.IsInProcess(TaskType.Command, isChildTask))
+                || (messageType.IsInternalEvent() && _setup.IsInProcess(TaskType.InternalEvent, isChildTask))
                 )
             {
                 // Only commands can be offloaded currently
@@ -96,18 +110,18 @@ namespace Nirvana.Mediation
             }
 
             if (
-                 (messageType.IsUiNotification() && NirvanaSetup.ShouldForwardToWeb(TaskType.UiNotification, isChildTask))
-                || (messageType.IsCommand() && NirvanaSetup.ShouldForwardToWeb(TaskType.Command, isChildTask))
-                || (messageType.IsInternalEvent() && NirvanaSetup.ShouldForwardToWeb(TaskType.InternalEvent, isChildTask))
+                 (messageType.IsUiNotification() && _setup.ShouldForwardToWeb(TaskType.UiNotification, isChildTask))
+                || (messageType.IsCommand() && _setup.ShouldForwardToWeb(TaskType.Command, isChildTask))
+                || (messageType.IsInternalEvent() && _setup.ShouldForwardToWeb(TaskType.InternalEvent, isChildTask))
                )
             {
                 return MediatorStrategy.ForwardToWeb;
             }
 
             if (
-                (messageType.IsUiNotification() && NirvanaSetup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask))
-                || (messageType.IsCommand() && NirvanaSetup.ShouldForwardToQueue(TaskType.Command, isChildTask))
-                || (messageType.IsInternalEvent() && NirvanaSetup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask))
+                (messageType.IsUiNotification() && _setup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask))
+                || (messageType.IsCommand() && _setup.ShouldForwardToQueue(TaskType.Command, isChildTask))
+                || (messageType.IsInternalEvent() && _setup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask))
                 )
             {
                 return MediatorStrategy.ForwardToQueue;
@@ -121,16 +135,16 @@ namespace Nirvana.Mediation
 
         private IMediator GetWebMediator()
         {
-            return (IWebMediator)NirvanaSetup.GetService(typeof(IWebMediator));
+            return (IWebMediator)_setup.GetService(typeof(IWebMediator));
         }
 
         private IMediator GetQueueMediator()
         {
-            return (IQueueMediator)NirvanaSetup.GetService(typeof(IQueueMediator));
+            return (IQueueMediator)_setup.GetService(typeof(IQueueMediator));
         }
-        private static IMediator GetInProcMediator()
+        private  IMediator GetInProcMediator()
         {
-            return (IMediator)NirvanaSetup.GetService(typeof(IMediator));
+            return (IMediator)_setup.GetService(typeof(IMediator));
         }
 
     }

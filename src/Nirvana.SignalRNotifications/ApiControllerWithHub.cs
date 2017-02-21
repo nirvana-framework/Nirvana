@@ -2,6 +2,8 @@
 using Microsoft.AspNet.SignalR;
 using Nirvana.CQRS;
 using Nirvana.CQRS.UiNotifications;
+using Nirvana.Mediation;
+using Nirvana.Util.Io;
 using Nirvana.Web.Controllers;
 
 namespace Nirvana.SignalRNotifications
@@ -11,6 +13,13 @@ namespace Nirvana.SignalRNotifications
     {
         public readonly Lazy<IHubContext> _hub =
             new Lazy<IHubContext>(() => GlobalHost.ConnectionManager.GetHubContext<THub>());
+
+        private readonly ISerializer _serializer;
+
+        protected ApiControllerWithHub(ISerializer serializer, IMediatorFactory mediator) : base(mediator)
+        {
+            _serializer = serializer;
+        }
 
         protected IHubContext Hub => _hub.Value;
 
@@ -25,10 +34,10 @@ namespace Nirvana.SignalRNotifications
             {
                 ChannelName = Constants.TaskChannel,
                 Name = eventName,
-                Data = task,
                 AggregateRoot = task.AggregateRoot,
                 
             };
+            channelEvent.SetData(task, _serializer);
             Hub.Clients.Group(channelName).OnEvent(Constants.TaskChannel, channelEvent);
         }
 

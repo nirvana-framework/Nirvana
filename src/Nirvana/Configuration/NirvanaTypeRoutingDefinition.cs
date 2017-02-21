@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Nirvana.Security;
 
 namespace Nirvana.Configuration
 {
@@ -21,6 +23,7 @@ namespace Nirvana.Configuration
     {
         public string RootName { get; set; }
         public Type TaskType { get; set; }
+        public Dictionary<ClaimType, AccessType[]> Claims { get; set; }
         public string UniqueName { get; set; }
         public string TypeCorrelationId { get; set; }
 

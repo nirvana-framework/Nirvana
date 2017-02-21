@@ -20,9 +20,15 @@ namespace Nirvana.Web.Startup
             HandledControllers = new Dictionary<string, Type>();
         }
 
-        public DynamicApiSelector(HttpConfiguration configuration,Type[] inlineControllerTypes) : base(configuration)
+
+
+        private readonly NirvanaSetup _setup;
+
+
+        public DynamicApiSelector(HttpConfiguration configuration,Type[] inlineControllerTypes, NirvanaSetup setup) : base(configuration)
         {
-           
+
+            _setup = setup;
             this._inlineControllerTypes = inlineControllerTypes;
             _configuration = configuration;
         }
@@ -37,18 +43,18 @@ namespace Nirvana.Web.Startup
                 return new HttpControllerDescriptor(_configuration, controllerName,inlineType);
             }
 
-            var rootType = controllerName == NirvanaSetup.UiNotificationHubName 
-                ? NirvanaSetup.UiNotificationHubName
-                : NirvanaSetup.RootNames.Single(x=>x.Equals(controllerName,StringComparison.CurrentCultureIgnoreCase));
+            var rootType = controllerName == _setup.UiNotificationHubName 
+                ? _setup.UiNotificationHubName
+                : _setup.RootNames.Single(x=>x.Equals(controllerName,StringComparison.CurrentCultureIgnoreCase));
 
             if (!HandledControllers.ContainsKey(rootType))
             {
                 foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    if (a.GetName().Name == NirvanaSetup.ControllerAssemblyName)
+                    if (a.GetName().Name == _setup.ControllerAssemblyName)
                         foreach (var t in a.GetTypes())
                         {
-                            if (t.FullName.EqualsIgnoreCase($"{NirvanaSetup.ControllerRootNamespace}.Controllers.{controllerName}Controller"))
+                            if (t.FullName.EqualsIgnoreCase($"{_setup.ControllerRootNamespace}.Controllers.{controllerName}Controller"))
                             {
                                 HandledControllers[rootType] = t;
                             }

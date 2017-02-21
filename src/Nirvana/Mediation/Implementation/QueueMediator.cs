@@ -7,17 +7,22 @@ namespace Nirvana.Mediation.Implementation
 {
     public class QueueMediator:IQueueMediator
     {
+        private readonly NirvanaSetup _setup;
 
+        public QueueMediator(NirvanaSetup setup)
+        {
+            _setup = setup;
+        }
         public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
         {
             SendMessage(command);
             return CommandResponse.Succeeded(default(TResult), "Work queued.");
         }
 
-        private static void SendMessage(NirvanaTask task)
+        private void SendMessage(NirvanaTask task)
         {
-            var messageType = NirvanaSetup.FindTypeDefinition(task.GetType());
-            var queueFactory = ((IQueueFactory) NirvanaSetup.GetService(typeof(IQueueFactory)));
+            var messageType = _setup.FindTypeDefinition(task.GetType());
+            var queueFactory = ((IQueueFactory)_setup.GetService(typeof(IQueueFactory)));
 
             var queue = queueFactory.GetQueue(messageType);
             queue.Send(task);

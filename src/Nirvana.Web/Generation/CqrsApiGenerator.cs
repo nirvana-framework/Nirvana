@@ -15,6 +15,15 @@ namespace Nirvana.Web.Generation
 {
     public class CqrsApiGenerator
     {
+
+        private readonly NirvanaSetup _setup;
+
+        public CqrsApiGenerator(NirvanaSetup setup)
+        {
+            _setup = setup;
+        }
+
+
         private IEnumerable<MetadataReference> GetGlobalReferences(Assembly[] thirdPartyReferences)
         {
             var locations = thirdPartyReferences.Select(x => x.Location);
@@ -36,7 +45,7 @@ namespace Nirvana.Web.Generation
                 "Nirvana.Web.Controllers"
             };
             //Commands and Queries
-            foreach (var root in NirvanaSetup.RootNames)
+            foreach (var root in _setup.RootNames)
             {
                 var actionCode = BuildCommandAndQueryController(root);
                 if (actionCode.Actions != string.Empty)
@@ -57,19 +66,19 @@ namespace Nirvana.Web.Generation
             return BuildSyntaxTree( codeNamespaces, builder);
         }
 
-        private static SyntaxTree BuildSyntaxTree( List<string> codeNamespaces,
+        private SyntaxTree BuildSyntaxTree( List<string> codeNamespaces,
             StringBuilder builder)
         {
             var code = new StringBuilder();
             codeNamespaces.Distinct().ForEach(x => { code.Append($"using {x};"); });
-            code.Append($"namespace {NirvanaSetup.ControllerRootNamespace}.Controllers{{{builder}}}");
+            code.Append($"namespace {_setup.ControllerRootNamespace}.Controllers{{{builder}}}");
             var tree = CSharpSyntaxTree.ParseText(code.ToString());
             return tree;
         }
 
         private ControllerActionCode BuildEventHub()
         {
-            if (!NirvanaSetup.IsInProcess(TaskType.UiNotification,false))
+            if (!_setup.IsInProcess(TaskType.UiNotification,false))
             {
                 return new ControllerActionCode {AdditionalNamespaces = new List<string>(),Actions = String.Empty};
             }
@@ -83,9 +92,9 @@ namespace Nirvana.Web.Generation
 
             builder.Append("public class UiNotificationsController: ApiControllerWithHub<EventHub>{");
 
-            foreach (var key in NirvanaSetup.UiNotificationTypes.Keys)
+            foreach (var key in _setup.UiNotificationTypes.Keys)
             {
-                foreach (var x in NirvanaSetup.UiNotificationTypes[key])
+                foreach (var x in _setup.UiNotificationTypes[key])
                 {
                     var uiEventKey = $"{key}::{x.TaskType.Name}";
                     namespaces.Add(x.TaskType.Namespace);
@@ -107,7 +116,7 @@ namespace Nirvana.Web.Generation
 
         private ControllerActionCode BuildCommandAndQueryController(string rootType)
         {
-            if (!NirvanaSetup.CanProcess(TaskType.Query) && !NirvanaSetup.CanProcess(TaskType.Command))
+            if (!_setup.CanProcess(TaskType.Query) && !_setup.CanProcess(TaskType.Command))
             {
                 return new ControllerActionCode {Actions = string.Empty,AdditionalNamespaces = new List<string>()};
             }
@@ -118,9 +127,9 @@ namespace Nirvana.Web.Generation
             builder.Append(
                 $"public class {rootType}Controller:Nirvana.Web.Controllers.CommandQueryApiControllerBase{{");
 
-            if (NirvanaSetup.CanProcess(TaskType.Query))
+            if (_setup.CanProcess(TaskType.Query))
             {
-                foreach (var type in NirvanaSetup.QueryTypes[rootType])
+                foreach (var type in _setup.QueryTypes[rootType])
                 {
                     additionalNamespaces.Add(type.TaskType.Namespace);
                     var name = type.TaskType.Name;
@@ -128,9 +137,9 @@ namespace Nirvana.Web.Generation
                     builder.Append($"[HttpGet]public HttpResponseMessage {name}([FromUri] {name}Query query){{return Query(query);}}");
                 }
             }
-            if (NirvanaSetup.CanProcess(TaskType.Command))
+            if (_setup.CanProcess(TaskType.Command))
             {
-                foreach (var type in NirvanaSetup.CommandTypes[rootType])
+                foreach (var type in _setup.CommandTypes[rootType])
                 {
                     additionalNamespaces.Add(type.TaskType.Namespace);
                     var name = type.TaskType.Name;
@@ -138,9 +147,9 @@ namespace Nirvana.Web.Generation
                     builder.Append($"[HttpPost]public HttpResponseMessage {name}([FromBody] {name}Command command){{return Command(command);}}");
                 }
             }
-            if (NirvanaSetup.CanProcess(TaskType.InternalEvent))
+            if (_setup.CanProcess(TaskType.InternalEvent))
             {
-                foreach (var type in NirvanaSetup.InternalEventTypes[rootType])
+                foreach (var type in _setup.InternalEventTypes[rootType])
                 {
                     additionalNamespaces.Add(type.TaskType.Namespace);
                     var name = type.TaskType.Name;
@@ -195,21 +204,21 @@ namespace Nirvana.Web.Generation
             var tree = BuildTree();
             var syntaxTrees = new[] {tree};
             var cSharpCompilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            var compilation = CSharpCompilation.Create(NirvanaSetup.ControllerAssemblyName, syntaxTrees,
+            var compilation = CSharpCompilation.Create(_setup.ControllerAssemblyName, syntaxTrees,
                 options: cSharpCompilationOptions);
 
             compilation = compilation
                 .AddReferences(GetGlobalReferences(thirdPartyReferences))
-                .AddReferences(MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\System.Web.Http.dll"))
+                .AddReferences(MetadataReference.CreateFromFile($"{_setup.AssemblyFolder}\\System.Web.Http.dll"))
                 .AddReferences(
-                    MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\System.Web.Http.Cors.dll"))
-                .AddReferences(MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\Nirvana.dll"));
+                    MetadataReference.CreateFromFile($"{_setup.AssemblyFolder}\\System.Web.Http.Cors.dll"))
+                .AddReferences(MetadataReference.CreateFromFile($"{_setup.AssemblyFolder}\\Nirvana.dll"));
 
-            foreach (var additionalAssembly in NirvanaSetup.AssemblyNameReferences)
+            foreach (var additionalAssembly in _setup.AssemblyNameReferences)
             {
                 compilation =
                     compilation.AddReferences(
-                        MetadataReference.CreateFromFile($"{NirvanaSetup.AssemblyFolder}\\{additionalAssembly}"));
+                        MetadataReference.CreateFromFile($"{_setup.AssemblyFolder}\\{additionalAssembly}"));
             }
 
 

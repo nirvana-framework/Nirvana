@@ -8,30 +8,30 @@ using Nirvana.Util.Extensions;
 
 namespace Nirvana.CQRS.Util
 {
-    public class CqrsUtils
+    public static class CqrsUtils
     {
-        public static Type[] QueryTypes(string rootType)
+        public static Type[] QueryTypes(this NirvanaSetup setup, string rootType)
         {
-            return ActionTypes(typeof(Query<>), rootType);
+            return TaskTypes(setup, typeof(Query<>), rootType);
         }
 
-        public static Type[] CommandTypes(string rootType)
+        public static Type[] CommandTypes(this NirvanaSetup setup, string rootType)
         {
-            return ActionTypes(typeof(Query<>), rootType);
+            return TaskTypes(setup,typeof(Query<>), rootType);
         }
 
-        public static Type[] UiNotificationTypes(string rootType)
+        public static Type[] UiNotificationTypes(this NirvanaSetup setup, string rootType)
         {
-            return ActionTypes(typeof(UiEvent<>), rootType);
+            return TaskTypes(setup, typeof(UiEvent<>), rootType);
         }
 
-        public static IEnumerable<Type> GetAllTypes(string rootType)
+        public static IEnumerable<Type> GetAllTypes(this NirvanaSetup setup, string rootType)
         {
             var types = new List<Type>();
-            types.AddRange(ActionTypes(typeof(Command<>), rootType));
-            types.AddRange(ActionTypes(typeof(Query<>), rootType));
-            types.AddRange(ActionTypes(typeof(UiEvent<>), rootType));
-            types.AddRange(ActionTypes(typeof(InternalEvent), rootType));
+            types.AddRange(TaskTypes(setup,typeof(Command<>), rootType));
+            types.AddRange(TaskTypes(setup,typeof(Query<>), rootType));
+            types.AddRange(TaskTypes(setup,typeof(UiEvent<>), rootType));
+            types.AddRange(TaskTypes(setup,typeof(InternalEvent), rootType));
             
 
             return types;
@@ -45,25 +45,25 @@ namespace Nirvana.CQRS.Util
                 : null;
         }
 
-        public static Type[] ActionTypes(Type types, string rootType)
+        public static Type[] TaskTypes(this NirvanaSetup setup, Type types, string rootType)
         {
             var seedTypes = new[]
             {
                 typeof(Command<>).Assembly,
-                NirvanaSetup.RootTypeAssembly
+                setup.RootTypeAssembly
             };
 
 
             var matchesType = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes(x => x.ClosesOrImplements(types), seedTypes);
             return
-                matchesType.Where(x => MatchesRootType(rootType, x))
+                matchesType.Where(x => MatchesRootType(setup,rootType, x))
                     .ToArray();
         }
 
-        private static bool MatchesRootType(string rootType, Type x)
+        private static bool MatchesRootType(this NirvanaSetup setup, string rootType, Type x)
         {
             var customAttribute = CustomAttribute(x);
-            return customAttribute != null && NirvanaSetup.AttributeMatchingFunction(rootType, customAttribute);
+            return customAttribute != null && setup.AttributeMatchingFunction(rootType, customAttribute);
         }
 
         public static Attribute CustomAttribute(Type x)
@@ -90,19 +90,19 @@ namespace Nirvana.CQRS.Util
             return $"{rootTypeName}/{actionName}";
         }
 
-        public static string GetApiEndpint(Type type,  string superTypeName)
+        public static string GetApiEndpint(this NirvanaSetup setup, Type type,  string superTypeName)
         {
 
-            return GetApiEndpint(GetRootTypeName(type), type.Name, superTypeName);
+            return GetApiEndpint(GetRootTypeName(setup,type), type.Name, superTypeName);
         }
 
-        private static string GetRootTypeName(Type type)
+        private static string GetRootTypeName(this NirvanaSetup setup, Type type)
         {
             //TODO - this is a bit slow, create a dictionary by type in hte configuration
-            foreach (var rootName in NirvanaSetup.RootNames)
+            foreach (var rootName in setup.RootNames)
             {
 
-                if (MatchesRootType(rootName, type))
+                if (MatchesRootType(setup, rootName, type))
                 {
                     return rootName;
                 }

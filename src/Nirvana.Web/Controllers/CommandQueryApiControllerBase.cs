@@ -14,24 +14,24 @@ namespace Nirvana.Web.Controllers
     public abstract class CommandQueryApiControllerBase : ApiController
     {
         private readonly WebApiSecurity _webApiSecurity;
-        public IMediatorFactory MediatorFactory { get; set; }
+        public IMediatorFactory Mediator { get; set; }
 
-        protected CommandQueryApiControllerBase()
+        protected CommandQueryApiControllerBase(IMediatorFactory mediator)
         {
             //TODO - inject properly this when I figure out how to wire up to IoC
             _webApiSecurity = new WebApiSecurity();
-            MediatorFactory = (IMediatorFactory) NirvanaSetup.GetService(typeof(IMediatorFactory));
+            Mediator = mediator;
         }
 
         protected HttpResponseMessage Command<TResult>(Command<TResult> command)
         {
-            var response = MediatorFactory.Command(AddAuthToCommand(command));
+            var response = Mediator.Command(AddAuthToCommand(command));
             LogException(response);
             return Request.CreateResponse(GetResponseCode(response), PrepCommand(response));
         }
         protected HttpResponseMessage InternalEvent(InternalEvent command)
         {
-            var response = MediatorFactory.InternalEvent(command);
+            var response = Mediator.InternalEvent(command);
             LogException(response);
             return Request.CreateResponse(GetResponseCode(response), PrepEventResponse(response));
         }
@@ -59,7 +59,7 @@ namespace Nirvana.Web.Controllers
 
         protected HttpResponseMessage Query<TResult>(Query<TResult> query)
         {
-            var response = MediatorFactory.Query(AddAuthToQuery(query));
+            var response = Mediator.Query(AddAuthToQuery(query));
             LogException(response);
             return Request.CreateResponse(GetResponseCode(response), PrepQuery(response));
         }
@@ -67,7 +67,7 @@ namespace Nirvana.Web.Controllers
         protected HttpResponseMessage QueryForFile<TResult>(Query<TResult> query)
             where TResult : FileQueryResult
         {
-            var response = MediatorFactory.Query(query);
+            var response = Mediator.Query(query);
 
             var httpResponseMessage = Request.CreateResponse(GetResponseCode(response), response.Result.FileBytes);
 

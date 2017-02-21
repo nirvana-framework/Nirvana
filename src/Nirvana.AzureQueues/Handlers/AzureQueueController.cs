@@ -11,8 +11,12 @@ namespace Nirvana.AzureQueues.Handlers
     {
         public Dictionary<string, QueueReference[]> QueueTypesByRoot { get; set; }
 
-        public AzureQueueController()
+        private readonly NirvanaSetup _setup;
+
+        public AzureQueueController(NirvanaSetup setup)
         {
+            _setup = setup;
+      
             var nirvanaTypeDefinitionses = GetTypes();
             QueueTypesByRoot = nirvanaTypeDefinitionses.ToDictionary(x => x.Key, x => x
                 .Value.Select(q => new AzureQueueReference
@@ -29,7 +33,7 @@ namespace Nirvana.AzureQueues.Handlers
         private IDictionary<string,NirvanaTaskInformation[]> GetTypes()
         {
             return
-                NirvanaSetup.TaskConfiguration.Where(x => x.Value.CanHandle)
+                _setup.TaskConfiguration.Where(x => x.Value.CanHandle)
                     .SelectMany(x => x.Value.Tasks)
                     .GroupBy(x => x.RootName)
                     .ToDictionary(x => x.Key, x => x.ToArray());
@@ -47,7 +51,7 @@ namespace Nirvana.AzureQueues.Handlers
 
         public bool StartAll()
         {
-            AllQueues().ForEach(x => x.StartQueue((IQueueFactory) NirvanaSetup.GetService(typeof(IQueueFactory))));
+            AllQueues().ForEach(x => x.StartQueue((IQueueFactory)_setup.GetService(typeof(IQueueFactory))));
             return AllQueues().All(x => x.Status == QueueStatus.Started);
         }
 

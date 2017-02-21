@@ -66,6 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\NirvanaSetupTests.cs" />
+    <Compile Include="Configuration\NirvanaTestInput.cs" />
+    <Compile Include="Configuration\SampleSetup\TestCommand.cs" />
+    <Compile Include="Configuration\SampleSetup\TestRoot.cs" />
+    <Compile Include="Configuration\SampleSetup\TestRootAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

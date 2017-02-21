@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
-using Nirvana.Configuration;
 using Nirvana.CQRS.UiNotifications;
 using Nirvana.Util.Io;
 
@@ -10,9 +9,9 @@ namespace Nirvana.SignalRNotifications
     {
         protected ISerializer Serializer;
 
-        protected UiNotificationHub()
+        protected UiNotificationHub(ISerializer serializer)
         {
-            Serializer = (ISerializer) NirvanaSetup.GetService(typeof(ISerializer));
+            Serializer = serializer;
         }
 
         public Task Publish(ChannelEvent channelEvent)
@@ -20,13 +19,9 @@ namespace Nirvana.SignalRNotifications
             Clients.Group(channelEvent.ChannelName).OnEvent(channelEvent.ChannelName, channelEvent);
 
             if (channelEvent.ChannelName == Constants.AdminChannel)
-            {
                 Clients.Group(Constants.AdminChannel).OnEvent(Constants.AdminChannel, channelEvent);
-            }
             if (channelEvent.ChannelName == Constants.AggregateLevel)
-            {
                 Clients.Group(Constants.AggregateLevel).OnEvent(Constants.AggregateLevel, channelEvent);
-            }
 
             return Task.FromResult(0);
         }
@@ -38,13 +33,13 @@ namespace Nirvana.SignalRNotifications
             var ev = new ChannelEvent
             {
                 ChannelName = Constants.AdminChannel,
-                Name = "user.subscribed",
-                Data = new
+                Name = "user.subscribed"
+            }.SetData(new
                 {
                     Context.ConnectionId,
                     ChannelName = channel
                 }
-            };
+                , Serializer);
 
             await Publish(ev);
         }
@@ -56,13 +51,13 @@ namespace Nirvana.SignalRNotifications
             var ev = new ChannelEvent
             {
                 ChannelName = Constants.AdminChannel,
-                Name = "user.unsubscribed",
-                Data = new
+                Name = "user.unsubscribed"
+            }.SetData(new
                 {
                     Context.ConnectionId,
                     ChannelName = channel
-                }
-            };
+                },
+                Serializer);
 
             await Publish(ev);
         }

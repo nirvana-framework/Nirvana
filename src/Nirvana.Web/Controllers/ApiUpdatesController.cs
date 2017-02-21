@@ -3,16 +3,25 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
+using Nirvana.Configuration;
+using Nirvana.Mediation;
 using Nirvana.Util;
 
 namespace Nirvana.Web.Controllers
 {
     public class ApiUpdatesController : CommandQueryApiControllerBase
     {
+        private readonly NirvanaSetup _setup;
+
+        public ApiUpdatesController(NirvanaSetup setup, IMediatorFactory mediator) : base(mediator)
+        {
+            _setup = setup;
+        }
+
         [HttpGet]
         public HttpResponseMessage GetA2Updates()
         {
-            byte[] myByteArray = Encoding.UTF8.GetBytes(new Angular2CqrsGenerator().GetV2Items());
+            byte[] myByteArray = Encoding.UTF8.GetBytes(new Angular2CqrsGenerator(_setup).GetV2Items());
             MemoryStream stream = new MemoryStream(myByteArray);
 
             var contentRresult = new HttpResponseMessage(HttpStatusCode.OK)

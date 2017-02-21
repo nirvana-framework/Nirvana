@@ -10,6 +10,14 @@ namespace Nirvana.WebUtils
 {
     public class WebMediator : IWebMediator
     {
+
+
+        private readonly NirvanaSetup _setup;
+
+        public WebMediator(NirvanaSetup setup)
+        {
+            _setup = setup;
+        }
         private readonly INirvanaConfiguration _endpointConfiguration;
         private readonly INirvanaHttpClient _httpClient;
         private readonly ISerializer _serializer;
@@ -88,16 +96,16 @@ namespace Nirvana.WebUtils
 
         public string GetQueryApiPath(Type type)
         {
-            return CqrsUtils.GetApiEndpint(type, "Query");
+            return CqrsUtils.GetApiEndpint(_setup,type, "Query");
         }
         public string GetInternalEventApiPath(Type type)
         {
-            return CqrsUtils.GetApiEndpint(type, "");
+            return CqrsUtils.GetApiEndpint(_setup, type, "");
         }
 
         public string GetCommandApiPath(Type type)
         {
-            return CqrsUtils.GetApiEndpint(type, "Command");
+            return CqrsUtils.GetApiEndpint(_setup, type, "Command");
         }
         public string GetUiNotificationPath(Type type)
         {

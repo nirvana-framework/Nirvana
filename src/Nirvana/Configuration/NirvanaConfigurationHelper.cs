@@ -5,6 +5,7 @@ using System.Reflection;
 using Nirvana.CQRS;
 using Nirvana.CQRS.Util;
 using Nirvana.Domain;
+using Nirvana.Security;
 using Nirvana.Util.Extensions;
 
 namespace Nirvana.Configuration
@@ -12,23 +13,24 @@ namespace Nirvana.Configuration
     public class NirvanaConfigurationHelper
     {
         private readonly Dictionary<TaskType, NirvanaTypeRoutingDefinition> _taskConfiguration;
-
+        public readonly NirvanaSetup Setup;
         public NirvanaConfigurationHelper()
         {
+            Setup = new NirvanaSetup();
             _taskConfiguration = new Dictionary<TaskType, NirvanaTypeRoutingDefinition>();
         }
 
         public NirvanaConfigurationHelper SetRootTypeAssembly(Assembly typeAssembly)
         {
-            NirvanaSetup.RootTypeAssembly = typeAssembly;
+            Setup.RootTypeAssembly = typeAssembly;
             return this;
         }
 
         public NirvanaConfigurationHelper SetDependencyResolver(Func<Type, object> resolverMethod,
             Func<Type, object[]> resolveMultipleMethod)
         {
-            NirvanaSetup.GetService = resolverMethod;
-            NirvanaSetup.GetServices = resolveMultipleMethod;
+            Setup.GetService = resolverMethod;
+            Setup.GetServices = resolveMultipleMethod;
             return this;
         }
 
@@ -36,7 +38,7 @@ namespace Nirvana.Configuration
 
         public NirvanaConfigurationHelper SetAttributeMatchingFunction(Func<string, object, bool> method)
         {
-            NirvanaSetup.AttributeMatchingFunction = method;
+            Setup.AttributeMatchingFunction = method;
             return this;
         }
 
@@ -49,20 +51,20 @@ namespace Nirvana.Configuration
                     "Nirvana.Web.dll"
                 };
 
-        NirvanaSetup.AssemblyNameReferences = commonReferences.Concat(refrences).ToArray();
+            Setup.AssemblyNameReferences = commonReferences.Concat(refrences).ToArray();
             return this;
         }
 
         public NirvanaConfigurationHelper UsingControllerName(string controllerAssemblyName, string rootNamesapce)
         {
-            NirvanaSetup.ControllerAssemblyName = controllerAssemblyName;
-            NirvanaSetup.ControllerRootNamespace = rootNamesapce;
+            Setup.ControllerAssemblyName = controllerAssemblyName;
+            Setup.ControllerRootNamespace = rootNamesapce;
             return this;
         }
 
         public NirvanaConfigurationHelper WithAssembliesFromFolder(string assemblyFolder)
         {
-            NirvanaSetup.AssemblyFolder = assemblyFolder;
+            Setup.AssemblyFolder = assemblyFolder;
             return this;
         }
 
@@ -110,31 +112,32 @@ namespace Nirvana.Configuration
         }
 
 
-        public void BuildConfiguration()
+        public NirvanaSetup BuildConfiguration()
         {
 
             var rootTypeNames = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes
-                (x => typeof(RootType).IsAssignableFrom(x), NirvanaSetup.RootTypeAssembly)
+                (x => typeof(RootType).IsAssignableFrom(x), Setup.RootTypeAssembly)
                 .Select(x=>(Activator.CreateInstance(x) as RootType).RootName);
 
-            NirvanaSetup.TaskIdentifierProperty = "Identifier";
-            NirvanaSetup.RootNames = rootTypeNames.ToArray();
-            NirvanaSetup.QueryTypes = NirvanaSetup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Query<>)));
-            NirvanaSetup.CommandTypes = NirvanaSetup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Command<>)));
-            NirvanaSetup.UiNotificationTypes = NirvanaSetup.RootNames.ToDictionary(x => x,
+            Setup.TaskIdentifierProperty = "Identifier";
+            Setup.RootNames = rootTypeNames.ToArray();
+            Setup.QueryTypes = Setup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Query<>)));
+            Setup.CommandTypes = Setup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Command<>)));
+            Setup.UiNotificationTypes = Setup.RootNames.ToDictionary(x => x,
                 x => GetTypes(x, typeof(UiEvent<>)));
-            NirvanaSetup.InternalEventTypes = NirvanaSetup.RootNames.ToDictionary(x => x,
+            Setup.InternalEventTypes = Setup.RootNames.ToDictionary(x => x,
                 x => GetTypes(x, typeof(InternalEvent)));
 
-            var definitions = GetTypes(NirvanaSetup.QueryTypes)
-                .Union(GetTypes(NirvanaSetup.CommandTypes))
-                .Union(GetTypes(NirvanaSetup.UiNotificationTypes))
-                .Union(GetTypes(NirvanaSetup.InternalEventTypes)).ToArray();
+            var definitions = GetTypes(Setup.QueryTypes)
+                .Union(GetTypes(Setup.CommandTypes))
+                .Union(GetTypes(Setup.UiNotificationTypes))
+                .Union(GetTypes(Setup.InternalEventTypes)).ToArray();
 
-            NirvanaSetup.DefinitionsByType = definitions.ToDictionary(x => x.TaskType, x => x);
+            Setup.DefinitionsByType = definitions.ToDictionary(x => x.TaskType, x => x);
 
 
             BuildTaskConfiguration();
+            return Setup;
         }
 
         private void BuildTaskConfiguration()
@@ -144,19 +147,19 @@ namespace Nirvana.Configuration
             GuiarDisabledTasks(TaskType.UiNotification);
             GuiarDisabledTasks(TaskType.InternalEvent);
 
-            NirvanaSetup.TaskConfiguration = _taskConfiguration;
+            Setup.TaskConfiguration = _taskConfiguration;
 
-            NirvanaSetup.TaskConfiguration[TaskType.Command].Tasks =
-                NirvanaSetup.CommandTypes.SelectMany(x => x.Value).ToArray();
+            Setup.TaskConfiguration[TaskType.Command].Tasks =
+                Setup.CommandTypes.SelectMany(x => x.Value).ToArray();
 
-            NirvanaSetup.TaskConfiguration[TaskType.Query].Tasks =
-                NirvanaSetup.QueryTypes.SelectMany(x => x.Value).ToArray();
+            Setup.TaskConfiguration[TaskType.Query].Tasks =
+                Setup.QueryTypes.SelectMany(x => x.Value).ToArray();
 
-            NirvanaSetup.TaskConfiguration[TaskType.UiNotification].Tasks =
-                NirvanaSetup.UiNotificationTypes.SelectMany(x => x.Value).ToArray();
+            Setup.TaskConfiguration[TaskType.UiNotification].Tasks =
+                Setup.UiNotificationTypes.SelectMany(x => x.Value).ToArray();
 
-            NirvanaSetup.TaskConfiguration[TaskType.InternalEvent].Tasks =
-                NirvanaSetup.InternalEventTypes.SelectMany(x => x.Value).ToArray();
+            Setup.TaskConfiguration[TaskType.InternalEvent].Tasks =
+                Setup.InternalEventTypes.SelectMany(x => x.Value).ToArray();
 
         }
 
@@ -205,15 +208,15 @@ namespace Nirvana.Configuration
         }
 
 
-        private NirvanaTaskInformation[] GetTypes(string rootName, Type actionType)
+        private NirvanaTaskInformation[] GetTypes(string rootName, Type taskType)
         {
             return
-                CqrsUtils.ActionTypes(actionType, rootName)
-                    .Select(t => BuildTypeDefinition(t, actionType, rootName))
+                Setup.TaskTypes(taskType, rootName)
+                    .Select(t => BuildTypeDefinition(t, rootName))
                     .ToArray();
         }
 
-        private NirvanaTaskInformation BuildTypeDefinition(Type taskType, Type actionType, string rootName)
+        private NirvanaTaskInformation BuildTypeDefinition(Type taskType, string rootName)
         {
             return new NirvanaTaskInformation
             {
@@ -221,7 +224,27 @@ namespace Nirvana.Configuration
                 TypeCorrelationId = GetTypeCorrelationID(taskType),
                 UniqueName = GetUniqueName(taskType, rootName),
                 RootName = rootName,
+                Claims = BuildClaims(taskType)
             };
+        }
+
+        private Dictionary<ClaimType, AccessType[]> BuildClaims(Type taskType)
+        {
+            var list = new List<KeyValuePair<ClaimType, AccessType[]>>();
+
+            var attrs = taskType.GetCustomAttributes(true);
+            foreach (object attr in attrs)
+            {
+                var authAttr = attr as ClaimTypeAttribute;
+                if (authAttr != null)
+                {
+
+                    list.Add(new KeyValuePair<ClaimType, AccessType[]>(authAttr.ClaimType, authAttr.AllowedActions));
+                }
+            }
+
+
+            return list.ToDictionary(x => x.Key, x => x.Value);
         }
 
         private string GetUniqueName(Type taskType, string rootName)
@@ -233,7 +256,7 @@ namespace Nirvana.Configuration
         private string GetTypeCorrelationID(Type taskType)
         {
             var aggType = CqrsUtils.CustomAttribute(taskType);
-            return aggType.GetProperty(NirvanaSetup.TaskIdentifierProperty).ToString();
+            return aggType.GetProperty(Setup.TaskIdentifierProperty).ToString();
         }
     }
 }

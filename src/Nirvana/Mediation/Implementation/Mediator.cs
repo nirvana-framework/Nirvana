@@ -7,6 +7,15 @@ namespace Nirvana.Mediation.Implementation
 {
     public class Mediator : ILocalMediator
     {
+
+        private readonly NirvanaSetup _setup;
+
+        public Mediator(NirvanaSetup setup)
+        {
+            _setup = setup;
+        }
+
+
         private const string HandleMethod = "Handle";
 
         public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
@@ -30,7 +39,7 @@ namespace Nirvana.Mediation.Implementation
 
         public InternalEventResponse InternalEvent(InternalEvent internalEvent)
         {
-           return (NirvanaSetup.GetService(typeof(InternalEventProcessor)) as InternalEventProcessor).Process(internalEvent);
+           return (_setup.GetService(typeof(InternalEventProcessor)) as InternalEventProcessor).Process(internalEvent);
         }
 
 
@@ -39,17 +48,24 @@ namespace Nirvana.Mediation.Implementation
             private readonly Func<object> _getHandler;
             private readonly MethodInfo _handleMethod;
 
+            private readonly NirvanaSetup _setup;
+
+            public MediatorPlan(NirvanaSetup setup)
+            {
+                _setup = setup;
+            }
+
             public MediatorPlan(Type handlerTypeTemplate, string handlerMethodName, Type messageType)
             {
                 var genericHandlerType = handlerTypeTemplate.MakeGenericType(messageType, typeof(TResult));
-                var handler = NirvanaSetup.GetService(genericHandlerType);
+                var handler = _setup.GetService(genericHandlerType);
                 var needsNewHandler = false;
 
                 _handleMethod = GetHandlerMethod(genericHandlerType, handlerMethodName, messageType);
                 _getHandler = () =>
                 {
                     if (needsNewHandler)
-                        handler = NirvanaSetup.GetService(genericHandlerType);
+                        handler = _setup.GetService(genericHandlerType);
                     //Get a new instance on retry
                     needsNewHandler = true;
 

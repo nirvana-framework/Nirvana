@@ -27,13 +27,20 @@ namespace Nirvana.Mediation
 
     public class InternalEventProcessor
     {
+        private readonly NirvanaSetup _setup;
+
+        public InternalEventProcessor(NirvanaSetup setup)
+        {
+            _setup = setup;
+        }
+
         public InternalEventResponse Process(InternalEvent @event)
         {
             var handlerType = typeof(IEventHandler<>).MakeGenericType(@event.GetType());
             var handlermethod= handlerType.GetMethod("Handle");
 
             InternalEventResponse result=null;
-            foreach (var service in NirvanaSetup.GetServices(handlerType))
+            foreach (var service in _setup.GetServices(handlerType))
             {
                 var newresult = InvokeEvent(@event, handlermethod, service);
                 if (result == null || !newresult.Success())
