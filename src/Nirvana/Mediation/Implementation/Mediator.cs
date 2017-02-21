@@ -21,14 +21,14 @@ namespace Nirvana.Mediation.Implementation
         public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
         {
            
-                var plan = new MediatorPlan<TResult>(typeof(ICommandHandler<,>), HandleMethod, command.GetType());
+                var plan = new MediatorPlan<TResult>(typeof(ICommandHandler<,>), HandleMethod, command.GetType(),_setup);
                 return plan.InvokeCommand(command);
             
         }
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
         {
-            var plan = new MediatorPlan<TResult>(typeof(IQueryHandler<,>), HandleMethod, query.GetType());
+            var plan = new MediatorPlan<TResult>(typeof(IQueryHandler<,>), HandleMethod, query.GetType(), _setup);
             return plan.InvokeQuery(query);
         }
  
@@ -48,24 +48,19 @@ namespace Nirvana.Mediation.Implementation
             private readonly Func<object> _getHandler;
             private readonly MethodInfo _handleMethod;
 
-            private readonly NirvanaSetup _setup;
 
-            public MediatorPlan(NirvanaSetup setup)
+            public MediatorPlan(Type handlerTypeTemplate, string handlerMethodName, Type messageType, NirvanaSetup setup)
             {
-                _setup = setup;
-            }
-
-            public MediatorPlan(Type handlerTypeTemplate, string handlerMethodName, Type messageType)
-            {
+                var setup1 = setup;
                 var genericHandlerType = handlerTypeTemplate.MakeGenericType(messageType, typeof(TResult));
-                var handler = _setup.GetService(genericHandlerType);
+                var handler = setup1.GetService(genericHandlerType);
                 var needsNewHandler = false;
 
                 _handleMethod = GetHandlerMethod(genericHandlerType, handlerMethodName, messageType);
                 _getHandler = () =>
                 {
                     if (needsNewHandler)
-                        handler = _setup.GetService(genericHandlerType);
+                        handler = setup1.GetService(genericHandlerType);
                     //Get a new instance on retry
                     needsNewHandler = true;
 
