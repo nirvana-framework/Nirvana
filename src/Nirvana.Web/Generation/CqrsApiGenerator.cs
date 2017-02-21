@@ -41,6 +41,7 @@ namespace Nirvana.Web.Generation
                 "System.Net.Http",
                 "System.Web.Http",
                 "Nirvana",
+                "Nirvana.Mediation",
                 "Nirvana.Web",
                 "Nirvana.Web.Controllers"
             };
@@ -127,7 +128,7 @@ namespace Nirvana.Web.Generation
             builder.Append(
                 $"public class {rootType}Controller:Nirvana.Web.Controllers.CommandQueryApiControllerBase{{");
 
-            builder.Append($"public {rootType}Controller: base(IMediatorFactory mediator){{}}");
+            builder.Append($"public {rootType}Controller(Nirvana.Mediation.IMediatorFactory mediator): base(Nirvana.Mediation.IMediatorFactory mediator){{}}");
 
             if (_setup.CanProcess(TaskType.Query))
             {
