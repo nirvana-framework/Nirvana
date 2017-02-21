@@ -127,6 +127,8 @@ namespace Nirvana.Web.Generation
             builder.Append(
                 $"public class {rootType}Controller:Nirvana.Web.Controllers.CommandQueryApiControllerBase{{");
 
+            builder.Append($"public {rootType}Controller: base(IMediatorFactory mediator){{}}");
+
             if (_setup.CanProcess(TaskType.Query))
             {
                 foreach (var type in _setup.QueryTypes[rootType])
