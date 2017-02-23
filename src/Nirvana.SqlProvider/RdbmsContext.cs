@@ -14,7 +14,7 @@ namespace Nirvana.SqlProvider
 {
 
 
-    public class RdbmsContext : DbContext, IDataContext
+    public abstract class RdbmsContext : DbContext, IDataContext
     {
         protected readonly ISaveChangesDecorator[] _saveChangesDecorators;
 
@@ -89,10 +89,13 @@ namespace Nirvana.SqlProvider
 
         public ObjectContext ObjectContext => ((IObjectContextAdapter) this).ObjectContext;
 
-        protected RdbmsContext(SaveChangesDecoratorType type) : base(type, nameof(T) + "ConnectionString"){}
+        protected RdbmsContext(SaveChangesDecoratorType type) : base(type, GetConnectionStringName()){}
 
+        private static string GetConnectionStringName()
+        {
+            return nameof(T) + "ConnectionString";
+        }
 
-        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
