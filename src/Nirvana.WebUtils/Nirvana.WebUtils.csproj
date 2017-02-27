@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="INirvanaHttpClient.cs" />
+    <Compile Include="NirvanaAuthAttribute.cs" />
     <Compile Include="NirvanaHttpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebMediator.cs" />

@@ -1,8 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Nirvana.Security
 {
+    public interface IClaimAuthorizer
+    {
+        bool CheckByUserId(string userId, ClaimType requiredClaimType, AccessType requiredAccessType);
+    }
+
     public enum AccessType
     {
         Create,
@@ -18,7 +22,7 @@ namespace Nirvana.Security
 
     public abstract class ClaimTypeAttribute : Attribute
     {
-        public ClaimType ClaimType{ get; set; }
-        public AccessType[] AllowedActions{ get; set; }
+        public ClaimType ClaimType { get; set; }
+        public AccessType[] AllowedActions { get; set; }
     }
 }
