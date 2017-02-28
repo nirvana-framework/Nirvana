@@ -11,7 +11,7 @@ namespace Nirvana.Web.Security
 {
     public class NirvanaAuthAttribute : AuthorizeAttribute
     {
-        public NirvanaAuthAttribute(Type claimType, AccessType? requiredAccessType=null )
+        public NirvanaAuthAttribute(Type claimType=null, AccessType? requiredAccessType=null )
         {
             RequiredAccessType = requiredAccessType;
             RequiredClaimType = Activator.CreateInstance(claimType) as ClaimType;
