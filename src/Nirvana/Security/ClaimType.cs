@@ -9,6 +9,7 @@ namespace Nirvana.Security
 
     public enum AccessType
     {
+        Any,
         Create,
         Read,
         Update,
