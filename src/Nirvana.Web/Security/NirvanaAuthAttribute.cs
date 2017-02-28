@@ -10,7 +10,7 @@ namespace Nirvana.Web.Security
 {
     public class NirvanaAuthAttribute : AuthorizeAttribute
     {
-        public NirvanaAuthAttribute(AccessType? requiredAccessType, ClaimType requiredClaimType)
+        public NirvanaAuthAttribute(AccessType? requiredAccessType=null, ClaimType requiredClaimType=null)
         {
             RequiredAccessType = requiredAccessType;
             RequiredClaimType = requiredClaimType;
