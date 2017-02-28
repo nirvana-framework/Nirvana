@@ -29,7 +29,7 @@ namespace Nirvana.Mediation
         public CommandResponse<U> Handle(T task)
         {
             var success = Validate(task);
-            return success.Success() ? Exexute(task) : success;
+            return success.Success() ? Execute(task) : success;
         }
 
         public virtual CommandResponse<U> Validate(T task)
