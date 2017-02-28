@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
@@ -10,10 +11,10 @@ namespace Nirvana.Web.Security
 {
     public class NirvanaAuthAttribute : AuthorizeAttribute
     {
-        public NirvanaAuthAttribute(AccessType? requiredAccessType=null, ClaimType requiredClaimType=null)
+        public NirvanaAuthAttribute(Type claimType, AccessType? requiredAccessType=null )
         {
             RequiredAccessType = requiredAccessType;
-            RequiredClaimType = requiredClaimType;
+            RequiredClaimType = Activator.CreateInstance(claimType) as ClaimType;
         }
 
         public IClaimAuthorizer Authorizer { get; set; }
