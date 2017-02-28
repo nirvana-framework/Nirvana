@@ -89,7 +89,14 @@ namespace Nirvana.SqlProvider
 
         public ObjectContext ObjectContext => ((IObjectContextAdapter) this).ObjectContext;
 
-        protected RdbmsContext(SaveChangesDecoratorType type) : base(type, GetConnectionStringName()){}
+        protected RdbmsContext(SaveChangesDecoratorType type) : base(type, GetConnectionStringName())
+        {
+        }
+
+        protected RdbmsContext(SaveChangesDecoratorType type, string connectionStringName)
+            : base(type, connectionStringName)
+        {
+        }
 
         private static string GetConnectionStringName()
         {
