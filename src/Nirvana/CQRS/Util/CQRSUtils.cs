@@ -66,9 +66,9 @@ namespace Nirvana.CQRS.Util
             return customAttribute != null && setup.AttributeMatchingFunction(rootType, customAttribute);
         }
 
-        public static Attribute CustomAttribute(Type x)
+        public static AggregateRootAttribute CustomAttribute(Type x)
         {
-            return Attribute.GetCustomAttribute(x, typeof(AggregateRootAttribute));
+            return Attribute.GetCustomAttribute(x, typeof(AggregateRootAttribute)) as AggregateRootAttribute;
         }
 
 

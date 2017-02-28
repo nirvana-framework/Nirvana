@@ -26,6 +26,7 @@ namespace Nirvana.Configuration
         public Dictionary<ClaimType, AccessType[]> Claims { get; set; }
         public string UniqueName { get; set; }
         public string TypeCorrelationId { get; set; }
+        public bool RequiresAuthentication { get; set; }
 
         public bool Matches(Type testType)
         {

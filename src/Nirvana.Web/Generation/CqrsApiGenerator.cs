@@ -137,6 +137,12 @@ namespace Nirvana.Web.Generation
                     additionalNamespaces.Add(type.TaskType.Namespace);
                     var name = type.TaskType.Name;
                     name = name.Replace("Query", "");
+                    if (type.RequiresAuthentication)
+                    {
+                        //TODO - throw claims in here
+                        builder.Append($"[Nirvana.Web.Security.NirvanaAuthAttribute]");
+                    
+                    }
                     builder.Append($"[HttpGet]public HttpResponseMessage {name}([FromUri] {name}Query query){{return Query(query);}}");
                 }
             }

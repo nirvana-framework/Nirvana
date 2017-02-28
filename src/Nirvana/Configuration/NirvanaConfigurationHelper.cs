@@ -218,14 +218,17 @@ namespace Nirvana.Configuration
 
         private NirvanaTaskInformation BuildTypeDefinition(Type taskType, string rootName)
         {
-            return new NirvanaTaskInformation
+            var customAttribute = CqrsUtils.CustomAttribute(taskType);
+            var taskInfo = new NirvanaTaskInformation
             {
                 TaskType = taskType,
-                TypeCorrelationId = GetTypeCorrelationID(taskType),
+                TypeCorrelationId = GetTypeCorrelationID(customAttribute),
                 UniqueName = GetUniqueName(taskType, rootName),
                 RootName = rootName,
-                Claims = BuildClaims(taskType)
+                Claims = BuildClaims(taskType),
             };
+            taskInfo.RequiresAuthentication = taskInfo.Claims.Any() || (customAttribute?.Authorized ?? false);
+            return taskInfo;
         }
 
         private Dictionary<ClaimType, AccessType[]> BuildClaims(Type taskType)
@@ -253,10 +256,9 @@ namespace Nirvana.Configuration
         }
 
         //TODO - more robust necessary here...
-        private string GetTypeCorrelationID(Type taskType)
+        private string GetTypeCorrelationID(Attribute rootAttribute)
         {
-            var aggType = CqrsUtils.CustomAttribute(taskType);
-            return aggType.GetProperty(Setup.TaskIdentifierProperty).ToString();
+            return rootAttribute.GetProperty(Setup.TaskIdentifierProperty).ToString();
         }
     }
 }

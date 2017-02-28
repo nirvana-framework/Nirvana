@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Nirvana.Security;
 
-namespace Nirvana.WebUtils
+namespace Nirvana.Web.Security
 {
     public class NirvanaAuthAttribute : AuthorizeAttribute
     {
+        public NirvanaAuthAttribute(AccessType? requiredAccessType, ClaimType requiredClaimType)
+        {
+            RequiredAccessType = requiredAccessType;
+            RequiredClaimType = requiredClaimType;
+        }
+
         public IClaimAuthorizer Authorizer { get; set; }
         public AccessType? RequiredAccessType { get; set; }
         public ClaimType RequiredClaimType { get; set; }

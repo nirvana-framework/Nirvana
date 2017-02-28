@@ -142,6 +142,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Security\NirvanaAuthAttribute.cs" />
     <Compile Include="Startup\BrowserJsonFormatter.cs" />
     <Compile Include="Controllers\CommandQueryApiControllerBase.cs" />
     <Compile Include="Controllers\ApiUpdatesController.cs" />

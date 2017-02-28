@@ -14,6 +14,7 @@ namespace Nirvana.Domain
         public RootType RootType { get; private set; }
         public string Identifier { get; private set; }
         public bool Public{ get; private set; }
+        public bool Authorized { get; private set; } = false;
 
         public static string FilterName(string cqrsTypeName )
         {
@@ -36,11 +37,12 @@ namespace Nirvana.Domain
         }
 
 
-        protected AggregateRootAttribute(RootType rootType, Type parameterType,bool isPublic=false)
+        protected AggregateRootAttribute(RootType rootType, Type parameterType,bool isPublic=false, bool authorized=false)
         {
             RootType = rootType;
             Identifier = FilterName(parameterType.Name);
             Public = isPublic;
+            Authorized = authorized;
         }
     }
 }

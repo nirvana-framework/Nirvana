@@ -5,6 +5,7 @@ namespace Nirvana.Mediation
     public interface ICommandHandler<T, U>
     {
         CommandResponse<U> Handle(T task);
+        bool Validate(T task);
     }
 
     public abstract class BaseNoOpCommandHandler<T> : BaseCommandHandler<T, Nop>
@@ -26,5 +27,9 @@ namespace Nirvana.Mediation
         }
 
         public abstract CommandResponse<U> Handle(T task);
+        public virtual bool Validate(T task)
+        {
+            return true;
+        }
     }
 }
