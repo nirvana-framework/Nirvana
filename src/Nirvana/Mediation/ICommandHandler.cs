@@ -37,6 +37,6 @@ namespace Nirvana.Mediation
             return CommandResponse.Succeeded(default(U));
         }
 
-        public abstract CommandResponse<U> Exexute(T task);
+        public abstract CommandResponse<U> Execute(T task);
     }
 }
