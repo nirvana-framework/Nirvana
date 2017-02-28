@@ -9,11 +9,11 @@ namespace Nirvana.Security
 
     public enum AccessType
     {
-        Any,
-        Create,
-        Read,
-        Update,
-        Delete
+        Create=1,
+        Read=2,
+        Update=4,
+        Delete= 8,
+        Any = 16
     }
 
     public class ClaimType
