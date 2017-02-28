@@ -17,7 +17,7 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
 
     public class TestCommandHandler : BaseCommandHandler<TestCommand, TestResult>
     {
-        public override CommandResponse<TestResult> RunCommand(TestCommand task)
+        public override CommandResponse<TestResult> Exexute(TestCommand task)
         {
             if (task.ThrowError)
             {
