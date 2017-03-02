@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Nirvana.Domain
 {
-
     public abstract class ViewModel<T> : ViewModel
     {
         public Guid RootEntityKey { get; set; }
@@ -21,11 +21,21 @@ namespace Nirvana.Domain
 
     public abstract class ViewModelBuilder<T>
     {
-        private IDictionary<string, object> _inputs;
+        private readonly IDictionary<string, object> _inputs;
 
-        public ViewModelBuilder<T> SetInputs(IDictionary<string, object> inputs)
+        protected ViewModelBuilder()
         {
-            _inputs = inputs;
+            _inputs = new ConcurrentDictionary<string, object>();
+        }
+
+        public ViewModelBuilder<T> SetValue(Enum key, object value)
+        {
+            return SetValue(key.ToString(), value);
+        }
+
+        public ViewModelBuilder<T> SetValue(string key, object value)
+        {
+            _inputs[key] = value;
             return this;
         }
 
@@ -36,7 +46,7 @@ namespace Nirvana.Domain
             return GetValue(key.ToString(), defaultValue);
         }
 
-        public TValue GetValue<TValue>(string key,TValue defaultValue=default(TValue))
+        public TValue GetValue<TValue>(string key, TValue defaultValue = default(TValue))
         {
             try
             {
