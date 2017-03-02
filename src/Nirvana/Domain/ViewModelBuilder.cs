@@ -31,6 +31,11 @@ namespace Nirvana.Domain
 
         public abstract T Build();
 
+        public TValue GetValue<TValue>(Enum key, TValue defaultValue = default(TValue))
+        {
+            return GetValue(key.ToString(), defaultValue);
+        }
+
         public TValue GetValue<TValue>(string key,TValue defaultValue=default(TValue))
         {
             try
