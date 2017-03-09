@@ -64,7 +64,7 @@ param($sourcePath)
 	$searchdirs="-searchdirs:`"Nirvana\bin\Debug`""
 	$register="-register:user"
 	$outputFile="-output:$outputPath\coverage.xml"
-	$filters="`"-filter:+[*]* -[Nirvana.Tests].*`""
+	$filters="`"-filter:+[*]* -[*.Test*]*`""
 
 	$openCverLocation ="packages\OpenCover.4.6.519\tools\OpenCover.Console.exe"
 	$paramList="$target","$targetArgs","$searchdirs","$register","$outputFile","$filters"
