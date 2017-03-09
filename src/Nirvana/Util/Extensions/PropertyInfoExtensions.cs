@@ -54,6 +54,13 @@ namespace Nirvana.Util.Extensions
                 }
             }
 
+            if (type.IsObject())
+            {
+                {
+                    return "any";
+                }
+            }
+
             return string.Empty;
         }
 
@@ -139,7 +146,8 @@ namespace Nirvana.Util.Extensions
         public static bool IsObject(this Type propType)
         {
             return propType == typeof(object)
-                   || propType == typeof(object);
+                   || propType == typeof(object)
+                   || propType == typeof(byte);
         }
 
         public static bool IsBoolean(this Type propType)

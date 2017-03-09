@@ -1,6 +1,6 @@
 using Nirvana.Domain;
 
-namespace Nirvana.Tests.Configuration.SampleSetup
+namespace Nirvana.Tests.SampleSetup
 {
     public class TestRoot : RootType
     {

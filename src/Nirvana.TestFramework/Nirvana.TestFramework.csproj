@@ -52,9 +52,8 @@
   <ItemGroup>
     <Compile Include="Arg.cs" />
     <Compile Include="BddTestBase.cs" />
-    <Compile Include="CQRS\CommandBaseTest.cs" />
-    <Compile Include="CQRS\CqrsTestBase.cs" />
-    <Compile Include="CQRS\QueryBaseTest.cs" />
+    <Compile Include="CQRS\BddCommandTestBase.cs" />
+    <Compile Include="CQRS\BddQueryTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>

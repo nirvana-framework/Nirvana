@@ -1,29 +1,21 @@
 using System;
 using System.Linq.Expressions;
-using Nirvana.Data;
-using Nirvana.Domain;
 using Nirvana.Mediation;
-using NSubstitute;
 
 namespace Nirvana.TestFramework
 {
-    public abstract class TestBase<TSutType, TTaskType,TRootType> 
-        where TTaskType : new()
-        where TRootType:RootType
+    public abstract class TestBase<TSutType, TInputType>
+        where TInputType : new()
 
     {
         protected IMediator Mediator;
         protected TSutType Sut;
-        protected TTaskType Task;
-        protected IRepository<TRootType> Repository;
+        protected TInputType Task;
         public abstract Func<TSutType> Build { get; }
 
         protected TestBase()
         {
-            Repository = Substitute.For<IRepository<TRootType>>();
-            Mediator = Substitute.For<IMediator>();
-            Task = new TTaskType();
-
+            Task = new TInputType();
         }
 
         public virtual void SetUpData()

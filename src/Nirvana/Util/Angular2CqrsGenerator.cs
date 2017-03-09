@@ -195,6 +195,7 @@ namespace Nirvana.Util
             {
                 return propertyType.WritePrimitiveType();
             }
+           
 
             var isEnumType = propertyType.IsEnumType();
             if (isEnumType.Matches)

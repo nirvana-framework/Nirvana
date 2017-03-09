@@ -1,6 +1,6 @@
 ﻿using System;
-using Nirvana.CQRS;
-using Nirvana.Mediation;
+using System.IO;
+using System.Reflection;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
@@ -57,25 +57,13 @@ namespace Nirvana.TestFramework
         {
             Depends.Inject(input);
         }
+
+        public string GetFolderPath(string relativePath)
+        {
+            var codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+            var codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
+            var dirPath = Path.GetDirectoryName(codeBasePath);
+            return Path.Combine(dirPath, relativePath);
+        }
     }
-
-    public abstract class BddQueryTestBase<TSutType, TQueryType, TResponseType>
-        : BddTestBase<TSutType, TQueryType, QueryResponse<TResponseType>>
-        where TQueryType : Query<TResponseType>, new()
-        where TSutType : IQueryHandler<TQueryType, TResponseType>
-
-    {
-        public override Action Because => () => Result = Sut.Handle(Input);
-    }
-
-    public abstract class BddCommandTestBase<TSutType, TQueryType, TResponseType>
-        : BddTestBase<TSutType, TQueryType, CommandResponse<TResponseType>>
-        where TQueryType : Command<TResponseType>, new()
-        where TSutType : ICommandHandler<TQueryType, TResponseType>
-
-    {
-        public override Action Because => () => Result = Sut.Handle(Input);
-    }
-
-    
 }
