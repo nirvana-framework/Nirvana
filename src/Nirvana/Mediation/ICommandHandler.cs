@@ -20,10 +20,12 @@ namespace Nirvana.Mediation
     public abstract class BaseCommandHandler<T, U> : ICommandHandler<T, U>
         where T : Command<U>
     {
+        protected List<ValidationMessage> Messsages;
         protected readonly IMediatorFactory Mediator;
 
         protected BaseCommandHandler(IChildMediatorFactory mediator)
         {
+            Messsages = new List<ValidationMessage>();
             Mediator = mediator;
         }
 
