@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Nirvana.CQRS;
 
 namespace Nirvana.Mediation
@@ -31,22 +32,26 @@ namespace Nirvana.Mediation
 
         public CommandResponse<U> Handle(T task)
         {
-            var success = Validate(task);
-            return success.Success() ? Execute(task) : success;
+          
+            var validationResult = Validate(task);
+            return validationResult.Success() 
+                ? Execute(task) 
+                : validationResult;
         }
 
-        public virtual CommandResponse<U> Validate(T task)
-        {
-            return CommandResponse.Succeeded(default(U));
-        }
-        public CommandResponse<U> IsValidated(ValidationMessage[] messages)
+        public CommandResponse<U> IsValidated()
         {
             return
-                messages.Length==0?
+                Messsages.Count==0?
                 CommandResponse.Succeeded(default(U))
-                :CommandResponse.Failed(default(U),messages) ;
+                :CommandResponse.Failed(default(U), Messsages.ToArray()) ;
         }
 
         public abstract CommandResponse<U> Execute(T task);
+
+        public virtual CommandResponse<U> Validate(T task)
+        {
+            return IsValidated();
+        }
     }
 }
