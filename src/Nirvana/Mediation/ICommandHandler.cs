@@ -21,12 +21,12 @@ namespace Nirvana.Mediation
     public abstract class BaseCommandHandler<T, U> : ICommandHandler<T, U>
         where T : Command<U>
     {
-        protected List<ValidationMessage> Messsages;
+        protected List<ValidationMessage> Messages;
         protected readonly IMediatorFactory Mediator;
 
         protected BaseCommandHandler(IChildMediatorFactory mediator)
         {
-            Messsages = new List<ValidationMessage>();
+            Messages = new List<ValidationMessage>();
             Mediator = mediator;
         }
 
@@ -42,9 +42,9 @@ namespace Nirvana.Mediation
         public CommandResponse<U> IsValidated()
         {
             return
-                Messsages.Count==0?
+                Messages.Count==0?
                 CommandResponse.Succeeded(default(U))
-                :CommandResponse.Failed(default(U), Messsages.ToArray()) ;
+                :CommandResponse.Failed(default(U), Messages.ToArray()) ;
         }
 
         public abstract CommandResponse<U> Execute(T task);
