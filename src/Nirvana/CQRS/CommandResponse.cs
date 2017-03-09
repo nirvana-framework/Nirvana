@@ -101,6 +101,10 @@ namespace Nirvana.CQRS
         {
             return BuildResponse(result, true,new List<ValidationMessage> {new ValidationMessage(MessageType.Info, "",message)});
         }
+        public static CommandResponse<T> Succeeded<T>(T result,List<ValidationMessage> messages)
+        {
+            return BuildResponse(result, true, messages);
+        }
 
         public static CommandResponse<Nop> Succeeded()
         {

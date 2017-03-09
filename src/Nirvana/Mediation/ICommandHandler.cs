@@ -43,7 +43,7 @@ namespace Nirvana.Mediation
         {
             return
                 Messages.Count==0?
-                CommandResponse.Succeeded(default(U))
+                CommandResponse.Succeeded(default(U),Messages)
                 :CommandResponse.Failed(default(U), Messages.ToArray()) ;
         }
 
