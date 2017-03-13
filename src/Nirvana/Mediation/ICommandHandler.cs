@@ -6,8 +6,8 @@ namespace Nirvana.Mediation
 {
     public interface ICommandHandler<T, U>
     {
-        CommandResponse<U> Handle(T task);
-        CommandResponse<U> Validate(T task);
+        CommandResponse<U> Handle(T input);
+        CommandResponse<U> Validate(T input);
     }
 
     public abstract class BaseNoOpCommandHandler<T> : BaseCommandHandler<T, Nop>
@@ -30,12 +30,12 @@ namespace Nirvana.Mediation
             Mediator = mediator;
         }
 
-        public CommandResponse<U> Handle(T task)
+        public CommandResponse<U> Handle(T input)
         {
           
-            var validationResult = Validate(task);
+            var validationResult = Validate(input);
             return validationResult.Success() 
-                ? Execute(task) 
+                ? Execute(input) 
                 : validationResult;
         }
 
@@ -47,9 +47,9 @@ namespace Nirvana.Mediation
                 :CommandResponse.Failed(default(U), Messages.ToArray()) ;
         }
 
-        public abstract CommandResponse<U> Execute(T task);
+        public abstract CommandResponse<U> Execute(T input);
 
-        public virtual CommandResponse<U> Validate(T task)
+        public virtual CommandResponse<U> Validate(T input)
         {
             return IsValidated();
         }
