@@ -30,6 +30,15 @@ namespace Nirvana.Mediation
             Mediator = mediator;
         }
 
+        protected void AddError(string key, string message)
+        {
+            Messages.Add(new ValidationMessage(MessageType.Error,key,message));
+        }
+        protected void AddWarning(string key, string message)
+        {
+            Messages.Add(new ValidationMessage(MessageType.Warning, key, message));
+        }
+
         public CommandResponse<U> Handle(T input)
         {
           
