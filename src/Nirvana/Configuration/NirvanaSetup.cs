@@ -100,30 +100,16 @@ namespace Nirvana.Configuration
 
 
         }
-        public  bool ShouldForwardToQueue(TaskType taskType, bool isChildTask,Type messageType)
+        public  bool ShouldForwardToQueue(TaskType taskType, bool isChildTask)
         {
             var config = GetTaskConfiguration(taskType);
+            
 
-            if (!config.CanHandle)
-            {
-                return false;
-            }
-
-            var taskInfo = FindTypeDefinition(messageType);
-
-            if (taskInfo.LongRunning)
-            {
-                return isChildTask
-                    ? config.ChildMediationStrategy == MediationStrategy.ForwardToQueue
-                      || config.ChildMediationStrategy == MediationStrategy.ForwardLongRunningToQueue
-                    : config.MediationStrategy == MediationStrategy.ForwardToQueue
-                      || config.MediationStrategy == MediationStrategy.ForwardLongRunningToQueue;
-            }
-
-
-            return isChildTask
-                ? config.ChildMediationStrategy == MediationStrategy.ForwardToQueue
-                : config.MediationStrategy == MediationStrategy.ForwardToQueue;
+            return config.CanHandle 
+                && 
+                isChildTask
+                ? config.ChildMediationStrategy== MediationStrategy.ForwardToQueue 
+                :config.MediationStrategy == MediationStrategy.ForwardToQueue;
         }
 
         private  NirvanaTypeRoutingDefinition GetTaskConfiguration(TaskType taskType)

@@ -105,6 +105,7 @@ namespace Nirvana.Mediation
                 || (messageType.IsInternalEvent() && _setup.IsInProcess(TaskType.InternalEvent, isChildTask))
                 )
             {
+                // Only commands can be offloaded currently
                 return MediatorStrategy.HandleInProc;
             }
 
@@ -118,9 +119,9 @@ namespace Nirvana.Mediation
             }
 
             if (
-                (messageType.IsUiNotification() && _setup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask, messageType))
-                || (messageType.IsCommand() && _setup.ShouldForwardToQueue(TaskType.Command, isChildTask, messageType))
-                || (messageType.IsInternalEvent() && _setup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask, messageType))
+                (messageType.IsUiNotification() && _setup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask))
+                || (messageType.IsCommand() && _setup.ShouldForwardToQueue(TaskType.Command, isChildTask))
+                || (messageType.IsInternalEvent() && _setup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask))
                 )
             {
                 return MediatorStrategy.ForwardToQueue;
