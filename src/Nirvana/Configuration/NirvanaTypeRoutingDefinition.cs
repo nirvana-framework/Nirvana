@@ -4,12 +4,8 @@ using Nirvana.Security;
 
 namespace Nirvana.Configuration
 {
-
-
-
     public class NirvanaTypeRoutingDefinition
     {
-
         public MediationStrategy ReceiverMediationStrategy { get; set; }
         public MediationStrategy MediationStrategy { get; set; }
         public MediationStrategy ChildMediationStrategy { get; set; }
@@ -23,6 +19,7 @@ namespace Nirvana.Configuration
     {
         public string RootName { get; set; }
         public Type TaskType { get; set; }
+        public bool LongRunning { get; set; }
         public Dictionary<ClaimType, AccessType[]> Claims { get; set; }
         public string UniqueName { get; set; }
         public string TypeCorrelationId { get; set; }

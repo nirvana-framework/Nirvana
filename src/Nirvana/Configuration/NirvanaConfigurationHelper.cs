@@ -222,10 +222,11 @@ namespace Nirvana.Configuration
             var taskInfo = new NirvanaTaskInformation
             {
                 TaskType = taskType,
-                TypeCorrelationId = GetTypeCorrelationID(customAttribute),
+                TypeCorrelationId = GetTypeCorrelationId(customAttribute),
                 UniqueName = GetUniqueName(taskType, rootName),
                 RootName = rootName,
                 Claims = BuildClaims(taskType),
+                LongRunning = customAttribute.LongRunning
             };
             taskInfo.RequiresAuthentication = taskInfo.Claims.Any() || (customAttribute?.Authorized ?? false);
             return taskInfo;
@@ -256,7 +257,7 @@ namespace Nirvana.Configuration
         }
 
         //TODO - more robust necessary here...
-        private string GetTypeCorrelationID(Attribute rootAttribute)
+        private string GetTypeCorrelationId(Attribute rootAttribute)
         {
             return rootAttribute.GetProperty(Setup.TaskIdentifierProperty).ToString();
         }
