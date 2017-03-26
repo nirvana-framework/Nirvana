@@ -34,7 +34,7 @@ namespace Nirvana.Configuration
             return this;
         }
 
-     
+
 
         public NirvanaConfigurationHelper SetAttributeMatchingFunction(Func<string, object, bool> method)
         {
@@ -45,8 +45,8 @@ namespace Nirvana.Configuration
         public NirvanaConfigurationHelper SetAdditionalAssemblyNameReferences(string[] refrences)
         {
 
-             var commonReferences = new[]
-                {
+            var commonReferences = new[]
+               {
                     "Nirvana.dll",
                     "Nirvana.Web.dll"
                 };
@@ -107,7 +107,7 @@ namespace Nirvana.Configuration
                 ReceiverMediationStrategy = receiverMediationStrategy,
                 NirvanaTaskType = taskType,
                 ChildMediationStrategy = childMediationStrategy,
-                Tasks =new NirvanaTaskInformation[0]
+                Tasks = new NirvanaTaskInformation[0]
             };
         }
 
@@ -117,7 +117,7 @@ namespace Nirvana.Configuration
 
             var rootTypeNames = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes
                 (x => typeof(RootType).IsAssignableFrom(x), Setup.RootTypeAssembly)
-                .Select(x=>(Activator.CreateInstance(x) as RootType).RootName);
+                .Select(x => (Activator.CreateInstance(x) as RootType).RootName);
 
             Setup.TaskIdentifierProperty = "Identifier";
             Setup.RootNames = rootTypeNames.ToArray();
@@ -222,10 +222,11 @@ namespace Nirvana.Configuration
             var taskInfo = new NirvanaTaskInformation
             {
                 TaskType = taskType,
-                TypeCorrelationId = GetTypeCorrelationID(customAttribute),
+                TypeCorrelationId = GetTypeCorrelationId(customAttribute),
                 UniqueName = GetUniqueName(taskType, rootName),
                 RootName = rootName,
                 Claims = BuildClaims(taskType),
+                LongRunning = customAttribute.LongRunning
             };
             taskInfo.RequiresAuthentication = taskInfo.Claims.Any() || (customAttribute?.Authorized ?? false);
             return taskInfo;
@@ -256,7 +257,7 @@ namespace Nirvana.Configuration
         }
 
         //TODO - more robust necessary here...
-        private string GetTypeCorrelationID(Attribute rootAttribute)
+        private string GetTypeCorrelationId(Attribute rootAttribute)
         {
             return rootAttribute.GetProperty(Setup.TaskIdentifierProperty).ToString();
         }

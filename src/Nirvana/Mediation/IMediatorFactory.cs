@@ -9,23 +9,21 @@ namespace Nirvana.Mediation
     {
         ForwardToWeb,
         HandleInProc,
-        ForwardToQueue,
+        ForwardToQueue
     }
 
-    public interface IChildMediatorFactory: IMediatorFactory
+    public interface IChildMediatorFactory : IMediatorFactory
     {
-
     }
 
     public interface IMediatorFactory
     {
+        bool ChildCommands { get; }
         IMediator GetMediator(Type messageType);
         CommandResponse<TResult> Command<TResult>(Command<TResult> command);
         QueryResponse<TResult> Query<TResult>(Query<TResult> query);
         UIEventResponse Notification<TResult>(UiEvent<TResult> uiNotification);
         InternalEventResponse InternalEvent(InternalEvent internalEvent);
-        bool ChildCommands { get; }
-        
     }
 
     public class ChildMediatorFactory : MediatorFactoryBase, IChildMediatorFactory
@@ -34,21 +32,20 @@ namespace Nirvana.Mediation
         {
         }
 
-        public override  bool ChildCommands => true;
+        public override bool ChildCommands => true;
     }
 
     public class MediatorFactory : MediatorFactoryBase
     {
+        public override bool ChildCommands => false;
+
         public MediatorFactory(NirvanaSetup setup) : base(setup)
         {
         }
-
-        public override bool ChildCommands => false;
     }
 
 
-
-    public abstract class MediatorFactoryBase: IMediatorFactory
+    public abstract class MediatorFactoryBase : IMediatorFactory
     {
         private readonly NirvanaSetup _setup;
 
@@ -57,7 +54,8 @@ namespace Nirvana.Mediation
             _setup = setup;
         }
 
-        public abstract bool ChildCommands { get;}
+        public abstract bool ChildCommands { get; }
+
         public IMediator GetMediator(Type messageType)
         {
             var mediatorStrategy = GetMediatorStrategy(messageType, ChildCommands);
@@ -78,6 +76,7 @@ namespace Nirvana.Mediation
         {
             return GetMediator(uiNotification.GetType()).UiNotification(uiNotification);
         }
+
         public InternalEventResponse InternalEvent(InternalEvent internalEvent)
         {
             return GetMediator(internalEvent.GetType()).InternalEvent(internalEvent);
@@ -100,54 +99,52 @@ namespace Nirvana.Mediation
         private MediatorStrategy GetMediatorStrategy(Type messageType, bool isChildTask = false)
         {
             if (messageType.IsQuery()
-                || (messageType.IsUiNotification() && _setup.IsInProcess(TaskType.UiNotification, isChildTask))
-                || (messageType.IsCommand() && _setup.IsInProcess(TaskType.Command, isChildTask))
-                || (messageType.IsInternalEvent() && _setup.IsInProcess(TaskType.InternalEvent, isChildTask))
-                )
+                || messageType.IsUiNotification() && _setup.IsInProcess(TaskType.UiNotification, isChildTask)
+                || messageType.IsCommand() && _setup.IsInProcess(TaskType.Command, isChildTask)
+                || messageType.IsInternalEvent() && _setup.IsInProcess(TaskType.InternalEvent, isChildTask)
+            )
             {
-                // Only commands can be offloaded currently
                 return MediatorStrategy.HandleInProc;
             }
 
             if (
-                 (messageType.IsUiNotification() && _setup.ShouldForwardToWeb(TaskType.UiNotification, isChildTask))
-                || (messageType.IsCommand() && _setup.ShouldForwardToWeb(TaskType.Command, isChildTask))
-                || (messageType.IsInternalEvent() && _setup.ShouldForwardToWeb(TaskType.InternalEvent, isChildTask))
-               )
+                messageType.IsUiNotification() && _setup.ShouldForwardToWeb(TaskType.UiNotification, isChildTask)
+                || messageType.IsCommand() && _setup.ShouldForwardToWeb(TaskType.Command, isChildTask)
+                || messageType.IsInternalEvent() && _setup.ShouldForwardToWeb(TaskType.InternalEvent, isChildTask)
+            )
             {
                 return MediatorStrategy.ForwardToWeb;
             }
 
             if (
-                (messageType.IsUiNotification() && _setup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask))
-                || (messageType.IsCommand() && _setup.ShouldForwardToQueue(TaskType.Command, isChildTask))
-                || (messageType.IsInternalEvent() && _setup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask))
-                )
+                messageType.IsUiNotification() &&
+                _setup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask, messageType)
+                || messageType.IsCommand() && _setup.ShouldForwardToQueue(TaskType.Command, isChildTask, messageType)
+                ||
+                messageType.IsInternalEvent() &&
+                _setup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask, messageType)
+            )
             {
                 return MediatorStrategy.ForwardToQueue;
             }
-            throw new NotImplementedException("Execution strategy could not be determined.  Please check your configuration.");
-
-
+            throw new NotImplementedException(
+                "Execution strategy could not be determined.  Please check your configuration.");
         }
-
 
 
         private IMediator GetWebMediator()
         {
-            return (IWebMediator)_setup.GetService(typeof(IWebMediator));
+            return (IWebMediator) _setup.GetService(typeof(IWebMediator));
         }
 
         private IMediator GetQueueMediator()
         {
-            return (IQueueMediator)_setup.GetService(typeof(IQueueMediator));
+            return (IQueueMediator) _setup.GetService(typeof(IQueueMediator));
         }
-        private  IMediator GetInProcMediator()
+
+        private IMediator GetInProcMediator()
         {
-            return (IMediator)_setup.GetService(typeof(IMediator));
+            return (IMediator) _setup.GetService(typeof(IMediator));
         }
-
     }
-
-   
 }
