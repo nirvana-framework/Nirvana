@@ -3,3 +3,4 @@
 export class CommandWithByteArray extends Command<Nop>{constructor(public TestInput: any[]){super('Test/WithByteArray')}}
 export enum Nop{NoValue=0}
 export class TestCommand extends Command<Nop>{constructor(){super('Test/Test')}}
+export class TestLongRunningCommand extends Command<Nop>{constructor(){super('Test/TestLongRunning')}}
