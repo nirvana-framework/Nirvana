@@ -19,5 +19,6 @@
   </metadata>
   <files>
     <file src="bin\debug\Nirvana.MongoProvider.dll" target="lib" />
+    <file src="bin\debug\Nirvana.MongoProvider.pdb" target="lib" />
   </files>
 </package>

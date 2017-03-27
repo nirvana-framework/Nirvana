@@ -19,5 +19,6 @@
   </metadata>
   <files>
     <file src="bin\debug\Nirvana.AzureQueues.dll" target="lib" />
+    <file src="bin\debug\Nirvana.AzureQueues.pdb" target="lib" />
   </files>
 </package>

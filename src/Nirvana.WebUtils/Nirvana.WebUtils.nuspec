@@ -16,5 +16,6 @@
   </metadata>
   <files>
     <file src="bin\Debug\Nirvana.WebUtils.dll" target="lib" />
+    <file src="bin\debug\Nirvana.WebUtils.pdb" target="lib" />
   </files>
 </package>

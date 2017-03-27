@@ -19,5 +19,6 @@
   </metadata>
   <files>
     <file src="bin\debug\Nirvana.SqlProvider.dll" target="lib" />
+    <file src="bin\debug\Nirvana.SqlProvider.pdb" target="lib" />
   </files>
 </package>

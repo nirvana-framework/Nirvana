@@ -19,5 +19,6 @@
   </metadata>
   <files>
     <file src="bin\debug\Nirvana.SignalRNotifications.dll" target="lib" />
+    <file src="bin\debug\Nirvana.SignalRNotifications.pdb" target="lib" />
   </files>
 </package>
