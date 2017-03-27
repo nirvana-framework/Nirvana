@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Nirvana.Configuration;
 using Nirvana.TestFramework;
+using Nirvana.Tests.SampleSetup;
 using Should;
 using Xunit;
 
@@ -85,6 +87,47 @@ namespace Nirvana.Tests.Configuration
             public void should_set_commands()
             {
               Result.CommandTypes.Count.ShouldEqual(1);
+            }
+        }
+
+        public class when_forwarding_long_runnning_only:
+            BddTestBase<NirvanaConfigurationHelper, NirvanaTestInput, NirvanaSetup>
+        {
+            public override Action Inject => () => { };
+            public override Action Establish=> () =>
+            {
+                Input = new NirvanaTestInput
+                {
+                    
+                    Assembly = GetType().Assembly,
+                    AssemblyNameReferences = new[] {"test 1","test 2"},
+                    ControllerName = "Controller Assembly Name",
+                    RootNamespace = "Root Namespace"
+                };
+            };
+
+            public override Action Because
+                => () => { Result = Sut
+                .UsingControllerName(Input.ControllerName, Input.RootNamespace)
+                .WithAssembliesFromFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"))
+                .SetAdditionalAssemblyNameReferences(Input.AssemblyNameReferences)
+                .SetRootTypeAssembly(Input.Assembly)
+                .SetAttributeMatchingFunction(Input.AttributeMatchingFunctionStub)
+                .SetDependencyResolver(Input.GetService, Input.GetAllServices)
+                .ForCommands(MediationStrategy.ForwardLongRunningToQueue, MediationStrategy.ForwardLongRunningToQueue, MediationStrategy.None)
+                
+                .BuildConfiguration(); };
+            
+          
+            [Fact]
+            public void should_set_commands()
+            {
+                var key = Result.CommandTypes.Keys.First();
+
+              Result.CommandTypes[key].First(x=>x.TaskType==typeof(TestLongRunningCommand)).LongRunning.ShouldBeTrue();
+
+                Result.ShouldForwardToQueue(TaskType.Command,false, typeof(TestLongRunningCommand)).ShouldBeTrue();
+                Result.ShouldForwardToQueue(TaskType.Command,true, typeof(TestLongRunningCommand)).ShouldBeTrue();
             }
         }
 

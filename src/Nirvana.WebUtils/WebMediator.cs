@@ -10,6 +10,9 @@ namespace Nirvana.WebUtils
 {
     public class WebMediator : IWebMediator
     {
+        private readonly INirvanaConfiguration _endpointConfiguration;
+        private readonly INirvanaHttpClient _httpClient;
+        private readonly ISerializer _serializer;
 
 
         private readonly NirvanaSetup _setup;
@@ -18,9 +21,6 @@ namespace Nirvana.WebUtils
         {
             _setup = setup;
         }
-        private readonly INirvanaConfiguration _endpointConfiguration;
-        private readonly INirvanaHttpClient _httpClient;
-        private readonly ISerializer _serializer;
 
         public WebMediator(ISerializer serializer, INirvanaConfiguration endpointConfiguration,
             INirvanaHttpClient httpClient)
@@ -28,7 +28,7 @@ namespace Nirvana.WebUtils
             _serializer = serializer;
             _endpointConfiguration = endpointConfiguration;
             _httpClient = httpClient;
-        } 
+        }
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
         {
@@ -96,17 +96,19 @@ namespace Nirvana.WebUtils
 
         public string GetQueryApiPath(Type type)
         {
-            return CqrsUtils.GetApiEndpint(_setup,type, "Query");
+            return _setup.GetApiEndpint(type, "Query");
         }
+
         public string GetInternalEventApiPath(Type type)
         {
-            return CqrsUtils.GetApiEndpint(_setup, type, "");
+            return _setup.GetApiEndpint(type, "");
         }
 
         public string GetCommandApiPath(Type type)
         {
-            return CqrsUtils.GetApiEndpint(_setup, type, "Command");
+            return _setup.GetApiEndpint(type, "Command");
         }
+
         public string GetUiNotificationPath(Type type)
         {
             //Use one hub for all tasks for now...
@@ -118,6 +120,7 @@ namespace Nirvana.WebUtils
         {
             return _serializer.Deserialize<T>(httpResponseMessage.Content.ReadAsStringAsync().Result);
         }
+
         private InternalEventResponse BuildInternalEventResponse(HttpResponseMessage httpResponseMessage)
         {
             return _serializer.Deserialize<InternalEventResponse>(httpResponseMessage.Content.ReadAsStringAsync().Result);

@@ -117,18 +117,35 @@ namespace Nirvana.Mediation
             }
 
             if (
-                messageType.IsUiNotification() &&
-                _setup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask, messageType)
-                || messageType.IsCommand() && _setup.ShouldForwardToQueue(TaskType.Command, isChildTask, messageType)
-                ||
-                messageType.IsInternalEvent() &&
-                _setup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask, messageType)
+                ShouldForwardToQueue(messageType, isChildTask)
             )
             {
                 return MediatorStrategy.ForwardToQueue;
             }
             throw new NotImplementedException(
                 "Execution strategy could not be determined.  Please check your configuration.");
+        }
+
+        private bool ShouldForwardToQueue(Type messageType, bool isChildTask)
+        {
+            if (messageType.IsUiNotification() &&
+                _setup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask, messageType))
+            {
+                return true;
+            }
+            if (messageType.IsCommand() && _setup.ShouldForwardToQueue(TaskType.Command, isChildTask, messageType))
+            {
+                return true;
+            }
+
+
+            if (messageType.IsInternalEvent() &&
+                _setup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask, messageType))
+            {
+                return true;
+            }
+
+            return false;
         }
 
 

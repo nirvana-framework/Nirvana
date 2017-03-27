@@ -6,4 +6,9 @@ namespace Nirvana.Tests.SampleSetup
     public class TestCommand : Command<Nop>
     {
     }
+
+    [TestRoot(typeof(TestLongRunningCommand),LongRunning = true)]
+    public class TestLongRunningCommand : Command<Nop>
+    {
+    }
 }
