@@ -94,7 +94,7 @@ namespace Nirvana.Util.Extensions
         }
         public static bool IsUiNotification(this Type type)
         {
-            return !type.IsAbstract && type.ClosesOrImplements(typeof(UiEvent<>));
+            return !type.IsAbstract && type.ClosesOrImplements(typeof(UiNotification<>));
         }
         public static bool IsInternalEvent(this Type type)
         {

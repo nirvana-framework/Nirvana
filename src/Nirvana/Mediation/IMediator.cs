@@ -6,7 +6,7 @@ namespace Nirvana.Mediation
     {
         CommandResponse<TResult> Command<TResult>(Command<TResult> command);
         QueryResponse<TResult> Query<TResult>(Query<TResult> query);
-        UIEventResponse UiNotification<T>(UiEvent<T> uiEevent);
+        UIEventResponse UiNotification<T>(UiNotification<T> uiEevent);
         InternalEventResponse InternalEvent(InternalEvent internalEvent);
     }
 

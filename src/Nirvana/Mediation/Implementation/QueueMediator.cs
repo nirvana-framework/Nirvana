@@ -33,7 +33,7 @@ namespace Nirvana.Mediation.Implementation
             throw new NotImplementedException("This is purposly not implemented - queries should never be put on queue");
         }
 
-        public UIEventResponse UiNotification<T>(UiEvent<T> uiEevent)
+        public UIEventResponse UiNotification<T>(UiNotification<T> uiEevent)
         {
             SendMessage(uiEevent);
             return UIEventResponse.Succeeded( "Work queued.");

@@ -46,7 +46,7 @@ namespace Nirvana.WebUtils
             }
         }
 
-        public UIEventResponse UiNotification<T>(UiEvent<T> uiEevent)
+        public UIEventResponse UiNotification<T>(UiNotification<T> uiEevent)
         {
             try
             {

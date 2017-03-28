@@ -32,7 +32,7 @@ namespace Nirvana.Mediation.Implementation
             return plan.InvokeQuery(query);
         }
  
-        public UIEventResponse UiNotification<T>(UiEvent<T> uiEevent)
+        public UIEventResponse UiNotification<T>(UiNotification<T> uiEevent)
         {
             throw new NotImplementedException();
         }

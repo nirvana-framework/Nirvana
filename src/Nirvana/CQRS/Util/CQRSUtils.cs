@@ -22,7 +22,7 @@ namespace Nirvana.CQRS.Util
 
         public static Type[] UiNotificationTypes(this NirvanaSetup setup, string rootType)
         {
-            return TaskTypes(setup, typeof(UiEvent<>), rootType);
+            return TaskTypes(setup, typeof(UiNotification<>), rootType);
         }
 
         public static IEnumerable<Type> GetAllTypes(this NirvanaSetup setup, string rootType)
@@ -30,7 +30,7 @@ namespace Nirvana.CQRS.Util
             var types = new List<Type>();
             types.AddRange(TaskTypes(setup,typeof(Command<>), rootType));
             types.AddRange(TaskTypes(setup,typeof(Query<>), rootType));
-            types.AddRange(TaskTypes(setup,typeof(UiEvent<>), rootType));
+            types.AddRange(TaskTypes(setup,typeof(UiNotification<>), rootType));
             types.AddRange(TaskTypes(setup,typeof(InternalEvent), rootType));
             
 

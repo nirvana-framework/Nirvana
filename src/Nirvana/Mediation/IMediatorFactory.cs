@@ -22,7 +22,7 @@ namespace Nirvana.Mediation
         IMediator GetMediator(Type messageType);
         CommandResponse<TResult> Command<TResult>(Command<TResult> command);
         QueryResponse<TResult> Query<TResult>(Query<TResult> query);
-        UIEventResponse Notification<TResult>(UiEvent<TResult> uiNotification);
+        UIEventResponse Notification<TResult>(UiNotification<TResult> uiNotification);
         InternalEventResponse InternalEvent(InternalEvent internalEvent);
     }
 
@@ -72,7 +72,7 @@ namespace Nirvana.Mediation
             return GetMediator(query.GetType()).Query(query);
         }
 
-        public UIEventResponse Notification<TResult>(UiEvent<TResult> uiNotification)
+        public UIEventResponse Notification<TResult>(UiNotification<TResult> uiNotification)
         {
             return GetMediator(uiNotification.GetType()).UiNotification(uiNotification);
         }

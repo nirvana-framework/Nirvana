@@ -57,11 +57,11 @@ namespace Nirvana.Util
 
             var queryTypes = _setup. TaskTypes(typeof(Query<>), controllerName);
             var commandTypes = _setup.TaskTypes(typeof(Command<>), controllerName);
-            var uiEventTypes = _setup.TaskTypes(typeof(UiEvent<>), controllerName);
+            var uiEventTypes = _setup.TaskTypes(typeof(UiNotification<>), controllerName);
 
             WriteTypes(builder, controllerName, emitedTypes, queryTypes, "Query", typeof(Query<>));
             WriteTypes(builder, controllerName, emitedTypes, commandTypes, "Command", typeof(Command<>));
-            WriteEvents(builder, controllerName, emitedTypes, commandTypes, "UiEvent", typeof(UiEvent<>));
+            WriteEvents(builder, controllerName, emitedTypes, commandTypes, "UiEvent", typeof(UiNotification<>));
         }
 
         private void WriteEvents(StringBuilder builder, string controllerName, List<Type> emitedTypes,

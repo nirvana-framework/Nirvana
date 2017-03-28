@@ -60,7 +60,7 @@ namespace Nirvana.Tests.Configuration
                 .ForQueries(MediationStrategy.InProcess, MediationStrategy.InProcess)
                 .ForCommands(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
                 .ForInternalEvents(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
-                .ForUiNotifications(MediationStrategy.None, MediationStrategy.None, MediationStrategy.None)
+                .ForUiNotifications(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
                 .BuildConfiguration(); };
             
             [Fact]
@@ -117,6 +117,10 @@ namespace Nirvana.Tests.Configuration
                 .SetDependencyResolver(Input.GetService, Input.GetAllServices)
                 .ForCommands(MediationStrategy.ForwardLongRunningToQueue, MediationStrategy.ForwardLongRunningToQueue, MediationStrategy.None)
                 
+                .ForQueries(MediationStrategy.InProcess, MediationStrategy.InProcess)
+                .ForInternalEvents(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
+                .ForUiNotifications(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
+                
                 .BuildConfiguration(); };
             
           
@@ -137,6 +141,42 @@ namespace Nirvana.Tests.Configuration
                 
                 m.GetMediatorStrategy(typeof(TestCommand),false).ShouldEqual(MediatorStrategy.HandleInProc);
                 m.GetMediatorStrategy(typeof(TestCommand),true).ShouldEqual(MediatorStrategy.HandleInProc);
+                
+            }
+            [Fact]
+            public void should_set_query()
+            {
+                var query = Result.QueryTypes["Test"].First(x=>x.TaskType==typeof(TestQuery));
+                query.LongRunning.ShouldBeTrue();
+
+                query.ChildAction.ShouldEqual(MediationStrategy.InProcess);
+                query.TopLevelAction.ShouldEqual(MediationStrategy.InProcess);
+
+                
+                
+            }
+            [Fact]
+            public void should_set_events()
+            {
+                var query = Result.InternalEventTypes["Test"].First(x=>x.TaskType==typeof(TestEvent));
+                query.LongRunning.ShouldBeTrue();
+
+                query.ChildAction.ShouldEqual(MediationStrategy.InProcess);
+                query.TopLevelAction.ShouldEqual(MediationStrategy.InProcess);
+
+                
+                
+            }
+            [Fact]
+            public void should_set_UI_notifications()
+            {
+                var query = Result.UiNotificationTypes["Test"].First(x=>x.TaskType==typeof(TestUiNotification));
+                query.LongRunning.ShouldBeTrue();
+
+                query.ChildAction.ShouldEqual(MediationStrategy.InProcess);
+                query.TopLevelAction.ShouldEqual(MediationStrategy.InProcess);
+
+                
                 
             }
             

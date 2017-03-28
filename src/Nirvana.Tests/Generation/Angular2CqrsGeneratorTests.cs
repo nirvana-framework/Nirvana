@@ -41,10 +41,10 @@ namespace Nirvana.Tests.Generation
                 .SetRootTypeAssembly(Input.Assembly)
                 .SetAttributeMatchingFunction(Input.AttributeMatchingFunctionStub)
                 .SetDependencyResolver(Input.GetService, Input.GetAllServices)
-                .ForQueries(MediationStrategy.None, MediationStrategy.None)
-                .ForCommands(MediationStrategy.InProcess, MediationStrategy.None, MediationStrategy.None)
-                .ForInternalEvents(MediationStrategy.None, MediationStrategy.None, MediationStrategy.None)
-                .ForUiNotifications(MediationStrategy.None, MediationStrategy.None, MediationStrategy.None)
+                .ForQueries(MediationStrategy.InProcess, MediationStrategy.InProcess)
+                .ForCommands(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
+                .ForInternalEvents(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
+                .ForUiNotifications(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
                 .BuildConfiguration();
 
 

@@ -28,7 +28,7 @@ namespace Nirvana.SignalRNotifications
             return  typeof(THub).Name + ":" + instance;
         }
 
-        protected void PublishEvent(string eventName, UiEvent task,string channelName)
+        protected void PublishEvent(string eventName, UiNotification task,string channelName)
         {
             var channelEvent = new ChannelEvent()
             {

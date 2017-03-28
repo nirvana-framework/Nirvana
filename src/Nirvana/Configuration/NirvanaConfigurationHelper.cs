@@ -123,7 +123,7 @@ namespace Nirvana.Configuration
             Setup.QueryTypes = Setup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Query<>)));
             Setup.CommandTypes = Setup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Command<>)));
             Setup.UiNotificationTypes = Setup.RootNames.ToDictionary(x => x,
-                x => GetTypes(x, typeof(UiEvent<>)));
+                x => GetTypes(x, typeof(UiNotification<>)));
             Setup.InternalEventTypes = Setup.RootNames.ToDictionary(x => x,
                 x => GetTypes(x, typeof(InternalEvent)));
 

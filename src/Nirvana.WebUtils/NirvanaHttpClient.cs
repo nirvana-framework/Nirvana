@@ -36,7 +36,7 @@ namespace Nirvana.WebUtils
             }
         }
 
-        public async Task<HttpResponseMessage> UiEvent<T>(string requestUri, UiEvent<T> value)
+        public async Task<HttpResponseMessage> UiEvent<T>(string requestUri, UiNotification<T> value)
         {
             using (var client = new HttpClient())
             {
