@@ -14,6 +14,7 @@ namespace Nirvana.Configuration
     {
         private readonly Dictionary<TaskType, NirvanaTypeRoutingDefinition> _taskConfiguration;
         public readonly NirvanaSetup Setup;
+
         public NirvanaConfigurationHelper()
         {
             Setup = new NirvanaSetup();
@@ -35,7 +36,6 @@ namespace Nirvana.Configuration
         }
 
 
-
         public NirvanaConfigurationHelper SetAttributeMatchingFunction(Func<string, object, bool> method)
         {
             Setup.AttributeMatchingFunction = method;
@@ -44,12 +44,11 @@ namespace Nirvana.Configuration
 
         public NirvanaConfigurationHelper SetAdditionalAssemblyNameReferences(string[] refrences)
         {
-
             var commonReferences = new[]
-               {
-                    "Nirvana.dll",
-                    "Nirvana.Web.dll"
-                };
+            {
+                "Nirvana.dll",
+                "Nirvana.Web.dll"
+            };
 
             Setup.AssemblyNameReferences = commonReferences.Concat(refrences).ToArray();
             return this;
@@ -114,10 +113,10 @@ namespace Nirvana.Configuration
 
         public NirvanaSetup BuildConfiguration()
         {
-
             var rootTypeNames = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes
                 (x => typeof(RootType).IsAssignableFrom(x), Setup.RootTypeAssembly)
                 .Select(x => (Activator.CreateInstance(x) as RootType).RootName);
+
 
             Setup.TaskIdentifierProperty = "Identifier";
             Setup.RootNames = rootTypeNames.ToArray();
@@ -135,8 +134,8 @@ namespace Nirvana.Configuration
 
             Setup.DefinitionsByType = definitions.ToDictionary(x => x.TaskType, x => x);
 
-
             BuildTaskConfiguration();
+
             return Setup;
         }
 
@@ -149,18 +148,30 @@ namespace Nirvana.Configuration
 
             Setup.TaskConfiguration = _taskConfiguration;
 
-            Setup.TaskConfiguration[TaskType.Command].Tasks =
-                Setup.CommandTypes.SelectMany(x => x.Value).ToArray();
+            Setup.TaskConfiguration[TaskType.Command].Tasks = Setup.CommandTypes.SelectMany(x => x.Value).ToArray();
+            SetMediatonStrategy(TaskType.Command);
 
-            Setup.TaskConfiguration[TaskType.Query].Tasks =
-                Setup.QueryTypes.SelectMany(x => x.Value).ToArray();
+
+            Setup.TaskConfiguration[TaskType.Query].Tasks =Setup.QueryTypes.SelectMany(x => x.Value).ToArray();
+             SetMediatonStrategy(TaskType.Query);
 
             Setup.TaskConfiguration[TaskType.UiNotification].Tasks =
                 Setup.UiNotificationTypes.SelectMany(x => x.Value).ToArray();
+             SetMediatonStrategy(TaskType.UiNotification);
 
             Setup.TaskConfiguration[TaskType.InternalEvent].Tasks =
                 Setup.InternalEventTypes.SelectMany(x => x.Value).ToArray();
+             SetMediatonStrategy(TaskType.InternalEvent);
+        }
 
+        private void SetMediatonStrategy(TaskType taskType)
+        {
+            Setup.TaskConfiguration[taskType].Tasks.ForEach(taskInfo =>
+                {
+                    taskInfo.TopLevelAction = GetTopLevelAction(taskInfo);
+                    taskInfo.ChildAction = GetChildAction(taskInfo);
+                }
+            );
         }
 
         private void GuiarDisabledTasks(TaskType taskType)
@@ -216,20 +227,79 @@ namespace Nirvana.Configuration
                     .ToArray();
         }
 
-        private NirvanaTaskInformation BuildTypeDefinition(Type taskType, string rootName)
+        private NirvanaTaskInformation BuildTypeDefinition(Type messageType, string rootName)
         {
-            var customAttribute = CqrsUtils.CustomAttribute(taskType);
+            var customAttribute = CqrsUtils.CustomAttribute(messageType);
             var taskInfo = new NirvanaTaskInformation
             {
-                TaskType = taskType,
+                TaskType = messageType,
+                NirvanaTaskType = GetTaskType(messageType),
                 TypeCorrelationId = GetTypeCorrelationId(customAttribute),
-                UniqueName = GetUniqueName(taskType, rootName),
+                UniqueName = GetUniqueName(messageType, rootName),
                 RootName = rootName,
-                Claims = BuildClaims(taskType),
+                Claims = BuildClaims(messageType),
                 LongRunning = customAttribute.LongRunning
             };
             taskInfo.RequiresAuthentication = taskInfo.Claims.Any() || (customAttribute?.Authorized ?? false);
             return taskInfo;
+        }
+
+        public MediationStrategy GetTopLevelAction(NirvanaTaskInformation taskInfo)
+        {
+            var strategy = Setup.TaskConfiguration[taskInfo.NirvanaTaskType].MediationStrategy;
+            if (taskInfo.NirvanaTaskType == TaskType.Command)
+            {
+                if (Setup.IsForwardLongRunningToQueue(TaskType.Command, false) && !taskInfo.LongRunning)
+                {
+                    return MediationStrategy.InProcess;
+                }
+                if (Setup.IsForwardLongRunningToQueue(TaskType.Command, false) && taskInfo.LongRunning)
+                {
+                    return MediationStrategy.ForwardToQueue;
+                }
+                return strategy;
+            }
+            return strategy;
+        }
+
+        public MediationStrategy GetChildAction(NirvanaTaskInformation taskInfo)
+        {
+            var strategy = Setup.TaskConfiguration[taskInfo.NirvanaTaskType].ChildMediationStrategy;
+            if (taskInfo.NirvanaTaskType == TaskType.Command)
+            {
+                if (Setup.IsForwardLongRunningToQueue(TaskType.Command, true) && !taskInfo.LongRunning)
+                {
+                    return MediationStrategy.InProcess;
+                }
+                if (Setup.IsForwardLongRunningToQueue(TaskType.Command, true) && taskInfo.LongRunning)
+                {
+                    return MediationStrategy.ForwardToQueue;
+                }
+                return strategy;
+            }
+            return strategy;
+        }
+
+        private TaskType GetTaskType(Type messageType)
+        {
+            if (messageType.IsCommand())
+            {
+                return TaskType.Command;
+            }
+            if (messageType.IsQuery())
+            {
+                return TaskType.Query;
+            }
+            if (messageType.IsInternalEvent())
+            {
+                return TaskType.InternalEvent;
+            }
+            if (messageType.IsUiNotification())
+            {
+                return TaskType.UiNotification;
+            }
+
+            throw new NotImplementedException("Unknown type specified");
         }
 
         private Dictionary<ClaimType, AccessType[]> BuildClaims(Type taskType)
@@ -237,12 +307,11 @@ namespace Nirvana.Configuration
             var list = new List<KeyValuePair<ClaimType, AccessType[]>>();
 
             var attrs = taskType.GetCustomAttributes(true);
-            foreach (object attr in attrs)
+            foreach (var attr in attrs)
             {
                 var authAttr = attr as ClaimTypeAttribute;
                 if (authAttr != null)
                 {
-
                     list.Add(new KeyValuePair<ClaimType, AccessType[]>(authAttr.ClaimType, authAttr.AllowedActions));
                 }
             }

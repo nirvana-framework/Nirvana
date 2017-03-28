@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Nirvana.Configuration;
+using Nirvana.Mediation;
 using Nirvana.TestFramework;
 using Nirvana.Tests.SampleSetup;
 using Should;
@@ -124,11 +125,21 @@ namespace Nirvana.Tests.Configuration
             {
                 var key = Result.CommandTypes.Keys.First();
 
-              Result.CommandTypes[key].First(x=>x.TaskType==typeof(TestLongRunningCommand)).LongRunning.ShouldBeTrue();
+                Result.CommandTypes[key].First(x=>x.TaskType==typeof(TestLongRunningCommand)).LongRunning.ShouldBeTrue();
 
                 Result.ShouldForwardToQueue(TaskType.Command,false, typeof(TestLongRunningCommand)).ShouldBeTrue();
                 Result.ShouldForwardToQueue(TaskType.Command,true, typeof(TestLongRunningCommand)).ShouldBeTrue();
+
+                var m = new MediatorFactory(Result);
+                m.GetMediatorStrategy(typeof(TestLongRunningCommand),false).ShouldEqual(MediatorStrategy.ForwardToQueue);
+                m.GetMediatorStrategy(typeof(TestLongRunningCommand),true).ShouldEqual(MediatorStrategy.ForwardToQueue);
+                
+                
+                m.GetMediatorStrategy(typeof(TestCommand),false).ShouldEqual(MediatorStrategy.HandleInProc);
+                m.GetMediatorStrategy(typeof(TestCommand),true).ShouldEqual(MediatorStrategy.HandleInProc);
+                
             }
+            
         }
 
         

@@ -96,56 +96,58 @@ namespace Nirvana.Mediation
             return GetInProcMediator();
         }
 
-        private MediatorStrategy GetMediatorStrategy(Type messageType, bool isChildTask = false)
+        public MediatorStrategy GetMediatorStrategy(Type messageType, bool isChildTask = false)
         {
-            if (messageType.IsQuery()
-                || messageType.IsUiNotification() && _setup.IsInProcess(TaskType.UiNotification, isChildTask)
-                || messageType.IsCommand() && _setup.IsInProcess(TaskType.Command, isChildTask)
-                || messageType.IsInternalEvent() && _setup.IsInProcess(TaskType.InternalEvent, isChildTask)
-            )
+            if (ShouldHandleInProc(messageType, isChildTask))
             {
                 return MediatorStrategy.HandleInProc;
             }
 
-            if (
-                messageType.IsUiNotification() && _setup.ShouldForwardToWeb(TaskType.UiNotification, isChildTask)
-                || messageType.IsCommand() && _setup.ShouldForwardToWeb(TaskType.Command, isChildTask)
-                || messageType.IsInternalEvent() && _setup.ShouldForwardToWeb(TaskType.InternalEvent, isChildTask)
-            )
+            if (ShouldForwardToWeb(messageType, isChildTask))
             {
                 return MediatorStrategy.ForwardToWeb;
             }
 
-            if (
-                ShouldForwardToQueue(messageType, isChildTask)
-            )
+            if (ShouldForwardToQueue(messageType, isChildTask))
             {
                 return MediatorStrategy.ForwardToQueue;
             }
+
             throw new NotImplementedException(
                 "Execution strategy could not be determined.  Please check your configuration.");
         }
 
+        private bool ShouldHandleInProc(Type messageType, bool isChildTask)
+        {
+            var taskInfo = _setup.FindTypeDefinition(messageType);
+            if (taskInfo == null)
+            {
+                return false;
+            }
+            var action = isChildTask ? taskInfo.ChildAction : taskInfo.TopLevelAction;
+            return action==MediationStrategy.InProcess;
+        }
+
+        private bool ShouldForwardToWeb(Type messageType, bool isChildTask)
+        {
+            var taskInfo = _setup.FindTypeDefinition(messageType);
+            if (taskInfo == null)
+            {
+                return false;
+            }
+            var action = isChildTask ? taskInfo.ChildAction : taskInfo.TopLevelAction;
+            return action == MediationStrategy.ForwardToWeb;
+        }
+
         private bool ShouldForwardToQueue(Type messageType, bool isChildTask)
         {
-            if (messageType.IsUiNotification() &&
-                _setup.ShouldForwardToQueue(TaskType.UiNotification, isChildTask, messageType))
+            var taskInfo = _setup.FindTypeDefinition(messageType);
+            if (taskInfo == null)
             {
-                return true;
+                return false;
             }
-            if (messageType.IsCommand() && _setup.ShouldForwardToQueue(TaskType.Command, isChildTask, messageType))
-            {
-                return true;
-            }
-
-
-            if (messageType.IsInternalEvent() &&
-                _setup.ShouldForwardToQueue(TaskType.InternalEvent, isChildTask, messageType))
-            {
-                return true;
-            }
-
-            return false;
+            var action = isChildTask ? taskInfo.ChildAction : taskInfo.TopLevelAction;
+            return action == MediationStrategy.ForwardToQueue;
         }
 
 

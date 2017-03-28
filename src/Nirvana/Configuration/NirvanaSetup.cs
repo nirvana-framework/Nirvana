@@ -75,17 +75,6 @@ namespace Nirvana.Configuration
             return DefinitionsByType[getType];
         }
 
-        public bool IsInProcess(TaskType taskType, bool isChildTask)
-        {
-            var config = GetTaskConfiguration(taskType);
-
-
-            return config.CanHandle
-                &&
-                isChildTask
-                ? config.ChildMediationStrategy == MediationStrategy.InProcess
-                : config.MediationStrategy == MediationStrategy.InProcess;
-        }
 
         public bool ShouldForwardToWeb(TaskType taskType, bool isChildTask)
         {
@@ -100,6 +89,7 @@ namespace Nirvana.Configuration
 
 
         }
+
         public bool ShouldForwardToQueue(TaskType taskType, bool isChildTask, Type messageType)
         {
             var config = GetTaskConfiguration(taskType);
@@ -129,6 +119,44 @@ namespace Nirvana.Configuration
         private NirvanaTypeRoutingDefinition GetTaskConfiguration(TaskType taskType)
         {
             return TaskConfiguration[taskType];
+        }
+
+        #region Get StrategyType
+        
+        public bool IsInProcess(TaskType taskType, bool isChildTask)
+        {
+            return IsStrategyType(taskType, isChildTask, MediationStrategy.InProcess);
+        }
+        public bool IsForwardToWeb(TaskType taskType, bool isChildTask)
+        {
+            return IsStrategyType(taskType, isChildTask, MediationStrategy.ForwardToWeb);
+        }
+        public bool IsForwardToQueue(TaskType taskType, bool isChildTask)
+        {
+            return IsStrategyType(taskType, isChildTask, MediationStrategy.ForwardToQueue);
+        }
+        public bool IsForwardLongRunningToQueue(TaskType taskType, bool isChildTask)
+        {
+            return IsStrategyType(taskType, isChildTask, MediationStrategy.ForwardLongRunningToQueue);
+        }
+        public bool IsForwardToEventStore(TaskType taskType, bool isChildTask)
+        {
+            return IsStrategyType(taskType, isChildTask, MediationStrategy.ForwardToEventStore);
+        }
+        
+
+        #endregion
+
+
+        private bool IsStrategyType(TaskType taskType, bool isChildTask, MediationStrategy strategyType)
+        {
+            var config = GetTaskConfiguration(taskType);
+
+
+            return config.CanHandle
+                   && isChildTask
+                ? config.ChildMediationStrategy == strategyType
+                : config.MediationStrategy == strategyType;
         }
 
         public bool CanProcess(TaskType query)

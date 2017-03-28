@@ -19,6 +19,9 @@ namespace Nirvana.Configuration
     {
         public string RootName { get; set; }
         public Type TaskType { get; set; }
+        public TaskType NirvanaTaskType { get; set; }
+        public MediationStrategy TopLevelAction { get; set; }
+        public MediationStrategy ChildAction{ get; set; }
         public bool LongRunning { get; set; }
         public Dictionary<ClaimType, AccessType[]> Claims { get; set; }
         public string UniqueName { get; set; }
