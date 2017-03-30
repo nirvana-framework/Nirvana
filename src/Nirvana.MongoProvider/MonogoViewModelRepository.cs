@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
 using MongoDB.Driver;
 using Nirvana.Data;
@@ -44,7 +43,7 @@ namespace Nirvana.MongoProvider
         }
 
 
-        public void BeginTransaction(IsolationLevel? isolationLevel = null)
+        public void BeginTransaction()
         {
         }
 

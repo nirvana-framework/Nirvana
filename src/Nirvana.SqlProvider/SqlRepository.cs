@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
@@ -254,7 +253,7 @@ namespace Nirvana.SqlProvider
             _context.DisableFilter("SoftDelete");
         }
 
-        public void BeginTransaction(IsolationLevel? isolationLevel = null)
+        public void BeginTransaction()
         {
             throw new NotImplementedException();
         }

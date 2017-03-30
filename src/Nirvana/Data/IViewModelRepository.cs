@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using Nirvana.Domain;
 
 namespace Nirvana.Data
@@ -10,7 +9,7 @@ namespace Nirvana.Data
         void Save<T>(T input) where T : ViewModel<Guid>;
 
 
-        void BeginTransaction(IsolationLevel? isolationLevel = null);
+        void BeginTransaction();
         void CommitTransaction();
         void RollbackTransaction();
     }

@@ -71,22 +71,6 @@ namespace Nirvana.Util.Extensions
             return TryParse(value, defaultValue, Guid.TryParse);
         }
 
-        public static Size TryParseSize(this string value, Size defaultValue = default(Size))
-        {
-            Size result;
-
-            try
-            {
-                var parts = value.Split(',');
-                result = new Size(int.Parse(parts[0]), int.Parse(parts[1]));
-            }
-            catch
-            {
-                result = defaultValue;
-            }
-
-            return result;
-        }
 
         public static decimal TryParseCurrency(this string value, decimal defaultValue = default(decimal))
         {

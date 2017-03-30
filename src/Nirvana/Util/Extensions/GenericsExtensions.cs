@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Xml.Serialization;
 
 namespace Nirvana.Util.Extensions
 {
@@ -83,16 +82,7 @@ namespace Nirvana.Util.Extensions
             return rows[curRow][m];
         }
 
-        public static string SerializeXml<T>(this T input, Type[] extraTypes = null, Encoding encoding = null,
-            XmlSerializerNamespaces namespaces = null)
-        {
-            var serializer = new XmlSerializer(typeof(T), extraTypes);
-            using (var stringWriter = new EncodingStringWriter(encoding ?? Encoding.UTF8))
-            {
-                serializer.Serialize(stringWriter, input, namespaces);
-                return stringWriter.ToString();
-            }
-        }
+        
 
         public class EncodingStringWriter : StringWriter
         {

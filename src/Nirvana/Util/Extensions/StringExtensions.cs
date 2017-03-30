@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Security;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 
 namespace Nirvana.Util.Extensions
 {
@@ -108,64 +104,11 @@ namespace Nirvana.Util.Extensions
             return string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
         }
 
-
-        public static string ToBase(this Guid guid, int radix)
-        {
-            return guid.ToString("N").ToBase(radix);
-        }
-
-        public static string ToBase(this long integer, int radix)
-        {
-            return integer < 0 ? "-" : "" + Math.Abs(integer).ToString("X").ToBase(radix);
-        }
-
-        private static string ToBase(this string hex, int radix)
-        {
-            const string validChars = "0123456789abcdefghijklmnopqrstuvwxyz";
-
-            if (!hex.All(x => "0123456789abcdefABCDEF".Contains(x)))
-                throw new ArgumentException("hex");
-
-            if (radix < 2 || radix > validChars.Length)
-                throw new ArgumentException("radix");
-
-            var bytes = Enumerable.Range(0, hex.Length)
-                .Where(x => x%2 == 0)
-                .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-                .Reverse()
-                .Concat((byte) 0)
-                .ToArray();
-
-            var dividend = new BigInteger(bytes);
-            var chars = new Stack<char>();
-
-            while (dividend != 0)
-            {
-                BigInteger remainder;
-                dividend = BigInteger.DivRem(dividend, radix, out remainder);
-
-                var index = Math.Abs((int) remainder);
-
-                chars.Push(validChars[index]);
-            }
-
-            return new string(chars.ToArray());
-        }
-
         public static string Normalize(this string input, Func<char, bool> normalizerAction)
         {
             return string.IsNullOrEmpty(input) ? string.Empty : input.Where(normalizerAction).AsString();
         }
-
-        public static T DeserializeXml<T>(this string xml)
-        {
-            var serializer = new XmlSerializer(typeof(T));
-            using (var reader = new StringReader(xml))
-            {
-                return (T) serializer.Deserialize(reader);
-            }
-        }
-
+        
         public static string ToCamelCase(this String stringToConvert)
         {
             string[] strings = stringToConvert.Split(' ');
