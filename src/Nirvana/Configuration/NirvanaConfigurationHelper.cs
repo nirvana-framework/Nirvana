@@ -17,7 +17,10 @@ namespace Nirvana.Configuration
 
         public NirvanaConfigurationHelper()
         {
-            Setup = new NirvanaSetup();
+            Setup = new NirvanaSetup
+            {
+                AttributeMatchingFunction = (x, y) => x == ((AggregateRootAttribute) y).RootName
+            };
             _taskConfiguration = new Dictionary<TaskType, NirvanaTypeRoutingDefinition>();
         }
 
@@ -141,27 +144,22 @@ namespace Nirvana.Configuration
 
         private void BuildTaskConfiguration()
         {
-            GuiarDisabledTasks(TaskType.Command);
-            GuiarDisabledTasks(TaskType.Query);
-            GuiarDisabledTasks(TaskType.UiNotification);
-            GuiarDisabledTasks(TaskType.InternalEvent);
+            GuardDisabledTasks(TaskType.Command);
+            GuardDisabledTasks(TaskType.Query);
+            GuardDisabledTasks(TaskType.UiNotification);
+            GuardDisabledTasks(TaskType.InternalEvent);
 
             Setup.TaskConfiguration = _taskConfiguration;
 
             Setup.TaskConfiguration[TaskType.Command].Tasks = Setup.CommandTypes.SelectMany(x => x.Value).ToArray();
-            SetMediatonStrategy(TaskType.Command);
-
-
             Setup.TaskConfiguration[TaskType.Query].Tasks =Setup.QueryTypes.SelectMany(x => x.Value).ToArray();
-             SetMediatonStrategy(TaskType.Query);
+            Setup.TaskConfiguration[TaskType.UiNotification].Tasks =Setup.UiNotificationTypes.SelectMany(x => x.Value).ToArray();
+            Setup.TaskConfiguration[TaskType.InternalEvent].Tasks =Setup.InternalEventTypes.SelectMany(x => x.Value).ToArray();
 
-            Setup.TaskConfiguration[TaskType.UiNotification].Tasks =
-                Setup.UiNotificationTypes.SelectMany(x => x.Value).ToArray();
-             SetMediatonStrategy(TaskType.UiNotification);
-
-            Setup.TaskConfiguration[TaskType.InternalEvent].Tasks =
-                Setup.InternalEventTypes.SelectMany(x => x.Value).ToArray();
-             SetMediatonStrategy(TaskType.InternalEvent);
+            SetMediatonStrategy(TaskType.InternalEvent);
+            SetMediatonStrategy(TaskType.UiNotification);
+            SetMediatonStrategy(TaskType.Query);
+            SetMediatonStrategy(TaskType.Command);
         }
 
         private void SetMediatonStrategy(TaskType taskType)
@@ -174,7 +172,7 @@ namespace Nirvana.Configuration
             );
         }
 
-        private void GuiarDisabledTasks(TaskType taskType)
+        private void GuardDisabledTasks(TaskType taskType)
         {
             if (!_taskConfiguration.ContainsKey(taskType))
             {
@@ -184,8 +182,7 @@ namespace Nirvana.Configuration
 
         private NirvanaTypeRoutingDefinition BuildDisabledTaskConfiguration(TaskType taskType)
         {
-            return BuildTaskConfiguration(MediationStrategy.None, taskType,
-                false, MediationStrategy.None, MediationStrategy.None);
+            return BuildTaskConfiguration(MediationStrategy.None, taskType,false, MediationStrategy.None, MediationStrategy.None);
         }
 
         private NirvanaTypeRoutingDefinition BuildTaskConfiguration(MediationStrategy outboundStrategy,

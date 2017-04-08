@@ -182,6 +182,88 @@ namespace Nirvana.Tests.Configuration
             
         }
 
+        public class when_reading_from_queue_and_forwarding:
+            BddTestBase<NirvanaConfigurationHelper, NirvanaTestInput, NirvanaSetup>
+        {
+            public override Action Inject => () => { };
+            public override Action Establish=> () =>
+            {
+                Input = new NirvanaTestInput
+                {
+                    
+                    Assembly = GetType().Assembly,
+                    AssemblyNameReferences = new[] {"test 1","test 2"},
+                    ControllerName = "Controller Assembly Name",
+                    RootNamespace = "Root Namespace"
+                };
+            };
+
+            public override Action Because
+                => () => { Result = Sut
+                .UsingControllerName(Input.ControllerName, Input.RootNamespace)
+                .WithAssembliesFromFolder(AppDomain.CurrentDomain.BaseDirectory)
+                .SetAdditionalAssemblyNameReferences(Input.AssemblyNameReferences)
+                .SetRootTypeAssembly(Input.Assembly)
+                .SetDependencyResolver(Input.GetService, Input.GetAllServices)
+                .ForCommands(MediationStrategy.ForwardToWeb, MediationStrategy.ForwardToWeb, MediationStrategy.None)
+                .BuildConfiguration(); };
+            
+          
+            [Fact]
+            public void should_set_commands()
+            {
+                var key = Result.CommandTypes.Keys.First();
+
+                Result.CommandTypes[key].First(x=>x.TaskType==typeof(TestLongRunningCommand)).LongRunning.ShouldBeTrue();
+
+                Result.ShouldForwardToWeb(TaskType.Command,false).ShouldBeTrue();
+                Result.ShouldForwardToWeb(TaskType.Command,true).ShouldBeTrue();
+
+                var m = new MediatorFactory(Result);
+                m.GetMediatorStrategy(typeof(TestLongRunningCommand),false).ShouldEqual(MediatorStrategy.ForwardToWeb);
+                m.GetMediatorStrategy(typeof(TestLongRunningCommand),true).ShouldEqual(MediatorStrategy.ForwardToWeb);
+                
+                
+            }
+            [Fact]
+            public void should_set_query()
+            {
+                var query = Result.QueryTypes["Test"].First(x=>x.TaskType==typeof(TestQuery));
+                query.LongRunning.ShouldBeTrue();
+
+                query.ChildAction.ShouldEqual(MediationStrategy.InProcess);
+                query.TopLevelAction.ShouldEqual(MediationStrategy.InProcess);
+
+                
+                
+            }
+            [Fact]
+            public void should_set_events()
+            {
+                var query = Result.InternalEventTypes["Test"].First(x=>x.TaskType==typeof(TestEvent));
+                query.LongRunning.ShouldBeTrue();
+
+                query.ChildAction.ShouldEqual(MediationStrategy.InProcess);
+                query.TopLevelAction.ShouldEqual(MediationStrategy.InProcess);
+
+                
+                
+            }
+            [Fact]
+            public void should_set_UI_notifications()
+            {
+                var query = Result.UiNotificationTypes["Test"].First(x=>x.TaskType==typeof(TestUiNotification));
+                query.LongRunning.ShouldBeTrue();
+
+                query.ChildAction.ShouldEqual(MediationStrategy.InProcess);
+                query.TopLevelAction.ShouldEqual(MediationStrategy.InProcess);
+
+                
+                
+            }
+            
+        }
+
         
     }
 
