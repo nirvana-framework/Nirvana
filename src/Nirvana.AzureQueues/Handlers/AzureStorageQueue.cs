@@ -71,6 +71,7 @@ namespace Nirvana.AzureQueues.Handlers
             //TODO - handle more than one message at a time...
             //Get DoWork
             var handler = GetDoWorkHandler(MessageTypeRouting);
+            AzureQueueController.Debug($"Started {handler.Name}");
             Func<object, bool> workMethod = null;
             if (this.MessageTypeRouting.TaskType.IsInternalEvent())
             {
@@ -84,6 +85,7 @@ namespace Nirvana.AzureQueues.Handlers
             }
 
             handler.Invoke(this, new object[] {workMethod, false, false});
+            AzureQueueController.Debug($"completed {handler.Name}");
         }
 
 
