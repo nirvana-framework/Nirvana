@@ -40,6 +40,7 @@ namespace Nirvana.WebUtils
             {
                 var path = GetQueryApiPath(query.GetType());
                 var uri = new Uri(new Uri(_endpointConfiguration.QueryEndpoint), path);
+                _logger.Debug($"Query URL: {uri.AbsoluteUri}");
                 var httpResponseMessage = _httpClient.Query(uri.ToString(), query).Result;
                 var response = BuildQueryResponse<TResult>(httpResponseMessage);
                 return QueryResponse.Success(response);
@@ -56,6 +57,7 @@ namespace Nirvana.WebUtils
             {
                 var path = GetUiNotificationPath(uiEevent.GetType());
                 var uri = new Uri(new Uri(_endpointConfiguration.NotificationEndpoint), path);
+                _logger.Debug($"Notification URL: {uri.AbsoluteUri}");
                 var httpResponseMessage = _httpClient.UiEvent(uri.ToString(), uiEevent).Result;
                 return UIEventResponse.Succeeded();
             }
@@ -72,6 +74,7 @@ namespace Nirvana.WebUtils
             {
                 var path = GetInternalEventApiPath(internalEvent.GetType());
                 var uri = new Uri(new Uri(_endpointConfiguration.InternalEventEndpoint), path);
+                _logger.Debug($"Event URL: {uri.AbsoluteUri}");
                 var httpResponseMessage = _httpClient.InternalEvent(uri.ToString(), internalEvent).Result;
                 var response = BuildInternalEventResponse(httpResponseMessage);
                 return response;
@@ -90,7 +93,7 @@ namespace Nirvana.WebUtils
             {
                 var path = GetCommandApiPath(command.GetType());
                 var uri = new Uri(new Uri(_endpointConfiguration.CommandEndpoint), path);
-                _logger.Debug($"Command URI: {uri.AbsoluteUri}");
+                _logger.Debug($"Command URL: {uri.AbsoluteUri}");
                 var httpResponseMessage = _httpClient.Command(uri.ToString(), command).Result;
                 var response = BuildCommandResponse<TResult>(httpResponseMessage);
                 return CommandResponse.Succeeded(response);
