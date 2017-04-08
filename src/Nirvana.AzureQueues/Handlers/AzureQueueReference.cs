@@ -2,13 +2,20 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Nirvana.CQRS.Queue;
+using Nirvana.Logging;
 
 namespace Nirvana.AzureQueues.Handlers
 {
     public class AzureQueueReference : QueueReference
     {
+        private readonly ILogger _logger;
         public override Func<IQueueFactory, IQueue> StartQueue => StartQueueInternal;
         public override Action<IQueue> StopQueue => StopQueueInternal;
+
+        public AzureQueueReference(ILogger logger)
+        {
+            _logger = logger;
+        }
 
         private IQueue StartQueueInternal(IQueueFactory factory)
         {
@@ -36,14 +43,14 @@ namespace Nirvana.AzureQueues.Handlers
                     }
                     if (Status == QueueStatus.ShuttingDown)
                     {
-                        AzureQueueController.Debug($"shutting down {Name}");
+                        _logger.Debug($"shutting down {Name}");
                         Status = QueueStatus.Stopped;
                     }
                 }).ContinueWith(x => x.Wait(this.SleepInMSBetweenTasks));
             }
             if (Status == QueueStatus.ShuttingDown)
             {
-                AzureQueueController.Debug($"{this.Name} stopped");
+                _logger.Debug($"{this.Name} stopped");
                 Status = QueueStatus.Stopped;
             }
         }
@@ -51,7 +58,7 @@ namespace Nirvana.AzureQueues.Handlers
 
         private void StopQueueInternal(IQueue queue)
         {
-            AzureQueueController.Debug($"Shutting down {this.Name}");
+            _logger.Debug($"Shutting down {this.Name}");
             this.Status = QueueStatus.ShuttingDown;
         }
 
@@ -68,7 +75,7 @@ namespace Nirvana.AzureQueues.Handlers
                 }
                 catch (Exception ex)
                 {
-                    AzureQueueController.Debug(ex.Message);
+                    _logger.Debug(ex.Message);
                     throw;
                 }
                 //TODO - handle multiple items here...})

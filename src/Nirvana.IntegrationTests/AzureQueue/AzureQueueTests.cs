@@ -4,6 +4,7 @@ using Nirvana.AzureQueues.Handlers;
 using Nirvana.Configuration;
 using Nirvana.Domain;
 using Nirvana.JsonSerializer;
+using Nirvana.Logging;
 using Nirvana.Mediation;
 using Nirvana.Util.Compression;
 using Nirvana.Util.Tine;
@@ -47,11 +48,13 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
             {
                 var command = new TestCommand {Test = "test", ThrowError = true};
 
-                var queue =
-                    new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(Setup), new Serializer(),
-                        new SystemTime(),
-                        new Compression(), new MediatorFactory(Setup)).GetQueue(
-                        Setup.FindTypeDefinition(command.GetType()));
+                var consoleLogger = new ConsoleLogger(false,false,false,false,false);
+                var nirvanaTaskInformation = Setup.FindTypeDefinition(command.GetType());
+                var factory = new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(Setup,consoleLogger),
+                    new Serializer(),
+                    new SystemTime(),
+                    new Compression(), new MediatorFactory(Setup), consoleLogger);
+                var queue = factory.GetQueue(nirvanaTaskInformation);
                 ((AzureStorageQueue) queue).Clear();
                 queue.Send(command);
 
@@ -75,12 +78,14 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
             {
                 
                 var command = new TestCommand {Test = "test", ThrowError = false};
-
+                
+                var consoleLogger = new ConsoleLogger(false,false,false,false,false);
                 var nirvanaTypeDefinition = Setup.FindTypeDefinition(command.GetType());
+                var factory = new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(Setup,consoleLogger), new Serializer(), 
+                    new SystemTime(),
+                    new Compression(), new MediatorFactory(Setup),consoleLogger);
                 var queue =
-                    new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(Setup), new Serializer(), 
-                        new SystemTime(),
-                        new Compression(), new MediatorFactory(Setup)).GetQueue(nirvanaTypeDefinition);
+                    factory.GetQueue(nirvanaTypeDefinition);
                 ((AzureStorageQueue) queue).Clear();
                 queue.Send(command);
 

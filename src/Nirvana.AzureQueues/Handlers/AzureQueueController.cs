@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nirvana.Configuration;
 using Nirvana.CQRS.Queue;
+using Nirvana.Logging;
 using Nirvana.Util.Extensions;
 
 namespace Nirvana.AzureQueues.Handlers
@@ -12,15 +13,17 @@ namespace Nirvana.AzureQueues.Handlers
         public static bool ShowDebug = true;
 
         private readonly NirvanaSetup _setup;
+        private readonly ILogger _logger;
         public Dictionary<string, QueueReference[]> QueueTypesByRoot { get; set; }
 
-        public AzureQueueController(NirvanaSetup setup)
+        public AzureQueueController(NirvanaSetup setup,ILogger logger)
         {
             _setup = setup;
-            Debug("Configuring Queues - to disable debugging, set AzureQueueController.ShowDebug to false");
+            _logger = logger;
+            _logger.Debug("Configuring Queues - to disable debugging, set AzureQueueController.ShowDebug to false");
             var nirvanaTypeDefinitionses = GetTypes();
             QueueTypesByRoot = nirvanaTypeDefinitionses.ToDictionary(x => x.Key, x => x
-                .Value.Select(q => new AzureQueueReference
+                .Value.Select(q => new AzureQueueReference(logger)
                 {
                     TaskInformaion = q,
                     MessageCount = 0,
@@ -46,35 +49,29 @@ namespace Nirvana.AzureQueues.Handlers
         public bool StartAll()
         {
             var queueReferences = AllQueues();
-            Debug($"Starting {queueReferences.Length} Queues");
+            _logger.Debug($"Starting {queueReferences.Length} Queues");
             queueReferences.ForEach(x =>
             {
                 
-                AzureQueueController.Debug($"Starting {x.Name}");
+                _logger.Debug($"Starting {x.Name}");
                 x.StartQueue((IQueueFactory) _setup.GetService(typeof(IQueueFactory)));
             });
             var success = queueReferences.All(x => x.Status == QueueStatus.Started);
-            Debug($"Starting successful:{success}");
+            _logger.Debug($"Starting successful:{success}");
 
             return success;
         }
 
-        public static void Debug(string message)
-        {
-            if (ShowDebug)
-            {
-                Console.WriteLine(message);
-            }
-        }
+       
 
         public bool StopAll()
         {
             AllQueues().ForEach(x => x.StopQueue(x.Queue));
-            Debug($"All queues shutting down");
+            _logger.Debug($"All queues shutting down");
             WaitForShutDown();
             var stopAll = AllQueues().All(x => x.Status == QueueStatus.Stopped);
 
-            Debug($"All queues stopped");
+            _logger.Debug($"All queues stopped");
             return stopAll;
         }
 

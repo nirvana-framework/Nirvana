@@ -5,6 +5,7 @@ using Nirvana.Configuration;
 using Nirvana.CQRS.Queue;
 using Nirvana.Domain;
 using Nirvana.JsonSerializer;
+using Nirvana.Logging;
 using Nirvana.Mediation;
 using Nirvana.TestFramework;
 using Nirvana.Util.Compression;
@@ -49,9 +50,10 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
                 .ForUiNotifications(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
                 .BuildConfiguration();
 
-
+            
+            var consoleLogger = new ConsoleLogger(false,false,false,false,false);
             Mediator = new MediatorFactory(Setup);
-            Controller = new AzureQueueController(Setup);
+            Controller = new AzureQueueController(Setup,consoleLogger);
             SystemTime = new SystemTime();
             Compression = new Compression();
             Serializer = new Serializer();

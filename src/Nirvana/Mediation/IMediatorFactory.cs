@@ -1,6 +1,7 @@
 ﻿using System;
 using Nirvana.Configuration;
 using Nirvana.CQRS;
+using Nirvana.Logging;
 using Nirvana.Util.Extensions;
 
 namespace Nirvana.Mediation
@@ -28,7 +29,7 @@ namespace Nirvana.Mediation
 
     public class ChildMediatorFactory : MediatorFactoryBase, IChildMediatorFactory
     {
-        public ChildMediatorFactory(NirvanaSetup setup) : base(setup)
+        public ChildMediatorFactory(NirvanaSetup setup) : base(setup, (ILogger)setup.GetService(typeof(ILogger)))
         {
         }
 
@@ -39,7 +40,7 @@ namespace Nirvana.Mediation
     {
         public override bool ChildCommands => false;
 
-        public MediatorFactory(NirvanaSetup setup) : base(setup)
+        public MediatorFactory(NirvanaSetup setup) : base(setup, (ILogger)setup.GetService(typeof(ILogger)))
         {
         }
     }
@@ -48,10 +49,12 @@ namespace Nirvana.Mediation
     public abstract class MediatorFactoryBase : IMediatorFactory
     {
         private readonly NirvanaSetup _setup;
+        private readonly ILogger _logger;
 
-        protected MediatorFactoryBase(NirvanaSetup setup)
+        protected MediatorFactoryBase(NirvanaSetup setup,ILogger logger)
         {
             _setup = setup;
+            _logger = logger;
         }
 
         public abstract bool ChildCommands { get; }
@@ -64,22 +67,33 @@ namespace Nirvana.Mediation
 
         public CommandResponse<TResult> Command<TResult>(Command<TResult> command)
         {
-            return GetMediator(command.GetType()).Command(command);
+            var mediator = GetMediator(command.GetType());
+            _logger.Debug($"{mediator.GetType()} resolved for {command.GetType()}, Executing  ");
+            return mediator.Command(command);
         }
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
         {
-            return GetMediator(query.GetType()).Query(query);
+            var mediator = GetMediator(query.GetType());
+            
+            _logger.Debug($"{mediator.GetType()} resolved for {query.GetType()}, Executing  ");
+            return mediator.Query(query);
         }
 
         public UIEventResponse Notification<TResult>(UiNotification<TResult> uiNotification)
         {
-            return GetMediator(uiNotification.GetType()).UiNotification(uiNotification);
+            var mediator = GetMediator(uiNotification.GetType());
+            
+            _logger.Debug($"{mediator.GetType()} resolved for {uiNotification.GetType()}, Executing  ");
+            return mediator.UiNotification(uiNotification);
         }
 
         public InternalEventResponse InternalEvent(InternalEvent internalEvent)
         {
-            return GetMediator(internalEvent.GetType()).InternalEvent(internalEvent);
+            var mediator = GetMediator(internalEvent.GetType());
+            
+            _logger.Debug($"{mediator.GetType()} resolved for {internalEvent.GetType()}, Executing  ");
+            return mediator.InternalEvent(internalEvent);
         }
 
 
