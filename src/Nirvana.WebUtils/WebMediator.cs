@@ -19,15 +19,11 @@ namespace Nirvana.WebUtils
         private readonly NirvanaSetup _setup;
         private readonly ILogger _logger;
 
-        public WebMediator(NirvanaSetup setup,ILogger logger)
+        public WebMediator(ISerializer serializer, INirvanaConfiguration endpointConfiguration,
+            INirvanaHttpClient httpClient,NirvanaSetup setup,ILogger logger)
         {
             _setup = setup;
             _logger = logger;
-        }
-
-        public WebMediator(ISerializer serializer, INirvanaConfiguration endpointConfiguration,
-            INirvanaHttpClient httpClient)
-        {
             _serializer = serializer;
             _endpointConfiguration = endpointConfiguration;
             _httpClient = httpClient;
