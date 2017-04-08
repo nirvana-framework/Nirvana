@@ -3,6 +3,7 @@ using System.Net.Http;
 using Nirvana.Configuration;
 using Nirvana.CQRS;
 using Nirvana.CQRS.Util;
+using Nirvana.Logging;
 using Nirvana.Mediation;
 using Nirvana.Util.Io;
 
@@ -16,10 +17,12 @@ namespace Nirvana.WebUtils
 
 
         private readonly NirvanaSetup _setup;
+        private readonly ILogger _logger;
 
-        public WebMediator(NirvanaSetup setup)
+        public WebMediator(NirvanaSetup setup,ILogger logger)
         {
             _setup = setup;
+            _logger = logger;
         }
 
         public WebMediator(ISerializer serializer, INirvanaConfiguration endpointConfiguration,
@@ -28,6 +31,7 @@ namespace Nirvana.WebUtils
             _serializer = serializer;
             _endpointConfiguration = endpointConfiguration;
             _httpClient = httpClient;
+            
         }
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
@@ -55,8 +59,9 @@ namespace Nirvana.WebUtils
                 var httpResponseMessage = _httpClient.UiEvent(uri.ToString(), uiEevent).Result;
                 return UIEventResponse.Succeeded();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.Exception(ex);
                 return UIEventResponse.Failed();
             }
         }
@@ -71,8 +76,9 @@ namespace Nirvana.WebUtils
                 var response = BuildInternalEventResponse(httpResponseMessage);
                 return response;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.Exception(ex);
                 return InternalEventResponse.Failed();
             }
         }
@@ -84,12 +90,14 @@ namespace Nirvana.WebUtils
             {
                 var path = GetCommandApiPath(command.GetType());
                 var uri = new Uri(new Uri(_endpointConfiguration.CommandEndpoint), path);
+                _logger.Debug($"Command URI: {uri.AbsoluteUri}");
                 var httpResponseMessage = _httpClient.Command(uri.ToString(), command).Result;
                 var response = BuildCommandResponse<TResult>(httpResponseMessage);
                 return CommandResponse.Succeeded(response);
             }
             catch (Exception ex)
             {
+                _logger.Exception(ex);
                 return CommandResponse.Failed<TResult>(ex);
             }
         }
