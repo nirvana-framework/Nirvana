@@ -28,9 +28,9 @@ namespace Nirvana.AzureQueues.Handlers
             {
                 Task.Run(() =>
                 {
-                    AzureQueueController.Debug($"Starting {Name}");
                     if (Status == QueueStatus.Started)
                     {
+                        AzureQueueController.Debug($"Starting {Name}");
                         var token = new CancellationToken();
                         var work = DoWork(token);
                         work.ContinueWith(x => RunQueue(), token);
