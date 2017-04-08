@@ -212,7 +212,7 @@ namespace Nirvana.AzureQueues.Handlers
         private bool InvokeUiNotification(object x)
         {
             var responseType = CqrsUtils.GetResponseType(MessageTypeRouting.TaskType, typeof(UiNotification<>));
-            var method = CommandMethodInfo.MakeGenericMethod(responseType);
+            var method = NotificationInfo.MakeGenericMethod(responseType);
             var result = method.Invoke(Mediator, new[] {x});
             return ((Response) result).Success();
         }
