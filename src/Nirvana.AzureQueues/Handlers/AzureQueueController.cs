@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nirvana.Configuration;
-using Nirvana.CQRS;
 using Nirvana.CQRS.Queue;
 using Nirvana.Util.Extensions;
 
@@ -10,14 +9,15 @@ namespace Nirvana.AzureQueues.Handlers
 {
     public class AzureQueueController : IQueueController
     {
-        public Dictionary<string, QueueReference[]> QueueTypesByRoot { get; set; }
+        public static bool ShowDebug = true;
 
         private readonly NirvanaSetup _setup;
+        public Dictionary<string, QueueReference[]> QueueTypesByRoot { get; set; }
 
         public AzureQueueController(NirvanaSetup setup)
         {
             _setup = setup;
-      
+            Debug("Configuring Queues - to disable debugging, set AzureQueueController.ShowDebug to false");
             var nirvanaTypeDefinitionses = GetTypes();
             QueueTypesByRoot = nirvanaTypeDefinitionses.ToDictionary(x => x.Key, x => x
                 .Value.Select(q => new AzureQueueReference
@@ -28,16 +28,9 @@ namespace Nirvana.AzureQueues.Handlers
                     NumberOfConsumers = 1,
                     Status = QueueStatus.Stopped,
                     SleepInMSBetweenTasks = 200
-                }).Cast<QueueReference>().ToArray());
-        }
-
-        public IDictionary<string,NirvanaTaskInformation[]> GetTypes()
-        {
-            return
-                _setup.TaskConfiguration.Where(x => x.Value.CanHandle)
-                    .SelectMany(x => x.Value.Tasks)
-                    .GroupBy(x => x.RootName)
-                    .ToDictionary(x => x.Key, x => x.ToArray());
+                })
+                .Cast<QueueReference>()
+                .ToArray());
         }
 
         public QueueReference[] AllQueues()
@@ -52,18 +45,31 @@ namespace Nirvana.AzureQueues.Handlers
 
         public bool StartAll()
         {
-            AllQueues().ForEach(x => x.StartQueue((IQueueFactory)_setup.GetService(typeof(IQueueFactory))));
-            return AllQueues().All(x => x.Status == QueueStatus.Started);
+            var queueReferences = AllQueues();
+            Debug($"Starting {queueReferences.Length} Queues");
+            queueReferences.ForEach(x => x.StartQueue((IQueueFactory) _setup.GetService(typeof(IQueueFactory))));
+            var success = queueReferences.All(x => x.Status == QueueStatus.Started);
+            Debug($"Starting successful:{success}");
+
+            return success;
+        }
+
+        public static void Debug(string message)
+        {
+            if (ShowDebug)
+            {
+                Console.WriteLine(message);
+            }
         }
 
         public bool StopAll()
         {
             AllQueues().ForEach(x => x.StopQueue(x.Queue));
-            Console.WriteLine($"All queues shutting down");
+            Debug($"All queues shutting down");
             WaitForShutDown();
             var stopAll = AllQueues().All(x => x.Status == QueueStatus.Stopped);
 
-            Console.WriteLine($"All queues stopped");
+            Debug($"All queues stopped");
             return stopAll;
         }
 
@@ -97,7 +103,15 @@ namespace Nirvana.AzureQueues.Handlers
             return QueueTypesByRoot[rootType];
         }
 
-        
+        public IDictionary<string, NirvanaTaskInformation[]> GetTypes()
+        {
+            return
+                _setup.TaskConfiguration.Where(x => x.Value.CanHandle)
+                    .SelectMany(x => x.Value.Tasks)
+                    .GroupBy(x => x.RootName)
+                    .ToDictionary(x => x.Key, x => x.ToArray());
+        }
+
 
         private void WaitForShutDown(string rootName = null)
         {

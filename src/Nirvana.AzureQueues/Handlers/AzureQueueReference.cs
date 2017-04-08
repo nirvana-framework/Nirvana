@@ -28,7 +28,7 @@ namespace Nirvana.AzureQueues.Handlers
             {
                 Task.Run(() =>
                 {
-
+                    AzureQueueController.Debug($"Starting {Name}");
                     if (Status == QueueStatus.Started)
                     {
                         var token = new CancellationToken();
@@ -37,13 +37,14 @@ namespace Nirvana.AzureQueues.Handlers
                     }
                     if (Status == QueueStatus.ShuttingDown)
                     {
+                        AzureQueueController.Debug($"shutting down {Name}");
                         Status = QueueStatus.Stopped;
                     }
                 }).ContinueWith(x => x.Wait(this.SleepInMSBetweenTasks));
             }
             if (Status == QueueStatus.ShuttingDown)
             {
-                Console.WriteLine($"{this.Name} stopped");
+                AzureQueueController.Debug($"{this.Name} stopped");
                 Status = QueueStatus.Stopped;
             }
         }
@@ -51,7 +52,7 @@ namespace Nirvana.AzureQueues.Handlers
 
         private void StopQueueInternal(IQueue queue)
         {
-            Console.WriteLine($"Shutting down {this.Name}");
+            AzureQueueController.Debug($"Shutting down {this.Name}");
             this.Status = QueueStatus.ShuttingDown;
         }
 
@@ -63,16 +64,17 @@ namespace Nirvana.AzureQueues.Handlers
             {
                 try
                 {
+                    AzureQueueController.Debug($"Handling {Queue}, Consumer count: {NumberOfConsumers}");
                     InternalQueueController.GetAndExecute(Queue, NumberOfConsumers);
 
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    AzureQueueController.Debug(ex.Message);
                     throw;
                 }
                 //TODO - handle multiple items here...})
-            });
+            }, ct);
 
 
 
