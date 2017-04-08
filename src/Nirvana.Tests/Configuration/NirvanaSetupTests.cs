@@ -225,42 +225,7 @@ namespace Nirvana.Tests.Configuration
                 
                 
             }
-            [Fact]
-            public void should_set_query()
-            {
-                var query = Result.QueryTypes["Test"].First(x=>x.TaskType==typeof(TestQuery));
-                query.LongRunning.ShouldBeTrue();
 
-                query.ChildAction.ShouldEqual(MediationStrategy.InProcess);
-                query.TopLevelAction.ShouldEqual(MediationStrategy.InProcess);
-
-                
-                
-            }
-            [Fact]
-            public void should_set_events()
-            {
-                var query = Result.InternalEventTypes["Test"].First(x=>x.TaskType==typeof(TestEvent));
-                query.LongRunning.ShouldBeTrue();
-
-                query.ChildAction.ShouldEqual(MediationStrategy.InProcess);
-                query.TopLevelAction.ShouldEqual(MediationStrategy.InProcess);
-
-                
-                
-            }
-            [Fact]
-            public void should_set_UI_notifications()
-            {
-                var query = Result.UiNotificationTypes["Test"].First(x=>x.TaskType==typeof(TestUiNotification));
-                query.LongRunning.ShouldBeTrue();
-
-                query.ChildAction.ShouldEqual(MediationStrategy.InProcess);
-                query.TopLevelAction.ShouldEqual(MediationStrategy.InProcess);
-
-                
-                
-            }
             
         }
 

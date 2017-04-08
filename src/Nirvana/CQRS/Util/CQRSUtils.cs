@@ -99,15 +99,23 @@ namespace Nirvana.CQRS.Util
         private static string GetRootTypeName(this NirvanaSetup setup, Type type)
         {
             //TODO - this is a bit slow, create a dictionary by type in hte configuration
-            foreach (var rootName in setup.RootNames)
-            {
 
-                if (MatchesRootType(setup, rootName, type))
-                {
-                    return rootName;
-                }
+            var taskInfo = setup.DefinitionsByType[type];
+            if (taskInfo == null)
+            {   
+                throw new InvalidEnumArgumentException("Type does not contain aggregate attribute");
             }
-            throw new InvalidEnumArgumentException("Type does not contain aggregate attribute");
+            return taskInfo.RootName;
+
+//            foreach (var rootName in setup.RootNames)
+//            {
+//
+//                if (MatchesRootType(setup, rootName, type))
+//                {
+//                    return rootName;
+//                }
+//            }
+//            throw new InvalidEnumArgumentException("Type does not contain aggregate attribute");
         }
     }
 }

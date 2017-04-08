@@ -91,6 +91,7 @@ namespace Nirvana.WebUtils
         {
             try
             {
+                _logger.Debug($"resolving Command URL: {command.GetType()}, {_endpointConfiguration.CommandEndpoint}");
                 var path = GetCommandApiPath(command.GetType());
                 var uri = new Uri(new Uri(_endpointConfiguration.CommandEndpoint), path);
                 _logger.Debug($"Command URL: {uri.AbsoluteUri}");
