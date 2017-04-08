@@ -92,8 +92,8 @@ namespace Nirvana.WebUtils
                 var uri = new Uri(new Uri(_endpointConfiguration.CommandEndpoint), path);
                 _logger.Debug($"Command URL: {uri.AbsoluteUri}");
                 var httpResponseMessage = _httpClient.Command(uri.ToString(), command).Result;
-                var response = BuildCommandResponse<TResult>(httpResponseMessage);
-                return CommandResponse.Succeeded(response);
+                var response = BuildCommandResponse<CommandResponse<TResult>>(httpResponseMessage);
+                return response;
             }
             catch (Exception ex)
             {
