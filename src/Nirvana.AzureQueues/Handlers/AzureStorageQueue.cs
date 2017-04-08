@@ -18,6 +18,7 @@ namespace Nirvana.AzureQueues.Handlers
         private static readonly MethodInfo InternalEventMethodInfo;
         private static readonly MethodInfo QueryMethodInfo;
         private static readonly MethodInfo CommandMethodInfo;
+        private static readonly MethodInfo NotificationInfo;
 
         private readonly CloudQueueClient _client;
         private readonly CloudQueue _queue;
@@ -33,6 +34,7 @@ namespace Nirvana.AzureQueues.Handlers
         {
             CommandMethodInfo = typeof(MediatorFactory).GetMethod("Command");
             QueryMethodInfo = typeof(MediatorFactory).GetMethod("Query");
+            NotificationInfo = typeof(MediatorFactory).GetMethod("Notification");
             InternalEventMethodInfo = typeof(MediatorFactory).GetMethod("InternalEvent");
             DoWorkmethodInfo = typeof(AzureStorageQueue).GetMethod("DoWork");
         }
@@ -71,21 +73,29 @@ namespace Nirvana.AzureQueues.Handlers
             //TODO - handle more than one message at a time...
             //Get DoWork
             var handler = GetDoWorkHandler(MessageTypeRouting);
-            AzureQueueController.Debug($"Started {handler.Name}");
             Func<object, bool> workMethod = null;
+            workMethod = GetWorkMethod(workMethod);
+            
+            
+            handler.Invoke(this, new object[] {workMethod, false, false});
+            
+        }
+
+        private Func<object, bool> GetWorkMethod(Func<object, bool> workMethod)
+        {
             if (this.MessageTypeRouting.TaskType.IsInternalEvent())
             {
                 workMethod = InvokeInternalEvent;
             }
             if (this.MessageTypeRouting.TaskType.IsCommand())
             {
-
-
                 workMethod = InvokeCommand;
             }
-
-            handler.Invoke(this, new object[] {workMethod, false, false});
-            AzureQueueController.Debug($"completed {handler.Name}");
+            if (this.MessageTypeRouting.TaskType.IsUiNotification())
+            {
+                workMethod = InvokeUiNotification;
+            }
+            return workMethod;
         }
 
 
@@ -125,7 +135,10 @@ namespace Nirvana.AzureQueues.Handlers
             var typed = DeserializeMessage<Message<T>, T>(message.Text);
             try
             {
+                
+                AzureQueueController.Debug($"Started {this._queueName}");
                 success = work(typed.Body);
+                AzureQueueController.Debug($"completed {this._queueName}, success: {success}");
             }
             catch (Exception)
             {
@@ -195,6 +208,15 @@ namespace Nirvana.AzureQueues.Handlers
             var result = method.Invoke(Mediator, new[] {x});
             return ((Response) result).Success();
         }
+
+        private bool InvokeUiNotification(object x)
+        {
+            var responseType = CqrsUtils.GetResponseType(MessageTypeRouting.TaskType, typeof(UiNotification<>));
+            var method = CommandMethodInfo.MakeGenericMethod(responseType);
+            var result = method.Invoke(Mediator, new[] {x});
+            return ((Response) result).Success();
+        }
+
 
         public bool InvokeQuery(object x)
         {

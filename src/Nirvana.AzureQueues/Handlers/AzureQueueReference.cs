@@ -64,7 +64,6 @@ namespace Nirvana.AzureQueues.Handlers
             {
                 try
                 {
-                    AzureQueueController.Debug($"Handling {Queue}, Consumer count: {NumberOfConsumers}");
                     InternalQueueController.GetAndExecute(Queue, NumberOfConsumers);
 
                 }
