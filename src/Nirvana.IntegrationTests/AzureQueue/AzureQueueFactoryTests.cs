@@ -1,132 +1,107 @@
-//using System;
-//using Nirvana.Configuration;
-//using Nirvana.CQRS.Queue;
-//using Nirvana.Domain;
-//using Nirvana.Mediation;
-//using Nirvana.Util.Compression;
-//using Nirvana.Util.Tine;
-//using Should;
-//using Nirvana.AzureQueues.Handlers;
-//using Nirvana.TestFramework;
-//using Xunit;
-//
-//namespace Nirvana.IntegrationTests.AzureQueue
-//{
-//    public class AzureQueueTests
-//    {
-//        public int messageCount;
-//
-//        private bool ProcessCommand(TestCommand arg)
-//        {
-//            return new TestCommandHandler(new ChildMediatorFactory()).Handle(arg).Success();
-//        }
-//        public class when_a_handler_fails : AzureQueueTests
-//        {
-//            public when_a_handler_fails()
-//            {
-//                var command = new TestCommand {Test = "test", ThrowError = true};
-//
-//                var queue =
-//                    new AzureQueueFactory(new AzureQueueConfiguration(),new AzureQueueController(), new Serializer(), new SystemTime(),
-//                        new Compression(),new MediatorFactory()).GetQueue(NirvanaSetup.FindTypeDefinition(command.GetType()));
-//              ((AzureStorageQueue)queue).Clear();
-//                queue.Send(command);
-//
-//                queue.DoWork<TestCommand>(x => ProcessCommand(command), false, true);
-//                messageCount = queue.GetMessageCount();
-//            }
-//            [Fact(Skip = "explicit")]
-//            public void should_not_remove_message()
-//            {
-//                messageCount.ShouldEqual(1);
-//            }
-//        }
-//
-//        public class when_a_handler_succeeds : AzureQueueTests
-//        {
-//            public when_a_handler_succeeds()
-//            {
-//                var command = new TestCommand { Test = "test", ThrowError = false };
-//
-//                var nirvanaTypeDefinition = NirvanaSetup.FindTypeDefinition(command.GetType());
-//                var queue =
-//                    new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(), new Serializer(), new SystemTime(),
-//                        new Compression(), new MediatorFactory()).GetQueue(nirvanaTypeDefinition);
-//                ((AzureStorageQueue)queue).Clear();
-//                queue.Send(command);
-//
-//                queue.DoWork<TestCommand>(x => ProcessCommand(command), false, true);
-//                messageCount = queue.GetMessageCount();
-//            }
-//            [Fact(Skip = "explicit")]
-//            public void should_not_remove_message()
-//            {
-//                messageCount.ShouldEqual(0);
-//            }
-//        }
-//
-//    }
-//
-//    public class AzureQueueFactoryTests : TestBase<AzureQueueFactory, TestCommand,RootType>
-//    {
-//        private int MessageCount;
-//
-//        protected TestCommand Result;
-//        private readonly ICompression _compression;
-//        private readonly Serializer _serializer;
-//        private readonly AzureQueueConfiguration _azureQueueConfiguration;
-//        private readonly SystemTime _systemTime;
-//        private IQueueController _controller;
-//        private IMediatorFactory _mediator;
-//
-//        public AzureQueueFactoryTests()
-//        {
-//            _mediator = new MediatorFactory();
-//            _controller = new AzureQueueController();
-//            _systemTime = new SystemTime();
-//            _compression = new Compression();
-//            _serializer = new Serializer();
-//            _azureQueueConfiguration = new AzureQueueConfiguration();
-//            SetupBuildAndRun();
-//        }
-//
-//        public override Func<AzureQueueFactory> Build=>() =>new AzureQueueFactory(_azureQueueConfiguration,_controller, _serializer, _systemTime, _compression,_mediator);
-//
-//        public override void RunTest()
-//        {
-//            var nirvanaTypeDefinition = new NirvanaTaskInformation { TaskType = typeof(TestCommand) };
-//            AzureStorageQueue queue = Sut.GetQueue(nirvanaTypeDefinition) as AzureStorageQueue;
-//
-//
-//            if (queue != null)
-//            {
-//                queue.Clear();
-//
-//                queue.Send(new TestCommand {Test = "this is a test"});
-//
-//                var cloudMessage = queue.GetAzureMessage();
-//
-//                var message = cloudMessage != null ? new AzureQueueMessage(_compression, cloudMessage, nirvanaTypeDefinition) : null;
-//                queue.Delete(cloudMessage);
-//                var result = queue.DeserializeMessage<Message<TestCommand>, TestCommand>(message.Text);
-//                MessageCount = queue.GetMessageCount();
-//                Result = result.Body;
-//            }
-//        }
-//
-//        public class when_sending_to_azure_queues : AzureQueueFactoryTests
-//        {
-//            [Fact(Skip = "explicit")]
-//            public void should_have_no_messages()
-//            {
-//                MessageCount.ShouldEqual(0);
-//            }
-//            
-//            [Fact(Skip = "explicit")]
-//            public void should_send_and_recieve_message()
-//            {
-//                Result.Test.ShouldEqual("this is a test");
-//            }
-//        }
-//    }
-//}
+using System;
+using System.IO;
+using Nirvana.AzureQueues.Handlers;
+using Nirvana.Configuration;
+using Nirvana.CQRS.Queue;
+using Nirvana.Domain;
+using Nirvana.JsonSerializer;
+using Nirvana.Mediation;
+using Nirvana.TestFramework;
+using Nirvana.Util.Compression;
+using Nirvana.Util.Io;
+using Nirvana.Util.Tine;
+using Should;
+using Xunit;
+
+namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
+{
+    public abstract class AzureQueueFactoryTests : BddTestBase<AzureQueueFactory, TestCommand, TestCommand>
+    {
+
+        protected int MessageCount;
+        protected ICompression Compression;
+        protected ISerializer Serializer;
+        protected IAzureQueueConfiguration AzureQueueConfiguration;
+        protected ISystemTime SystemTime;
+        protected IQueueController Controller;
+        protected IMediatorFactory Mediator;
+
+
+        protected NirvanaSetup Setup;
+
+        
+        public Func<string, object, bool> AttributeMatchingFunctionStub
+            => (x, y) => x == ((AggregateRootAttribute)y).RootName;
+
+
+        public override Action Inject => () =>
+        {
+            Setup = NirvanaSetup.Configure()
+                .UsingControllerName("ControlelrName", "Root")
+                .WithAssembliesFromFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"))
+                .SetAdditionalAssemblyNameReferences(new string[0])
+                .SetRootTypeAssembly(this.GetType().Assembly)
+                .SetAttributeMatchingFunction(AttributeMatchingFunctionStub)
+                .SetDependencyResolver(x=>null, x=>new object[0])
+                .ForQueries(MediationStrategy.InProcess, MediationStrategy.InProcess)
+                .ForCommands(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
+                .ForInternalEvents(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
+                .ForUiNotifications(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
+                .BuildConfiguration();
+
+
+            Mediator = new MediatorFactory(Setup);
+            Controller = new AzureQueueController(Setup);
+            SystemTime = new SystemTime();
+            Compression = new Compression();
+            Serializer = new Serializer();
+            AzureQueueConfiguration = new AzureQueueConfiguration();
+
+            DependsOnConcrete(Serializer);
+            DependsOnConcrete(Compression);
+            DependsOnConcrete(SystemTime);
+            DependsOnConcrete(Mediator);
+            DependsOnConcrete(Controller);
+            DependsOnConcrete(AzureQueueConfiguration);
+        };
+
+        public override Action Because => () =>
+        {
+            var typeDef = Setup.FindTypeDefinition(typeof(TestCommand));
+            AzureStorageQueue queue = Sut.GetQueue(typeDef) as AzureStorageQueue;
+
+
+            if (queue != null)
+            {
+                queue.Clear();
+
+                queue.Send(new TestCommand { Test = "this is a test" });
+
+                var cloudMessage = queue.GetAzureMessage();
+
+                var message = cloudMessage != null
+                    ? new AzureQueueMessage(Compression, cloudMessage, typeDef)
+                    : null;
+                queue.Delete(cloudMessage);
+                var result = queue.DeserializeMessage<Message<TestCommand>, TestCommand>(message.Text);
+                MessageCount = queue.GetMessageCount();
+                Result = result.Body;
+            }
+        };
+
+        public class when_sending_to_azure_queues : AzureQueueFactoryTests
+        {
+            [Fact]
+            public void should_have_no_messages()
+            {
+                MessageCount.ShouldEqual(0);
+            }
+            
+            [Fact]
+            public void should_send_and_recieve_message()
+            {
+                Result.Test.ShouldEqual("this is a test");
+            }
+        }
+    }
+}

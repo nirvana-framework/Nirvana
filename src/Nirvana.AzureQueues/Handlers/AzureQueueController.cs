@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nirvana.Configuration;
+using Nirvana.CQRS;
 using Nirvana.CQRS.Queue;
 using Nirvana.Util.Extensions;
 

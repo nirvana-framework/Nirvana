@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Nirvana.Configuration;
+using Nirvana.CQRS;
 using Nirvana.CQRS.Queue;
 using Nirvana.Util.Compression;
 

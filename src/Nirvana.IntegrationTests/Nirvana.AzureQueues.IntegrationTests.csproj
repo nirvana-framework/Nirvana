@@ -82,6 +82,7 @@
   <ItemGroup>
     <Compile Include="AzureQueue\AzureQueueFactoryTests.cs" />
     <Compile Include="AzureQueue\AzureQueueProviderTests.cs" />
+    <Compile Include="AzureQueue\AzureQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestConfiguration.cs" />
   </ItemGroup>
@@ -93,6 +94,10 @@
     <ProjectReference Include="..\Nirvana.AzureQueues\Nirvana.AzureQueues.csproj">
       <Project>{47E14CFF-8608-4DA3-B6C6-6FA23EFFBE89}</Project>
       <Name>Nirvana.AzureQueues</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nirvana.JsonSerializer\Nirvana.JsonSerializer.csproj">
+      <Project>{4F3F744E-3B15-40E3-A77C-918A4ECF93C1}</Project>
+      <Name>Nirvana.JsonSerializer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Nirvana.TestFramework\Nirvana.TestFramework.csproj">
       <Project>{8FEBD536-9EDB-487F-A0A8-AA87F93CEA71}</Project>

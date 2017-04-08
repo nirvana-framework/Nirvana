@@ -69,10 +69,10 @@ namespace Nirvana.Configuration
         }
 
 
-        public NirvanaTaskInformation FindTypeDefinition(Type getType)
+        public NirvanaTaskInformation FindTypeDefinition(Type type)
         {
 
-            return DefinitionsByType[getType];
+            return DefinitionsByType[type];
         }
 
 
