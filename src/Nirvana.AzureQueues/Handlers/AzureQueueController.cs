@@ -47,7 +47,12 @@ namespace Nirvana.AzureQueues.Handlers
         {
             var queueReferences = AllQueues();
             Debug($"Starting {queueReferences.Length} Queues");
-            queueReferences.ForEach(x => x.StartQueue((IQueueFactory) _setup.GetService(typeof(IQueueFactory))));
+            queueReferences.ForEach(x =>
+            {
+                
+                AzureQueueController.Debug($"Starting {x.Name}");
+                x.StartQueue((IQueueFactory) _setup.GetService(typeof(IQueueFactory)));
+            });
             var success = queueReferences.All(x => x.Status == QueueStatus.Started);
             Debug($"Starting successful:{success}");
 
