@@ -123,12 +123,10 @@ namespace Nirvana.Configuration
 
             Setup.TaskIdentifierProperty = "Identifier";
             Setup.RootNames = rootTypeNames.ToArray();
-            Setup.QueryTypes = Setup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Query<>)));
-            Setup.CommandTypes = Setup.RootNames.ToDictionary(x => x, x => GetTypes(x, typeof(Command<>)));
-            Setup.UiNotificationTypes = Setup.RootNames.ToDictionary(x => x,
-                x => GetTypes(x, typeof(UiNotification<>)));
-            Setup.InternalEventTypes = Setup.RootNames.ToDictionary(x => x,
-                x => GetTypes(x, typeof(InternalEvent)));
+            Setup.QueryTypes = Setup.RootNames.ToDictionary(x => x, x => GetTaskInformation(x, typeof(Query<>)));
+            Setup.CommandTypes = Setup.RootNames.ToDictionary(x => x, x => GetTaskInformation(x, typeof(Command<>)));
+            Setup.UiNotificationTypes = Setup.RootNames.ToDictionary(x => x,x => GetTaskInformation(x, typeof(UiNotification<>)));
+            Setup.InternalEventTypes = Setup.RootNames.ToDictionary(x => x,x => GetTaskInformation(x, typeof(InternalEvent)));
 
             var definitions = GetTypes(Setup.QueryTypes)
                 .Union(GetTypes(Setup.CommandTypes))
@@ -207,7 +205,7 @@ namespace Nirvana.Configuration
         }
 
 
-        private static NirvanaTaskInformation[] GetTypes(
+        public static NirvanaTaskInformation[] GetTypes(
             IDictionary<string, NirvanaTaskInformation[]> rootTypeData)
         {
             var items = rootTypeData.Keys.SelectMany(k => rootTypeData[k]);
@@ -216,10 +214,10 @@ namespace Nirvana.Configuration
         }
 
 
-        private NirvanaTaskInformation[] GetTypes(string rootName, Type taskType)
+        public NirvanaTaskInformation[] GetTaskInformation(string rootName, Type taskType)
         {
             return
-                Setup.TaskTypes(taskType, rootName)
+                Setup.FindImplementingTaskTypes(taskType, rootName)
                     .Select(t => BuildTypeDefinition(t, rootName))
                     .ToArray();
         }

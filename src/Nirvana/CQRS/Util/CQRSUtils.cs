@@ -12,26 +12,26 @@ namespace Nirvana.CQRS.Util
     {
         public static Type[] QueryTypes(this NirvanaSetup setup, string rootType)
         {
-            return TaskTypes(setup, typeof(Query<>), rootType);
+            return FindImplementingTaskTypes(setup, typeof(Query<>), rootType);
         }
 
         public static Type[] CommandTypes(this NirvanaSetup setup, string rootType)
         {
-            return TaskTypes(setup,typeof(Query<>), rootType);
+            return FindImplementingTaskTypes(setup,typeof(Command<>), rootType);
         }
 
         public static Type[] UiNotificationTypes(this NirvanaSetup setup, string rootType)
         {
-            return TaskTypes(setup, typeof(UiNotification<>), rootType);
+            return FindImplementingTaskTypes(setup, typeof(UiNotification<>), rootType);
         }
 
         public static IEnumerable<Type> GetAllTypes(this NirvanaSetup setup, string rootType)
         {
             var types = new List<Type>();
-            types.AddRange(TaskTypes(setup,typeof(Command<>), rootType));
-            types.AddRange(TaskTypes(setup,typeof(Query<>), rootType));
-            types.AddRange(TaskTypes(setup,typeof(UiNotification<>), rootType));
-            types.AddRange(TaskTypes(setup,typeof(InternalEvent), rootType));
+            types.AddRange(FindImplementingTaskTypes(setup,typeof(Command<>), rootType));
+            types.AddRange(FindImplementingTaskTypes(setup,typeof(Query<>), rootType));
+            types.AddRange(FindImplementingTaskTypes(setup,typeof(UiNotification<>), rootType));
+            types.AddRange(FindImplementingTaskTypes(setup,typeof(InternalEvent), rootType));
             
 
             return types;
@@ -45,7 +45,7 @@ namespace Nirvana.CQRS.Util
                 : null;
         }
 
-        public static Type[] TaskTypes(this NirvanaSetup setup, Type types, string rootType)
+        public static Type[] FindImplementingTaskTypes(this NirvanaSetup setup, Type types, string rootType)
         {
             var seedTypes = new[]
             {
@@ -60,7 +60,7 @@ namespace Nirvana.CQRS.Util
                     .ToArray();
         }
 
-        private static bool MatchesRootType(this NirvanaSetup setup, string rootType, Type x)
+        public static bool MatchesRootType(this NirvanaSetup setup, string rootType, Type x)
         {
             var customAttribute = CustomAttribute(x);
             return customAttribute != null && setup.AttributeMatchingFunction(rootType, customAttribute);
