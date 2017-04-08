@@ -69,7 +69,15 @@ namespace Nirvana.Mediation
         {
             var mediator = GetMediator(command.GetType());
             _logger.Debug($"{mediator.GetType()} resolved for {command.GetType()}, Executing  ");
-            return mediator.Command(command);
+            try
+            {
+                return mediator.Command(command);
+            }
+            catch (Exception ex)
+            {
+                _logger.Exception(ex);
+                throw;
+            }
         }
 
         public QueryResponse<TResult> Query<TResult>(Query<TResult> query)
