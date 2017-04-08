@@ -31,7 +31,7 @@ namespace Nirvana.AzureQueues.Handlers
                 }).Cast<QueueReference>().ToArray());
         }
 
-        private IDictionary<string,NirvanaTaskInformation[]> GetTypes()
+        public IDictionary<string,NirvanaTaskInformation[]> GetTypes()
         {
             return
                 _setup.TaskConfiguration.Where(x => x.Value.CanHandle)
