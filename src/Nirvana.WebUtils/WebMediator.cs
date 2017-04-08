@@ -126,7 +126,18 @@ namespace Nirvana.WebUtils
 
         private T BuildCommandResponse<T>(HttpResponseMessage httpResponseMessage)
         {
-            return _serializer.Deserialize<T>(httpResponseMessage.Content.ReadAsStringAsync().Result);
+            try
+            {
+                var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                _logger.Debug(result);
+                return _serializer.Deserialize<T>(result);
+            }
+            catch (Exception ex)
+            {
+
+                _logger.Exception(ex);
+                throw;
+            }
         }
 
         private InternalEventResponse BuildInternalEventResponse(HttpResponseMessage httpResponseMessage)
