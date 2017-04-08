@@ -15,10 +15,5 @@
       <frameworkAssembly assemblyName="System.Xml" targetFramework="net461" />
       <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net461" />
     </frameworkAssemblies>
-
   </metadata>
-  <files>
-    <file src="bin\debug\Nirvana.dll" target="lib" />
-    <file src="bin\debug\Nirvana.pdb" target="lib" />
-  </files>
 </package>
