@@ -9,7 +9,7 @@ namespace Nirvana.Logging
         void Debug(string message);
         void Warning(string message);
         void Error(string message);
-        void Exception(Exception ex);
+        void Exception(Exception ex,params string[]messages);
     }
 
 
@@ -60,6 +60,11 @@ namespace Nirvana.Logging
             {
                 Console.WriteLine(message);
             }
+        }
+
+        public void Exception(Exception ex, params string[] messages)
+        {
+            throw new NotImplementedException();
         }
 
         public void Exception(Exception ex)
