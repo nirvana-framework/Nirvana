@@ -19,9 +19,9 @@ namespace Nirvana.WebUtils
 
         public HttpResponseMessage Command<T>(string requestUri, Command<T> value)
         {
-            if (_logger.LogDetailedDebug)
+            if (_logger.LogDebug)
             {
-                _logger.DetailedDebug($"Url: {requestUri}, Payload:{_serializer.Serialize(value)}");
+                _logger.Debug($"Url: {requestUri}, Payload:{_serializer.Serialize(value)}");
 
             }
             using (var client = new HttpClient())
@@ -35,9 +35,9 @@ namespace Nirvana.WebUtils
         }
         public HttpResponseMessage InternalEvent(string requestUri, InternalEvent value)
         {
-            if (_logger.LogDetailedDebug)
+            if (_logger.LogDebug)
             {
-                _logger.DetailedDebug($"Url: {requestUri}, Payload:{_serializer.Serialize(value)}");
+                _logger.Debug($"Url: {requestUri}, Payload:{_serializer.Serialize(value)}");
 
             }
             using (var client = new HttpClient())
@@ -50,10 +50,9 @@ namespace Nirvana.WebUtils
 
         public HttpResponseMessage Query<T>(string requestUri, Query<T> value)
         {
-
-            if (_logger.LogDetailedDebug)
+            if (_logger.LogDebug)
             {
-                _logger.DetailedDebug($"Url: {requestUri}, Payload:{_serializer.Serialize(value)}");
+                _logger.Debug($"Url: {requestUri}, Payload:{_serializer.Serialize(value)}");
 
             }
 
@@ -69,9 +68,9 @@ namespace Nirvana.WebUtils
 
         public HttpResponseMessage UiEvent<T>(string requestUri, UiNotification<T> value)
         {
-            if (_logger.LogDetailedDebug)
+            if (_logger.LogDebug)
             {
-                _logger.DetailedDebug($"Url: {requestUri}, Payload:{_serializer.Serialize(value)}");
+                _logger.Debug($"Url: {requestUri}, Payload:{_serializer.Serialize(value)}");
 
             }
 

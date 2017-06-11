@@ -83,6 +83,7 @@
     <Compile Include="AzureQueue\AzureQueueFactoryTests.cs" />
     <Compile Include="AzureQueue\AzureQueueProviderTests.cs" />
     <Compile Include="AzureQueue\AzureQueueTests.cs" />
+    <Compile Include="AzureQueue\QueueControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestConfiguration.cs" />
   </ItemGroup>

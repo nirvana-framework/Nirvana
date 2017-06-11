@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Nirvana.Configuration;
 using Nirvana.CQRS.Queue;
 using Nirvana.Logging;
@@ -11,13 +13,16 @@ namespace Nirvana.AzureQueues.Handlers
     public class AzureQueueController : IQueueController
     {
         public static bool ShowDebug = true;
+        public QueueStatus Status { get; set; }
 
         private readonly NirvanaSetup _setup;
         private readonly ILogger _logger;
         public Dictionary<string, QueueReference[]> QueueTypesByRoot { get; set; }
+        public int LoopTimeInMS { get; set; }
 
         public AzureQueueController(NirvanaSetup setup,ILogger logger)
         {
+            LoopTimeInMS = 200;
             _setup = setup;
             _logger = logger;
             _logger.Debug("Configuring Queues - to disable debugging, set AzureQueueController.ShowDebug to false");
@@ -46,8 +51,36 @@ namespace Nirvana.AzureQueues.Handlers
             return AllQueues().SingleOrDefault(x => x.TaskInformaion.TaskType == typeRouting.TaskType);
         }
 
-        public bool StartAll()
+
+        public bool Process()
         {
+            var queueReferences = AllQueues();
+            var running = false;
+            
+
+            var tasks = queueReferences.Select(x =>
+            {
+                if (x.Status == QueueStatus.Started)
+                {
+                    running = true;
+                }
+                return Task.Run(() =>
+                {
+                    x.RunQueue(Status);
+                });
+                
+            }).ToArray();
+
+            Task.WaitAll(tasks.ToArray());
+            Thread.Sleep(LoopTimeInMS);
+
+            
+            return running;
+        }
+
+        public bool InitializeAll()
+        {
+            Status = QueueStatus.Started;
             var queueReferences = AllQueues();
             _logger.Debug($"Starting {queueReferences.Length} Queues");
             queueReferences.ForEach(x =>
@@ -64,36 +97,19 @@ namespace Nirvana.AzureQueues.Handlers
 
        
 
-        public bool StopAll()
-        {
-            AllQueues().ForEach(x => x.StopQueue(x.Queue));
-            _logger.Debug($"All queues shutting down");
-            WaitForShutDown();
-            var stopAll = AllQueues().All(x => x.Status == QueueStatus.Stopped);
+//        public bool StopAll()
+//        {
+//            this.st
+//            AllQueues().ForEach(x => x.StopQueue(x.Queue));
+//            _logger.Debug($"All queues shutting down");
+//            WaitForShutDown();
+//            var stopAll = AllQueues().All(x => x.Status == QueueStatus.Stopped);
+//
+//            _logger.Debug($"All queues stopped");
+//            return stopAll;
+//        }
 
-            _logger.Debug($"All queues stopped");
-            return stopAll;
-        }
-
-        public bool StartRoot(string rootName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool StopRoot(string rootName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool StartQueue(Type messageType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool StopQueue(Type messageType)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public IDictionary<string, QueueReference[]> ByRoot()
         {

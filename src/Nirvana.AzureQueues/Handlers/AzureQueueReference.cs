@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Nirvana.CQRS.Queue;
 using Nirvana.Logging;
 
@@ -10,7 +8,9 @@ namespace Nirvana.AzureQueues.Handlers
     {
         private readonly ILogger _logger;
         public override Func<IQueueFactory, IQueue> StartQueue => StartQueueInternal;
-        public override Action<IQueue> StopQueue => StopQueueInternal;
+
+        public long NextRun { get; set; }
+        public bool IsRunning { get; set; }
 
         public AzureQueueReference(ILogger logger)
         {
@@ -21,54 +21,60 @@ namespace Nirvana.AzureQueues.Handlers
         {
             Status = QueueStatus.Started;
             Queue = factory.GetQueue(TaskInformaion);
-
-
-            RunQueue();
-
-
             return Queue;
         }
 
-        private void RunQueue()
+        public override void RunQueue(QueueStatus status)
         {
+            if (IsRunning)
+            {
+                return;
+            }
+            IsRunning = true;
+            Status = status;
+
             if (Status == QueueStatus.Started)
             {
-                Task.Run(() =>
+                if (DateTime.Now.Ticks < NextRun)
                 {
-                    if (Status == QueueStatus.Started)
+                    return;
+                }
+
+                if (Status == QueueStatus.Started)
+                {
+                    _logger.DetailedDebug($"Checking message {this.Queue.MessageTypeRouting.UniqueName}");
+                    try
                     {
-                        _logger.DetailedDebug($"Checking message {this.Queue.MessageTypeRouting.UniqueName}");
-                        var token = new CancellationToken();
-                        var work = DoWork(token);
-                        work.ContinueWith(x => RunQueue(), token);
+                        
+                        DoWork();
                     }
-                    if (Status == QueueStatus.ShuttingDown)
+                    catch (Exception e)
                     {
-                        _logger.Debug($"shutting down {Name}");
-                        Status = QueueStatus.Stopped;
+                        
+                        _logger.Error($"Error processing queue {e.Message}");
                     }
-                }).ContinueWith(x => x.Wait(this.SleepInMSBetweenTasks));
+                    
+                    this.NextRun = DateTime.Now.AddMilliseconds(SleepInMSBetweenTasks).Ticks;
+                }
+                   
             }
             if (Status == QueueStatus.ShuttingDown)
             {
                 _logger.Debug($"{this.Name} stopped");
                 Status = QueueStatus.Stopped;
             }
-        }
-
-
-        private void StopQueueInternal(IQueue queue)
-        {
-            _logger.Debug($"Shutting down {this.Name}");
-            this.Status = QueueStatus.ShuttingDown;
+            IsRunning = false;
         }
 
 
 
-        private async Task DoWork(CancellationToken ct)
+
+
+
+        private void DoWork()
         {
-            await Task.Run(() =>
-            {
+            
+            //TODO - handle multiple items here...})
                 try
                 {
                     InternalQueueController.GetAndExecute(Queue, NumberOfConsumers);
@@ -79,8 +85,7 @@ namespace Nirvana.AzureQueues.Handlers
                     _logger.Debug(ex.Message);
                     throw;
                 }
-                //TODO - handle multiple items here...})
-            }, ct);
+            
 
 
 

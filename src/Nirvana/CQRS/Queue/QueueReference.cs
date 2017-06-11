@@ -13,7 +13,7 @@ namespace Nirvana.CQRS.Queue
         public int  NumberOfConsumers{ get; set; }
         public int SleepInMSBetweenTasks { get; set; }
         public abstract Func<IQueueFactory,IQueue> StartQueue { get;  }
-        public abstract Action<IQueue> StopQueue { get;  }
+        public abstract void RunQueue(QueueStatus status);
         public IQueue Queue { get; protected set; }
     }
 }

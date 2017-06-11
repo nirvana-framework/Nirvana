@@ -6,14 +6,16 @@ namespace Nirvana.CQRS.Queue
 {
     public interface IQueueController
     {
-        bool StartAll();
-        bool StopAll();
+        QueueStatus Status { get; }
 
-        bool StartRoot(string rootName);
-        bool StopRoot(string rootName);
+        bool InitializeAll();
+        //bool StopAll();
 
-        bool StartQueue(Type messageType);
-        bool StopQueue(Type messageType);
+//        bool StartRoot(string rootName);
+//        bool StopRoot(string rootName);
+//
+//        bool StartQueue(Type messageType);
+//        bool StopQueue(Type messageType);
 
         IDictionary<string, QueueReference[]> ByRoot();
         QueueReference[] ForRootType(string rootType);
