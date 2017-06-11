@@ -11,17 +11,25 @@ namespace Nirvana.Logging
         void Warning(string message);
         void Error(string message);
         void Exception(Exception ex,params string[]messages);
+        
+        bool LogDetailedDebug { get; }
+        bool LogDebug{ get; }
+        bool LogInfo{ get; }
+        bool LogWarning{ get; }
+        bool LogError{ get; }
+        bool LogException{ get; }
+
     }
 
 
     public class ConsoleLogger : ILogger
     {
-        public bool LogDetailedDebug;
-        public bool LogDebug;
-        public bool LogInfo;
-        public bool LogWarning;
-        public bool LogError;
-        public bool LogException;
+        public bool LogDetailedDebug { get; set; }
+        public bool LogDebug{ get; set; }
+        public bool LogInfo{ get; set; }
+        public bool LogWarning{ get; set; }
+        public bool LogError{ get; set; }
+        public bool LogException{ get; set; }
 
         public ConsoleLogger(bool logDebug,bool logInfo,bool logWarning,bool logError,bool logException,bool logDetailedDebug)
         {

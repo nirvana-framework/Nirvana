@@ -17,6 +17,13 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
 
     public class TestDebugLogger:ILogger
     {
+        public bool LogDetailedDebug { get; set; }
+        public bool LogDebug{ get; set; }
+        public bool LogInfo{ get; set; }
+        public bool LogWarning{ get; set; }
+        public bool LogError{ get; set; }
+        public bool LogException{ get; set; }
+
         private readonly ITestOutputHelper _output;
 
         public TestDebugLogger(ITestOutputHelper output)
