@@ -6,43 +6,45 @@ namespace Nirvana.WebUtils
 {
     public class NirvanaHttpClient : INirvanaHttpClient
     {
-        public async Task<HttpResponseMessage> Command<T>(string requestUri, Command<T> value)
+        public HttpResponseMessage Command<T>(string requestUri, Command<T> value)
         {
             using (var client = new HttpClient())
             {
-                var response = await client.PostAsJsonAsync(requestUri, value).ConfigureAwait(false);
-                response.EnsureSuccessStatusCode();
-                return response;
+                var response = client.PostAsJsonAsync(requestUri, value);
+                response.Wait();
+                response.Result.EnsureSuccessStatusCode();
+                return response.Result;
             }
         }
-        public async Task<HttpResponseMessage> InternalEvent(string requestUri, InternalEvent value)
+        public HttpResponseMessage InternalEvent(string requestUri, InternalEvent value)
         {
             using (var client = new HttpClient())
             {
-                var response = await client.PostAsJsonAsync(requestUri, value).ConfigureAwait(false);
-                response.EnsureSuccessStatusCode();
-                return response;
+                var response = client.PostAsJsonAsync(requestUri, value);
+                response.Wait();
+                return response.Result;
             }
         }
 
-        public async Task<HttpResponseMessage> Query<T>(string requestUri, Query<T> value)
+        public HttpResponseMessage Query<T>(string requestUri, Query<T> value)
         {
             using (var client = new HttpClient())
             {
                 var arguments = "";
-                var response = await client.GetAsync($"{requestUri}?{arguments}").ConfigureAwait(false);
-                response.EnsureSuccessStatusCode();
-                return response;
+                var response = client.GetAsync($"{requestUri}?{arguments}");
+                response.Wait();
+
+                return response.Result;
             }
         }
 
-        public async Task<HttpResponseMessage> UiEvent<T>(string requestUri, UiNotification<T> value)
+        public HttpResponseMessage UiEvent<T>(string requestUri, UiNotification<T> value)
         {
             using (var client = new HttpClient())
             {
-                var response = await client.PostAsJsonAsync(requestUri, value).ConfigureAwait(false);
-                response.EnsureSuccessStatusCode();
-                return response;
+                var response = client.PostAsJsonAsync(requestUri, value);
+                response.Wait();
+                return response.Result;
             }
         }
 
