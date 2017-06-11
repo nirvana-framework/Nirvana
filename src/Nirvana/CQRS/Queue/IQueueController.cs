@@ -6,7 +6,7 @@ namespace Nirvana.CQRS.Queue
 {
     public interface IQueueController
     {
-        QueueStatus Status { get; }
+        QueueStatus Status { get; set; }
 
         bool InitializeAll();
         //bool StopAll();
