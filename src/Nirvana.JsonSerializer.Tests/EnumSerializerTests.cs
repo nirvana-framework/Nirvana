@@ -6,6 +6,51 @@ using Xunit;
 
 namespace Nirvana.JsonSerializer.Tests
 {
+    public abstract class NullValueTests : BddTestBase<Serializer, object, string>
+    {
+        public override Action Inject => ()=>{};
+        public override Action Because=> ()=> { Result = Sut.Serialize(Input, IncludeNulls); };
+        protected bool IncludeNulls;
+
+        public class SubClass 
+        {
+            public string test { get; set; }
+        }
+
+        public class TestInput {
+            public  string test { get; set; }
+            public  SubClass Sub { get; set; }
+        }
+
+        public class when_disabled:NullValueTests
+        {
+            public override Action Establish=> () =>
+            {
+                Input = new TestInput();
+            };
+            [Fact]
+            public void should_serialize()
+            {
+                Result.ShouldEqual("{}");
+            }
+
+        }
+        public class when_enabled:NullValueTests
+        {
+            public override Action Establish=> () =>
+            {
+                Input = new TestInput();
+                IncludeNulls = true;
+            };
+            [Fact]
+            public void should_serialize()
+            {
+                Result.ShouldEqual("{\"test\":null,\"Sub\":null}");
+            }
+
+        }
+    }
+
     public class EnumSerializerTests : BddTestBase<Serializer, object, string>
     {
 

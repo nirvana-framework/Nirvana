@@ -7,6 +7,7 @@ namespace Nirvana.Logging
     {
         void Info(string message);
         void Debug(string message);
+        void DetailedDebug(string message);
         void Warning(string message);
         void Error(string message);
         void Exception(Exception ex,params string[]messages);
@@ -15,13 +16,14 @@ namespace Nirvana.Logging
 
     public class ConsoleLogger : ILogger
     {
+        public bool LogDetailedDebug;
         public bool LogDebug;
         public bool LogInfo;
         public bool LogWarning;
         public bool LogError;
         public bool LogException;
 
-        public ConsoleLogger(bool logDebug,bool logInfo,bool logWarning,bool logError,bool logException)
+        public ConsoleLogger(bool logDebug,bool logInfo,bool logWarning,bool logError,bool logException,bool logDetailedDebug)
         {
             LogDebug = logDebug;
             LogInfo = logInfo;
@@ -41,6 +43,14 @@ namespace Nirvana.Logging
         public void Debug(string message)
         {
             if (LogDebug)
+            {
+                Console.WriteLine(message);
+            }
+        }
+
+        public void DetailedDebug(string message)
+        {
+            if (LogDetailedDebug)
             {
                 Console.WriteLine(message);
             }

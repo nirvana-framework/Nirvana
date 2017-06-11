@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using Nirvana.Util.Io;
@@ -8,21 +9,35 @@ namespace Nirvana.JsonSerializer
     public class Serializer : ISerializer
     {
         private readonly Newtonsoft.Json.JsonSerializer _serializer;
+        private readonly Newtonsoft.Json.JsonSerializer _withNullSerializer;
         private readonly JsonSerializerSettings _settings;
+        private readonly JsonSerializerSettings _includeNullSettings;
 
-        public Serializer()
+        public Serializer(List<JsonConverter> converters = null)
         {
-            _settings = JsonSerializerSettingsFactory.GetJsonSerializerSettings();
+            _settings = JsonSerializerSettingsFactory.GetJsonSerializerSettings(false,converters);
+            _includeNullSettings= JsonSerializerSettingsFactory.GetJsonSerializerSettings(true,converters);
             _serializer = Newtonsoft.Json.JsonSerializer.CreateDefault(_settings);
+            _withNullSerializer= Newtonsoft.Json.JsonSerializer.CreateDefault(_settings);
         }
 
-        public string Serialize(object obj)
+        public string Serialize(object obj,bool includeNulls=false)
         {
+            if (includeNulls)
+            {
+
+                return JsonConvert.SerializeObject(obj, _includeNullSettings);
+            }
             return JsonConvert.SerializeObject(obj, _settings);
         }
 
-        public void SerializeToStream(object obj, TextWriter writer)
+        public void SerializeToStream(object obj, TextWriter writer,bool includeNulls=false)
         {
+            if (includeNulls)
+            {
+                
+                _withNullSerializer.Serialize(writer, obj);
+            }
             _serializer.Serialize(writer, obj);
         }
 

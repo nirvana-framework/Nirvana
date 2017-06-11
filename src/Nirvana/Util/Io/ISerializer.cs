@@ -5,8 +5,9 @@ namespace Nirvana.Util.Io
 {
     public interface ISerializer
     {
-        string Serialize(object obj);
-        void SerializeToStream(object obj, TextWriter writer);
+        string Serialize(object obj,bool includeNulls=false);
+        void SerializeToStream(object obj, TextWriter writer,bool includeNulls=false);
+
         object Deserialize(Type type, string value);
 
         T Deserialize<T>(string value);

@@ -10,9 +10,51 @@ using Nirvana.Util.Compression;
 using Nirvana.Util.Tine;
 using Should;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
 {
+
+    public class TestDebugLogger:ILogger
+    {
+        private readonly ITestOutputHelper _output;
+
+        public TestDebugLogger(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
+        public void Info(string message)
+        {
+            _output.WriteLine(message);
+        }
+
+        public void Debug(string message)
+        {
+            _output.WriteLine(message);
+        }
+
+        public void DetailedDebug(string message)
+        {
+            _output.WriteLine(message);
+        }
+
+        public void Warning(string message)
+        {
+            _output.WriteLine(message);
+        }
+
+        public void Error(string message)
+        {
+            _output.WriteLine(message);
+        }
+
+        public void Exception(Exception ex, params string[] messages)
+        {
+            _output.WriteLine(ex.Message);
+        }
+    }
+
     public abstract class AzureQueueTests
     {
         public Func<string, object, bool> AttributeMatchingFunctionStub
@@ -44,11 +86,11 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
 
         public class when_a_handler_fails : AzureQueueTests
         {
-            public when_a_handler_fails()
+            public when_a_handler_fails(ITestOutputHelper output) 
             {
                 var command = new TestCommand {Test = "test", ThrowError = true};
-
-                var consoleLogger = new ConsoleLogger(false,false,false,false,false);
+                
+                var consoleLogger = new TestDebugLogger(output);
                 var nirvanaTaskInformation = Setup.FindTypeDefinition(command.GetType());
                 var factory = new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(Setup,consoleLogger),
                     new Serializer(),
@@ -74,12 +116,12 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
         {
             
 
-            public when_a_handler_succeeds()
+            public when_a_handler_succeeds(ITestOutputHelper output) 
             {
                 
                 var command = new TestCommand {Test = "test", ThrowError = false};
                 
-                var consoleLogger = new ConsoleLogger(false,false,false,false,false);
+                var consoleLogger = new TestDebugLogger(output);
                 var nirvanaTypeDefinition = Setup.FindTypeDefinition(command.GetType());
                 var factory = new AzureQueueFactory(new AzureQueueConfiguration(), new AzureQueueController(Setup,consoleLogger), new Serializer(), 
                     new SystemTime(),

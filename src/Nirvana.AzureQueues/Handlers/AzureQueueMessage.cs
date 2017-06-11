@@ -3,6 +3,7 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using Nirvana.Configuration;
 using Nirvana.CQRS;
 using Nirvana.CQRS.Queue;
+using Nirvana.Logging;
 using Nirvana.Util.Compression;
 
 namespace Nirvana.AzureQueues.Handlers
@@ -10,15 +11,13 @@ namespace Nirvana.AzureQueues.Handlers
     public class AzureQueueMessage : QueueMessage
     {
         private readonly ICompression _compression;
+        private readonly ILogger _logger;
 
-        public AzureQueueMessage(ICompression compression, CloudQueueMessage message, NirvanaTaskInformation messageTypeRouting)
-            : this(message, messageTypeRouting)
-        {
-            _compression = compression;
-        }
+        
 
-        public AzureQueueMessage(CloudQueueMessage message, NirvanaTaskInformation messageTypeRouting) : base(messageTypeRouting)
+        public AzureQueueMessage(CloudQueueMessage message, NirvanaTaskInformation messageTypeRouting, ILogger logger,ICompression compression) : base(messageTypeRouting)
         {
+            _logger = logger;
             Id = message.Id;
             DequeueCount = message.DequeueCount;
             NextVisibleTime = message.NextVisibleTime?.UtcDateTime;

@@ -13,14 +13,23 @@ using Nirvana.Util.Io;
 using Nirvana.Util.Tine;
 using Should;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
 {
-    public abstract class AzureQueueFactoryTests : BddTestBase<AzureQueueFactory, TestCommand, TestCommand>
+    public abstract class AzureQueueFactoryTests 
     {
+        public  AzureQueueFactory Sut { get; set; }
+        public  TestCommand Input { get; set; }
+        public  TestCommand Result { get; set; }
+
+        
+        private readonly ITestOutputHelper _output;
+
 
         protected int MessageCount;
         protected ICompression Compression;
+        protected ILogger Logger;
         protected ISerializer Serializer;
         protected IAzureQueueConfiguration AzureQueueConfiguration;
         protected ISystemTime SystemTime;
@@ -30,13 +39,10 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
 
         protected NirvanaSetup Setup;
 
-        
-        public Func<string, object, bool> AttributeMatchingFunctionStub
-            => (x, y) => x == ((AggregateRootAttribute)y).RootName;
-
-
-        public override Action Inject => () =>
+        protected AzureQueueFactoryTests(ITestOutputHelper output)
         {
+            _output = output;
+
             Setup = NirvanaSetup.Configure()
                 .UsingControllerName("ControlelrName", "Root")
                 .WithAssembliesFromFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin"))
@@ -50,28 +56,32 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
                 .ForUiNotifications(MediationStrategy.InProcess, MediationStrategy.InProcess, MediationStrategy.None)
                 .BuildConfiguration();
 
-            
-            var consoleLogger = new ConsoleLogger(false,false,false,false,false);
+            Logger = new TestDebugLogger(output);
             Mediator = new MediatorFactory(Setup);
-            Controller = new AzureQueueController(Setup,consoleLogger);
+            Controller = new AzureQueueController(Setup,Logger);
             SystemTime = new SystemTime();
             Compression = new Compression();
             Serializer = new Serializer();
             AzureQueueConfiguration = new AzureQueueConfiguration();
 
-            DependsOnConcrete(Serializer);
-            DependsOnConcrete(Compression);
-            DependsOnConcrete(SystemTime);
-            DependsOnConcrete(Mediator);
-            DependsOnConcrete(Controller);
-            DependsOnConcrete(AzureQueueConfiguration);
-        };
+            
+            Sut = new AzureQueueFactory(AzureQueueConfiguration,Controller,Serializer,SystemTime,Compression,Mediator,Logger);
 
-        public override Action Because => () =>
+            Because();
+        }
+
+
+        public Func<string, object, bool> AttributeMatchingFunctionStub
+            => (x, y) => x == ((AggregateRootAttribute)y).RootName;
+
+
+        
+
+        public void Because  () 
         {
             var typeDef = Setup.FindTypeDefinition(typeof(TestCommand));
             AzureStorageQueue queue = Sut.GetQueue(typeDef) as AzureStorageQueue;
-
+            
 
             if (queue != null)
             {
@@ -82,17 +92,18 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
                 var cloudMessage = queue.GetAzureMessage();
 
                 var message = cloudMessage != null
-                    ? new AzureQueueMessage(Compression, cloudMessage, typeDef)
+                    ? new AzureQueueMessage( cloudMessage, typeDef,Logger,Compression)
                     : null;
                 queue.Delete(cloudMessage);
                 var result = queue.DeserializeMessage<Message<TestCommand>, TestCommand>(message.Text);
                 MessageCount = queue.GetMessageCount();
                 Result = result.Body;
             }
-        };
+        }
 
         public class when_sending_to_azure_queues : AzureQueueFactoryTests
         {
+
             [Fact]
             public void should_have_no_messages()
             {
@@ -103,6 +114,12 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
             public void should_send_and_recieve_message()
             {
                 Result.Test.ShouldEqual("this is a test");
+            }
+
+       
+
+            public when_sending_to_azure_queues(ITestOutputHelper output):base(output)
+            {
             }
         }
     }

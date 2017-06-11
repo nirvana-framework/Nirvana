@@ -44,10 +44,11 @@ namespace Nirvana.AzureQueues.Handlers
         public virtual IQueue GetQueue(NirvanaTaskInformation messageTypeRouting)
         {
             var queueReference = _queueController.GetQueueReferenceFor(messageTypeRouting);
-            return new AzureStorageQueue(_client.Value, queueReference.Name, messageTypeRouting, _logger)
+            return new AzureStorageQueue(_client.Value, queueReference.Name, messageTypeRouting)
                 .SetTime(_systemTime)
                 .SetSerializer(_serializer)
                 .SetCompression(_compression)
+                .SetLogger(_logger)
                 .SetMediator(_mediator);
         }
     }

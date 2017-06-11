@@ -5,7 +5,7 @@ namespace Nirvana.JsonSerializer
 {
     public class JsonSerializerSettingsFactory
     {
-        public static JsonSerializerSettings GetJsonSerializerSettings(List<JsonConverter> converters=null)
+        public static JsonSerializerSettings GetJsonSerializerSettings(bool includeNulls,List<JsonConverter> converters=null)
         {
             var jsonConverters = new List<JsonConverter>
             {
@@ -18,7 +18,7 @@ namespace Nirvana.JsonSerializer
 
             return new JsonSerializerSettings
             {
-                NullValueHandling = NullValueHandling.Ignore,
+                NullValueHandling = includeNulls?NullValueHandling.Include: NullValueHandling.Ignore,
 
                 Converters = jsonConverters
             };

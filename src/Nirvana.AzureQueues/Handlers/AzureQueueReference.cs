@@ -37,6 +37,7 @@ namespace Nirvana.AzureQueues.Handlers
                 {
                     if (Status == QueueStatus.Started)
                     {
+                        _logger.DetailedDebug($"Checking message {this.Queue.MessageTypeRouting.UniqueName}");
                         var token = new CancellationToken();
                         var work = DoWork(token);
                         work.ContinueWith(x => RunQueue(), token);

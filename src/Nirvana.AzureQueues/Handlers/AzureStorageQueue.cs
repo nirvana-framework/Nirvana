@@ -22,7 +22,6 @@ namespace Nirvana.AzureQueues.Handlers
         private static readonly MethodInfo NotificationInfo;
 
         private readonly CloudQueueClient _client;
-        private readonly ILogger _logger;
         private readonly CloudQueue _queue;
         private readonly string _queueName;
         public override Func<CloudQueueMessage> GetMessage => () => _queue.GetMessage();
@@ -42,7 +41,7 @@ namespace Nirvana.AzureQueues.Handlers
         }
 
 
-        public AzureStorageQueue(CloudQueueClient client, string rootType, NirvanaTaskInformation messageTypeRouting, ILogger logger, int? timeout = null)
+        public AzureStorageQueue(CloudQueueClient client, string rootType, NirvanaTaskInformation messageTypeRouting, int? timeout = null)
         {
             _queueName = AzureQueueController.GetQueueName(rootType, messageTypeRouting);
             _queue = client.GetQueueReference(_queueName.ToLower());
@@ -55,7 +54,6 @@ namespace Nirvana.AzureQueues.Handlers
             _queue.CreateIfNotExists();
             _queue.Metadata.Add("Name",_queueName);
             _client = client;
-            _logger = logger;
         }
 
 
@@ -128,7 +126,7 @@ namespace Nirvana.AzureQueues.Handlers
         {
             var cloudMessage = GetAzureMessage();
 
-            var message = cloudMessage != null ? new AzureQueueMessage(Compression, cloudMessage, MessageTypeRouting) : null;
+            var message = cloudMessage != null ? new AzureQueueMessage(cloudMessage, MessageTypeRouting,Logger,Compression ) : null;
             if (message == null)
             {
                 return;
@@ -139,13 +137,13 @@ namespace Nirvana.AzureQueues.Handlers
             try
             {
                 
-                _logger.Debug($"Started {this._queueName}");
+                Logger.Debug($"Started {this._queueName}");
                 success = work(typed.Body);
-                _logger.Debug($"completed {this._queueName}, success: {success}");
+                Logger.Debug($"completed {this._queueName}, success: {success}");
             }
             catch (Exception ex)
             {
-                _logger.Debug($"Failure {this._queueName}: {ex.Message}");
+                Logger.Debug($"Failure {this._queueName}: {ex.Message}");
                 if (failOnException)
                 {
                     throw;
@@ -154,7 +152,7 @@ namespace Nirvana.AzureQueues.Handlers
 
             if (success || !failOnActionFailure)
             {
-                _logger.Debug($"Deleting {this._queueName}:");
+                Logger.Debug($"Deleting {this._queueName}:");
                 Delete(cloudMessage);
             }
         }

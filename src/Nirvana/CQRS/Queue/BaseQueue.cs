@@ -1,5 +1,6 @@
 ﻿using System;
 using Nirvana.Configuration;
+using Nirvana.Logging;
 using Nirvana.Mediation;
 using Nirvana.Util.Compression;
 using Nirvana.Util.Io;
@@ -17,6 +18,7 @@ namespace Nirvana.CQRS.Queue
     public abstract class BaseQueue<T> : IQueue<T>
     {
         protected ICompression Compression;
+        protected ILogger Logger;
 
 
         protected IMediatorFactory Mediator;
@@ -47,6 +49,11 @@ namespace Nirvana.CQRS.Queue
         public BaseQueue<T> SetSerializer(ISerializer serializer)
         {
             Serializer = serializer;
+            return this;
+        }
+        public BaseQueue<T> SetLogger(ILogger logger)
+        {
+            Logger =logger;
             return this;
         }
 
