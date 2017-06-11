@@ -23,5 +23,6 @@ namespace Nirvana.CQRS.Queue
 
         QueueReference GetQueueReferenceFor(NirvanaTaskInformation typeRouting);
 
+        bool Process();
     }
 }
