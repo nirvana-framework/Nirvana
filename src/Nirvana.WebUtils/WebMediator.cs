@@ -43,7 +43,7 @@ namespace Nirvana.WebUtils
             }
             catch (Exception ex)
             {
-                return QueryResponse.Fail<TResult>(ex);
+                throw;
             }
         }
 
@@ -60,7 +60,7 @@ namespace Nirvana.WebUtils
             catch (Exception ex)
             {
                 _logger.Exception(ex);
-                return UIEventResponse.Failed();
+                throw;
             }
         }
 
@@ -78,7 +78,7 @@ namespace Nirvana.WebUtils
             catch (Exception ex)
             {
                 _logger.Exception(ex);
-                return InternalEventResponse.Failed();
+                throw;
             }
         }
 
@@ -98,7 +98,7 @@ namespace Nirvana.WebUtils
             catch (Exception ex)
             {
                 _logger.Exception(ex);
-                return CommandResponse.Failed<TResult>(ex);
+                throw;
             }
         }
 
