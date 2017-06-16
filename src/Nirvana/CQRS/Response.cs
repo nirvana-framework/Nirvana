@@ -11,7 +11,29 @@ namespace Nirvana.CQRS
         }
 
         public IList<ValidationMessage> ValidationMessages { get; internal set; }
-        public Exception Exception { get; set; }
+        public ExceptionSummay Exception { get; set; }
+        
+        //This is so we dont' pass this data around outside hte system
+        public Exception GetException()
+        {
+            return internalException;
+        }
+        private Exception internalException;
+
+        public Response SetException(Exception x)
+        {
+            if (x != null)
+            {
+                internalException = x;
+                Exception = new ExceptionSummay
+                {
+                    Message = x.Message,
+                    TypeName = x.GetType().FullName,
+                    StackTrace = x.StackTrace
+                };
+            }
+            return this;
+        }
 
         public bool IsValid { get; set; }
 
@@ -19,5 +41,12 @@ namespace Nirvana.CQRS
         {
             return IsValid && Exception == null;
         }
+    }
+
+    public class ExceptionSummay
+    {
+        public string Message { get; set; }
+        public string TypeName{ get; set; }
+        public string StackTrace{ get; set; }
     }
 }

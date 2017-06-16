@@ -12,7 +12,7 @@ namespace Nirvana.CQRS
         {
             if (Exception != null)
             {
-                throw Exception;
+                throw GetException();
             }
 
             return this;
@@ -27,10 +27,10 @@ namespace Nirvana.CQRS
             return new QueryResponse<T>
             {
                 ValidationMessages = messages ?? new List<ValidationMessage>(),
-                Exception = exception,
+                
                 IsValid = isValid,
                 Result = result
-            };
+            }.SetException(exception) as QueryResponse<T>;
         }
 
         public static QueryResponse<T> Success<T>(T result)

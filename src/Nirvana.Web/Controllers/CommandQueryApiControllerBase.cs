@@ -4,7 +4,6 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Cors;
-using Nirvana.Configuration;
 using Nirvana.CQRS;
 using Nirvana.Mediation;
 
@@ -25,28 +24,19 @@ namespace Nirvana.Web.Controllers
 
         protected HttpResponseMessage Command<TResult>(Command<TResult> command)
         {
-            var response = Mediator.Command(AddAuthToCommand(command));
+            var response = Mediator.Command(command);
             LogException(response);
-            return Request.CreateResponse(GetResponseCode(response), PrepCommand(response));
+            return Request.CreateResponse(GetResponseCode(response), response);
         }
         protected HttpResponseMessage InternalEvent(InternalEvent command)
         {
             var response = Mediator.InternalEvent(command);
             LogException(response);
-            return Request.CreateResponse(GetResponseCode(response), PrepEventResponse(response));
+            return Request.CreateResponse(GetResponseCode(response), response);
         }
 
-        private Command<TResult> AddAuthToCommand<TResult>(Command<TResult> command)
-        {
-            SetAuthValues(command as IAuthorizedTask);
-            return command;
-        }
-
-        private Query<TResult> AddAuthToQuery<TResult>(Query<TResult> query)
-        {
-            SetAuthValues(query as IAuthorizedTask);
-            return query;
-        }
+       
+        
 
 
         private void SetAuthValues(IAuthorizedTask authorizedQuery)
@@ -59,9 +49,9 @@ namespace Nirvana.Web.Controllers
 
         protected HttpResponseMessage Query<TResult>(Query<TResult> query)
         {
-            var response = Mediator.Query(AddAuthToQuery(query));
+            var response = Mediator.Query(query);
             LogException(response);
-            return Request.CreateResponse(GetResponseCode(response), PrepQuery(response));
+            return Request.CreateResponse(GetResponseCode(response), response);
         }
 
         protected HttpResponseMessage QueryForFile<TResult>(Query<TResult> query)
@@ -91,37 +81,37 @@ namespace Nirvana.Web.Controllers
         }
 
 
-        private object PrepCommand<T>(CommandResponse<T> response)
-        {
-            return new
-            {
-                Exception = new {Message = response.Exception},
-                response.ValidationMessages,
-                response.Result,
-                response.IsValid
-            };
-        }
+//        private object PrepCommand<T>(CommandResponse<T> response)
+//        {
+//            return new
+//            {
+//                Exception = new {Message = response.Exception},
+//                response.ValidationMessages,
+//                response.Result,
+//                response.IsValid
+//            };
+//        }
 
-        private object PrepEventResponse(InternalEventResponse response)
-        {
-            return new
-            {
-                Exception = new {Message = response.Exception},
-                response.ValidationMessages,
-                response.IsValid
-            };
-        }
+//        private object PrepEventResponse(InternalEventResponse response)
+//        {
+//            return new
+//            {
+//                Exception = new {Message = response.Exception},
+//                response.ValidationMessages,
+//                response.IsValid
+//            };
+//        }
 
-        private object PrepQuery<T>(QueryResponse<T> response)
-        {
-            return new
-            {
-                Exception = new {Message = response.Exception},
-                response.ValidationMessages,
-                response.Result,
-                response.IsValid
-            };
-        }
+//        private object PrepQuery<T>(QueryResponse<T> response)
+//        {
+//            return new
+//            {
+//                Exception = new {Message = response.Exception},
+//                response.ValidationMessages,
+//                response.Result,
+//                response.IsValid
+//            };
+//        }
 
         private HttpStatusCode GetResponseCode<T>(CommandResponse<T> input)
         {

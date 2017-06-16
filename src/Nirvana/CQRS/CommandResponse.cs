@@ -14,8 +14,7 @@ namespace Nirvana.CQRS
             {
                 IsValid = isValid,
                 ValidationMessages = validationMessages ?? new List<ValidationMessage>(),
-                Exception = exception
-            };
+            }.SetException(exception) as UIEventResponse;
         }
 
         public static UIEventResponse Succeeded()
@@ -41,8 +40,8 @@ namespace Nirvana.CQRS
             {
                 IsValid = isValid,
                 ValidationMessages = validationMessages ?? new List<ValidationMessage>(),
-                Exception = exception
-            };
+                
+            }.SetException(exception) as InternalEventResponse;
         }
         public static InternalEventResponse Succeeded()
         {
@@ -72,7 +71,7 @@ namespace Nirvana.CQRS
         {
             if (Exception != null)
             {
-                throw Exception;
+                throw GetException();
             }
 
             return this;
@@ -89,8 +88,9 @@ namespace Nirvana.CQRS
                 Result = result,
                 IsValid = isValid,
                 ValidationMessages = validationMessages ?? new List<ValidationMessage>(),
-                Exception = exception
-            };
+            }.SetException(exception) as CommandResponse<T>;
+
+
         }
 
         public static CommandResponse<T> Succeeded<T>(T result)
