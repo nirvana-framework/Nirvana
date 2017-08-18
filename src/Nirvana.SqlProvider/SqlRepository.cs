@@ -7,7 +7,6 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EntityFramework.DynamicFilters;
 using Nirvana.CQRS;
 using Nirvana.Data;
 using Nirvana.Data.EntityTypes;
@@ -250,7 +249,8 @@ namespace Nirvana.SqlProvider
 
         public void EnableSoftDeleteLoading()
         {
-            _context.DisableFilter("SoftDelete");
+            
+            //TODO - turned off for perf issues
         }
 
         public void BeginTransaction()
@@ -316,7 +316,7 @@ namespace Nirvana.SqlProvider
 
         public void DisableSoftDeleteLoading()
         {
-            _context.EnableFilter("SoftDelete");
+            //TODO - turned off for perf issues
         }
 
 

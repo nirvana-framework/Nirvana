@@ -5,7 +5,6 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
-using EntityFramework.DynamicFilters;
 using Nirvana.Data;
 using Nirvana.Data.EntityTypes;
 using Nirvana.Domain;
@@ -119,7 +118,7 @@ namespace Nirvana.SqlProvider
             {
                 entityMethod.MakeGenericMethod(type).Invoke(modelBuilder, new object[] {});
             }
-            modelBuilder.Filter("SoftDelete", (ISoftDelete e) => e.Deleted == null || !e.Deleted.HasValue);
+            
 
         }
 
