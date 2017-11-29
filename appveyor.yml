@@ -30,7 +30,7 @@ environment:
 build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
   - cmd: dotnet restore Nirvana.sln
-  - cmd: dotnet publish Nirvana.sln
+  - cmd: dotnet pack Nirvana.sln
 
 # run open cover and push to coveralls
 test_script: 
@@ -46,4 +46,4 @@ deploy:
   api_key:
     secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
   skip_symbols: false
-  artifact: /.*\.nupkg/
+  artifact: *\.nupkg/
