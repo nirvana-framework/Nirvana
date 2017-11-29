@@ -10,6 +10,7 @@ before_build:
   - cmd: dir
 
 
+
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -45,4 +46,4 @@ deploy:
   api_key:
     secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
   skip_symbols: false
-  artifact: *\.nupkg/
+  artifact: /.*\.nupkg/
