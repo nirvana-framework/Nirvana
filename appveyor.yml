@@ -10,7 +10,6 @@ before_build:
   - cmd: dir
 
 
-
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
