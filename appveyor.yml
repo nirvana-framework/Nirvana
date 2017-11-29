@@ -28,4 +28,4 @@ deploy:
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: /.**\*\.nupkg/
+    artifact: /.\Nirvana\bin\Debug\Nirvana.**.nupkg/
