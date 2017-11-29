@@ -39,6 +39,49 @@ after_test:
   - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
   - pip install codecov
   - codecov -f "BuildOutput\coverage.xml"
+  
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
+  skip_symbols: false
+  artifact: /.Nirvana\bin\Debug\Nirvana.*.nupkg
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
+  skip_symbols: false
+  artifact: /.Nirvana.AzureQueues\bin\Debug\Nirvana.AzureQueues.*.nupkg
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
+  skip_symbols: false
+  artifact: /.Nirvana.WebUtils\bin\Debug\Nirvana.WebUtils.*.nupkg
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
+  skip_symbols: false
+  artifact: /.Nirvana.TestFramework\bin\Debug\Nirvana.TestFramework.*.nupkg
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
+  skip_symbols: false
+  artifact: /.Nirvana.JsonSerializer\bin\Debug\Nirvana.JsonSerializer.*.nupkg
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
+  skip_symbols: false
+  artifact: /.Nirvana.MongoProvider\bin\Debug\Nirvana.MongoProvider.*.nupkg
 
 
 deploy:
@@ -46,4 +89,12 @@ deploy:
   api_key:
     secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
   skip_symbols: false
-  artifact: /.**\*\.nupkg/
+  artifact: /. Nirvana.SqlProvider.Ef6\bin\Debug\Nirvana.SqlProvider.Ef6.*.nupkg
+
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
+  skip_symbols: false
+  artifact: /. Nirvana.WebUtils\bin\Debug\Nirvana.WebUtils.*.nupkg
