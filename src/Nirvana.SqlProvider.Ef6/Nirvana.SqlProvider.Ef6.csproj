@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <PackageId>Nirvana.SqlProvider.EF6</PackageId>
-    <PackageVersion>$version$</PackageVersion>
+    <PackageVersion>1.0.0</PackageVersion>
     <Authors>Nirvana Framework</Authors>
     <Description>Glue for .NET and Web applications</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
