@@ -28,7 +28,8 @@ environment:
 
 build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
-  - cmd: dotnet publish src\Nirvana.sln
+  - cmd: dotnet restore .\src\Nirvana.sln
+  - cmd: dotnet publish .\src\Nirvana.sln
 
 # run open cover and push to coveralls
 test_script: 
