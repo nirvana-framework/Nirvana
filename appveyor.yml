@@ -31,6 +31,9 @@ build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
   - cmd: dotnet restore Nirvana.sln
   - cmd: dotnet pack Nirvana.sln
+  - cmd: cd Nirvana\bin\debug
+  - cmd: dir
+  - cmd: cd..
 
 # run open cover and push to coveralls
 test_script: 
