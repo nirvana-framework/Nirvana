@@ -8,13 +8,17 @@ before_build:
   - ps: $scripts | ForEach { . $_} 
   - nuget restore
 
-  # enable patching of AssemblyInfo.* files
-assembly_info:
+
+
+dotnet_csproj:
   patch: true
-  file: AssemblyInfo.*
-  assembly_version: "1.0.{build}"
-  assembly_file_version: "{version}"
-  assembly_informational_version: "{version}"
+  file: '**\*.csproj'
+  version: '2.0.{build}'
+  package_version: '2.0.{build}'
+  assembly_version: '2.0.{build}'
+  file_version: '2.0.{build}'
+  informational_version:'2.0.{build}'
+
 
 
 environment:
