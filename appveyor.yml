@@ -17,7 +17,7 @@ dotnet_csproj:
   package_version: '2.0.{build}'
   assembly_version: '2.0.{build}'
   file_version: '2.0.{build}'
-  informational_version:'2.0.{build}'
+  informational_version: '2.0.{build}'
 
 
 
