@@ -23,13 +23,6 @@ build_script:
   - cmd: dotnet restore Nirvana.sln
   - cmd: dotnet pack Nirvana.sln
 
-# run open cover and push to coveralls
-test_script: 
-  - ps: run_analysis
-after_test: 
-  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
-  - pip install codecov
-  - codecov -f "BuildOutput\coverage.xml"
   
 
 deploy:
