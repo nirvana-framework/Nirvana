@@ -19,7 +19,7 @@ namespace Nirvana.Configuration
         {
             Setup = new NirvanaSetup
             {
-                AttributeMatchingFunction = (x, y) => x == ((AggregateRootAttribute) y).RootName
+                AttributeMatchingFunction = (x, y) => x == ((ServiceRootAttribute) y).RootName
             };
             _taskConfiguration = new Dictionary<TaskType, NirvanaTypeRoutingDefinition>();
         }
@@ -117,8 +117,8 @@ namespace Nirvana.Configuration
         public NirvanaSetup BuildConfiguration()
         {
             var rootTypeNames = ObjectExtensions.AddAllTypesFromAssembliesContainingTheseSeedTypes
-                (x => typeof(RootType).IsAssignableFrom(x), Setup.RootTypeAssembly)
-                .Select(x => (Activator.CreateInstance(x) as RootType).RootName);
+                (x => typeof(ServiceRootType).IsAssignableFrom(x), Setup.RootTypeAssembly)
+                .Select(x => (Activator.CreateInstance(x) as ServiceRootType).RootName);
 
 
             Setup.TaskIdentifierProperty = "Identifier";
@@ -228,6 +228,7 @@ namespace Nirvana.Configuration
             var taskInfo = new NirvanaTaskInformation
             {
                 TaskType = messageType,
+                ReturnType= GetReturnType(messageType),
                 NirvanaTaskType = GetTaskType(messageType),
                 TypeCorrelationId = GetTypeCorrelationId(customAttribute),
                 UniqueName = GetUniqueName(messageType, rootName),
@@ -237,6 +238,16 @@ namespace Nirvana.Configuration
             };
             taskInfo.RequiresAuthentication = taskInfo.Claims.Any() || (customAttribute?.Authorized ?? false);
             return taskInfo;
+        }
+
+        private Type GetReturnType(Type messageType)
+        {
+            if (messageType.IsCommand()
+                || messageType.IsQuery())
+            {
+               return messageType.BaseType.GetGenericArguments()[0];
+            }
+            return typeof(object);
         }
 
         public MediationStrategy GetTopLevelAction(NirvanaTaskInformation taskInfo)

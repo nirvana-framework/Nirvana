@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\Sample\Commands\" />
+    <Folder Include="Domain\Sample\InternalEvents\" />
+    <Folder Include="Domain\Sample\Notifications\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nirvana\Nirvana.csproj" />
+  </ItemGroup>
+
+</Project>

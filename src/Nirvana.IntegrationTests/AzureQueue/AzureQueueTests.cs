@@ -111,8 +111,7 @@ namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
                 messageCount = queue.GetMessageCount();
             }
 
-//            [Fact(Skip = "explicit")]
-            [Fact]
+            [Fact(Skip = "explicit")]
             public void should_not_remove_message()
             {
                 messageCount.ShouldEqual(1);

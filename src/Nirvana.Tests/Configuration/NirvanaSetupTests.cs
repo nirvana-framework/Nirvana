@@ -5,8 +5,8 @@ using System.Reflection;
 using Nirvana.Configuration;
 using Nirvana.Mediation;
 using Nirvana.TestFramework;
+using Nirvana.TestFramework.FluentAssertions;
 using Nirvana.Tests.SampleSetup;
-using Should;
 using Xunit;
 
 namespace Nirvana.Tests.Configuration

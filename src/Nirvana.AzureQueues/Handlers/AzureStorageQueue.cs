@@ -24,7 +24,7 @@ namespace Nirvana.AzureQueues.Handlers
         private readonly CloudQueueClient _client;
         private readonly CloudQueue _queue;
         private readonly string _queueName;
-        public override Func<CloudQueueMessage> GetMessage => () => _queue.GetMessage();
+        public override Func<CloudQueueMessage> GetMessage => () => _queue.GetMessageAsync().Result;
 
 
         public override NirvanaTaskInformation MessageTypeRouting { get; }
@@ -51,7 +51,7 @@ namespace Nirvana.AzureQueues.Handlers
                     ? QueueHelper.SevenDays
                     : TimeSpan.FromMilliseconds(timeout.Value)
                 : QueueHelper.DefaultVisibilityTimeout;
-            _queue.CreateIfNotExists();
+            _queue.CreateIfNotExistsAsync().Wait();
             _queue.Metadata.Add("Name",_queueName);
             _client = client;
         }
@@ -59,14 +59,14 @@ namespace Nirvana.AzureQueues.Handlers
 
         public override int GetMessageCount()
         {
-            _queue.FetchAttributes();
+            _queue.FetchAttributesAsync().Wait();
 
             return _queue.ApproximateMessageCount ?? 0;
         }
 
         public override void Clear()
         {
-            _queue.Clear();
+            _queue.ClearAsync().Wait();
         }
 
         public override void GetAndExecute(int numberOfConsumers)
@@ -104,7 +104,7 @@ namespace Nirvana.AzureQueues.Handlers
         {
             var queue = _client.GetQueueReference(_queueName.ToLower());
 
-            queue.CreateIfNotExists();
+            queue.CreateIfNotExistsAsync().Wait();
 
 
             var json = Serializer.Serialize(new Message<T>
@@ -114,11 +114,12 @@ namespace Nirvana.AzureQueues.Handlers
                 Body = message
             });
 
-            var cloudQueueMessage = json.Length > 500
-                ? new CloudQueueMessage(Compression.Compress(Encoding.UTF8.GetBytes(json)))
-                : new CloudQueueMessage(json);
+//            var cloudQueueMessage = json.Length > 500
+//                ? new CloudQueueMessage(Compression.Compress(Encoding.UTF8.GetBytes(json)))
+//                : new CloudQueueMessage(json);            
+            var cloudQueueMessage =  new CloudQueueMessage(json);
 
-            queue.AddMessage(cloudQueueMessage);
+            queue.AddMessageAsync(cloudQueueMessage);
         }
 
 
@@ -160,7 +161,7 @@ namespace Nirvana.AzureQueues.Handlers
 
         public CloudQueueMessage GetAzureMessage()
         {
-            return _queue.GetMessage(VisibilityTimeout);
+            return _queue.GetMessageAsync().Result;
         }
 
 
@@ -189,7 +190,7 @@ namespace Nirvana.AzureQueues.Handlers
 
         public void Delete(CloudQueueMessage message)
         {
-            _queue.DeleteMessage(message);
+            _queue.DeleteMessageAsync(message);
         }
 
 

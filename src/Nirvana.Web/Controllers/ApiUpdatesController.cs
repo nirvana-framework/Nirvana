@@ -2,18 +2,20 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 using Nirvana.Configuration;
 using Nirvana.Mediation;
 using Nirvana.Util;
+using Nirvana.Util.Io;
 
 namespace Nirvana.Web.Controllers
 {
+    [Route("api/ApiUpdates")]
     public class ApiUpdatesController : CommandQueryApiControllerBase
     {
         private readonly NirvanaSetup _setup;
 
-        public ApiUpdatesController(NirvanaSetup setup, IMediatorFactory mediator) : base(mediator)
+        public ApiUpdatesController(NirvanaSetup setup, IMediatorFactory mediator,ISerializer serializer) : base(mediator,serializer)
         {
             _setup = setup;
         }

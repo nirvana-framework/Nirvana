@@ -29,7 +29,7 @@ namespace Nirvana.Mediation
 
     public class ChildMediatorFactory : MediatorFactoryBase, IChildMediatorFactory
     {
-        public ChildMediatorFactory(NirvanaSetup setup) : base(setup, (ILogger)setup.GetService(typeof(ILogger)))
+        public ChildMediatorFactory(NirvanaSetup setup,IServiceProvider service) : base(setup, (ILogger)setup.GetService(typeof(ILogger)))
         {
         }
 

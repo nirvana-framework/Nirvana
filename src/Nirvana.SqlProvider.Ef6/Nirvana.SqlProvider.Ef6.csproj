@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <PackageId>Nirvana.SqlProvider.EF6</PackageId>
+    <PackageVersion>$version$</PackageVersion>
+    <Authors>Nirvana Framework</Authors>
+    <Description>Glue for .NET and Web applications</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>Net Standard Version</PackageReleaseNotes>
+    <Copyright>Copyright 2017 (c)</Copyright>
+    <PackageTags>.net MVC awesome</PackageTags>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nirvana\Nirvana.csproj" />
+  </ItemGroup>
+
+</Project>

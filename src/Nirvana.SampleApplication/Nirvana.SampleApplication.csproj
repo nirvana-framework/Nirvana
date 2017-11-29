@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+    <PackageReference Include="SolutionScripts" Version="1.2.0" />
+    <PackageReference Include="StructureMap.AspNetCore" Version="1.4.0" />
+    <PackageReference Include="StructureMap.Microsoft.DependencyInjection" Version="1.4.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nirvana.JsonSerializer\Nirvana.JsonSerializer.csproj" />
+    <ProjectReference Include="..\Nirvana.Sample.Infrastructure\Nirvana.Sample.Infrastructure.csproj" />
+    <ProjectReference Include="..\Nirvana.SampleApplication.Services\Nirvana.SampleApplication.Services.csproj" />
+    <ProjectReference Include="..\Nirvana.Web\Nirvana.Web.csproj" />
+    <ProjectReference Include="..\Nirvana\Nirvana.csproj" />
+  </ItemGroup>
+
+</Project>

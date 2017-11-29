@@ -1,57 +1,48 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Nirvana.CQRS;
 using Nirvana.Mediation;
+using Nirvana.Util.Io;
 
 namespace Nirvana.Web.Controllers
 {
-    [EnableCors("*", "*", "*")]
-    public abstract class CommandQueryApiControllerBase : ApiController
+    [EnableCors("AllowAllOrigins")]
+    public abstract class CommandQueryApiControllerBase : Controller
     {
-        private readonly WebApiSecurity _webApiSecurity;
+        private readonly ISerializer _serializer;
+        
         public IMediatorFactory Mediator { get; set; }
 
-        protected CommandQueryApiControllerBase(IMediatorFactory mediator)
+        protected CommandQueryApiControllerBase(IMediatorFactory mediator,ISerializer serializer)
         {
-            //TODO - inject properly this when I figure out how to wire up to IoC
-            _webApiSecurity = new WebApiSecurity();
             Mediator = mediator;
         }
 
-        protected HttpResponseMessage Command<TResult>(Command<TResult> command)
+        protected CommandResponse<TResult> Command<TResult>(Command<TResult> command)
         {
             var response = Mediator.Command(command);
             LogException(response);
-            return Request.CreateResponse(GetResponseCode(response), response);
+            return response;
         }
-        protected HttpResponseMessage InternalEvent(InternalEvent command)
+
+
+        protected InternalEventResponse InternalEvent(InternalEvent command)
         {
             var response = Mediator.InternalEvent(command);
             LogException(response);
-            return Request.CreateResponse(GetResponseCode(response), response);
+            return response;
         }
 
-       
-        
 
-
-        private void SetAuthValues(IAuthorizedTask authorizedQuery)
-        {
-            if (authorizedQuery != null)
-            {
-                authorizedQuery.AuthCode = _webApiSecurity.GetAuthCode(ControllerContext);
-            }
-        }
-
-        protected HttpResponseMessage Query<TResult>(Query<TResult> query)
+        protected QueryResponse<TResult> Query<TResult>(Query<TResult> query)
         {
             var response = Mediator.Query(query);
             LogException(response);
-            return Request.CreateResponse(GetResponseCode(response), response);
+            return response;
         }
 
         protected HttpResponseMessage QueryForFile<TResult>(Query<TResult> query)
@@ -59,7 +50,7 @@ namespace Nirvana.Web.Controllers
         {
             var response = Mediator.Query(query);
 
-            var httpResponseMessage = Request.CreateResponse(GetResponseCode(response), response.Result.FileBytes);
+            var httpResponseMessage = response.BuildResponse(_serializer);
 
 
             if (response.Success())
@@ -81,59 +72,6 @@ namespace Nirvana.Web.Controllers
         }
 
 
-//        private object PrepCommand<T>(CommandResponse<T> response)
-//        {
-//            return new
-//            {
-//                Exception = new {Message = response.Exception},
-//                response.ValidationMessages,
-//                response.Result,
-//                response.IsValid
-//            };
-//        }
-
-//        private object PrepEventResponse(InternalEventResponse response)
-//        {
-//            return new
-//            {
-//                Exception = new {Message = response.Exception},
-//                response.ValidationMessages,
-//                response.IsValid
-//            };
-//        }
-
-//        private object PrepQuery<T>(QueryResponse<T> response)
-//        {
-//            return new
-//            {
-//                Exception = new {Message = response.Exception},
-//                response.ValidationMessages,
-//                response.Result,
-//                response.IsValid
-//            };
-//        }
-
-        private HttpStatusCode GetResponseCode<T>(CommandResponse<T> input)
-        {
-            return input.Exception != null
-                ? HttpStatusCode.InternalServerError
-                : input.IsValid ? HttpStatusCode.OK : HttpStatusCode.BadRequest;
-        }
-        private HttpStatusCode GetResponseCode(InternalEventResponse input)
-        {
-            return input.Exception != null
-                ? HttpStatusCode.InternalServerError
-                : input.IsValid ? HttpStatusCode.OK : HttpStatusCode.BadRequest;
-        }
-
-        private HttpStatusCode GetResponseCode<T>(QueryResponse<T> input)
-        {
-            return input.Exception != null
-                ? HttpStatusCode.InternalServerError
-                : input.Success() ? HttpStatusCode.OK : HttpStatusCode.BadRequest;
-        }
-
-
         private static void LogException(Response response)
         {
             if (response.Exception != null)
@@ -143,13 +81,73 @@ namespace Nirvana.Web.Controllers
         }
     }
 
+
+    public static class ResponseBuilder
+    {
+        private static HttpStatusCode GetResponseCode<T>(CommandResponse<T> input)
+        {
+            return input.Exception != null
+                ? HttpStatusCode.InternalServerError
+                : input.IsValid
+                    ? HttpStatusCode.OK
+                    : HttpStatusCode.BadRequest;
+        }
+
+        private static HttpStatusCode GetResponseCode(InternalEventResponse input)
+        {
+            return input.Exception != null
+                ? HttpStatusCode.InternalServerError
+                : input.IsValid
+                    ? HttpStatusCode.OK
+                    : HttpStatusCode.BadRequest;
+        }
+
+        private static HttpStatusCode GetResponseCode<T>(QueryResponse<T> input)
+        {
+            return input.Exception != null
+                ? HttpStatusCode.InternalServerError
+                : input.Success()
+                    ? HttpStatusCode.OK
+                    : HttpStatusCode.BadRequest;
+        }
+
+
+        public static HttpResponseMessage BuildResponse<TResult>(this QueryResponse<TResult> response,
+            ISerializer serializer)
+        {
+            return new HttpResponseMessage(GetResponseCode(response))
+            {
+                Content = new StringContent(serializer.Serialize(response)),
+                Version = HttpVersion.Version11
+            };
+        }
+
+
+        public static HttpResponseMessage BuildResponse<TResult>(this CommandResponse<TResult> response,
+            ISerializer serializer)
+        {
+            return new HttpResponseMessage(GetResponseCode(response))
+            {
+                Content = new StringContent(serializer.Serialize(response)),
+                Version = HttpVersion.Version11
+            };
+        }
+
+        public static HttpResponseMessage BuildResponse(this InternalEventResponse response, ISerializer serializer)
+        {
+            return new HttpResponseMessage(GetResponseCode(response))
+            {
+                Content = new StringContent(serializer.Serialize(response)),
+                Version = HttpVersion.Version11
+            };
+        }
+    }
+
     public class WebApiSecurity
     {
-
-        public string GetAuthCode(HttpControllerContext context)
+        public string GetAuthCode(HttpContext context)
         {
-            var authHeader = context.Request.Headers.Authorization;
-            return authHeader.Parameter;
+            return context.Request.Headers["Authorization"];
         }
     }
 }

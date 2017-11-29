@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Nirvana.TestFramework;
-using Should;
+using Nirvana.TestFramework.FluentAssertions;
 using Xunit;
 
 namespace Nirvana.JsonSerializer.Tests
@@ -28,11 +28,9 @@ namespace Nirvana.JsonSerializer.Tests
             {
                 Input = new TestInput();
             };
+
             [Fact]
-            public void should_serialize()
-            {
-                Result.ShouldEqual("{}");
-            }
+            public void should_serialize() => Assert.Equal("{}", Result);
 
         }
         public class when_enabled:NullValueTests
@@ -43,11 +41,7 @@ namespace Nirvana.JsonSerializer.Tests
                 IncludeNulls = true;
             };
             [Fact]
-            public void should_serialize()
-            {
-                Result.ShouldEqual("{\"test\":null,\"Sub\":null}");
-            }
-
+            public void should_serialize() => Result.ShouldEqual("{\"test\":null,\"Sub\":null}");
         }
     }
 
@@ -55,10 +49,7 @@ namespace Nirvana.JsonSerializer.Tests
     {
 
         [Fact]
-        public void should_serialize()
-        {
-            Result.ShouldEqual("[{\"DisplayName\":\"One\",\"Value\":1},{\"DisplayName\":\"Two\",\"Value\":2}]");
-        }
+        public void should_serialize()=> Result.ShouldEqual( "[{\"DisplayName\":\"One\",\"Value\":1},{\"DisplayName\":\"Two\",\"Value\":2}]");
         [Fact]
         public void should_deserialize()
         {

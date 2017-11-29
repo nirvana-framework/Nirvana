@@ -1,133 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6D5E2CA2-1DA6-4436-BA8A-93E1D44D2576}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nirvana</RootNamespace>
-    <AssemblyName>Nirvana</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Nirvana</PackageId>
+    <PackageVersion>$version$</PackageVersion>
+    <Authors>Nirvana Framework</Authors>
+    <Description>Glue for .NET and Web applications</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>Net Standard Version</PackageReleaseNotes>
+    <Copyright>Copyright 2017 (c)</Copyright>
+    <PackageTags>.net MVC awesome</PackageTags>
+    
+    
+    
+    
+    
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Configuration\NirvanaTypeRoutingDefinition.cs" />
-    <Compile Include="Configuration\TaskType.cs" />
-    <Compile Include="Configuration\INirvanaConfiguration.cs" />
-    <Compile Include="Configuration\NirvanaSetup.cs" />
-    <Compile Include="Configuration\NirvanaConfigurationHelper.cs" />
-    <Compile Include="Configuration\QueueStrategy.cs" />
-    <Compile Include="Configuration\MediationStrategy.cs" />
-    <Compile Include="CQRS\AuthorizedCommand.cs" />
-    <Compile Include="CQRS\InternalEvent.cs" />
-    <Compile Include="CQRS\IAuthorizedTask.cs" />
-    <Compile Include="CQRS\MessageType.cs" />
-    <Compile Include="CQRS\NirvanaTask.cs" />
-    <Compile Include="CQRS\Nop.cs" />
-    <Compile Include="CQRS\NopCommand.cs" />
-    <Compile Include="CQRS\Queue\BaseQueue.cs" />
-    <Compile Include="CQRS\UiNotification.cs" />
-    <Compile Include="CQRS\Queue\IMessage.cs" />
-    <Compile Include="CQRS\Queue\IQueue.cs" />
-    <Compile Include="CQRS\Queue\IQueueController.cs" />
-    <Compile Include="CQRS\Queue\IQueueFactory.cs" />
-    <Compile Include="CQRS\Queue\IQueueMessage.cs" />
-    <Compile Include="CQRS\Queue\QueueReference.cs" />
-    <Compile Include="CQRS\Queue\QueueStatus.cs" />
-    <Compile Include="CQRS\UiNotifications\ChannelEvent.cs" />
-    <Compile Include="CQRS\UiNotifications\Constants.cs" />
-    <Compile Include="CQRS\UiNotifications\INirvanaNotificationHub.cs" />
-    <Compile Include="CQRS\UiNotifications\IUiNotificationHub.cs" />
-    <Compile Include="CQRS\Util\CQRSUtils.cs" />
-    <Compile Include="Data\EntityTypes\Entity.cs" />
-    <Compile Include="Data\EntityTypes\SoftDeletedEntity.cs" />
-    <Compile Include="Data\IDataContext.cs" />
-    <Compile Include="Data\IRepository.cs" />
-    <Compile Include="Data\ISaveChangesDecorator.cs" />
-    <Compile Include="Data\ISoftDelete.cs" />
-    <Compile Include="Data\IViewModelRepository.cs" />
-    <Compile Include="Data\ModifiedCreatedDecorator.cs" />
-    <Compile Include="Data\SaveChangesContext.cs" />
-    <Compile Include="Data\SaveChangesDecoratorFactory.cs" />
-    <Compile Include="Data\SaveChangesDecoratorType.cs" />
-    <Compile Include="Domain\Enumeration.cs" />
-    <Compile Include="CQRS\Command.cs" />
-    <Compile Include="CQRS\CommandResponse.cs" />
-    <Compile Include="CQRS\FileQueryResult.cs" />
-    <Compile Include="CQRS\PagedResult.cs" />
-    <Compile Include="CQRS\PaginationQuery.cs" />
-    <Compile Include="CQRS\Query.cs" />
-    <Compile Include="CQRS\QueryResponse.cs" />
-    <Compile Include="CQRS\Response.cs" />
-    <Compile Include="CQRS\ValidationMessage.cs" />
-    <Compile Include="Domain\RootType.cs" />
-    <Compile Include="Domain\ViewModelBuilder.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Mediation\BaseNoOpCommandHandler.cs" />
-    <Compile Include="Mediation\ICommandHandler.cs" />
-    <Compile Include="Mediation\IEventHandler.cs" />
-    <Compile Include="Mediation\IMediator.cs" />
-    <Compile Include="Mediation\IMediatorFactory.cs" />
-    <Compile Include="Mediation\Implementation\Mediator.cs" />
-    <Compile Include="Mediation\Implementation\QueueMediator.cs" />
-    <Compile Include="Mediation\INopHandler.cs" />
-    <Compile Include="Mediation\IQueryHandler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\ClaimType.cs" />
-    <Compile Include="Util\Angular2CqrsGenerator.cs" />
-    <Compile Include="Util\Compression\Compression.cs" />
-    <Compile Include="Util\DisposeAction.cs" />
-    <Compile Include="Util\Extensions\AssignableExtensions.cs" />
-    <Compile Include="Util\Extensions\DomainEntityExtensions.cs" />
-    <Compile Include="Util\Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Util\Extensions\EnumExtensions.cs" />
-    <Compile Include="Util\Extensions\ExceptionExtensions.cs" />
-    <Compile Include="Util\Extensions\ExpressionExtensions.cs" />
-    <Compile Include="Util\Extensions\GenericsExtensions.cs" />
-    <Compile Include="Util\Extensions\IntegerExtentions.cs" />
-    <Compile Include="Util\Extensions\LongExtensions.cs" />
-    <Compile Include="Util\Extensions\NumericExtensions.cs" />
-    <Compile Include="Util\Extensions\ObjectExtensions.cs" />
-    <Compile Include="Util\Extensions\PropertyInfoExtensions.cs" />
-    <Compile Include="Util\Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Util\Extensions\StringExtensions.cs" />
-    <Compile Include="Util\Extensions\TryParseExtensions.cs" />
-    <Compile Include="Util\Extensions\TypeConversionExtensions.cs" />
-    <Compile Include="Util\Extensions\TypeConvert.cs" />
-    <Compile Include="Util\Extensions\TypeExtensions.cs" />
-    <Compile Include="Util\Io\FileSystem.cs" />
-    <Compile Include="Util\Io\IFileSystem.cs" />
-    <Compile Include="Util\Io\ISerializer.cs" />
-    <Compile Include="Util\IStartupStep.cs" />
-    <Compile Include="Util\Threading\SynchronizedStack.cs" />
-    <Compile Include="Util\Tine\ISystemtime.cs" />
-    <Compile Include="Util\Tine\SystemTime.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Nirvana.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="SolutionScripts">
-      <Version>1.2.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

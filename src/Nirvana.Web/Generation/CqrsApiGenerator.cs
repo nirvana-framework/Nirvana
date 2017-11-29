@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
-using System.Web;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Nirvana.Configuration;
@@ -38,11 +38,9 @@ namespace Nirvana.Web.Generation
             var builder = new StringBuilder();
             var codeNamespaces = new List<string>
             {
-                "System.Net.Http",
-                "System.Web.Http",
+                "Microsoft.AspNetCore.Mvc",
                 "Nirvana",
                 "Nirvana.Mediation",
-                "Nirvana.Web",
                 "Nirvana.Web.Controllers"
             };
             //Commands and Queries
@@ -91,6 +89,7 @@ namespace Nirvana.Web.Generation
             //For now push everything to the task channel
             var channelName = "Nirvana.CQRS.UiNotifications.Constants.TaskChannel";
 
+            builder.Append($"[Route(\"UiNotifications\")]");
             builder.Append("public class UiNotificationsController: ApiControllerWithHub<EventHub>{");
 
             foreach (var key in _setup.UiNotificationTypes.Keys)
@@ -124,11 +123,11 @@ namespace Nirvana.Web.Generation
 
             var builder = new StringBuilder();
             var additionalNamespaces = new List<string>();
+            
+            builder.Append($"[Route(\"api/{rootType}\")]");
+            builder.Append($"public class {rootType}Controller:Nirvana.Web.Controllers.CommandQueryApiControllerBase{{");
 
-            builder.Append(
-                $"public class {rootType}Controller:Nirvana.Web.Controllers.CommandQueryApiControllerBase{{");
-
-            builder.Append($"public {rootType}Controller(Nirvana.Mediation.IMediatorFactory mediator): base(mediator){{}}");
+            builder.Append($"public {rootType}Controller(Nirvana.Mediation.IMediatorFactory mediator,Nirvana.Util.Io.ISerializer serializer): base(mediator,serializer){{}}");
 
             if (_setup.CanProcess(TaskType.Query))
             {
@@ -140,10 +139,13 @@ namespace Nirvana.Web.Generation
                     if (type.RequiresAuthentication)
                     {
                         //TODO - throw claims in here
-                        builder.Append($"[Nirvana.Web.Security.NirvanaAuthAttribute]");
+                        builder.Append($"[Authorize]");
                     
                     }
-                    builder.Append($"[HttpGet]public HttpResponseMessage {name}([FromUri] {name}Query query){{return Query(query);}}");
+                    
+                    builder.Append($"[HttpGet(\"{name}\")]");
+//                    builder.Append($"[HttpGet]public HttpResponseMessage {name}([FromUri] {name}Query query){{return Query(query);}}");
+                    builder.Append($"public Nirvana.CQRS.QueryResponse<{type.ReturnType.Name}> {name}({name}Query query){{return Query(query);}}");
                 }
             }
             if (_setup.CanProcess(TaskType.Command))
@@ -153,7 +155,10 @@ namespace Nirvana.Web.Generation
                     additionalNamespaces.Add(type.TaskType.Namespace);
                     var name = type.TaskType.Name;
                     name = name.Replace("Command", "");
-                    builder.Append($"[HttpPost]public HttpResponseMessage {name}([FromBody] {name}Command command){{return Command(command);}}");
+                    
+                    builder.Append($"[HttpPost(\"{name}\")]");
+//                    builder.Append($"[HttpPost]public HttpResponseMessage {name}([FromBody] {name}Command command){{return Command(command);}}");
+                    builder.Append($"public Nirvana.CQRS.CommandResponse<{type.ReturnType.Name}> {name}({name}Command command){{return Command(command);}}");
                 }
             }
             if (_setup.CanProcess(TaskType.InternalEvent))
@@ -162,7 +167,10 @@ namespace Nirvana.Web.Generation
                 {
                     additionalNamespaces.Add(type.TaskType.Namespace);
                     var name = type.TaskType.Name;
-                    builder.Append($"[HttpPost]public HttpResponseMessage {name}([FromBody] {name} internalEvent){{return InternalEvent(internalEvent);}}");
+//                    builder.Append($"[HttpPost]public HttpResponseMessage {name}([FromBody] {name} internalEvent){{return InternalEvent(internalEvent);}}");
+
+                    builder.Append($"[HttpPost(\"{name}\")]");
+                    builder.Append($"public Nirvana.CQRS.InternalEventResponse {name}({name} internalEvent){{return InternalEvent(internalEvent);}}");
                 }
             }
            
@@ -176,13 +184,12 @@ namespace Nirvana.Web.Generation
             };
         }
 
-        public void LoadAssembly(Assembly[] additionalReferences)
+        public Assembly LoadAssembly(Assembly[] additionalReferences)
         {
             var compilation = BuildAssembly(additionalReferences.Union(new[]
             {
                 typeof(object).Assembly,
                 typeof(Stack<>).Assembly,
-                typeof(HttpCachePolicy).Assembly,
                 typeof(HttpResponseMessage).Assembly
             }).ToArray());
             using (var memoryStream = new MemoryStream())
@@ -204,7 +211,7 @@ namespace Nirvana.Web.Generation
                     throw new Exception(failuresException);
                 }
                 memoryStream.Flush();
-                Assembly.Load(memoryStream.GetBuffer());
+                return Assembly.Load(memoryStream.GetBuffer());
             }
         }
 
@@ -216,18 +223,35 @@ namespace Nirvana.Web.Generation
             var compilation = CSharpCompilation.Create(_setup.ControllerAssemblyName, syntaxTrees,
                 options: cSharpCompilationOptions);
 
+
+
+            var data = AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES").ToString().Split(';');
+
+
+            var aspnetCore = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.dll"));
+            var cors = data.First(x => x.Contains("Microsoft.AspNetCore.Cors.dll"));
+            var viewFeatures = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.ViewFeatures.dll"));
+            var core = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.Core.dll"));
+            var standard = data.First(x => x.Contains("netstandard.dll"));
+            var runtime = data.First(x => x.Contains("System.Runtime.dll"));
+            
+
             compilation = compilation
-                .AddReferences(GetGlobalReferences(thirdPartyReferences))
-                .AddReferences(MetadataReference.CreateFromFile($"{_setup.AssemblyFolder}\\System.Web.Http.dll"))
-                .AddReferences(
-                    MetadataReference.CreateFromFile($"{_setup.AssemblyFolder}\\System.Web.Http.Cors.dll"))
-                .AddReferences(MetadataReference.CreateFromFile($"{_setup.AssemblyFolder}\\Nirvana.dll"));
+                    .AddReferences(GetGlobalReferences(thirdPartyReferences))
+                    .AddReferences(MetadataReference.CreateFromFile(aspnetCore))
+                    .AddReferences(MetadataReference.CreateFromFile(cors))
+                    .AddReferences(MetadataReference.CreateFromFile(viewFeatures))
+                    .AddReferences(MetadataReference.CreateFromFile(core))
+                    .AddReferences(MetadataReference.CreateFromFile(standard))
+                    .AddReferences(MetadataReference.CreateFromFile(runtime))
+                //.AddReferences(MetadataReference.CreateFromFile($@"{AppContext.BaseDirectory}Nirvana.dll" ));
+                ;
 
             foreach (var additionalAssembly in _setup.AssemblyNameReferences)
             {
                 compilation =
                     compilation.AddReferences(
-                        MetadataReference.CreateFromFile($"{_setup.AssemblyFolder}\\{additionalAssembly}"));
+                        MetadataReference.CreateFromFile($@"{AppContext.BaseDirectory}\{additionalAssembly}"));
             }
 
 

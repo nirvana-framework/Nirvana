@@ -14,7 +14,7 @@ namespace Nirvana.Data
     }
 
 
-    public interface IRepository<TRoot> where TRoot : RootType
+    public interface IRepository<TRoot> where TRoot : ServiceRootType
     {
         T Get<T>(Guid id) where T : Entity<Guid>;
         T Get<T>(long id) where T : Entity<long>;

@@ -1,7 +1,7 @@
 ﻿using System;
 using Nirvana.CQRS;
 using Nirvana.TestFramework;
-using Should;
+using Nirvana.TestFramework.FluentAssertions;
 using Xunit;
 
 namespace Nirvana.JsonSerializer.Tests
@@ -22,19 +22,8 @@ namespace Nirvana.JsonSerializer.Tests
                 };
             };
             [Fact]
-            public void should_serialize()
-            {
-                Result.ShouldEqual("[{\"ClassName\":\"System.NotImplementedException\",\"Message\":\"test2\",\"Data\":null,\"InnerException\":null,\"HelpURL\":null,\"StackTraceString\":null,\"RemoteStackTraceString\":null,\"RemoteStackIndex\":0,\"ExceptionMethod\":null,\"HResult\":-2147467263,\"Source\":null,\"WatsonBuckets\":null},{\"ClassName\":\"System.NotImplementedException\",\"Message\":\"test1\",\"Data\":null,\"InnerException\":null,\"HelpURL\":null,\"StackTraceString\":null,\"RemoteStackTraceString\":null,\"RemoteStackIndex\":0,\"ExceptionMethod\":null,\"HResult\":-2147467263,\"Source\":null,\"WatsonBuckets\":null},{\"ClassName\":\"System.ArgumentNullException\",\"Message\":\"Value cannot be null.\",\"Data\":null,\"InnerException\":null,\"HelpURL\":null,\"StackTraceString\":null,\"RemoteStackTraceString\":null,\"RemoteStackIndex\":0,\"ExceptionMethod\":null,\"HResult\":-2147467261,\"Source\":null,\"WatsonBuckets\":null,\"ParamName\":null}]");
-                //var exceptions = new Exception[]
-                //{
-                //    new NotImplementedException("test2"),
-                //    new NotImplementedException("test1"),
-                //    new ArgumentNullException()
-                //};
-
-          
-                //var results = s.Serialize(exceptions);
-            }
+            public void should_serialize()=>
+               Result.ShouldEqual("[{\"ClassName\":\"System.NotImplementedException\",\"Message\":\"test2\",\"Data\":null,\"InnerException\":null,\"HelpURL\":null,\"StackTraceString\":null,\"RemoteStackTraceString\":null,\"RemoteStackIndex\":0,\"ExceptionMethod\":null,\"HResult\":-2147467263,\"Source\":null,\"WatsonBuckets\":null},{\"ClassName\":\"System.NotImplementedException\",\"Message\":\"test1\",\"Data\":null,\"InnerException\":null,\"HelpURL\":null,\"StackTraceString\":null,\"RemoteStackTraceString\":null,\"RemoteStackIndex\":0,\"ExceptionMethod\":null,\"HResult\":-2147467263,\"Source\":null,\"WatsonBuckets\":null},{\"ClassName\":\"System.ArgumentNullException\",\"Message\":\"Value cannot be null.\",\"Data\":null,\"InnerException\":null,\"HelpURL\":null,\"StackTraceString\":null,\"RemoteStackTraceString\":null,\"RemoteStackIndex\":0,\"ExceptionMethod\":null,\"HResult\":-2147467261,\"Source\":null,\"WatsonBuckets\":null}]");
         }
         public class when_serializing_commandResponse:ExceptionSerializationTests
         {
@@ -44,19 +33,8 @@ namespace Nirvana.JsonSerializer.Tests
                 Input = new CommandResponse<Nop>();
             };
             [Fact]
-            public void should_serialize()
-            {
-                Result.ShouldEqual("{\"Result\":0,\"ValidationMessages\":[],\"IsValid\":false}");
-                //var exceptions = new Exception[]
-                //{
-                //    new NotImplementedException("test2"),
-                //    new NotImplementedException("test1"),
-                //    new ArgumentNullException()
-                //};
-
-          
-                //var results = s.Serialize(exceptions);
-            }
+            public void should_serialize()=>
+               Result.ShouldEqual("{\"Result\":0,\"ValidationMessages\":[],\"IsValid\":false}");
         }
 
         
@@ -80,20 +58,10 @@ namespace Nirvana.JsonSerializer.Tests
 
                 
             };
-            [Fact]
-            public void should_serialize()
-            {
-                Result.ShouldNotBeNull();
-                //var exceptions = new Exception[]
-                //{
-                //    new NotImplementedException("test2"),
-                //    new NotImplementedException("test1"),
-                //    new ArgumentNullException()
-                //};
 
-          
-                //var results = s.Serialize(exceptions);
-            }
+            [Fact]
+            public void should_serialize()=> Assert.NotNull(Result);
+           
         }
         public class when_serializing_commandResponse:ExceptionDeSerializationTests
         {
@@ -107,19 +75,7 @@ namespace Nirvana.JsonSerializer.Tests
                 
             };
             [Fact]
-            public void should_serialize()
-            {
-                Result.ShouldNotBeNull();
-                //var exceptions = new Exception[]
-                //{
-                //    new NotImplementedException("test2"),
-                //    new NotImplementedException("test1"),
-                //    new ArgumentNullException()
-                //};
-
-          
-                //var results = s.Serialize(exceptions);
-            }
+            public void should_serialize()=> Assert.NotNull(Result);
         }
 
         

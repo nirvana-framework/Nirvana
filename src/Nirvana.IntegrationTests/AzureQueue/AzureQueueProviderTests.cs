@@ -5,7 +5,7 @@ using Nirvana.Mediation;
 
 namespace Nirvana.AzureQueues.IntegrationTests.AzureQueue
 {
-    public class TestRoot : RootType
+    public class TestRoot : ps
     {
         public override string RootName => "Test";
     }

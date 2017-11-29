@@ -19,6 +19,7 @@ namespace Nirvana.Configuration
     {
         public string RootName { get; set; }
         public Type TaskType { get; set; }
+        public Type ReturnType { get; set; }
         public TaskType NirvanaTaskType { get; set; }
         public MediationStrategy TopLevelAction { get; set; }
         public MediationStrategy ChildAction{ get; set; }

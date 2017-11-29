@@ -17,7 +17,7 @@ namespace Nirvana.Util.Extensions
             {
                 return Convert.ChangeType(source, typeof(T), CultureInfo.InvariantCulture) as T?;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

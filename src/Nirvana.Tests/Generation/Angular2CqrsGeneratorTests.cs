@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Security.Policy;
 using Nirvana.Configuration;
-using Nirvana.Security;
 using Nirvana.TestFramework;
+using Nirvana.TestFramework.FluentAssertions;
 using Nirvana.Tests.Configuration;
 using Nirvana.Util;
-using Should;
 using Xunit;
 
 namespace Nirvana.Tests.Generation

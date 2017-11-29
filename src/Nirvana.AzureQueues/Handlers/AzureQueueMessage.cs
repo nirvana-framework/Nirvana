@@ -18,6 +18,7 @@ namespace Nirvana.AzureQueues.Handlers
         public AzureQueueMessage(CloudQueueMessage message, NirvanaTaskInformation messageTypeRouting, ILogger logger,ICompression compression) : base(messageTypeRouting)
         {
             _logger = logger;
+            _compression = compression;
             Id = message.Id;
             DequeueCount = message.DequeueCount;
             NextVisibleTime = message.NextVisibleTime?.UtcDateTime;

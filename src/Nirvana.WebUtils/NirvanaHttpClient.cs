@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Nirvana.CQRS;
 using Nirvana.Logging;
@@ -6,6 +7,26 @@ using Nirvana.Util.Io;
 
 namespace Nirvana.WebUtils
 {
+
+    public static class HttpClientExtensions
+    {
+        public static Task<HttpResponseMessage> PostAsJsonAsync<T>(
+            this HttpClient httpClient, string url, T data,ISerializer serializer)
+        {
+            var dataAsString = serializer.Serialize(data);
+            var content = new StringContent(dataAsString);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return httpClient.PostAsync(url, content);
+        }
+
+        public static async Task<T> ReadAsJsonAsync<T>(this HttpContent content,ISerializer serializer)
+        {
+            var dataAsString = await content.ReadAsStringAsync();
+            return serializer.Deserialize<T>(dataAsString);
+        }
+    }
+
+
     public class NirvanaHttpClient : INirvanaHttpClient
     {
         private readonly ILogger _logger;
@@ -27,7 +48,7 @@ namespace Nirvana.WebUtils
             using (var client = new HttpClient())
             {
                
-                var response = client.PostAsJsonAsync(requestUri, value);
+                var response = client.PostAsJsonAsync(requestUri, value,_serializer);
                 response.Wait();
                 response.Result.EnsureSuccessStatusCode();
                 return response.Result;
@@ -42,7 +63,7 @@ namespace Nirvana.WebUtils
             }
             using (var client = new HttpClient())
             {
-                var response = client.PostAsJsonAsync(requestUri, value);
+                var response = client.PostAsJsonAsync(requestUri, value,_serializer);
                 response.Wait();
                 return response.Result;
             }
@@ -76,7 +97,7 @@ namespace Nirvana.WebUtils
 
             using (var client = new HttpClient())
             {
-                var response = client.PostAsJsonAsync(requestUri, value);
+                var response = client.PostAsJsonAsync(requestUri, value,_serializer);
                 response.Wait();
                 return response.Result;
             }

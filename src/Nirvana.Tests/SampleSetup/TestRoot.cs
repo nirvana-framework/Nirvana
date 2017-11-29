@@ -2,7 +2,7 @@ using Nirvana.Domain;
 
 namespace Nirvana.Tests.SampleSetup
 {
-    public class TestRoot : RootType
+    public class TestRoot : ServiceRootType
     {
         public override string RootName => "Test";
     }

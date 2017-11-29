@@ -9,7 +9,7 @@ namespace Nirvana.Util.Extensions
         public static TypeBuilder GetTypeBuilder()
         {
             var an = new AssemblyName("DynamicAssembly" + new Random().Next(999999999));
-            var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Run);
+            var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(an, AssemblyBuilderAccess.Run);
             var moduleBuilder = assemblyBuilder.DefineDynamicModule("MainModule");
 
             var tb = moduleBuilder.DefineType("DynamicType"

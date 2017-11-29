@@ -13,7 +13,7 @@ namespace Nirvana.Tests.Configuration
 
 
         public Func<string, object, bool> AttributeMatchingFunctionStub
-          => (x, y) => x == ((AggregateRootAttribute)y).RootName;
+          => (x, y) => x == ((ServiceRootAttribute)y).RootName;
 
        
 

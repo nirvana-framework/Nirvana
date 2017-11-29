@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoNSubstitute;
+using AutoFixture;
+using AutoFixture.AutoNSubstitute;
 
 namespace Nirvana.TestFramework
 {

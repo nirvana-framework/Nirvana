@@ -96,7 +96,7 @@ namespace Nirvana.Util.Extensions
 
             // make the type
             instance.Flatten(builder, propertyList);
-            var t = builder.CreateType();
+            var t = builder.CreateTypeInfo();
             var obj = Activator.CreateInstance(t);
             propertyList.ForEach(x => obj.SetProperty(x.Key, x.Value));
 
