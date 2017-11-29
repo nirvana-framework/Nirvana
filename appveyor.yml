@@ -31,9 +31,6 @@ build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
   - cmd: dotnet restore Nirvana.sln
   - cmd: dotnet pack Nirvana.sln
-  - cmd: cd Nirvana\bin\debug
-  - cmd: dir
-  - cmd: cd..
 
 # run open cover and push to coveralls
 test_script: 
@@ -49,44 +46,44 @@ deploy:
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: Nirvana/bin/Debug/Nirvana.*.nupkg
+    artifact: /.Nirvana\bin\Debug\**\Nirvana.*.nupkg
   - provider: NuGet
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: Nirvana.TestFramework\bin\Debug\Nirvana.TestFramework.*.nupkg
+    artifact: /.Nirvana.TestFramework\bin\Debug\**\Nirvana.TestFramework.*.nupkg
   - provider: NuGet
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: Nirvana.AzureQueues\bin\Debug\Nirvana.AzureQueues.*.nupkg
+    artifact: /.Nirvana.AzureQueues\bin\Debug\**\Nirvana.AzureQueues.*.nupkg
   - provider: NuGet
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: Nirvana.MongoProvider\bin\Debug\Nirvana.MongoProvider.*.nupkg
+    artifact: /.Nirvana.MongoProvider\bin\Debug\**\Nirvana.MongoProvider.*.nupkg
   - provider: NuGet
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: Nirvana.JsonSerializer\bin\Debug\Nirvana.JsonSerializer.*.nupkg
+    artifact: /.Nirvana.JsonSerializer\bin\Debug\**\Nirvana.JsonSerializer.*.nupkg
   - provider: NuGet
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: Nirvana.SqlProvider.Ef6\bin\Debug\Nirvana.SqlProvider.Ef6.*.nupkg
+    artifact: /.Nirvana.SqlProvider.Ef6\bin\Debug\**\Nirvana.SqlProvider.Ef6.*.nupkg
   - provider: NuGet
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: Nirvana.SqlProvider.EfCore\bin\Debug\Nirvana.SqlProvider.EfCore.*.nupkg
+    artifact: /.Nirvana.SqlProvider.EfCore\bin\Debug\**\Nirvana.SqlProvider.EfCore.*.nupkg
   - provider: NuGet
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: Nirvana.Web\bin\Debug\Nirvana.Web.*.nupkg
+    artifact: /.Nirvana.Web\bin\Debug\**\Nirvana.Web.*.nupkg
   - provider: NuGet
     api_key:
         secure: asQXQRyoV5Zk6pKz/xeEfo+PJIwSWc+UP96zy1xW6TEgx0PqD6aQSMU/6by+WEB4
     skip_symbols: false
-    artifact: Nirvana.WebUtils\bin\Debug\Nirvana.WebUtils.*.nupkg
+    artifact: /.Nirvana.Web\bin\Debug\**\Nirvana.Web.*.nupkg
