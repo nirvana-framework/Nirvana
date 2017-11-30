@@ -53,4 +53,15 @@ namespace Nirvana.Data
         IQueryable<T> Include<T>(IQueryable<T> query, params Expression<Func<T, object>>[] includes)
             where T : class;
     }
+
+    public static class RepositoryExtensions
+    {
+        public static IQueryable<T> Include<TRoot,T>(this IQueryable<T> input, IRepository<TRoot> repository, params Expression<Func<T, object>>[] includes) 
+            where T : class 
+            where TRoot : ServiceRootType
+        {
+            return repository.Include(input, includes);
+        }
+    }
+
 }
