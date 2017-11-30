@@ -245,7 +245,13 @@ namespace Nirvana.Configuration
             if (messageType.IsCommand()
                 || messageType.IsQuery())
             {
-               return messageType.BaseType.GetGenericArguments()[0];
+                var type = messageType.BaseType;
+                while (!type.GenericTypeArguments.Any())
+                {
+                    type = type.BaseType;
+                }
+
+                return type.GetGenericArguments()[0];
             }
             return typeof(object);
         }

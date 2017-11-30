@@ -1,11 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nirvana.Configuration;
@@ -14,7 +10,6 @@ using Nirvana.Sample.Infrastructure.IoC;
 using Nirvana.SampleApplication.Services.Domain.Sample.Queries;
 using Nirvana.SampleApplication.Services.Services;
 using Nirvana.Util;
-using Nirvana.Util.Extensions;
 using Nirvana.Util.Tine;
 using Nirvana.Web.Generation;
 using Nirvana.Web.Startup;
@@ -22,29 +17,7 @@ using StructureMap;
 
 namespace Nirvana.SampleApplication
 {
-
-    interface IProvider
-    {
-
-
-    }
-
-    class InternalProvider
-    {
-        private readonly IServiceProvider _provider;
-
-        public InternalProvider(IServiceProvider provider)
-        {
-            _provider = provider;
-        }
-
-        public object[] GetAllServices(Type serviceType)
-            => _provider.GetServices(serviceType).ToArray();
-
-        
-        public object GetService(Type serviceType) => _provider.GetService(serviceType);
-
-    }
+  
 
     public class Startup
     {
