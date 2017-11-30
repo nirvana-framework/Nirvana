@@ -224,6 +224,11 @@ namespace Nirvana.SqlProvider
             throw new NotImplementedException();
         }
 
+        public IQueryable<T> Include<T>(IQueryable<T> query, params Expression<Func<T, object>>[] includes) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
 
         public void RollbackTransaction()
         {

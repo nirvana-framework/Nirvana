@@ -49,5 +49,8 @@ namespace Nirvana.Data
         void ClearContext();
         T Refresh<T>(T entity) where T : Entity;
         IEnumerable<T> Refresh<T>(IEnumerable<T> entities) where T : Entity;
+
+        IQueryable<T> Include<T>(IQueryable<T> query, params Expression<Func<T, object>>[] includes)
+            where T : class;
     }
 }

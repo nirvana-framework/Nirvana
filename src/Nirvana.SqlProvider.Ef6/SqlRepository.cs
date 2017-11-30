@@ -133,6 +133,20 @@ namespace Nirvana.SqlProvider
         }
 
 
+        public IQueryable<T> Include<T>(IQueryable<T> query, params Expression<Func<T, object>>[] includes)
+            where T : class
+        {
+            if (includes != null)
+            {
+                query = includes.Aggregate(query,
+                    (current, include) => current.Include(include));
+            }
+
+            return query;
+
+        }
+
+
         public IQueryable<T> GetAllAndInclude<T, TProperty>(Expression<Func<T, TProperty>> path) where T : Entity
         {
             return GetDbSet<T>().Include(path);
