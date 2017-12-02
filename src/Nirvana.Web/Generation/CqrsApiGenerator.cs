@@ -154,6 +154,7 @@ namespace Nirvana.Web.Generation
                 foreach (var type in _setup.CommandTypes[rootType])
                 {
                     additionalNamespaces.Add(type.TaskType.Namespace);
+                    additionalNamespaces.Add(type.ReturnType.Namespace);
                     var name = type.TaskType.Name;
                     name = name.Replace("Command", "");
                     
@@ -167,6 +168,7 @@ namespace Nirvana.Web.Generation
                 foreach (var type in _setup.InternalEventTypes[rootType])
                 {
                     additionalNamespaces.Add(type.TaskType.Namespace);
+                    additionalNamespaces.Add(type.ReturnType.Namespace);
                     var name = type.TaskType.Name;
 //                    builder.Append($"[HttpPost]public HttpResponseMessage {name}([FromBody] {name} internalEvent){{return InternalEvent(internalEvent);}}");
 
