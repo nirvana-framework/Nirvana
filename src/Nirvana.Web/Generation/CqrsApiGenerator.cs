@@ -134,6 +134,7 @@ namespace Nirvana.Web.Generation
                 foreach (var type in _setup.QueryTypes[rootType])
                 {
                     additionalNamespaces.Add(type.TaskType.Namespace);
+                    additionalNamespaces.Add(type.ReturnType.Namespace);
                     var name = type.TaskType.Name;
                     name = name.Replace("Query", "");
                     if (type.RequiresAuthentication)
