@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nirvana.Configuration;
+using Nirvana.Data;
 using Nirvana.Mediation;
 using Nirvana.Sample.Infrastructure.IoC;
 using Nirvana.SampleApplication.Services.Domain.Sample.Queries;
@@ -84,6 +85,8 @@ namespace Nirvana.SampleApplication
 
                     scan.AddAllTypesOf<IStartupStep>();
                 });
+
+                c.For<DataConfiguration>().Singleton().Use(new DataConfiguration());
 
                 //Add in our custom registry
                 c.AddRegistry(new TestRegistry());

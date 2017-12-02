@@ -1,4 +1,5 @@
 ﻿using Nirvana.CQRS;
+using Nirvana.Data;
 using Nirvana.Mediation;
 using Nirvana.SampleApplication.Services.Services;
 
@@ -16,11 +17,18 @@ namespace Nirvana.SampleApplication.Services.Domain.Sample.Queries
 
     public class GetSampleDataHandler : IQueryHandler<GetSampleDataQuery, SampleDataViewModel>
     {
+        private readonly DataConfiguration _config;
+
+        public GetSampleDataHandler(DataConfiguration config)
+        {
+            _config = config;
+        }
+
         public QueryResponse<SampleDataViewModel> Handle(GetSampleDataQuery query)
         {
             return QueryResponse.Success(new SampleDataViewModel
             {
-                Message = "Hello World!"
+                Message = _config.GetConnectionString("testConnectionString")
             });
         }
     }

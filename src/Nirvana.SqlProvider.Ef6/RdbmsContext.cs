@@ -97,7 +97,7 @@ namespace Nirvana.SqlProvider
         {
         }
 
-        private static string GetConnectionStringName()
+        public static string GetConnectionStringName()
         {
             return nameof(T) + "ConnectionString";
         }

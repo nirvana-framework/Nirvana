@@ -29,4 +29,10 @@
     <ProjectReference Include="..\Nirvana\Nirvana.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="nirvana.datasettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
