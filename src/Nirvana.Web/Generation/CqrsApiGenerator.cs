@@ -225,25 +225,17 @@ namespace Nirvana.Web.Generation
 
 
 
-            var data = AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES").ToString().Split(';');
+            var refs = InternalReferences();
 
-
-            var aspnetCore = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.dll"));
-            var cors = data.First(x => x.Contains("Microsoft.AspNetCore.Cors.dll"));
-            var viewFeatures = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.ViewFeatures.dll"));
-            var core = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.Core.dll"));
-            var standard = data.First(x => x.Contains("netstandard.dll"));
-            var runtime = data.First(x => x.Contains("System.Runtime.dll"));
-            
 
             compilation = compilation
                     .AddReferences(GetGlobalReferences(thirdPartyReferences))
-                    .AddReferences(MetadataReference.CreateFromFile(aspnetCore))
-                    .AddReferences(MetadataReference.CreateFromFile(cors))
-                    .AddReferences(MetadataReference.CreateFromFile(viewFeatures))
-                    .AddReferences(MetadataReference.CreateFromFile(core))
-                    .AddReferences(MetadataReference.CreateFromFile(standard))
-                    .AddReferences(MetadataReference.CreateFromFile(runtime))
+                    .AddReferences(MetadataReference.CreateFromFile(refs.aspnetCore))
+                    .AddReferences(MetadataReference.CreateFromFile(refs.cors))
+                    .AddReferences(MetadataReference.CreateFromFile(refs.viewFeatures))
+                    .AddReferences(MetadataReference.CreateFromFile(refs.core))
+                    .AddReferences(MetadataReference.CreateFromFile(refs.standard))
+                    .AddReferences(MetadataReference.CreateFromFile(refs.runtime))
                 //.AddReferences(MetadataReference.CreateFromFile($@"{AppContext.BaseDirectory}Nirvana.dll" ));
                 ;
 
@@ -257,7 +249,57 @@ namespace Nirvana.Web.Generation
 
             return compilation;
         }
+
+        private static InternalReferences InternalReferences()
+        {
+            //HACK - this is to allow targeting 4.7
+            // - TRUSTED_PLATFORM_ASSEMBLIES returns null and I can't figure out why
+            //      found a compiler directive in the c# source for appcontext
+            // - it's entirely possible that there's a hole here 
+            // - it's also just as possible that I don't understand it well enough yet
+
+
+            var references = AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES");
+            if (references == null)
+            {
+                return new InternalReferences
+                {
+                    
+                    aspnetCore = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Mvc.dll",
+                    cors = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Cors.dll",
+                    viewFeatures = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Mvc.ViewFeatures.dll",
+                    core = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Mvc.Core.dll",
+                    standard = $@"{AppContext.BaseDirectory}\netstandard.dll",
+                    runtime = $@"{AppContext.BaseDirectory}\System.Runtime.dll"
+                };
+            }
+
+            var data = references.ToString().Split(';');
+
+            var refs = new InternalReferences
+            {
+                aspnetCore = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.dll")),
+                cors = data.First(x => x.Contains("Microsoft.AspNetCore.Cors.dll")),
+                viewFeatures = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.ViewFeatures.dll")),
+                core = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.Core.dll")),
+                standard = data.First(x => x.Contains("netstandard.dll")),
+                runtime = data.First(x => x.Contains("System.Runtime.dll")),
+            };
+            return refs;
+        }
     }
+
+    internal class InternalReferences
+    {
+        public string aspnetCore { get; set; }
+        public string cors { get; set; }
+        public string viewFeatures { get; set; }
+        public string core { get; set; }
+        public string standard { get; set; }
+        public string runtime { get; set; }
+    }
+
+
 
     internal class ControllerActionCode
     {
