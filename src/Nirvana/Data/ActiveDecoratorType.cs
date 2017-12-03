@@ -1,6 +1,6 @@
 ﻿namespace Nirvana.Data
 {
-    public enum SaveChangesDecoratorType
+    public enum ActiveDecoratorType
     {
         Live,
         IntegrationTest,

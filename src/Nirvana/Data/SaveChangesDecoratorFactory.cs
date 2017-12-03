@@ -4,17 +4,17 @@ namespace Nirvana.Data
 {
     public class SaveChangesDecoratorFactory
     {
-        public ISaveChangesDecorator[] Build(SaveChangesDecoratorType type)
+        public ISaveChangesDecorator[] Build(ActiveDecoratorType type)
         {
             switch (type)
             {
-                case SaveChangesDecoratorType.Live:
+                case ActiveDecoratorType.Live:
                     return new ISaveChangesDecorator[]
                     {
                         new ModifiedCreatedDecorator()
                     };
-                case SaveChangesDecoratorType.IntegrationTest:
-                case SaveChangesDecoratorType.Empty:
+                case ActiveDecoratorType.IntegrationTest:
+                case ActiveDecoratorType.Empty:
                     return new ISaveChangesDecorator[0];
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

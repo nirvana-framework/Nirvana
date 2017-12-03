@@ -15,11 +15,11 @@ namespace Nirvana.SqlProvider
     {
         protected readonly ISaveChangesDecorator[] _saveChangesDecorators;
 
-        protected RdbmsContext(string connectionName) : this(SaveChangesDecoratorType.Live, connectionName)
+        protected RdbmsContext(string connectionName) : this(ActiveDecoratorType.Live, connectionName)
         {
         }
 
-        protected RdbmsContext(SaveChangesDecoratorType type, string connectionType) : base(new DbContextOptionsBuilder<RdbmsContext>().UseSqlServer(connectionType).Options)
+        protected RdbmsContext(ActiveDecoratorType type, string connectionType) : base(new DbContextOptionsBuilder<RdbmsContext>().UseSqlServer(connectionType).Options)
         {
             _saveChangesDecorators = new SaveChangesDecoratorFactory().Build(type);
         }
@@ -85,11 +85,11 @@ namespace Nirvana.SqlProvider
 
 
       
-        protected RdbmsContext(SaveChangesDecoratorType type) : base(type, GetConnectionStringName())
+        protected RdbmsContext(ActiveDecoratorType type) : base(type, GetConnectionStringName())
         {
         }
 
-        protected RdbmsContext(SaveChangesDecoratorType type, string connectionStringName)
+        protected RdbmsContext(ActiveDecoratorType type, string connectionStringName)
             : base(type, connectionStringName)
         {
         }
