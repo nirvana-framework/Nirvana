@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nirvana.CQRS;
@@ -10,7 +9,7 @@ using Nirvana.Util.Io;
 
 namespace Nirvana.Web.Controllers
 {
-    [EnableCors("AllowAllOrigins")]
+
     public abstract class CommandQueryApiControllerBase : Controller
     {
         private readonly ISerializer _serializer;
