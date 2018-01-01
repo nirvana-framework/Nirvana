@@ -34,7 +34,7 @@ namespace Nirvana.Util
                 typeof(MessageType)
             };
 
-            builder.AppendLine("import {Command,Query,PagedResult,ValidationMessage} from \"ng2-nirvana\"; ");
+            builder.AppendLine("import {Command, Query, PagedResult, ValidationMessage} from 'ng2-nirvana'; ");
             builder.AppendLine("export class CheckModel<T> {  constructor(public item: T, public label: string, public selected: boolean) {  }} ");
             builder.AppendLine("enum MessageType {  Info = 1,  Warning = 2,  Error = 3,  Exception = 4} ");
             builder.AppendLine("export default MessageType; ");
