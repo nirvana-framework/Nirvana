@@ -11,11 +11,11 @@ using Nirvana.Util.Extensions;
 
 namespace Nirvana.Util
 {
-    public class Angular2CqrsGenerator
+    public class Angular5CqrsGenerator
     {
         private readonly NirvanaSetup _setup;
 
-        public Angular2CqrsGenerator(NirvanaSetup setup)
+        public Angular5CqrsGenerator(NirvanaSetup setup)
         {
             _setup = setup;
         }
@@ -26,20 +26,19 @@ namespace Nirvana.Util
 
             var emitedTypes = new List<Type>
             {
-                //TODO - Paged Result didn't serialize well, moved to the seed project
-                //See what went wrong and put it back here...
+                //TODO - Paged Result didn't serialize well, manualy creating
+                //Validation message is in the ng2-nirvana project, the others would not easily import as of A4
                 typeof(PagedResult<>),
                 typeof(ValidationMessage),
                 typeof(PaginationQuery),
                 typeof(MessageType)
             };
 
-            builder.AppendLine("import {Command,Query,PagedResult,MessageType,ValidationMessage} from \"ng2-nirvana\"; ");
-
-            //builder.AppendLine("//Common");
-            //builder.AppendLine(WriteResponseType(typeof(ValidationMessage), new Stack<Type>(), true));
-            //builder.AppendLine(WriteResponseType(typeof(PaginationQuery), new Stack<Type>(), true));
-            //builder.AppendLine(WriteResponseType(typeof(MessageType), new Stack<Type>()));
+            builder.AppendLine("import {Command,Query,PagedResult,ValidationMessage} from \"ng2-nirvana\"; ");
+            builder.AppendLine("export class CheckModel<T> {  constructor(public item: T, public label: string, public selected: boolean) {  }} ");
+            builder.AppendLine("enum MessageType {  Info = 1,  Warning = 2,  Error = 3,  Exception = 4} ");
+            builder.AppendLine("export default MessageType; ");
+            builder.AppendLine("export class PaginationQuery { constructor(public PageNumber: number, public ItemsPerPage: number) { } }"); 
 
             foreach (var controllerName in _setup.RootNames)
             {

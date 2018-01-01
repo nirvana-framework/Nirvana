@@ -23,7 +23,7 @@ namespace Nirvana.Web.Controllers
         [HttpGet]
         public HttpResponseMessage GetA2Updates()
         {
-            byte[] myByteArray = Encoding.UTF8.GetBytes(new Angular2CqrsGenerator(_setup).GetV2Items());
+            byte[] myByteArray = Encoding.UTF8.GetBytes(new Angular5CqrsGenerator(_setup).GetV2Items());
             MemoryStream stream = new MemoryStream(myByteArray);
 
             var contentRresult = new HttpResponseMessage(HttpStatusCode.OK)

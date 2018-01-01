@@ -123,8 +123,6 @@ namespace Nirvana.Web.Generation
 
             var builder = new StringBuilder();
             var additionalNamespaces = new List<string>();
-            
-            builder.Append($"[Route(\"api/{rootType}\")]");
             builder.Append($"public class {rootType}Controller:Nirvana.Web.Controllers.CommandQueryApiControllerBase{{");
 
             builder.Append($"public {rootType}Controller(Nirvana.Mediation.IMediatorFactory mediator,Nirvana.Util.Io.ISerializer serializer): base(mediator,serializer){{}}");
@@ -144,8 +142,8 @@ namespace Nirvana.Web.Generation
                     
                     }
                     
-                    builder.Append($"[HttpGet(\"{name}\")]");
-//                    builder.Append($"[HttpGet]public HttpResponseMessage {name}([FromUri] {name}Query query){{return Query(query);}}");
+                    builder.Append($"[HttpGet]");
+                    builder.Append($"[Route(\"api/{rootType}/{name}\")]");
                     builder.Append($"public Nirvana.CQRS.QueryResponse<{type.ReturnType.Name}> {name}({name}Query query){{return Query(query);}}");
                 }
             }
@@ -158,8 +156,8 @@ namespace Nirvana.Web.Generation
                     var name = type.TaskType.Name;
                     name = name.Replace("Command", "");
                     
-                    builder.Append($"[HttpPost(\"{name}\")]");
-//                    builder.Append($"[HttpPost]public HttpResponseMessage {name}([FromBody] {name}Command command){{return Command(command);}}");
+                    builder.Append($"[HttpPost]");
+                    builder.Append($"[Route(\"api/{rootType}/{name}\")]");
                     builder.Append($"public Nirvana.CQRS.CommandResponse<{type.ReturnType.Name}> {name}({name}Command command){{return Command(command);}}");
                 }
             }

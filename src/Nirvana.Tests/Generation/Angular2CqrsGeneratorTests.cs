@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Nirvana.Tests.Generation
 {
-    public abstract class Angular2CqrsGeneratorTests : BddTestBase<Angular2CqrsGenerator, NirvanaTestInput, string>
+    public abstract class Angular2CqrsGeneratorTests : BddTestBase<Angular5CqrsGenerator, NirvanaTestInput, string>
     {
         protected NirvanaSetup Setup;
 
