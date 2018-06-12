@@ -10,7 +10,7 @@ using Nirvana.Util.Io;
 namespace Nirvana.Web.Controllers
 {
 
-    public abstract class CommandQueryApiControllerBase : Controller
+    public abstract class CommandQueryApiControllerBase : ControllerBase
     {
         private readonly ISerializer _serializer;
         
@@ -19,6 +19,7 @@ namespace Nirvana.Web.Controllers
         protected CommandQueryApiControllerBase(IMediatorFactory mediator,ISerializer serializer)
         {
             Mediator = mediator;
+            _serializer = serializer;
         }
 
         protected CommandResponse<TResult> Command<TResult>(Command<TResult> command)

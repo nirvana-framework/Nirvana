@@ -1,7 +1,9 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Nirvana.Configuration;
 using Nirvana.Mediation;
@@ -21,7 +23,7 @@ namespace Nirvana.Web.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage GetA2Updates()
+        public async Task<IActionResult> GetA2Updates()
         {
             byte[] myByteArray = Encoding.UTF8.GetBytes(new Angular5CqrsGenerator(_setup).GetV2Items());
             MemoryStream stream = new MemoryStream(myByteArray);
@@ -36,8 +38,12 @@ namespace Nirvana.Web.Controllers
                 FileName = "CommandQuery.ts"
             };
             contentRresult.Content.Headers.ContentDisposition = value;
-            return contentRresult;
+            return File(stream,"application/octet-stream","CommandQuery.ts");
 
         }
+
+
+       
+
     }
 }
