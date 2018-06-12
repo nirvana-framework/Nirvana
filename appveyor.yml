@@ -1,15 +1,15 @@
-version: 2.0.{build}
+version: 2.1.{build}
 before_build:
   - cd src
 
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '2.0.{build}'
-  package_version: '2.0.{build}'
-  assembly_version: '2.0.{build}'
-  file_version: '2.0.{build}'
-  informational_version: '2.0.{build}'
+  version: '2.1.{build}'
+  package_version: '2.1.{build}'
+  assembly_version: '2.1.{build}'
+  file_version: '2.1.{build}'
+  informational_version: '2.1.{build}'
 
 
 
