@@ -17,11 +17,13 @@
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.2.0" />
-    <PackageReference Include="Nirvana" />
+    <PackageReference Include="Nirvana" Version="2.1.*" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nirvana\Nirvana.csproj" />
+    <ProjectReference Include="..\Nirvana\Nirvana.csproj">
+      <PrivateAssets>All</PrivateAssets>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

@@ -18,11 +18,12 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="Nirvana" />
+    <PackageReference Include="Nirvana" Version="2.1.*" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nirvana\Nirvana.csproj" />
+    <ProjectReference Include="..\Nirvana\Nirvana.csproj">
+      <PrivateAssets>All</PrivateAssets>
+    </ProjectReference>
   </ItemGroup>
-
 </Project>
