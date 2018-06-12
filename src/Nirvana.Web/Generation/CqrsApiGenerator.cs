@@ -237,6 +237,7 @@ namespace Nirvana.Web.Generation
                     .AddReferences(MetadataReference.CreateFromFile(refs.core))
                     .AddReferences(MetadataReference.CreateFromFile(refs.standard))
                     .AddReferences(MetadataReference.CreateFromFile(refs.runtime))
+                    .AddReferences(MetadataReference.CreateFromFile(refs.Nirvana))
                 //.AddReferences(MetadataReference.CreateFromFile($@"{AppContext.BaseDirectory}Nirvana.dll" ));
                 ;
 
@@ -261,19 +262,19 @@ namespace Nirvana.Web.Generation
 
 
             var references = AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES");
-            if (references == null)
-            {
-                return new InternalReferences
-                {
+//             if (references == null)
+//             {
+//                 return new InternalReferences
+//                 {
                     
-                    aspnetCore = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Mvc.dll",
-                    cors = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Cors.dll",
-                    viewFeatures = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Mvc.ViewFeatures.dll",
-                    core = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Mvc.Core.dll",
-                    standard = $@"{AppContext.BaseDirectory}\netstandard.dll",
-                    runtime = $@"{AppContext.BaseDirectory}\System.Runtime.dll"
-                };
-            }
+//                     aspnetCore = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Mvc.dll",
+//                     cors = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Cors.dll",
+//                     viewFeatures = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Mvc.ViewFeatures.dll",
+//                     core = $@"{AppContext.BaseDirectory}\Microsoft.AspNetCore.Mvc.Core.dll",
+//                     standard = $@"{AppContext.BaseDirectory}\netstandard.dll",
+//                     runtime = $@"{AppContext.BaseDirectory}\System.Runtime.dll"
+//                 };
+//             }
 
             var data = references.ToString().Split(';');
 
@@ -285,6 +286,7 @@ namespace Nirvana.Web.Generation
                 core = data.First(x => x.Contains("Microsoft.AspNetCore.Mvc.Core.dll")),
                 standard = data.First(x => x.Contains("netstandard.dll")),
                 runtime = data.First(x => x.Contains("System.Runtime.dll")),
+                Nirvana = data.First(x => x.Contains("Nirvana.dll")),
             };
             return refs;
         }
@@ -298,6 +300,7 @@ namespace Nirvana.Web.Generation
         public string core { get; set; }
         public string standard { get; set; }
         public string runtime { get; set; }
+        public string Nirvana { get; set; }
     }
 
 
