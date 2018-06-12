@@ -20,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nirvana\Nirvana.csproj">
-      <PrivateAssets>All</PrivateAssets>
-    </ProjectReference>
+    <ProjectReference Include="..\Nirvana\Nirvana.csproj" />
   </ItemGroup>
 
 </Project>

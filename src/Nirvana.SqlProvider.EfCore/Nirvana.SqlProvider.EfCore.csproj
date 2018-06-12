@@ -22,10 +22,9 @@
     <PackageReference Include="Nirvana" Version="2.1.*" />
   </ItemGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\Nirvana\Nirvana.csproj">
-      <PrivateAssets>All</PrivateAssets>
-    </ProjectReference>
+    <ProjectReference Include="..\Nirvana\Nirvana.csproj" />
   </ItemGroup>
 
 </Project>
