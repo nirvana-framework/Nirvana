@@ -11,6 +11,7 @@
     <PackageReleaseNotes>Net Standard Version</PackageReleaseNotes>
     <Copyright>Copyright 2017 (c)</Copyright>
     <PackageTags>.net MVC awesome</PackageTags>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
 
   </PropertyGroup>
 
